@@ -1,31 +1,41 @@
 # UTrend Store Android App
 
-Android-приложение для сайта [utrendstore.co.uk](https://utrendstore.co.uk/) c публикацией в Google Play.
+Нативное Android-приложение, которое **получает товары напрямую с вашего сайта** `https://utrendstore.co.uk` через WooCommerce Store API и отображает их в отдельном интерфейсе.
 
-## Что внутри
+## Что делает приложение
 
-- WebView-приложение, открывающее только домен `https://utrendstore.co.uk`.
-- Индикатор загрузки страниц.
-- Поддержка кнопки "Назад" внутри WebView.
-- Базовая защита сети (только HTTPS).
-- Готовая конфигурация `release` сборки с ProGuard.
+- Загружает список товаров с `https://utrendstore.co.uk/wp-json/wc/store/products`.
+- Показывает карточки товаров: фото, название, цена.
+- Поддерживает pull-to-refresh для обновления данных.
+- При нажатии на карточку открывает страницу товара в Custom Tabs.
+- Не использует WebView как основной UI (полностью отдельный интерфейс приложения).
 
-## Как запустить
+## Технологии
 
-1. Установите Android Studio (Hedgehog+).
-2. Откройте папку проекта.
-3. Дождитесь синхронизации Gradle.
-4. Запустите `app` на эмуляторе/телефоне.
+- Kotlin + ViewBinding
+- RecyclerView
+- OkHttp + kotlinx.serialization
+- Coil (загрузка изображений)
+- Coroutines
 
-## Сборка релиза
+## Запуск
 
-1. В Android Studio: **Build → Generate Signed Bundle / APK**.
-2. Выберите **Android App Bundle (AAB)**.
-3. Создайте keystore и подпишите релиз.
-4. Загрузите `.aab` в Google Play Console.
+1. Откройте проект в Android Studio.
+2. Дождитесь синхронизации Gradle.
+3. Укажите Android SDK (если не задан):
+   - через Android Studio, или
+   - в `local.properties`: `sdk.dir=/path/to/Android/Sdk`
+4. Запустите модуль `app` на устройстве или эмуляторе.
 
-## Что нужно добавить перед публикацией
+## Публикация в Google Play
 
-- Собственную иконку бренда в `mipmap*`.
-- Политику конфиденциальности (URL) в карточке приложения Google Play.
-- Скриншоты приложения для Google Play.
+1. Build → Generate Signed Bundle / APK.
+2. Выберите Android App Bundle (AAB).
+3. Подпишите релиз keystore.
+4. Загрузите AAB в Google Play Console.
+
+## Важно перед продакшеном
+
+- Поставить фирменные иконки и скриншоты.
+- Подготовить privacy policy URL для карточки приложения.
+- При необходимости подключить пагинацию и фильтры каталога.

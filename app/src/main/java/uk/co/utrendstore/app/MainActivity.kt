@@ -1,118 +1,74 @@
 package uk.co.utrendstore.app
 
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import uk.co.utrendstore.app.data.StoreRepository
 import uk.co.utrendstore.app.databinding.ActivityMainBinding
+import uk.co.utrendstore.app.ui.ProductAdapter
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val repository = StoreRepository()
+    private val activityScope = CoroutineScope(Dispatchers.Main + Job())
 
-    @SuppressLint("SetJavaScriptEnabled")
+    private val adapter = ProductAdapter { item ->
+        val tabIntent = CustomTabsIntent.Builder().build()
+        tabIntent.launchUrl(this, Uri.parse(item.productUrl))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        configureWebView(binding.webView)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = adapter
 
-        if (savedInstanceState == null) {
-            binding.webView.loadUrl(HOME_URL)
-        }
+        binding.swipeRefresh.setOnRefreshListener { loadProducts(forceRefresh = true) }
 
-        onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    if (binding.webView.canGoBack()) {
-                        binding.webView.goBack()
-                    } else {
-                        finish()
-                    }
-                }
-            }
-        )
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        binding.webView.saveState(outState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        binding.webView.restoreState(savedInstanceState)
+        loadProducts(forceRefresh = false)
     }
 
     override fun onDestroy() {
-        binding.webView.apply {
-            stopLoading()
-            clearHistory()
-            removeAllViews()
-            destroy()
-        }
+        activityScope.cancel()
         super.onDestroy()
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
-    private fun configureWebView(webView: WebView) {
-        webView.settings.apply {
-            javaScriptEnabled = true
-            domStorageEnabled = true
-            databaseEnabled = true
-            useWideViewPort = true
-            loadWithOverviewMode = true
-            mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
-            setSupportZoom(false)
-            builtInZoomControls = false
-            displayZoomControls = false
+    private fun loadProducts(forceRefresh: Boolean) {
+        if (!forceRefresh) {
+            binding.progressBar.visibility = View.VISIBLE
         }
+        binding.errorText.visibility = View.GONE
 
-        webView.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                super.onProgressChanged(view, newProgress)
-                binding.progressBar.progress = newProgress
-                binding.progressBar.visibility = if (newProgress < 100) View.VISIBLE else View.GONE
-            }
-        }
-
-        webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(
-                view: WebView?,
-                request: WebResourceRequest?
-            ): Boolean {
-                val requestedUrl = request?.url.toString()
-                return if (requestedUrl.startsWith(BASE_URL)) {
-                    false
-                } else {
-                    view?.loadUrl(HOME_URL)
-                    true
+        activityScope.launch {
+            runCatching {
+                withContext(Dispatchers.IO) {
+                    repository.fetchProducts(limit = 30)
                 }
+            }.onSuccess { products ->
+                adapter.submitList(products)
+                binding.errorText.visibility = if (products.isEmpty()) View.VISIBLE else View.GONE
+                if (products.isEmpty()) {
+                    binding.errorText.text = getString(R.string.empty_products)
+                }
+            }.onFailure {
+                binding.errorText.visibility = View.VISIBLE
+                binding.errorText.text = getString(R.string.load_error)
             }
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
-                binding.progressBar.visibility = View.VISIBLE
-            }
-
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-                binding.progressBar.visibility = View.GONE
-            }
+            binding.progressBar.visibility = View.GONE
+            binding.swipeRefresh.isRefreshing = false
         }
-    }
-
-    companion object {
-        private const val BASE_URL = "https://utrendstore.co.uk"
-        private const val HOME_URL = "$BASE_URL/"
     }
 }
