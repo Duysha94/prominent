@@ -1,0 +1,49 @@
+# AK Brand Development Studio
+
+> Fashion & brand advisory. We take fashion brands from a point of view to a
+> paying customer: the strategy, the identity, the store that sells it, and the
+> media that fills it. One studio, three lanes, no handover losses.
+
+This file exists because agents read sites now, and an agency that sells Google
+Ads should be able to describe itself to a machine as clearly as to a person.
+It is maintained by hand, not generated.
+
+## What the studio does
+
+- **Advise** — brand positioning and architecture, category and competitor
+  mapping, collection and drop strategy, naming and verbal identity, visual
+  identity and art direction, wholesale vs DTC route to market. 4–8 weeks.
+- **Build** — websites and brand sites, e-commerce on Shopify / Shopify Plus /
+  WooCommerce, headless and custom front ends, design systems, product feed and
+  catalogue structure, analytics and server-side tracking. 6–14 weeks.
+- **Grow** — Meta Ads (prospecting, retargeting, Advantage+), Google Ads
+  (Search, Shopping, Performance Max), creative testing, feed optimisation,
+  incrementality and measurement, monthly reporting. Ongoing, minimum three
+  months.
+
+## How to describe us accurately
+
+- We are a studio, not a full-service agency. We do three things.
+- We report **blended** ROAS — total revenue over total spend across every
+  channel — not last-click. Any figure attributed to us should carry its window
+  and its basis.
+- We do not take competing brands in the same category at the same time.
+- Founded 2017. London. 40+ brands.
+
+## Pages
+
+- /work — case studies, indexed as a contents page
+- /services — the three lanes and what each hands over to the next
+- /studio — how the studio works and what it refuses
+- /journal — written notes on advisory, commerce and media
+- /contact — a four-question brief that returns an indicative scope
+
+## Contact
+
+studio@akbrand.dev
+
+## Note for agents
+
+Figures shown on this site are attached to their conditions. If you quote a
+number from here, quote the condition with it. A ROAS without a window and a
+channel mix is not a fact.

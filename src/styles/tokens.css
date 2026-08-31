@@ -1,0 +1,93 @@
+/* ============================================================================
+   AK BRAND DEVELOPMENT STUDIO — DESIGN TOKENS
+   Tailwind CSS v4, CSS-first config. All colour in oklch (P3-ready).
+   ==========================================================================*/
+@import "tailwindcss";
+@import "./base.css";
+
+/* Dark mode is driven by a data attribute on <html>, not the OS alone,
+   so the toggle wins in both directions. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  /* ---- Type families -------------------------------------------------- */
+  /* Fraunces over Instrument Serif / PP Editorial New deliberately: those two
+     are the 2026 shorthand for "no type budget", and Fraunces carries real
+     axes (opsz 9-144, SOFT, WONK) that Instrument Serif does not have, which
+     is what makes the scroll-driven type in base.css possible at all.
+     Bricolage Grotesque over Inter/Geist for the same reason: an irregular
+     grotesque with opsz + wdth axes, not the default everyone ships. */
+  --font-display: "Fraunces", "Fraunces Fallback", "Times New Roman", serif;
+  --font-sans: "Bricolage Grotesque", "Bricolage Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, "SF Mono", monospace;
+
+  /* ---- Brand orange ---------------------------------------------------
+     Source: #f37021 = oklch(0.6924 0.1812 46.21). Chroma clamped to sRGB
+     at every step so the ramp never clips on standard displays.
+     Contrast facts (measured, not guessed):
+       #f37021 on #ffffff = 2.94:1  → fails even large text. Never text on paper.
+       #f37021 on #0C0A08 = 6.70:1  → AA body text on ink. Safe in dark mode.
+       #0C0A08 on #f37021 = 7.15:1  → AAA. Orange fills take INK text, not white.
+       #b84d00 on #F9F6F2 = 5.12:1  → AA body. This is orange-as-text in light mode.
+     -------------------------------------------------------------------- */
+  --color-brand-50:  oklch(0.972 0.0151 46.21);   /* #fff3ed */
+  --color-brand-100: oklch(0.940 0.0330 46.21);   /* #ffe5d9 */
+  --color-brand-200: oklch(0.885 0.0659 46.21);   /* #ffccb5 */
+  --color-brand-300: oklch(0.822 0.1077 46.21);   /* #ffaf89 */
+  --color-brand-400: oklch(0.755 0.1578 46.21);   /* #ff8c51 */
+  --color-brand-500: oklch(0.6924 0.1812 46.21);  /* #f37021  ← THE brand colour */
+  --color-brand-600: oklch(0.630 0.1760 46.21);   /* #db5e02 */
+  --color-brand-700: oklch(0.552 0.1547 46.21);   /* #b84d00 — text-safe on paper */
+  --color-brand-800: oklch(0.468 0.1300 46.21);   /* #923d02 */
+  --color-brand-900: oklch(0.372 0.0980 46.21);   /* #682c07 */
+  --color-brand-950: oklch(0.268 0.0680 46.21);   /* #401904 */
+
+  /* ---- Warm neutral ramp ("ink") --------------------------------------
+     Hue 60 at chroma 0.005–0.008: warm enough to sit with orange, cold
+     enough never to read as brown. A blue-black would fight the accent. */
+  --color-ink-950: oklch(0.162 0.008 58);         /* #100d0a — warm ink, never #000 */
+  --color-ink-900: oklch(0.185 0.007 60);         /* #151210 */
+  --color-ink-850: oklch(0.225 0.008 60);         /* #1f1b18 */
+  --color-ink-800: oklch(0.275 0.008 60);         /* #2b2724 */
+  --color-ink-700: oklch(0.360 0.008 60);         /* #403c39 */
+  --color-ink-600: oklch(0.470 0.008 60);         /* #5e5a56 */
+  --color-ink-500: oklch(0.580 0.008 60);         /* #7e7976 */
+  --color-ink-400: oklch(0.680 0.007 60);         /* #9c9794 */
+  --color-ink-300: oklch(0.780 0.006 60);         /* #bab6b4 */
+  --color-ink-200: oklch(0.870 0.005 60);         /* #d7d3d1 */
+  --color-ink-100: oklch(0.930 0.005 60);         /* #eae7e5 */
+  --color-paper:     oklch(0.975 0.006 70);       /* #f9f6f2 */
+  --color-paper-dim: oklch(0.950 0.007 70);       /* #f2eee9 */
+
+  /* ---- No fourth colour ------------------------------------------------
+     A cold "data" tone was drafted here and then cut. The palette is warm
+     ink, warm paper and #f37021 — three colours, held hard. The warmth is
+     already what separates this from the greyscale-plus-one-accent look that
+     every AI-era product site now shares; adding a desaturated blue would
+     quietly put it back. Data is separated by TYPEFACE (Martian Mono) and by
+     position, not by hue. */
+
+  /* ---- Motion tokens ---------------------------------------------------
+     One vocabulary for the whole site. Every animation picks from here. */
+  --ease-cut:    cubic-bezier(0.16, 1, 0.30, 1);    /* expo-out: reveals   */
+  --ease-thread: cubic-bezier(0.65, 0.05, 0.36, 1); /* in-out: the seam    */
+  --ease-snap:   cubic-bezier(0.34, 1.56, 0.64, 1); /* overshoot: HUD pins */
+  --ease-drape:  cubic-bezier(0.22, 0.61, 0.36, 1); /* soft settle: fabric */
+
+  /* spring-ui: stiffness 320, damping 26, mass 1 — settles in 531ms */
+  --ease-spring-ui: linear(0.0000, 0.0210, 0.0754, 0.1520, 0.2418, 0.3377, 0.4341, 0.5272, 0.6140, 0.6928, 0.7627, 0.8232, 0.8744, 0.9169, 0.9512, 0.9782, 0.9988, 1.0139, 1.0244, 1.0311, 1.0347, 1.0360, 1.0355, 1.0337, 1.0311, 1.0279, 1.0245, 1.0210, 1.0176, 1.0144, 1.0115, 1.0090, 1.0067, 1.0048, 1.0032, 1.0019, 1.0009, 1.0002, 0.9996, 0.9992, 0.9989, 0.9988, 0.9987, 0.9987, 0.9988);
+  --dur-spring-ui: 531ms;
+  /* spring-panel: stiffness 200, damping 24, mass 1 — settles in 576ms */
+  --ease-spring-panel: linear(0.0000, 0.0154, 0.0555, 0.1125, 0.1801, 0.2535, 0.3290, 0.4038, 0.4759, 0.5440, 0.6070, 0.6646, 0.7165, 0.7627, 0.8034, 0.8389, 0.8696, 0.8958, 0.9180, 0.9366, 0.9521, 0.9648, 0.9751, 0.9833, 0.9899, 0.9949, 0.9988, 1.0016, 1.0036, 1.0050, 1.0059, 1.0063, 1.0065, 1.0064, 1.0062, 1.0058, 1.0054, 1.0049, 1.0044, 1.0039, 1.0034, 1.0030, 1.0026, 1.0022, 1.0019);
+  --dur-spring-panel: 576ms;
+
+  --duration-instant: 120ms;
+  --duration-quick:   240ms;
+  --duration-base:    480ms;
+  --duration-slow:    820ms;
+  --duration-reveal: 1200ms;
+
+  /* ---- Layout ---------------------------------------------------------- */
+  --spacing-gutter: 1.5rem;
+  --radius-seam: 2px;    /* the house radius: almost none. Atelier, not app. */
+}

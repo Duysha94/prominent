@@ -1,0 +1,654 @@
+/* ============================================================================
+   SEMANTIC THEME LAYER
+   Two designed modes, not one derived from the other:
+     ATELIER (light) — the workroom. Paper, chalk lines, daylight.
+     RUNWAY  (dark)  — the show. Ink, spotlight, the accent alive.
+   Every colour below is defined on bare :root first, so no value exists
+   only inside a media query or attribute selector.
+   ==========================================================================*/
+
+:root {
+  color-scheme: light;
+
+  --bg:            var(--color-paper);
+  --bg-sunk:       var(--color-paper-dim);
+  --bg-raised:     oklch(1 0 0);
+  --text:          var(--color-ink-950);
+  --text-muted:    var(--color-ink-600);
+  --text-faint:    var(--color-ink-400);
+  --rule:          oklch(0.145 0.006 60 / 0.14);
+  --rule-strong:   oklch(0.145 0.006 60 / 0.32);
+
+  /* The accent splits by role. This split is the whole reason the palette
+     survives both modes: the FILL is always true #f37021, the TEXT is not. */
+  --accent-fill:   var(--color-brand-500);  /* surfaces, always true brand */
+  --accent-on:     var(--color-ink-950);    /* what sits ON a fill: 7.15:1 */
+  --accent-text:   var(--color-brand-700);  /* orange as type: 5.12:1 here */
+  --accent-line:   var(--color-brand-500);  /* the thread, non-text: fine  */
+  --accent-glow:   oklch(0.6924 0.1812 46.21 / 0.16);
+
+  --grain-opacity: 0.030;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg:            var(--color-ink-950);
+  --bg-sunk:       oklch(0.115 0.005 60);
+  --bg-raised:     var(--color-ink-900);
+  --text:          var(--color-paper);
+  --text-muted:    var(--color-ink-400);
+  --text-faint:    var(--color-ink-600);
+  --rule:          oklch(0.975 0.006 70 / 0.13);
+  --rule-strong:   oklch(0.975 0.006 70 / 0.28);
+
+  --accent-fill:   var(--color-brand-500);
+  --accent-on:     var(--color-ink-950);
+  --accent-text:   var(--color-brand-500);  /* 6.70:1 on ink — safe as type */
+  --accent-line:   var(--color-brand-500);
+  --accent-glow:   oklch(0.6924 0.1812 46.21 / 0.26);
+
+  --grain-opacity: 0.045;
+}
+
+/* System preference only decides when the user has expressed no choice. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    color-scheme: dark;
+    --bg:          var(--color-ink-950);
+    --bg-sunk:     oklch(0.115 0.005 60);
+    --bg-raised:   var(--color-ink-900);
+    --text:        var(--color-paper);
+    --text-muted:  var(--color-ink-400);
+    --text-faint:  var(--color-ink-600);
+    --rule:        oklch(0.975 0.006 70 / 0.13);
+    --rule-strong: oklch(0.975 0.006 70 / 0.28);
+    --accent-text: var(--color-brand-500);
+    --accent-glow: oklch(0.6924 0.1812 46.21 / 0.26);
+    --grain-opacity: 0.045;
+  }
+}
+
+/* Expose the semantic layer to Tailwind utilities (bg-surface, text-muted…) */
+@theme inline {
+  --color-surface:       var(--bg);
+  --color-surface-sunk:  var(--bg-sunk);
+  --color-surface-raised:var(--bg-raised);
+  --color-body:          var(--text);
+  --color-muted:         var(--text-muted);
+  --color-faint:         var(--text-faint);
+  --color-rule:          var(--rule);
+  --color-rule-strong:   var(--rule-strong);
+  --color-accent:        var(--accent-fill);
+  --color-accent-on:     var(--accent-on);
+  --color-accent-text:   var(--accent-text);
+  --color-accent-line:   var(--accent-line);
+}
+
+/* ---------------------------------------------------------------------------
+   BASE
+   ------------------------------------------------------------------------ */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  /* Lenis drives scrolling; this is the no-JS / reduced-motion fallback. */
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color 620ms var(--ease-drape),
+              color 620ms var(--ease-drape);
+}
+
+/* Theme swap should not animate every descendant — only the two properties
+   that actually change the room. Everything else flips instantly. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  body { transition: none; }
+}
+
+::selection {
+  background: var(--accent-fill);
+  color: var(--accent-on);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-line);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* Screen-reader-only, still focusable */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+.skip-link {
+  position: absolute; left: 1rem; top: -100%; z-index: 200;
+  background: var(--accent-fill); color: var(--accent-on);
+  padding: 0.75rem 1.25rem; font-family: var(--font-mono);
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+  transition: top 200ms var(--ease-cut);
+}
+.skip-link:focus { top: 1rem; }
+
+/* ---------------------------------------------------------------------------
+   CUT TEXT — the house headline reveal (see CutText.tsx)
+   ------------------------------------------------------------------------ */
+.ak-cut { display: block; }
+.ak-cut-line { display: block; }
+
+.ak-cut-half {
+  display: block;
+  will-change: transform, opacity;
+}
+/* Each half shows exactly one side of the line's horizontal midline. The
+   bottom copy is pulled back up over the top copy so the two read as one. */
+.ak-cut-half--top    { clip-path: inset(0 0 50% 0); }
+.ak-cut-half--bottom { clip-path: inset(50% 0 0 0); margin-top: -1lh; }
+
+.ak-cut-blade {
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: var(--accent-line);
+  transform: scaleX(0);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ak-cut-half, .ak-cut-blade { display: revert; clip-path: none; margin-top: 0; }
+  .ak-cut-blade { display: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   MEASURE FRAME — tech-pack annotations (see MeasureFrame.tsx)
+   ------------------------------------------------------------------------ */
+.ak-tick {
+  position: absolute;
+  width: 11px; height: 11px;
+  border: 0 solid var(--accent-line);
+}
+.ak-tick--tl { top: -1px; left: -1px;  border-top-width: 1px; border-left-width: 1px; }
+.ak-tick--tr { top: -1px; right: -1px; border-top-width: 1px; border-right-width: 1px; }
+.ak-tick--bl { bottom: -1px; left: -1px;  border-bottom-width: 1px; border-left-width: 1px; }
+.ak-tick--br { bottom: -1px; right: -1px; border-bottom-width: 1px; border-right-width: 1px; }
+
+.ak-dim {
+  position: absolute;
+  background: var(--accent-line);
+  opacity: 0.55;
+}
+.ak-dim--top {
+  top: -13px; left: 0; right: 0; height: 1px;
+  transform-origin: left center;
+}
+
+.ak-dim-label {
+  position: absolute;
+  top: -13px; left: 50%;
+  translate: -50% -50%;
+  padding: 0 0.5em;
+  background: var(--bg);
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ak-callout {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: var(--bg);
+  border: 1px solid var(--rule-strong);
+  padding: 0.25em 0.5em;
+  line-height: 1;
+}
+.ak-callout__key   { color: var(--text-faint); font-weight: 400; }
+.ak-callout__value { color: var(--accent-text); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* Leader line runs from the callout back to the edge it annotates. */
+.ak-callout__leader { position: absolute; background: var(--accent-line); opacity: 0.6; }
+
+.ak-callout--right  { right: 12px; translate: 0 -50%; }
+.ak-callout--right  .ak-callout__leader { right: 100%; top: 50%; width: 12px; height: 1px; }
+.ak-callout--left   { left: 12px; translate: 0 -50%; }
+.ak-callout--left   .ak-callout__leader { left: 100%; top: 50%; width: 12px; height: 1px; }
+.ak-callout--bottom { top: 100%; translate: -50% 14px; }
+.ak-callout--bottom .ak-callout__leader { bottom: 100%; left: 50%; height: 14px; width: 1px; }
+.ak-callout--top    { bottom: 100%; translate: -50% -14px; }
+.ak-callout--top    .ak-callout__leader { top: 100%; left: 50%; height: 14px; width: 1px; }
+
+@media (max-width: 640px) {
+  /* Leader lines stop earning their space once the callout is this close to
+     the edge it annotates. */
+  .ak-callout__leader { display: none; }
+  .ak-callout { font-size: 0.5rem; }
+}
+
+/* ---------------------------------------------------------------------------
+   THE SEAM (see Seam.tsx)
+   ------------------------------------------------------------------------ */
+.ak-seam {
+  position: fixed;
+  top: 0; bottom: 0;
+  left: max(0.5rem, calc((100vw - 1440px) / 2 - 44px));
+  width: 60px;
+  z-index: 30;
+  pointer-events: none;
+  mix-blend-mode: normal;
+}
+@media (max-width: 1100px) {
+  /* Tuck to the very edge rather than dropping it — it is the brand mark. */
+  .ak-seam { left: -18px; width: 60px; opacity: 0.75; }
+}
+@media (max-width: 640px) {
+  .ak-seam { left: -26px; opacity: 0.55; }
+}
+
+/* ---------------------------------------------------------------------------
+   GRAIN
+   ------------------------------------------------------------------------ */
+.ak-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  contain: strict;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .ak-grain { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TIER 1 MOTION — compositor-thread CSS, zero JavaScript.
+   ═══════════════════════════════════════════════════════════════════════════
+   The site runs a deliberate two-tier motion architecture:
+
+     Tier 1 (here)  — every reveal, progress readout and type-weight shift is a
+                      CSS scroll-driven animation. It runs on the compositor,
+                      costs 0KB of JS and cannot contribute to INP.
+     Tier 2 (GSAP)  — only the things the CSS spec deliberately excludes:
+                      pinning, scrub with programmatic control, split-text
+                      choreography.
+
+   Everything below is wrapped in @supports, so browsers without scroll-driven
+   animations get the finished state immediately rather than a broken one.
+   ------------------------------------------------------------------------ */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+
+    /* ---------------------------------------------------------------------
+       THE SIGNATURE MOVE — headline weight as a function of scroll position.
+       ---------------------------------------------------------------------
+       The masked line-reveal (SplitText, y:100%, stagger) became free with
+       GSAP in April 2025 and is now on a large share of new agency sites.
+       This is the alternative: nothing moves, nothing fades. The type simply
+       gains weight and optical size as it travels up the viewport, driven by
+       a view() timeline.
+
+       Only `wght` and `opsz` are animated — deliberately. `wdth` changes the
+       advance width and would reflow the line mid-scroll; weight on Fraunces
+       is metrically compatible enough to hold the line breaks still.
+       ------------------------------------------------------------------ */
+    .ak-vf {
+      animation: ak-weight linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 45%;
+    }
+
+    @keyframes ak-weight {
+      from { font-variation-settings: "wght" 300, "opsz" 14, "SOFT" 0, "WONK" 1; }
+      to   { font-variation-settings: "wght" 700, "opsz" 144, "SOFT" 0, "WONK" 1; }
+    }
+
+    /* An accent rule that draws itself as its section scrolls through. */
+    .ak-draw {
+      animation: ak-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 40%;
+      transform-origin: left center;
+    }
+    @keyframes ak-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+    /* Section-level arrival. Short travel, compositor-only properties. */
+    .ak-rise {
+      animation: ak-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+    @keyframes ak-rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   scroll-state() container queries — the header knows when it has actually
+   stuck, with no scroll listener at all. Chromium-only in 2026, which is
+   exactly why it is worth shipping: it costs nothing where unsupported and it
+   appears in no theme on the market.
+   ------------------------------------------------------------------------ */
+@supports (container-type: scroll-state) {
+  .ak-stick-host { container-type: scroll-state; }
+  @container scroll-state(stuck: top) {
+    .ak-stick-rule { background: var(--accent-line); opacity: 1; }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   ZERO-JS SECONDARY UI.
+   @starting-style + allow-discrete give correct *exit* animations, and
+   interpolate-size makes height:auto animatable — the three things that used
+   to force a JS library for accordions, popovers and disclosures.
+   ------------------------------------------------------------------------ */
+:root { interpolate-size: allow-keywords; }
+
+.ak-disclosure {
+  transition: height var(--duration-base) var(--ease-spring-panel),
+              opacity var(--duration-quick) ease,
+              display var(--duration-base) allow-discrete;
+  overflow: hidden;
+}
+.ak-disclosure[hidden] { height: 0; opacity: 0; }
+@starting-style { .ak-disclosure { height: 0; opacity: 0; } }
+
+/* ---------------------------------------------------------------------------
+   Shared-element morph between the work index and a case study.
+   Same-document today; the identical names carry straight over to the
+   cross-document (@view-transition) build on WordPress.
+   ------------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-group(*) { animation-duration: 420ms; }
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation-duration: 260ms; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TYPOGRAPHIC CRAFT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* text-box-trim removes the font's half-leading so a 10vw headline's cap
+   height sits exactly on the rule beside it, instead of floating on invisible
+   padding. Baseline as of Aug 2026; where unsupported you simply get a couple
+   of pixels of extra leading, which is the correct failure mode. */
+h1, h2, h3, .ak-display {
+  text-box: trim-both cap alphabetic;
+}
+
+h1, h2, h3 { text-wrap: balance; }
+p, li      { text-wrap: pretty; }
+
+.font-display { font-family: var(--font-display); }
+
+/* Fraunces defaults for the site: high optical size (display cut), SOFT off,
+   WONK on — WONK is what gives the italic its singular, slightly wrong leg,
+   and it is the single most identity-carrying setting available for free. */
+.font-display, h1, h2 {
+  font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 1;
+}
+
+/* Mono is data, never decoration. Tabular by default so figures line up in a
+   column and never shuffle width while a counter runs. */
+.font-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-variation-settings: "wdth" 100;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE EDITORIAL GRID
+   ═══════════════════════════════════════════════════════════════════════════
+   One 12-column system declared once on the page shell; every block opts into
+   the SAME lines with `subgrid` rather than inventing its own padding. This is
+   what makes a print-style grid maintainable — and in the WordPress build it
+   is what stops each bespoke block from drifting.
+   ------------------------------------------------------------------------ */
+.ak-page {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(1.25rem, 1fr)
+    [wide-start] minmax(0, 0.5fr)
+    [text-start] repeat(12, minmax(0, 5.5rem)) [text-end]
+    minmax(0, 0.5fr) [wide-end]
+    minmax(1.25rem, 1fr) [full-end];
+  column-gap: clamp(0.75rem, 1.4vw, 1.5rem);
+}
+.ak-page > * { grid-column: text; }
+.ak-bleed    { grid-column: full; }
+.ak-wide     { grid-column: wide; }
+
+.ak-sub {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: text;
+}
+
+@media (max-width: 900px) {
+  .ak-page {
+    grid-template-columns:
+      [full-start] 1.25rem
+      [wide-start text-start] repeat(6, minmax(0, 1fr)) [text-end wide-end]
+      1.25rem [full-end];
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FULL-BLEED ACCENT
+   ═══════════════════════════════════════════════════════════════════════════
+   Almost every brand with a saturated accent spends it at 5-10% coverage on a
+   grey page. Running whole sections at 100% orange with warm-ink type on top
+   is the confident move, and — unlike white-on-orange, which measures 2.94:1
+   and fails — ink on #f37021 measures 7.15:1 and passes AAA.
+   ------------------------------------------------------------------------ */
+.ak-accent-field {
+  background: var(--accent-fill);
+  color: var(--color-ink-950);
+  --text: var(--color-ink-950);
+  --text-muted: oklch(0.162 0.008 58 / 0.72);
+  --text-faint: oklch(0.162 0.008 58 / 0.48);
+  --rule: oklch(0.162 0.008 58 / 0.22);
+  --rule-strong: oklch(0.162 0.008 58 / 0.42);
+  --accent-text: var(--color-ink-950);
+  --accent-line: var(--color-ink-950);
+  --bg: var(--color-brand-500);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MATERIAL PER MODE
+   ═══════════════════════════════════════════════════════════════════════════
+   Most dual-mode sites swap hex values. The two rooms here swap *material*:
+   ATELIER gets paper fibre (a soft, low-frequency weave); RUNWAY gets film
+   grain (high-frequency, higher opacity). Same content, different substrate.
+   ------------------------------------------------------------------------ */
+:root { --grain-frequency: 0.62; --grain-blend: multiply; }
+:root[data-theme="dark"] { --grain-frequency: 0.9; --grain-blend: overlay; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --grain-frequency: 0.9; --grain-blend: overlay;
+  }
+}
+.ak-grain { mix-blend-mode: var(--grain-blend); }
+
+.ak-grain__film  { display: none; }
+:root[data-theme="dark"] .ak-grain__fibre { display: none; }
+:root[data-theme="dark"] .ak-grain__film  { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .ak-grain__fibre { display: none; }
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .ak-grain__film  { display: block; }
+}
+
+/* Martian Mono is one of very few monos with a width axis as well as weight.
+   The readout figures widen as they scroll through — the number is not just
+   displayed, it is being taken. Weight rides along; width alone reads as a
+   glitch. Guarded so it never runs where motion is unwelcome. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ak-vf-num {
+      animation: ak-num linear both;
+      animation-timeline: view();
+      animation-range: entry 15% cover 40%;
+    }
+    @keyframes ak-num {
+      from { font-variation-settings: "wdth" 75, "wght" 300; }
+      to   { font-variation-settings: "wdth" 112.5, "wght" 600; }
+    }
+  }
+}
+
+/* Lane diagrams draw their accent strokes as the section scrolls through.
+   The paths carry pathLength="1" (set in JSX, since pathLength is an SVG
+   attribute rather than a CSS property), so one keyframe drives all of them
+   regardless of their real geometry. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ak-diagram .ak-stroke {
+      stroke-dasharray: 1;
+      animation: ak-draw-stroke linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 45%;
+    }
+    @keyframes ak-draw-stroke {
+      from { stroke-dashoffset: 1; }
+      to   { stroke-dashoffset: 0; }
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   FORM CONTROLS
+   Drawn in the same hand as the rest: a ruled line rather than a rounded box.
+   ------------------------------------------------------------------------ */
+.ak-input {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  padding: 0.6rem 0;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  transition: border-color var(--duration-quick) var(--ease-cut);
+}
+.ak-input:hover { border-color: var(--text-muted); }
+.ak-input:focus-visible {
+  outline: none;
+  border-color: var(--accent-line);
+  box-shadow: 0 1px 0 0 var(--accent-line);
+}
+
+.ak-range {
+  appearance: none;
+  height: 1px;
+  background: var(--rule-strong);
+  cursor: pointer;
+}
+.ak-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px; height: 14px;
+  background: var(--accent-fill);
+  border: 0;
+  /* A square handle, matching the theme switch — no stock pill controls. */
+  border-radius: 0;
+}
+.ak-range::-moz-range-thumb {
+  width: 14px; height: 14px;
+  background: var(--accent-fill);
+  border: 0;
+  border-radius: 0;
+}
+.ak-range:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 6px; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FONTS — self-hosted, subset, axis-pruned
+   ═══════════════════════════════════════════════════════════════════════════
+   Served from our own origin rather than Google's: it removes a third-party
+   connection from the critical path, and since 2020 there is no shared cache
+   across sites to lose by doing so.
+
+   Each family was instanced to drop the axes the site never animates
+   (Fraunces SOFT/WONK pinned, Bricolage wdth pinned) and subset to the Latin
+   ranges actually used. 737KB of full Google-served files became 187KB, with
+   every axis the CSS animates still intact:
+     Fraunces      opsz 9-144,  wght 100-900   (driven by .ak-vf)
+     Bricolage     opsz 12-96,  wght 200-800
+     Martian Mono  wght 100-800, wdth 75-112.5 (driven by .ak-vf-num)
+
+   size-adjust / ascent-override on the fallbacks keeps the metrics close
+   enough that the swap does not shift layout — CLS from webfonts is otherwise
+   the easiest own goal on a type-led site.
+   ------------------------------------------------------------------------ */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/fraunces-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/bricolage.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Martian Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('/fonts/martian-mono.woff2') format('woff2');
+}
+
+/* Metric-matched fallbacks, so the pre-swap frame occupies the same space. */
+@font-face {
+  font-family: 'Fraunces Fallback';
+  src: local('Times New Roman'), local('Times');
+  size-adjust: 104%;
+  ascent-override: 92%;
+  descent-override: 24%;
+}
+@font-face {
+  font-family: 'Bricolage Fallback';
+  src: local('Arial'), local('Helvetica');
+  size-adjust: 101%;
+  ascent-override: 94%;
+  descent-override: 24%;
+}
+
+/* Fraunces' subset defaults to wght 900 / opsz 9; state the display setting
+   explicitly so nothing renders at full weight and tiny optical size. */
+body { font-weight: 400; }

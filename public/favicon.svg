@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#100d0a"/>
+  <!-- The seam: the site's brand device, at 32px. -->
+  <path d="M6 2 Q 12 16 6 30" stroke="#f37021" stroke-width="2.5"
+        stroke-dasharray="4 3" fill="none" stroke-linecap="round"/>
+  <text x="13" y="23" font-family="Georgia,'Times New Roman',serif"
+        font-style="italic" font-size="18" fill="#f9f6f2">A</text>
+</svg>
