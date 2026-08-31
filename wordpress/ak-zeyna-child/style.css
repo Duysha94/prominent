@@ -1,0 +1,16 @@
+/*!
+Theme Name: AK Brand Development Studio
+Theme URI: https://akbrand.studio
+Description: Child theme for Zeyna. Carries the AK design system — colour, typography, the two modes (ATELIER / RUNWAY) and the motion layer — and leaves Zeyna's header, footer, menu and Barba page transitions in place.
+Author: AK Brand Development Studio
+Template: zeyna
+Version: 1.0.0
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+Text Domain: ak-zeyna-child
+*/
+
+/* Everything lives in assets/css/ak.css, enqueued after the parent stylesheet
+   in inc/enqueue.php. This file only carries the theme header — WordPress
+   requires it, and putting rules here would load them at the wrong point in
+   the cascade. */
