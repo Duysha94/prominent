@@ -24,23 +24,42 @@
   /* ---- Brand orange ---------------------------------------------------
      Source: #f37021 = oklch(0.6924 0.1812 46.21). Chroma clamped to sRGB
      at every step so the ramp never clips on standard displays.
-     Contrast facts (measured, not guessed):
-       #f37021 on #ffffff = 2.94:1  → fails even large text. Never text on paper.
-       #f37021 on #0C0A08 = 6.70:1  → AA body text on ink. Safe in dark mode.
-       #0C0A08 on #f37021 = 7.15:1  → AAA. Orange fills take INK text, not white.
-       #b84d00 on #F9F6F2 = 5.12:1  → AA body. This is orange-as-text in light mode.
+     The ramp DRIFTS IN HUE, on purpose: tints move toward yellow-cream
+     (H 62) and shades toward rust-red (H 27), the way real pigment does. A
+     ramp holding one hue at every step is the unmistakable signature of an
+     auto-generated palette.
+
+     Contrast, measured against this site's own surfaces — paper #f9f6f2 and
+     warm ink #100d0a — not against generic white and black:
+
+       brand-500 on paper  = 2.73:1  FAILS 1.4.11 non-text (needs 3.0), by 0.27.
+                                     So the brand orange is never a mark, a
+                                     rule or a focus ring on the light theme.
+       brand-600 on paper  = 3.49:1  PASSES 1.4.11 → accent MARKS in light mode
+       brand-700 on paper  = 4.80:1  PASSES AA text → accent TEXT in light mode
+       brand-500 on ink    = 6.60:1  PASSES AA text → accent marks + text on dark
+       brand-400 on ink    = 8.43:1  used for SMALL accent text on dark: 500
+                                     technically passes WCAG but APCA rates it
+                                     Lc-46, which wants ~39px at weight 400.
+                                     WCAG over-rewards saturated mid-luminance
+                                     colours on dark grounds; small orange
+                                     labels genuinely glare at 500.
+       ink on brand-500    = 6.60:1  PASSES AA → orange fills take INK type.
+                                     White on orange is 2.94:1 and fails three
+                                     thresholds at once; it is also what nearly
+                                     every orange brand ships.
      -------------------------------------------------------------------- */
-  --color-brand-50:  oklch(0.972 0.0151 46.21);   /* #fff3ed */
-  --color-brand-100: oklch(0.940 0.0330 46.21);   /* #ffe5d9 */
-  --color-brand-200: oklch(0.885 0.0659 46.21);   /* #ffccb5 */
-  --color-brand-300: oklch(0.822 0.1077 46.21);   /* #ffaf89 */
-  --color-brand-400: oklch(0.755 0.1578 46.21);   /* #ff8c51 */
-  --color-brand-500: oklch(0.6924 0.1812 46.21);  /* #f37021  ← THE brand colour */
-  --color-brand-600: oklch(0.630 0.1760 46.21);   /* #db5e02 */
-  --color-brand-700: oklch(0.552 0.1547 46.21);   /* #b84d00 — text-safe on paper */
-  --color-brand-800: oklch(0.468 0.1300 46.21);   /* #923d02 */
-  --color-brand-900: oklch(0.372 0.0980 46.21);   /* #682c07 */
-  --color-brand-950: oklch(0.268 0.0680 46.21);   /* #401904 */
+  --color-brand-50:  oklch(0.972 0.0179 62);     /* #fff3ea */
+  --color-brand-100: oklch(0.940 0.0380 60);     /* #ffe6d2 */
+  --color-brand-200: oklch(0.885 0.0729 57);     /* #ffceab */
+  --color-brand-300: oklch(0.822 0.1080 54);     /* #fcb281 */
+  --color-brand-400: oklch(0.755 0.1580 50);     /* #fd8e49 — accent TEXT on ink, 8.43:1 */
+  --color-brand-500: oklch(0.6924 0.1812 46.21); /* #f37021 ← THE brand colour, identical in both modes */
+  --color-brand-600: oklch(0.630 0.1760 42);     /* #dd5b1e — accent MARKS on paper, 3.49:1 */
+  --color-brand-700: oklch(0.552 0.1550 38);     /* #ba4923 — accent TEXT on paper, 4.80:1 */
+  --color-brand-800: oklch(0.468 0.1300 34);     /* #953823 */
+  --color-brand-900: oklch(0.372 0.0980 30);     /* #6b281f */
+  --color-brand-950: oklch(0.268 0.0680 27);     /* #411613 */
 
   /* ---- Warm neutral ramp ("ink") --------------------------------------
      Hue 60 at chroma 0.005–0.008: warm enough to sit with orange, cold

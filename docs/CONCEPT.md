@@ -121,19 +121,38 @@ full 50–950 ramp chroma-clamped to sRGB so it never clips.
 
 **The measured facts that shaped the system:**
 
+Measured against this site's own surfaces — paper `#f9f6f2` and warm ink
+`#100d0a` — not against generic white and black:
+
 | Pair | Contrast | Verdict |
 |---|---|---|
-| `#f37021` on white | **2.94:1** | Fails AA — and fails even the 3:1 large-text floor |
-| `#f37021` on ink `#100d0a` | **6.70:1** | Passes AA for body text |
-| Ink `#100d0a` on `#f37021` | **7.15:1** | Passes AAA |
-| `#b84d00` on paper | **5.12:1** | Passes AA |
+| brand-500 on paper | **2.73:1** | **Fails WCAG 1.4.11 non-text (3:1)** — so the brand orange is never a mark, rule or focus ring on the light theme |
+| brand-600 on paper | **3.49:1** | Passes 1.4.11 → accent **marks** in light mode |
+| brand-700 on paper | **4.80:1** | Passes AA text → accent **text** in light mode |
+| brand-500 on ink | **6.60:1** | Passes AA → accent marks and text on dark |
+| brand-400 on ink | **8.43:1** | Small accent labels on dark (see below) |
+| Ink on brand-500 | **6.60:1** | Passes AA → orange fills take **ink** type |
+
+Two of those rows are the ones almost everyone gets wrong. **White on orange
+measures 2.94:1 and fails three thresholds at once** — AA text, AA large text,
+and non-text contrast — and it is what nearly every orange brand ships.
+
+And brand-500 as *small* text on dark technically passes WCAG at 6.60:1, but
+APCA scores it Lc −46, which wants roughly 39px at weight 400. WCAG 2.x
+systematically over-rewards saturated mid-luminance colours on dark grounds,
+and small orange labels genuinely glare. So small accent text on dark steps up
+to brand-400.
+
+The ramp also **drifts in hue** — tints toward yellow-cream (H 62), shades
+toward rust-red (H 27) — because a ramp holding one hue at every step is the
+signature of an auto-generated palette.
 
 Which produces the rule the whole palette hangs on:
 
-> **The brand orange is always a surface, never light-mode text.**
-> As a fill it takes near-black type (never white — that combination is the
-> common default and it fails). As type it only works on dark, darkening to
-> `#b84d00` on paper.
+> **The brand orange is always a surface, never light-mode ink.**
+> As a fill it takes near-black type. As text or as a mark on paper it steps
+> down to 700 or 600 respectively; only on the dark theme does the true brand
+> value carry type.
 
 Three colours, held hard: **warm ink**, **warm paper**, **`#f37021`**. The
 neutrals sit at hue 60 with chroma 0.005–0.008 — warm enough to belong with the
@@ -253,9 +272,24 @@ in the DOM.
 - `prefers-reduced-motion`, `prefers-reduced-transparency` and `forced-colors`
   are all honoured.
 
-**Verified in this repo:** typecheck and production build pass; all pages
-screenshot-tested at 390 / 768 / 1440 in both themes with zero horizontal
-overflow and zero console errors.
+**Verified in this repo** — `npm run qa` walks all 10 routes at 320 / 390 /
+768 / 1440 in both themes (80 combinations) and asserts: no horizontal
+overflow, no console errors, exactly one `<h1>` per page, a `#main` skip
+target, a non-trivial `<title>`, and no headline left hidden after scrolling.
+Plus a reduced-motion pass (no loader, content at full opacity) and a keyboard
+pass (skip link is the first tab stop). Typecheck, lint and production build
+pass.
+
+Two things that harness had to learn, both of which are easy to get wrong:
+
+- **It must scroll with real wheel events.** Lenis overrides
+  `window.scrollTo`, so a synthetic `scrollTo` loop never drives ScrollTrigger
+  — every scroll-revealed heading reads as permanently hidden and you chase a
+  bug that is not there.
+- **A reveal that starts at `opacity: 0` must not be able to strand content.**
+  `CutText` plays regardless after 2.5s if its trigger never fired, because a
+  tool that repositions the page without dispatching scroll events would
+  otherwise leave headings blank.
 
 **Not yet verified:** real-device Core Web Vitals, screen-reader passes with
 NVDA/VoiceOver, and 400% zoom reflow. Those need a staging URL.

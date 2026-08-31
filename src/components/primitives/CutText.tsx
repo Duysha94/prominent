@@ -54,6 +54,7 @@ export function CutText({
     // is lost but the animation.
     let cancelled = false
     let cleanup: (() => void) | undefined
+    let safety = 0
 
     loadGsap().then(({ gsap, SplitText, ScrollTrigger }) => {
       if (cancelled) return
@@ -70,8 +71,8 @@ export function CutText({
           lines.forEach((el) => {
             const html = el.innerHTML
             el.innerHTML = ''
-            el.style.position = 'relative'
-            el.style.overflow = 'hidden'
+            // Positioning and the padded clip box live in base.css on
+            // .ak-cut-line — see the note there about descenders.
 
             const top = document.createElement('span')
             top.className = 'ak-cut-half ak-cut-half--top'
@@ -98,6 +99,16 @@ export function CutText({
             defaults: { ease: GSAP_EASE.cut },
             scrollTrigger:
               trigger === 'scroll' ? { trigger: host, start: 'top 86%', once: true } : undefined,
+            // Dismantle the split once it has served its purpose — see the
+            // note on .ak-cut-line[data-cut-settled] in base.css.
+            onComplete: () => {
+              lines.forEach((el) => el.setAttribute('data-cut-settled', ''))
+              halves.forEach(([top, bottom]) => {
+                top.style.clipPath = 'none'
+                bottom.style.display = 'none'
+              })
+              blades.forEach((b) => b.remove())
+            },
           })
 
           halves.forEach(([top, bottom], i) => {
@@ -126,6 +137,22 @@ export function CutText({
             ).to(b, { scaleX: 0, transformOrigin: 'right center', duration: D.quick }, at + D.base)
           })
 
+          // SAFETY NET. This reveal starts its text at opacity 0, so a
+          // ScrollTrigger that never fires does not degrade the animation —
+          // it hides the content outright. That can happen for reasons
+          // outside our control: a tool that repositions the page without
+          // dispatching scroll events, a screenshot service, a print
+          // stylesheet, an embedding context that suppresses scroll.
+          //
+          // So if the timeline has not begun shortly after it is built, play
+          // it regardless. Anyone scrolling normally never reaches this;
+          // anyone who would otherwise have seen a blank heading does.
+          if (trigger === 'scroll') {
+            safety = window.setTimeout(() => {
+              if (tl.progress() === 0 && !tl.isActive()) tl.play()
+            }, 2500)
+          }
+
           // Returning the timeline lets SplitText revert it cleanly on
           // re-split instead of leaving orphaned tweens behind.
           return tl
@@ -134,7 +161,12 @@ export function CutText({
         SplitText.create(inner, {
           type: 'lines',
           linesClass: 'ak-cut-line',
+          // Re-splits after the webfont swaps in and on resize, so line boxes
+          // never go stale. Animations must be created inside onSplit and
+          // returned, so GSAP can revert them before re-splitting.
           autoSplit: true,
+          // Puts the original string back on the wrapper and hides the
+          // fragments: a screen reader gets one sentence, not confetti.
           aria: 'auto',
           onSplit: (self) => build(self.lines as HTMLElement[]),
         })
@@ -147,6 +179,7 @@ export function CutText({
 
     return () => {
       cancelled = true
+      window.clearTimeout(safety)
       cleanup?.()
     }
   }, [children, reduced, trigger, delay, blade])

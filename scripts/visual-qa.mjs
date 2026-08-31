@@ -36,6 +36,15 @@ for (const theme of ['dark', 'light']) {
     for (const path of PAGES) {
       await page.goto(`http://127.0.0.1:4173${path}`, { waitUntil: 'domcontentloaded' })
       await page.waitForTimeout(700)
+      // Scroll with REAL wheel events. Lenis overrides window.scrollTo, so a
+      // synthetic scrollTo loop never drives ScrollTrigger and every
+      // scroll-revealed heading would read as permanently hidden.
+      for (let i = 0; i < 14; i++) { await page.mouse.wheel(0, 900); await page.waitForTimeout(45) }
+      await page.waitForTimeout(500)
+      const hidden = await page.evaluate(() =>
+        [...document.querySelectorAll('.ak-cut-half')]
+          .filter((el) => getComputedStyle(el).opacity === '0').length)
+      if (hidden > 0) issues.push(`[${theme}/${vp.tag}] ${path} ${hidden} headline halves still at opacity 0 after scrolling`)
       const r = await page.evaluate(() => ({
         overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         h1: document.querySelectorAll('h1').length,

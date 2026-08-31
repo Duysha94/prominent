@@ -23,8 +23,8 @@
      survives both modes: the FILL is always true #f37021, the TEXT is not. */
   --accent-fill:   var(--color-brand-500);  /* surfaces, always true brand */
   --accent-on:     var(--color-ink-950);    /* what sits ON a fill: 7.15:1 */
-  --accent-text:   var(--color-brand-700);  /* orange as type: 5.12:1 here */
-  --accent-line:   var(--color-brand-500);  /* the thread, non-text: fine  */
+  --accent-text:   var(--color-brand-700);  /* orange as type: 4.80:1     */
+  --accent-line:   var(--color-brand-600);  /* marks/rules/focus: 3.49:1   */
   --accent-glow:   oklch(0.6924 0.1812 46.21 / 0.16);
 
   --grain-opacity: 0.030;
@@ -44,8 +44,8 @@
 
   --accent-fill:   var(--color-brand-500);
   --accent-on:     var(--color-ink-950);
-  --accent-text:   var(--color-brand-500);  /* 6.70:1 on ink — safe as type */
-  --accent-line:   var(--color-brand-500);
+  --accent-text:   var(--color-brand-400);  /* 8.43:1 — small labels read  */
+  --accent-line:   var(--color-brand-500);  /* 6.60:1 on ink — marks fine  */
   --accent-glow:   oklch(0.6924 0.1812 46.21 / 0.26);
 
   --grain-opacity: 0.045;
@@ -63,7 +63,7 @@
     --text-faint:  var(--color-ink-600);
     --rule:        oklch(0.975 0.006 70 / 0.13);
     --rule-strong: oklch(0.975 0.006 70 / 0.28);
-    --accent-text: var(--color-brand-500);
+    --accent-text: var(--color-brand-400);
     --accent-glow: oklch(0.6924 0.1812 46.21 / 0.26);
     --grain-opacity: 0.045;
   }
@@ -155,7 +155,21 @@ html.lenis, html.lenis body { height: auto; }
    CUT TEXT — the house headline reveal (see CutText.tsx)
    ------------------------------------------------------------------------ */
 .ak-cut { display: block; }
-.ak-cut-line { display: block; }
+
+.ak-cut-line {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Once the reveal has finished, the split is dismantled: the duplicate half is
+   removed and both the clip and the line's overflow are released. This matters
+   for a specific typographic reason — display type here is set at ~0.9 leading,
+   so descenders (g, y, p) and the italic f sit OUTSIDE the line box, and
+   clip-path clips to the element's own box no matter what padding a parent
+   carries. Clipping is therefore only ever allowed to exist while something is
+   actually moving; the resting state is plain, unclipped text. */
+.ak-cut-line[data-cut-settled] { overflow: visible; }
 
 .ak-cut-half {
   display: block;
