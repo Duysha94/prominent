@@ -3,6 +3,9 @@ import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  // GitHub Pages serves a project repo from a sub-path, so the base has to be
+  // configurable. Production on akbrand.studio serves from the root.
+  base: process.env.BASE_PATH || '/',
   plugins: [react(), tailwindcss()],
   build: {
     rollupOptions: {

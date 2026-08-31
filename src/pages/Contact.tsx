@@ -1,7 +1,7 @@
 import { useMemo, useState, type FormEvent } from 'react'
 import { CutText } from '../components/primitives/CutText'
 import { STUDIO } from '../data/studio'
-import { LANES } from '../data/services'
+import { MOVEMENTS } from '../data/services'
 import { usePageMeta } from '../lib/usePageMeta'
 import { cn } from '../lib/cn'
 
@@ -32,9 +32,9 @@ const STAGES: { id: Stage; label: string; note: string }[] = [
 
 const SPEND = [
   { id: 0, label: 'None yet' },
-  { id: 1, label: 'Under £5k / mo' },
-  { id: 2, label: '£5k – £25k / mo' },
-  { id: 3, label: '£25k+ / mo' },
+  { id: 1, label: 'Under £2k / mo' },
+  { id: 2, label: '£2k – £10k / mo' },
+  { id: 3, label: '£10k+ / mo' },
 ]
 
 export function Contact() {
@@ -50,35 +50,37 @@ export function Contact() {
 
   /** The recommendation. Deliberately readable logic, not a black box. */
   const spec = useMemo(() => {
-    const lanes = new Set(wants)
+    const movements = new Set(wants)
 
     // A brand that cannot say what it is will waste whatever it spends, so
-    // advisory is non-negotiable before media at the earliest stage.
-    if (stage === 'launching') lanes.add('advise')
-    // Buying traffic to a store nobody has audited is the commonest way to
-    // burn a budget — if they want media, the build has to be in scope.
-    if (lanes.has('grow') && spend >= 2) lanes.add('build')
-    // At scale with no advisory, the constraint is almost never the media.
-    if (stage === 'scaling' && lanes.has('grow')) lanes.add('advise')
+    // strategy is non-negotiable at the earliest stage.
+    if (stage === 'launching') movements.add('strategy')
+    // Promotion lands on a page. Buying attention for a site nobody has
+    // audited is the commonest way to burn a budget.
+    if (movements.has('presence') && spend >= 2) movements.add('identity')
+    // A show without a position is an expensive party.
+    if (movements.has('production')) movements.add('identity')
+    // At scale with no position, the constraint is almost never the media.
+    if (stage === 'scaling' && movements.has('presence')) movements.add('strategy')
 
-    const ordered = LANES.filter((l) => lanes.has(l.id))
+    const ordered = MOVEMENTS.filter((m) => movements.has(m.id))
     const weeks = ordered.reduce(
-      (n, l) => n + (l.id === 'advise' ? 6 : l.id === 'build' ? 10 : 0),
+      (n, m) => n + (m.id === 'strategy' ? 6 : m.id === 'identity' ? 7 : m.id === 'presence' ? 8 : 0),
       0,
     )
 
     return {
-      lanes: ordered,
+      movements: ordered,
       shape: weeks
         ? `${weeks}–${weeks + 4} weeks, then ongoing`
         : 'Ongoing, minimum three months',
       needs:
         stage === 'launching'
-          ? ['Your range plan or line sheet', 'Whatever the brand already looks like', 'Your target landed cost']
+          ? ['Your collection plan or line sheet', 'Whatever the brand already looks like', 'Where you want the brand to be in a year']
           : [
-              'Read access to your ad accounts',
+              'Read access to your ad and analytics accounts',
               'Last 12 months of revenue by channel',
-              'Your current range, by SKU and margin',
+              'Your current range or service list',
             ],
     }
   }, [stage, wants, spend])
@@ -97,7 +99,7 @@ export function Contact() {
     <div className="pt-28 md:pt-36">
       <header className="mx-auto max-w-[1440px] px-5 md:px-10">
         <p className="font-mono text-[0.5625rem] uppercase tracking-[0.22em] text-[var(--accent-text)]">
-          Start a brief — next intake {STUDIO.nextIntake}
+          Start a project — {STUDIO.city}
         </p>
         <CutText
           as="h1"
@@ -163,7 +165,7 @@ export function Contact() {
               02 — What you think you need
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
-              {LANES.map((l) => (
+              {MOVEMENTS.map((l) => (
                 <label
                   key={l.id}
                   className={cn(
@@ -186,12 +188,12 @@ export function Contact() {
           </fieldset>
 
           <fieldset className="border-t border-[var(--rule)] pt-7">
-            <legend className="sr-only">Current monthly media spend</legend>
+            <legend className="sr-only">Current monthly promotion budget</legend>
             <p aria-hidden="true" className="font-mono text-[0.5625rem] uppercase tracking-[0.2em] text-[var(--text-faint)]">
-              03 — Current monthly media spend
+              03 — Current monthly promotion budget
             </p>
             <label htmlFor="spend" className="sr-only">
-              Current monthly media spend
+              Current monthly promotion budget
             </label>
             <input
               id="spend"
@@ -257,7 +259,7 @@ export function Contact() {
             type="submit"
             className="w-full bg-[var(--accent-fill)] px-7 py-4 font-mono text-[0.625rem] uppercase tracking-[0.2em] text-[var(--accent-on)] sm:w-auto"
           >
-            {sent ? 'Sent — we reply within two days' : 'Send the brief'}
+            {sent ? 'Sent — we reply within two days' : 'Send it'}
           </button>
           <p aria-live="polite" className="sr-only">
             {sent ? 'Brief sent.' : ''}
@@ -276,10 +278,10 @@ export function Contact() {
           <div className="space-y-6 p-5">
             <div>
               <p className="font-mono text-[0.5rem] uppercase tracking-[0.18em] text-[var(--text-faint)]">
-                Lanes
+                Movements
               </p>
               <ul className="mt-3 space-y-2">
-                {spec.lanes.map((l) => (
+                {spec.movements.map((l) => (
                   <li key={l.id} className="flex items-baseline gap-2">
                     <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 bg-[var(--accent-fill)]" />
                     <span className="font-display text-lg italic text-[var(--text)]">{l.title}</span>
@@ -288,9 +290,9 @@ export function Contact() {
                     </span>
                   </li>
                 ))}
-                {spec.lanes.length === 0 && (
+                {spec.movements.length === 0 && (
                   <li className="text-[0.8125rem] text-[var(--text-muted)]">
-                    Pick at least one lane above.
+                    Pick at least one movement above.
                   </li>
                 )}
               </ul>
@@ -321,9 +323,11 @@ export function Contact() {
 
             <div className="border-t border-[var(--rule)] pt-5">
               <p className="font-mono text-[0.5rem] uppercase tracking-[0.18em] text-[var(--text-faint)]">
-                Next intake
+                Where we work
               </p>
-              <p className="mt-2 text-[0.8125rem] text-[var(--text)]">{STUDIO.nextIntake}</p>
+              <p className="mt-2 text-[0.8125rem] text-[var(--text)]">
+                {STUDIO.cities.join(' · ')}
+              </p>
             </div>
           </div>
         </aside>

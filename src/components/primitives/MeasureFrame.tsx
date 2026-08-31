@@ -6,7 +6,7 @@ import { useReducedMotion } from '../../lib/useReducedMotion'
 import { cn } from '../../lib/cn'
 
 export type Measure = {
-  /** Short mono label, e.g. "ROAS" / "LCP" / "SKU". */
+  /** Short mono label, e.g. "LOOKS" / "PRESS" / "RUNWAY" / "LCP". */
   key: string
   /** The value as displayed, e.g. "4.8×" / "0.9s" / "240". */
   value: string
@@ -21,9 +21,10 @@ export type Measure = {
  *
  * A fashion tech pack annotates a garment with dimension lines and callouts.
  * This does the same to a piece of the website, except the numbers are the
- * commercial ones: ROAS, AOV, LCP, SKU count. That is the whole argument of
- * the studio expressed as an interaction — the same measuring eye is applied
- * to a silhouette and to a checkout funnel.
+ * ones this studio works in: looks in a collection, press picked up, the runway
+ * it was shown on, the load time of the store. That is the practice expressed
+ * as an interaction — the same measuring eye applied to a silhouette, to a
+ * show, and to a page.
  *
  * Reachability: hover on fine pointers, `focus-within` for keyboard, and on
  * touch devices the annotations simply appear when the block scrolls into

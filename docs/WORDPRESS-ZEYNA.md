@@ -1,81 +1,102 @@
 # Building this on WordPress + Zeyna
 
-> ## ⚠️ Read this first
+> ## ✅ This document is now verified
 >
-> **The Zeyna theme could not be inspected while writing this.**
-> `themeforest.net` is blocked by this environment's egress proxy (`403 CONNECT
-> tunnel failed`), and the theme does not appear in any public code index.
+> The theme package was supplied and audited directly. **Zeyna 1.5.0 by Pe
+> Themes**, requires PHP 8.0. Everything below is read from its source unless
+> explicitly marked otherwise.
 >
-> So: there is **no verified demo URL, no confirmed page builder, no confirmed
-> transition library** for Zeyna specifically. Everything below marked
-> *(inference)* is drawn from how 2025-era ThemeForest "multipurpose creative"
-> themes are built as a class, and from reading the source of two shipping
-> Barba-based WordPress themes. It is a strong prior, not a fact.
+> Three findings changed the plan, and one of them changes the brief:
 >
-> **Run [the day-one audit](#0-day-one-audit) before quoting or scoping.** One
-> of its answers — whether transitions are Barba, swup, or a hand-rolled
-> `fetch()` — is the difference between two days of work and two weeks.
+> 1. **Barba.js confirmed** — and the wrapper contract is not where you would
+>    guess. See §2.
+> 2. **Header and footer are plain PHP, not Elementor theme-builder
+>    locations.** `elementor_theme_do_location` appears nowhere. This removes
+>    the single most expensive risk in the original estimate — see §3.
+> 3. **Zeyna has no light/dark mode.** Not a toggle, not a class, not a media
+>    query. See §6. This matters because keeping it was part of the brief.
 
 ---
 
-## 0. Day-one audit
+## 0. What the audit found
 
-Unzip the theme package and run four commands. Twenty minutes, and it replaces
-every inference in this document.
+| Question | Answer |
+|---|---|
+| Theme | **Zeyna 1.5.0**, Pe Themes, requires PHP 8.0 |
+| Transition engine | **Barba.js** (`js/barba.min.js`), driving GSAP |
+| Wrapper | `data-barba="wrapper"` on `<body>`, `data-barba="container"` on **`<main id="primary">`** |
+| Namespace | **None emitted.** No `data-barba-namespace` anywhere |
+| Footer | **Outside** the container — it persists across navigations |
+| Header / footer | **Classic `header.php` / `footer.php`.** Not Elementor locations |
+| Options framework | **Redux** (`pe-redux`), transitions gated on a `page_transitions` option |
+| Bundled JS | barba, gsap, gsap-plugins, **lenis**, **three**, dotlottie-player, plugins, scripts |
+| Light / dark mode | **Does not exist.** Zero `data-theme`, `.dark` or `prefers-color-scheme` in the theme CSS |
+| Commerce | Full WooCommerce template overrides included |
+| Content types | `portfolio` post type + `project-categories` taxonomy |
+| Barba timeout | Already `15000` — the usual 2s footgun is not present |
 
-```bash
-# 1. What drives the page transitions, and what is the wrapper contract?
-grep -rl "data-barba\|barba.init\|swup\|@view-transition" .
-
-# 2. Are header/footer Elementor theme-builder locations, or PHP templates?
-grep -rn "elementor_theme_do_location\|register_locations" .
-
-# 3. What does the dark-mode toggle actually set? (class? data-attribute?
-#    localStorage key? does it run before first paint?)
-grep -rn "dark\|theme-mode\|data-theme" --include=*.js --include=*.php . | head -40
-
-# 4. What does the theme enqueue that we will need to dequeue?
-grep -rn "wp_enqueue_script\|wp_enqueue_style" --include=*.php .
-```
-
-Record the answers in this file before writing any template.
+**The stack alignment is the good news.** Zeyna already bundles GSAP, Lenis,
+Barba and three.js — the same engines this prototype is built on. Porting the
+motion system is therefore a translation, not a rewrite.
 
 ---
 
 ## 1. What "we keep only the shell" actually means
 
-*(inference — confirm with audit step 2)*
+Better than expected. The shell is **plain PHP**, so keeping it means keeping:
 
-Keeping "the header, footer, menu, page transitions and light/dark mode" almost
-certainly does **not** mean keeping `header.php` and `footer.php`. In this
-theme class it means keeping:
-
-| Kept | Why it cannot be removed |
+| Kept | Notes |
 |---|---|
-| The theme + its companion/core plugin | The theme-builder templates and the mode toggle depend on it |
-| Elementor + **Elementor Pro** | Header/footer are Pro theme-builder *locations* |
-| Two Elementor templates (Header, Footer) | Unedited — this is the shell |
-| The WP nav menu + its mobile panel markup | Rendered by the header template |
-| The transition engine + its wrapper contract | See §2 |
-| The mode toggle + its CSS custom properties | Our bespoke pages consume its variables |
+| `header.php` / `footer.php` | Classic templates — edit or extend in a child theme |
+| The WP nav menu + mobile panel | Rendered by `header.php` |
+| Barba + the theme's transition JS | See §2 |
+| Redux theme options | `page_transitions` gates the whole transition system |
+| WooCommerce overrides | Keep — the studio builds online stores |
+| `portfolio` post type + taxonomy | This is where case studies live |
 
-**Consequence for the quote:** Elementor Pro licensing and its update path stay
-in scope permanently, even though not one page layout uses Elementor.
+**No Elementor Pro dependency for the shell.** That removes a recurring licence
+cost and, more importantly, removes the entire `elementorFrontend.init()`
+re-initialisation problem for content pages. Elementor appears in 18 PHP files
+as optional widget compatibility, not as the header/footer mechanism — so if
+the site is authored with ACF and custom templates, Elementor need not be
+installed at all.
+
+**One item in the brief cannot be kept, because it does not exist: see §6.**
 
 ---
 
 ## 2. The wrapper contract — the thing you must not break
 
-*(inference — confirm with audit step 1)*
+Verified. `inc/template-tags.php` defines `zeyna_barba($body)`, which returns
+the attribute **only when the Redux option `page_transitions` is on**:
 
-Expect Barba.js v2 driving GSAP timelines. The contract is two attributes:
+```php
+// header.php line 32
+<body <?php body_class(); ?> <?php echo zeyna_barba(true) ?>>   // data-barba="wrapper"
 
-```html
-<body data-barba="wrapper">
-  <div data-barba="container" data-barba-namespace="work">
-    <!-- page content -->
-  </div>
-</body>
+// index.php / page.php / single.php / archive.php / 404.php
+<main id="primary" class="site-main" <?php echo zeyna_barba(false) ?>>  // data-barba="container"
+```
+
+Two consequences worth knowing before writing a template:
+
+**The container is `<main>`, not a wrapper div.** Anything a bespoke page
+renders must live inside `<main id="primary">` or it will not be swapped.
+
+**`get_footer()` is called after `</main>`, so the footer is OUTSIDE the
+container and persists across navigations.** That is the configuration we
+wanted: it means the Seam can live in the footer and survive every navigation
+instead of being rebuilt, and the footer CTA never re-animates.
+
+**Zeyna emits no `data-barba-namespace`.** Per-template transitions are
+therefore not available out of the box — if we want the case-study transition
+to differ from the contact transition, we add the namespace ourselves:
+
+```php
+// child theme: template-parts/barba-open.php
+$ns = is_front_page() ? 'home'
+  : ( is_singular('portfolio') ? 'case'
+  : ( is_post_type_archive('portfolio') ? 'work' : 'page' ) );
 ```
 
 **Every bespoke page template must emit that container with a meaningful
@@ -178,9 +199,14 @@ compute against the wrong document height and the whole scroll story is offset.
 
 ---
 
-## 5. Barba config — ship these values, not the defaults
+## 5. Barba config — what Zeyna already gets right
 
-Barba's defaults are wrong for WordPress in four specific ways.
+Zeyna already sets `timeout: 15000`, so the classic 2-second footgun (an
+uncached WordPress page exceeding the default and silently falling back to a
+full navigation) is **not** present. It also already marks the WooCommerce
+cart block with `data-barba-prevent="all"`.
+
+What is still worth adding in the child theme:
 
 ```js
 const IGNORED = [
@@ -214,10 +240,24 @@ landing pages.
 
 ---
 
-## 6. Dark mode across a soft navigation
+## 6. Dark mode — it does not exist in this theme
 
-Barba replaces body classes wholesale, so **the theme mode must be explicitly
-preserved or it flashes back to light on every navigation.**
+**This is the one place the brief and the theme disagree.**
+
+The brief said to keep Zeyna's light/dark mode. The theme has none. Verified:
+zero occurrences of `data-theme`, `.dark`, `.light-mode` or
+`prefers-color-scheme` anywhere in its CSS, and no toggle in its JS. What
+looks like a dark mode in the demos is a *demo variant* — a different Redux
+colour preset you import once (`digital-agency-dark.xml`), not a runtime
+switcher a visitor can operate.
+
+So the two-mode system has to be built, and this prototype already contains it:
+ATELIER and RUNWAY as two designed rooms rather than one palette inverted, with
+different grain material per mode. Port `src/styles/tokens.css` and
+`src/styles/base.css`, and add the toggle to `header.php`.
+
+Because Barba replaces body classes wholesale, **the mode must be explicitly
+preserved or it flashes back on every navigation.**
 
 1. Sync body classes from the incoming document, then re-add a preserve list
    that **must include the dark-mode class** (whatever the audit finds Zeyna

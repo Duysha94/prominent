@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import { EASE, D_MS } from '../../lib/motion'
 import { useReducedMotion } from '../../lib/useReducedMotion'
 
-const LANES = ['ADVISE', 'BUILD', 'GROW'] as const
+const WORDS = ['STRATEGY', 'IDENTITY', 'PRODUCTION', 'PRESENCE'] as const
 
 /**
  * THE MEASURE — first contact.
@@ -12,8 +12,8 @@ const LANES = ['ADVISE', 'BUILD', 'GROW'] as const
  * template-tier — juries read it as a theme tell and it taxes LCP — so the
  * form is kept and both its meaning and its cost are changed. It is a tape
  * measure, not a percentage: the digits are centimetres, the bar carries real
- * ruler ticks, and the three rotating words are the studio's lanes rather than
- * mood words. It is also bounded by actual work (font readiness) with a hard
+ * ruler ticks, and the four rotating words are the studio's own
+ * movements rather than mood words. It is also bounded by actual work (font readiness) with a hard
  * 900ms ceiling, rather than counting to a number it invented.
  *
  * It exits by being cut away — the same clip-path language as every headline —
@@ -23,7 +23,7 @@ const LANES = ['ADVISE', 'BUILD', 'GROW'] as const
  */
 export function Loader({ onDone }: { onDone: () => void }) {
   const [count, setCount] = useState(0)
-  const [lane, setLane] = useState(0)
+  const [word, setWord] = useState(0)
   const [leaving, setLeaving] = useState(false)
   const reduced = useReducedMotion()
   const done = useRef(false)
@@ -66,10 +66,10 @@ export function Loader({ onDone }: { onDone: () => void }) {
       }
     }
     raf = requestAnimationFrame(step)
-    const laneTimer = window.setInterval(() => setLane((l) => (l + 1) % LANES.length), 280)
+    const wordTimer = window.setInterval(() => setWord((w) => (w + 1) % WORDS.length), 220)
     return () => {
       cancelAnimationFrame(raf)
-      clearInterval(laneTimer)
+      clearInterval(wordTimer)
     }
   }, [onDone, reduced])
 
@@ -102,14 +102,14 @@ export function Loader({ onDone }: { onDone: () => void }) {
         <div className="relative h-[1.1em] overflow-hidden font-display text-[clamp(2rem,7vw,5rem)] italic leading-none">
           <AnimatePresence mode="wait">
             <motion.span
-              key={LANES[lane]}
+              key={WORDS[word]}
               initial={{ y: '100%' }}
               animate={{ y: '0%' }}
               exit={{ y: '-100%' }}
               transition={{ duration: D_MS.base / 1000, ease: EASE.cut }}
               className="block text-[var(--text)]"
             >
-              {LANES[lane]}
+              {WORDS[word]}
             </motion.span>
           </AnimatePresence>
         </div>

@@ -6,10 +6,10 @@ import { EASE, D_MS, STAGGER } from '../../lib/motion'
 import { useReducedMotion } from '../../lib/useReducedMotion'
 
 const META: Record<string, string> = {
-  '/work': '12 CASES',
-  '/services': '3 LANES',
-  '/studio': 'EST. 2017',
-  '/journal': '24 NOTES',
+  '/work': 'SELECTED',
+  '/services': '4 MOVEMENTS',
+  '/studio': 'THE FOUNDERS',
+  '/journal': 'NOTES',
 }
 
 /**
@@ -102,7 +102,7 @@ export function MenuOverlay({ open, onClose }: { open: boolean; onClose: () => v
             onClick={onClose}
             className="mt-8 block bg-[var(--accent-fill)] px-5 py-4 text-center font-mono text-[0.625rem] uppercase tracking-[0.2em] text-[var(--accent-on)]"
           >
-            Start a brief
+            Start a project
           </Link>
         </motion.div>
       )}

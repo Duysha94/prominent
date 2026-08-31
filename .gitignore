@@ -28,3 +28,6 @@ dist-ssr
 
 # Stray research scratch
 .research/
+
+# Prerender intermediate
+.seo-build/

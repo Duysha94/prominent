@@ -12,7 +12,7 @@ export function JournalPreview() {
     <section className="px-5 py-20 md:px-10 md:py-28">
       <div className="mx-auto max-w-[1440px]">
         <SectionHead
-          folio="05"
+          folio="04"
           eyebrow="Journal"
           title="What we have argued about lately."
           aside={

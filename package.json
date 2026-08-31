@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run seo",
     "lint": "oxlint",
     "preview": "vite preview",
-    "qa": "node scripts/visual-qa.mjs ./.qa"
+    "qa": "node scripts/visual-qa.mjs ./.qa",
+    "seo": "esbuild scripts/seo-entry.ts --bundle --format=esm --platform=node --outfile=.seo-build/seo.js --log-level=warning && node scripts/prerender.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
@@ -25,6 +26,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.1.0",
+    "esbuild": "^0.28.2",
     "oxlint": "^1.79.0",
     "playwright": "^1.62.1",
     "typescript": "~6.0.2",

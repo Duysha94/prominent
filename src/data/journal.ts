@@ -1,54 +1,54 @@
-/** PLACEHOLDER CONTENT — see data/studio.ts. */
+/** PLACEHOLDER — replace with the studio's own writing. See data/work.ts. */
 
 export type Note = {
   slug: string
   folio: string
   title: string
   standfirst: string
-  category: 'Advisory' | 'Commerce' | 'Media'
+  category: 'Strategy' | 'Identity' | 'Production' | 'Presence'
   readTime: string
   date: string
 }
 
 export const JOURNAL: Note[] = [
   {
-    slug: 'blended-roas',
-    folio: '024',
-    title: 'Stop reporting last-click ROAS to fashion founders',
+    slug: 'showing-at-fashion-week',
+    folio: '004',
+    title: 'What it actually costs to show at a fashion week',
     standfirst:
-      'It flatters the channel that closes and hides the one that created the demand. Here is the report we send instead, and why founders prefer it even when the number is smaller.',
-    category: 'Media',
-    readTime: '6 min',
+      'Placeholder standfirst. The real version should be the honest breakdown a young designer cannot find anywhere else — venue, casting, production, PR, and what a slot is genuinely worth.',
+    category: 'Production',
+    readTime: '9 min',
     date: '2026-07-14',
   },
   {
-    slug: 'cutting-the-range',
-    folio: '023',
-    title: 'Every range is 40% too large, and you already know which 40%',
-    standfirst:
-      'Ranges grow by addition because cutting requires someone to be wrong in public. A method for doing it with numbers instead of opinions.',
-    category: 'Advisory',
-    readTime: '9 min',
-    date: '2026-06-02',
-  },
-  {
-    slug: 'pdp-questions',
-    folio: '022',
-    title: 'Your product page should answer the emails you keep getting',
-    standfirst:
-      'The best PDP copy is already written — it is in your inbox, in the replies you send twice a week. A short exercise for finding it.',
-    category: 'Commerce',
-    readTime: '5 min',
-    date: '2026-04-28',
-  },
-  {
     slug: 'identity-at-ad-size',
-    folio: '021',
+    folio: '003',
     title: 'Design the identity at ad size first',
     standfirst:
-      'A logo that only works at billboard scale is a logo that will be cropped, shrunk and ignored by the algorithm that decides whether anyone sees it.',
-    category: 'Advisory',
+      'Placeholder standfirst. A logo that only works at billboard scale is a logo that will be cropped, shrunk and ignored by the algorithm that decides whether anyone sees it.',
+    category: 'Identity',
+    readTime: '6 min',
+    date: '2026-05-02',
+  },
+  {
+    slug: 'personal-brand-founders',
+    folio: '002',
+    title: 'Your company is not your personal brand',
+    standfirst:
+      'Placeholder standfirst. Why founders in fashion are usually better known than their labels — and what to do when it is the other way round.',
+    category: 'Strategy',
     readTime: '7 min',
     date: '2026-03-11',
+  },
+  {
+    slug: 'website-before-the-campaign',
+    folio: '001',
+    title: 'Fix the website before you buy the traffic',
+    standfirst:
+      'Placeholder standfirst. Every pound of promotion lands on a page. If that page is slow or unclear, promotion just buys a faster exit.',
+    category: 'Presence',
+    readTime: '5 min',
+    date: '2026-01-28',
   },
 ]

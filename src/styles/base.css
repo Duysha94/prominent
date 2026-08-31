@@ -232,7 +232,13 @@ html.lenis, html.lenis body { height: auto; }
   font-size: 0.5625rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  /* A caption sits ON a 1px dimension rule, so it must stay one line — but an
+     unbounded nowrap label is wider than the frame it annotates and drags the
+     whole document with it. Cap it to the frame and ellipsise. */
   white-space: nowrap;
+  max-width: calc(100% - 2rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ak-callout {
@@ -269,7 +275,14 @@ html.lenis, html.lenis body { height: auto; }
   /* Leader lines stop earning their space once the callout is this close to
      the edge it annotates. */
   .ak-callout__leader { display: none; }
-  .ak-callout { font-size: 0.5rem; }
+  .ak-callout {
+    font-size: 0.5rem;
+    /* A long value ("LDN · PAR · DXB") held on one line pushes past the frame
+       it annotates and takes the document with it. Let it wrap instead of
+       truncating — the number is the point of the callout. */
+    white-space: normal;
+    max-width: calc(100% - 1.5rem);
+  }
 }
 
 /* ---------------------------------------------------------------------------

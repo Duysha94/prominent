@@ -1,40 +1,74 @@
 /**
- * ─────────────────────────────────────────────────────────────────────────────
- * PLACEHOLDER CONTENT.
+ * Studio facts, from the founders' own brief.
  *
- * The agency's own brief did not reach this session, so every string below is
- * written to be *structurally* right — correct length, tone and shape for the
- * layouts — and factually invented. Replace before anything goes live. Nothing
- * in the design depends on these particular words; the components are sized
- * from the copy, not the other way round.
- * ─────────────────────────────────────────────────────────────────────────────
+ * Copy here is either verbatim from that brief or written to sit alongside it.
+ * Anything invented is marked. Nothing about a founder, a platform or a
+ * credential is invented — those are the load-bearing claims on this site.
  */
 
 export const STUDIO = {
   name: 'AK Brand Development Studio',
   legalName: 'AK Brand Development Studio',
   discipline: 'Fashion & Brand Advisory',
-  email: 'studio@akbrand.dev',
+  domain: 'akbrand.studio',
+  url: 'https://akbrand.studio',
+  email: 'hello@akbrand.studio', // PLACEHOLDER — confirm the real address
   city: 'London',
+  country: 'United Kingdom',
   timeZone: 'Europe/London',
-  availability: 'Taking work',
-  nextIntake: 'Q4 2026 — two places',
-  founded: 2017,
+  availability: 'Open for projects',
 
-  /** The positioning sentence. Everything else on the site is downstream of it. */
+  /** Their own line. It is the spine of the whole site. */
   promise:
-    'We take fashion brands from a point of view to a paying customer — the strategy, the identity, the store that sells it, and the media that fills it.',
+    'From the initial idea to international presence, we support projects at every stage of their development.',
 
-  /** Why the three lanes belong to one studio. This is the site's core argument. */
+  /** The one-paragraph description, from the brief. */
+  description:
+    'AK Brand Development Studio is an independent creative and strategic practice specialising in brand development, fashion consulting and creative production. We work with designers, entrepreneurs and growing businesses to build strong brands, develop clear positioning and create meaningful visibility.',
+
+  /**
+   * The differentiator, stated plainly.
+   *
+   * Most brand consultancies stop at the deck. This studio produces the
+   * campaign, the show and the room — and it owns the platforms its clients
+   * appear on. That is not a claim a competitor can copy; it is a fact about
+   * who the founders are, which is why it leads.
+   */
   argument:
-    'Most brands buy these three things from three companies, and pay for the seams between them. A positioning deck that the site never expresses. A beautiful store the media team cannot make convert. We hold all three, so nothing is lost in the handover.',
+    'Most advisories hand you a deck and wish you luck. We produce the campaign, we produce the show, and we own the runways our clients walk on. Strategy that never leaves the document is not strategy — it is a document.',
+
+  /** Platforms the founders built. The site's strongest proof. */
+  platforms: [
+    {
+      name: 'London Fashion Day',
+      role: 'Founded and produced by Konstantin Lieontiev',
+      note: 'An international platform created to support emerging designers.',
+    },
+    {
+      name: 'Odessa Fashion Day',
+      role: 'Founded and produced by Konstantin Lieontiev',
+      note: 'Built to develop international creative communities.',
+    },
+    {
+      name: 'KEKA',
+      role: 'Fashion brand founded by Konstantin Lieontiev',
+      note: 'Currently being developed for the international market.',
+    },
+    {
+      name: "Cool'baba",
+      role: 'Online magazine founded by Andrey Karakushan',
+      note: 'A media platform covering fashion, lifestyle and creative industries.',
+    },
+  ],
+
+  /** Cities the studio has worked across, from the brief. */
+  cities: ['London', 'Paris', 'Dubai'],
 
   care: [
-    'One studio, three lanes',
-    'No retainers under three months',
-    'Numbers reported monthly, in full',
-    'We do not take competing brands',
-    'Founded 2017 — 40+ brands',
+    'Independent practice, not an agency roster',
+    'Strategy, production and digital under one roof',
+    'We produce the show, not just the deck',
+    'London · Paris · Dubai',
   ],
 
   footerColumns: [
@@ -48,49 +82,77 @@ export const STUDIO = {
       ],
     },
     {
-      title: 'Lanes',
+      title: 'Practice',
       links: [
-        { label: 'Advise', to: '/services#advise' },
-        { label: 'Build', to: '/services#build' },
-        { label: 'Grow', to: '/services#grow' },
-        { label: 'Start a brief', to: '/contact' },
+        { label: 'Strategy', to: '/services#strategy' },
+        { label: 'Identity', to: '/services#identity' },
+        { label: 'Production', to: '/services#production' },
+        { label: 'Presence', to: '/services#presence' },
       ],
     },
     {
       title: 'Elsewhere',
       links: [
-        { label: 'Instagram', to: 'https://instagram.com' },
-        { label: 'LinkedIn', to: 'https://linkedin.com' },
-        { label: 'Behance', to: 'https://behance.net' },
-        { label: 'Email', to: 'mailto:studio@akbrand.dev' },
+        { label: 'Instagram', to: 'https://instagram.com' }, // PLACEHOLDER
+        { label: 'LinkedIn', to: 'https://linkedin.com' }, // PLACEHOLDER
+        { label: 'Start a project', to: '/contact' },
+        { label: 'hello@akbrand.studio', to: 'mailto:hello@akbrand.studio' },
       ],
     },
   ],
 } as const
 
 /**
- * The live band in the footer.
+ * The band that runs across the footer.
  *
- * A marquee of service words or client logos is decoration and reads as one.
- * These are figures the studio actually knows and that change week to week, so
- * the band is a readout of the business rather than a moving ornament — and it
- * is the one thing on the site a competitor cannot copy from a template.
- *
- * PLACEHOLDER VALUES: in production these come from the studio's own endpoint
- * (ad platform spend, project tracker, calendar) and are cached server-side.
+ * A marquee of service words is decoration and reads as one. These are facts
+ * about the studio that a reader can check, which is the only reason a moving
+ * band earns its place.
  */
 export const LIVE = [
-  { key: 'Spend managed, month to date', value: '£248,400' },
-  { key: 'Campaigns live', value: '14' },
-  { key: 'Builds shipping this quarter', value: '3' },
-  { key: 'Next intake', value: 'Q4 2026 — two places' },
-  { key: 'Brands since 2017', value: '40+' },
+  { key: 'Founded', value: 'London Fashion Day' },
+  { key: 'Founded', value: 'Odessa Fashion Day' },
+  { key: 'Working across', value: 'London · Paris · Dubai' },
+  { key: 'Practice', value: 'Strategy · Identity · Production · Presence' },
 ] as const
 
-/** Credentials that answer "why should a performance budget sit with you". */
-export const CREDENTIALS = [
-  { label: 'Meta Business Partner', meta: 'Verified 2024' },
-  { label: 'Google Partner', meta: 'Search & Shopping' },
-  { label: 'Shopify Plus', meta: 'Build partner' },
-  { label: 'Klaviyo', meta: 'Certified' },
+/**
+ * The founders. Verbatim from the brief — these bios are the studio's
+ * credibility and must not be embellished.
+ *
+ * Pronouns are as written by the founders themselves in the source brief.
+ */
+export const FOUNDERS = [
+  {
+    id: 'konstantin-lieontiev',
+    name: 'Konstantin Lieontiev',
+    role: 'Fashion producer, brand strategist',
+    bio: [
+      'Konstantin Lieontiev is a fashion producer, brand strategist and media professional with extensive experience in brand development and creative industries.',
+      'Before focusing on international fashion projects, he spent nine years managing a regional branch of a major advertising holding, where he was responsible for business development, advertising campaigns and strategic client development.',
+      'He is the founder and producer of the international fashion platforms London Fashion Day and Odessa Fashion Day, created to support emerging designers and develop international creative communities. He is also the founder of the fashion brand KEKA, currently being developed for the international market.',
+      'Through his work he has collaborated with designers, brands and creative teams across London, Paris and Dubai.',
+    ],
+    facts: [
+      { key: 'Advertising', value: '9 yrs' },
+      { key: 'Platforms', value: '2 founded' },
+      { key: 'Cities', value: 'LDN · PAR · DXB' },
+    ],
+  },
+  {
+    id: 'andrey-karakushan',
+    name: 'Andrey Karakushan',
+    role: 'Creative entrepreneur, digital & identity',
+    bio: [
+      'Andrey Karakushan is a creative entrepreneur specialising in brand development, digital presence and visual communication.',
+      'He has experience managing a multi-brand retail space for emerging designers, supporting young fashion brands through retail presentation and brand promotion.',
+      "He is the founder of the online magazine Cool'baba, a media platform focused on fashion, lifestyle and creative industries.",
+      'His expertise includes website development, brand identity, digital communication and building online ecosystems for businesses and creative projects.',
+    ],
+    facts: [
+      { key: 'Retail', value: 'Multi-brand' },
+      { key: 'Media', value: "Cool'baba" },
+      { key: 'Focus', value: 'Digital' },
+    ],
+  },
 ] as const

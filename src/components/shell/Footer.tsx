@@ -36,7 +36,7 @@ export function Footer() {
       {/* Closing CTA */}
       <div className="mx-auto max-w-[1440px] px-5 pb-16 pt-20 md:px-10 md:pb-20 md:pt-28">
         <p className="font-mono text-[0.5625rem] uppercase tracking-[0.22em] text-[var(--text-muted)]">
-          Next intake — {STUDIO.nextIntake}
+          {STUDIO.discipline} — {STUDIO.city}
         </p>
         <CutText
           as="h2"
@@ -51,7 +51,7 @@ export function Footer() {
               to="/contact"
               className="bg-[var(--accent-fill)] px-7 py-4 font-mono text-[0.625rem] uppercase tracking-[0.2em] text-[var(--accent-on)]"
             >
-              Start a brief
+              Start a project
             </Link>
           </Magnetic>
           <a

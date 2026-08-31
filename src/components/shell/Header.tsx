@@ -84,7 +84,7 @@ export function Header({ onOpenMenu }: { onOpenMenu: () => void }) {
               to="/contact"
               className="border border-[var(--rule-strong)] px-4 py-2 font-mono text-[0.5625rem] uppercase tracking-[0.16em] text-[var(--text)] transition-colors hover:border-transparent hover:bg-[var(--accent-fill)] hover:text-[var(--accent-on)]"
             >
-              Start a brief
+              Start a project
             </Link>
           </Magnetic>
           <button

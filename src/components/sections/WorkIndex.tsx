@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
-import { WORK, laneLabel, type CaseStudy } from '../../data/work'
+import { WORK, movementTag, type CaseStudy } from '../../data/work'
 import { MeasureFrame } from '../primitives/MeasureFrame'
 import { Plate } from '../primitives/Plate'
 import { useHasHover } from '../../lib/usePointerKind'
@@ -15,7 +15,7 @@ import { cn } from '../../lib/cn'
  * Not a bento grid and not a horizontal-scroll gallery; both are exhausted,
  * and both bury the one thing a prospective client is scanning for, which is
  * *what happened*. This is a publication's contents page: folio, client,
- * result, lanes, year — readable in one pass, sortable by eye.
+ * result, movements, year — readable in one pass, sortable by eye.
  *
  * The image is the reward for interest rather than the price of entry. A row
  * opens *in place* on hover or keyboard focus, showing the measured plate.
@@ -66,12 +66,12 @@ export function WorkIndex({
                       {c.headline}
                     </span>
                     <span className="col-span-2 flex gap-1.5 md:col-span-1">
-                      {c.lanes.map((l) => (
+                      {c.movements.map((l) => (
                         <span
                           key={l}
                           className="border border-[var(--rule-strong)] px-1.5 py-0.5 font-mono text-[0.5rem] uppercase tracking-[0.12em] text-[var(--text-muted)]"
                         >
-                          {laneLabel[l]}
+                          {movementTag[l]}
                         </span>
                       ))}
                     </span>

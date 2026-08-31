@@ -14,7 +14,7 @@ import { chromium } from 'playwright'
 const OUT = process.argv[2]
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' })
 const issues = []
-const PAGES = ['/', '/work', '/work/maison-verre', '/work/sable-studio', '/work/atelier-nord', '/services', '/studio', '/journal', '/contact', '/nope']
+const PAGES = ['/', '/work', '/work/placeholder-collection-launch', '/work/placeholder-brand-identity', '/work/placeholder-website', '/services', '/studio', '/journal', '/contact', '/nope']
 const VIEWPORTS = [
   { w: 320, h: 800, tag: 'xs' },
   { w: 390, h: 844, tag: 'sm' },

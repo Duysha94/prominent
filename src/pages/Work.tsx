@@ -7,9 +7,10 @@ import { cn } from '../lib/cn'
 
 const FILTERS = [
   { id: 'all', label: 'All' },
-  { id: 'advise', label: 'Advise' },
-  { id: 'build', label: 'Build' },
-  { id: 'grow', label: 'Grow' },
+  { id: 'strategy', label: 'Strategy' },
+  { id: 'identity', label: 'Identity' },
+  { id: 'production', label: 'Production' },
+  { id: 'presence', label: 'Presence' },
 ] as const
 
 export function Work() {
@@ -20,7 +21,7 @@ export function Work() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]['id']>('all')
 
   const items = useMemo(
-    () => (filter === 'all' ? WORK : WORK.filter((c) => c.lanes.includes(filter))),
+    () => (filter === 'all' ? WORK : WORK.filter((c) => c.movements.includes(filter))),
     [filter],
   )
 
@@ -31,8 +32,8 @@ export function Work() {
           level="h1"
           folio="01"
           eyebrow="Index"
-          title="Every brand, and the lane it came through."
-          lead="Filter by what we actually did. Most of these ran through more than one lane — that is usually the point."
+          title="Every project, and the movement it came through."
+          lead="Filter by what we actually did. Most of these ran through more than one movement — that is usually the point."
         />
 
         {/* Filters are real links to state, sized for touch, and the active one
@@ -41,7 +42,7 @@ export function Work() {
           {FILTERS.map((f) => {
             const active = filter === f.id
             const count =
-              f.id === 'all' ? WORK.length : WORK.filter((c) => c.lanes.includes(f.id)).length
+              f.id === 'all' ? WORK.length : WORK.filter((c) => c.movements.includes(f.id)).length
             return (
               <button
                 key={f.id}

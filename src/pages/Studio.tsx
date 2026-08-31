@@ -3,93 +3,128 @@ import { Reveal } from '../components/primitives/Reveal'
 import { Marquee } from '../components/primitives/Marquee'
 import { MeasureFrame } from '../components/primitives/MeasureFrame'
 import { Plate } from '../components/primitives/Plate'
-import { STUDIO, CREDENTIALS } from '../data/studio'
+import { STUDIO, FOUNDERS, LIVE } from '../data/studio'
 import { usePageMeta } from '../lib/usePageMeta'
 
-/** PLACEHOLDER CONTENT — see data/studio.ts. */
-const PRINCIPLES = [
-  {
-    title: 'We say the number',
-    body: 'Blended, not last-click. With the window and the channel mix attached. If it is down, it is in the report in the same size type as when it is up.',
-  },
-  {
-    title: 'One page or it is not finished',
-    body: 'A position that needs twelve slides to explain is a position nobody in your team will remember on a Tuesday. We write it until it fits on one page.',
-  },
-  {
-    title: 'We do not take competing brands',
-    body: 'One label per category at a time. It costs us work and it is the only way the advice stays worth having.',
-  },
-  {
-    title: 'The build is not a handover',
-    body: 'The people who wrote the position build the store and run the media. Nothing is explained twice, and nothing is lost explaining it.',
-  },
-]
-
+/**
+ * ABOUT — two named people, not a "we".
+ *
+ * This is the highest-value page on the site and it is the one most agencies
+ * waste. A studio's credibility is not its adjectives; it is who is actually
+ * going to do the work and what they have already done. Konstantin founded
+ * two international fashion platforms and ran a regional branch of an
+ * advertising holding for nine years; Andrey has run retail for emerging
+ * designers and founded a media title. Those are checkable facts and they
+ * answer a client's real question, which is "why you".
+ *
+ * So the founders get the page, in full, with their own words — and the
+ * studio's philosophy sits underneath them rather than above.
+ */
 export function Studio() {
   usePageMeta(
-    'Studio — AK Brand Development Studio',
-    'How the studio works, what it refuses, and who it is for.',
+    'About the studio — AK Brand Development Studio',
+    'An independent creative and strategic practice in London, founded by Konstantin Lieontiev and Andrey Karakushan. Brand development, fashion consulting and creative production.',
   )
 
   return (
     <div className="pt-28 md:pt-36">
       <header className="mx-auto max-w-[1440px] px-5 md:px-10">
         <p className="font-mono text-[0.5625rem] uppercase tracking-[0.22em] text-[var(--accent-text)]">
-          Studio — est. {STUDIO.founded}
+          The studio — {STUDIO.city}, {STUDIO.country}
         </p>
         <CutText
           as="h1"
           trigger="mount"
           delay={0.15}
-          className="mt-6 max-w-[15ch] font-display text-[clamp(2.5rem,8vw,6rem)] italic leading-[0.9] tracking-[-0.03em] text-[var(--text)]"
+          className="mt-6 max-w-[17ch] font-display text-[clamp(2.5rem,8vw,6rem)] italic leading-[0.9] tracking-[-0.03em] text-[var(--text)]"
         >
-          A small studio that holds the whole line.
+          An independent practice at the intersection of strategy and production.
         </CutText>
-        <p className="mt-8 max-w-[58ch] text-[clamp(0.9375rem,1.5vw,1.125rem)] leading-relaxed text-[var(--text-muted)]">
-          {STUDIO.promise}
+        <p className="mt-8 max-w-[62ch] text-[clamp(0.9375rem,1.5vw,1.125rem)] leading-relaxed text-[var(--text-muted)]">
+          {STUDIO.description} The studio supports founders, designers and businesses in building
+          strong brand identities, developing strategic positioning and creating meaningful
+          visibility through creative campaigns, events and media presence.
         </p>
       </header>
 
-      <div className="mx-auto mt-16 max-w-[1440px] px-5 md:px-10">
-        <MeasureFrame
-          always
-          label="The workroom"
-          measures={[
-            { key: 'FOUNDED', value: String(STUDIO.founded), edge: 'right', at: 0.3 },
-            { key: 'BRANDS', value: '40+', edge: 'right', at: 0.66 },
-          ]}
-        >
-          <Plate
-            seed="studio-portrait"
-            tint={40}
-            label="Studio"
-            className="aspect-[16/6] w-full overflow-hidden"
-          />
-        </MeasureFrame>
-        {/* Honest about the placeholder rather than passing a generated image
-            off as a photograph — see the note in the concept documentation. */}
-        <p className="mt-3 font-mono text-[0.5rem] uppercase tracking-[0.16em] text-[var(--text-faint)]">
-          Placeholder — replace with commissioned studio photography, dithered to two brand colours
-        </p>
-      </div>
-
-      <section className="mx-auto mt-24 max-w-[1440px] px-5 md:px-10">
+      {/* ── The founders ────────────────────────────────────────────────── */}
+      <section className="mx-auto mt-20 max-w-[1440px] px-5 md:mt-28 md:px-10">
         <h2 className="font-mono text-[0.5625rem] uppercase tracking-[0.22em] text-[var(--text-muted)]">
-          How we work
+          Founded by
         </h2>
-        <ul className="mt-8 grid gap-px border border-[var(--rule)] bg-[var(--rule)] md:grid-cols-2">
-          {PRINCIPLES.map((p, i) => (
-            <Reveal key={p.title} as="li" delay={i * 0.05}>
-              <div className="h-full bg-[var(--bg)] p-7">
+
+        <div className="mt-10 space-y-20 md:space-y-28">
+          {FOUNDERS.map((person, i) => (
+            <article
+              key={person.id}
+              id={person.id}
+              className="grid scroll-mt-28 gap-8 border-t border-[var(--rule)] pt-10 md:grid-cols-[minmax(0,22rem)_1fr] md:gap-14"
+            >
+              <div className="md:sticky md:top-28 md:self-start">
+                <MeasureFrame
+                  always
+                  label={person.name}
+                  measures={person.facts.map((f, j) => ({
+                    key: f.key,
+                    value: f.value,
+                    edge: j === 1 ? 'left' : 'right',
+                    at: 0.28 + j * 0.24,
+                  }))}
+                >
+                  <Plate
+                    seed={person.id}
+                    tint={i === 0 ? 34 : 210}
+                    className="aspect-[4/5] w-full overflow-hidden border border-[var(--rule)]"
+                  />
+                </MeasureFrame>
+                <p className="mt-2 font-mono text-[0.5rem] uppercase tracking-[0.16em] text-[var(--text-faint)]">
+                  Placeholder — replace with a portrait
+                </p>
+              </div>
+
+              <div>
                 <span className="font-mono text-[0.5rem] tabular-nums text-[var(--text-faint)]">
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <h3 className="mt-3 font-display text-[clamp(1.25rem,2.6vw,1.875rem)] italic leading-tight text-[var(--text)]">
-                  {p.title}
+                <h3 className="ak-vf mt-3 font-display text-[clamp(2rem,5vw,3.5rem)] italic leading-[0.95] text-[var(--text)]">
+                  {person.name}
                 </h3>
+                <p className="mt-3 font-mono text-[0.5625rem] uppercase tracking-[0.16em] text-[var(--accent-text)]">
+                  {person.role}
+                </p>
+                <div className="mt-7 space-y-5">
+                  {person.bio.map((para) => (
+                    <p
+                      key={para.slice(0, 24)}
+                      className="max-w-[62ch] text-[0.9375rem] leading-relaxed text-[var(--text-muted)]"
+                    >
+                      {para}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ── What the founders built ─────────────────────────────────────── */}
+      <section className="mx-auto mt-24 max-w-[1440px] px-5 md:px-10">
+        <h2 className="font-mono text-[0.5625rem] uppercase tracking-[0.22em] text-[var(--text-muted)]">
+          Platforms and brands we founded
+        </h2>
+        <ul className="mt-8 grid gap-px border border-[var(--rule)] bg-[var(--rule)] md:grid-cols-2">
+          {STUDIO.platforms.map((platform, i) => (
+            <Reveal key={platform.name} as="li" delay={i * 0.05}>
+              <div className="h-full bg-[var(--bg)] p-7">
+                <h3 className="font-display text-[clamp(1.25rem,2.6vw,1.875rem)] italic leading-tight text-[var(--text)]">
+                  {platform.name}
+                </h3>
+                <p className="mt-3 font-mono text-[0.5rem] uppercase tracking-[0.14em] text-[var(--accent-text)]">
+                  {platform.role}
+                </p>
                 <p className="mt-3 max-w-[46ch] text-[0.875rem] leading-relaxed text-[var(--text-muted)]">
-                  {p.body}
+                  {platform.note}
                 </p>
               </div>
             </Reveal>
@@ -101,23 +136,24 @@ export function Studio() {
         <Marquee
           className="ak-accent-field border-y border-[var(--rule-strong)] py-5"
           speed={48}
-          label="Studio credentials"
+          label="Studio facts"
         >
-          {CREDENTIALS.map((c) => (
+          {LIVE.map((item) => (
             <span
-              key={c.label}
-              className="flex items-baseline gap-3 px-8 font-mono text-[0.6875rem] uppercase tracking-[0.16em]"
+              key={item.value}
+              className="flex items-baseline gap-3 whitespace-nowrap px-8 font-mono text-[0.6875rem] uppercase tracking-[0.16em]"
             >
-              {c.label}
-              <span className="opacity-60">{c.meta}</span>
+              <span className="opacity-60">{item.key}</span>
+              {item.value}
             </span>
           ))}
         </Marquee>
       </div>
 
+      {/* ── How we work ─────────────────────────────────────────────────── */}
       <section className="mx-auto mb-24 mt-24 max-w-[1440px] px-5 md:px-10">
         <h2 className="font-mono text-[0.5625rem] uppercase tracking-[0.22em] text-[var(--text-muted)]">
-          What we will not do
+          How we work
         </h2>
         <ul className="mt-8 max-w-[62ch] space-y-4">
           {STUDIO.care.map((line) => (

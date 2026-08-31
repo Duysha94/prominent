@@ -24,8 +24,8 @@ export function Home() {
           <SectionHead
             folio="02"
             eyebrow="Selected work"
-            title="Six brands, and what actually changed."
-            lead="Read it like a contents page. Open a line to see the measurements."
+            title="Selected work, and what it moved."
+            lead="Read it like a contents page. Open a line to see the work."
             aside={
               <Link
                 to="/work"

@@ -1,7 +1,9 @@
 # AK Brand Development Studio — website concept
 
-**Status:** design concept + working prototype. Content is placeholder (see
-[Open questions](#open-questions)).
+**Status:** design concept + working prototype.
+Studio, founders and services copy is **real**, from the founders' brief. Case
+studies, imagery and the hero video are **placeholders** — see §11.
+**Live preview:** `https://duysha94.github.io/prominent/` (noindex).
 **Accent:** `#f37021` · **Language:** English · **Production target:** WordPress
 on the Zeyna theme shell.
 
@@ -9,21 +11,34 @@ on the Zeyna theme shell.
 
 ## 1. The problem this design solves
 
-AK sells three things that normally come from three different companies:
+AK is an independent creative and strategic practice. It does brand
+development and positioning, personal brand strategy, identity and creative
+direction, marketing and communication, photo and video campaign production,
+events and fashion show production, industry PR, websites and digital
+promotion.
 
-1. fashion & brand advisory,
-2. website and e-commerce development,
-3. Meta and Google Ads.
+That is nine services. Presented as a list, nine services read as a **menu** —
+and a menu invites a client to buy one item and go elsewhere for the rest,
+which is the opposite of what this studio is for.
 
-Presented as a service list, that reads as a bag of unrelated skills — and the
-default agency layout (a three-column "Branding / Web / Ads" grid with line
-icons) actively makes it worse. It says nothing, and it invites the reader to
-buy one item from the menu.
+The founders' own sentence gives the better structure:
 
-**The concept's whole job is to make those three read as one practice.** Every
-structural decision below is downstream of that.
+> **From the initial idea to international presence.**
 
----
+That is a sequence, not a list. So the site is built as one.
+
+**And there is a second, larger problem the design has to solve: the studio's
+single strongest asset is buried.** Konstantin Lieontiev founded and produces
+**London Fashion Day** and **Odessa Fashion Day**. Most studios advising a
+young designer have to *ask someone else* for a runway slot. These founders own
+the platform. That is not a claim a competitor can copy — it is a fact about
+who they are, and it is the answer to the only question a designer actually
+has, which is "can you get my collection in front of people, or can you only
+advise me about it?"
+
+So it leads. It is in the hero, it is the one full-bleed section, and it has a
+section of its own.
+
 
 ## 2. The idea: the tech pack
 
@@ -32,20 +47,21 @@ manufacturable, sellable product: measurements, callouts, materials,
 construction notes. It is the artefact where craft and commerce meet, and it is
 exactly what AK does for a brand.
 
-So the site *is* a tech pack. That gives us one visual language — annotation,
-measurement, specification — that applies equally to a silhouette, a checkout
-funnel and an ad account. The claim "we measure everything, including the
-things agencies usually hand-wave" stops being a sentence in an About page and
-becomes the interface.
+So the site *is* a tech pack. That gives one visual language — annotation,
+measurement, specification — that applies equally to a silhouette, a runway
+running order and a product page. For a practice whose centre of gravity is
+*production*, this is not a borrowed metaphor: it is the actual document the
+work passes through.
 
 Four devices carry it:
 
 ### The Measure Frame
 Hover, focus, or simply scroll to any significant block and thin annotation
-lines snap around it with real figures attached — `ROAS 4.8×`, `LCP 0.9s`,
-`SKU 900 → 90`. It is drawn like a garment spec drawing and populated with
-business numbers. This single mechanism is what unifies the three lanes: the
-same measuring eye applied to a coat and to a conversion rate.
+lines snap around it with figures attached — `LOOKS 24`, `PRESS 38`,
+`RUNWAY LDN`, `LCP 0.9s`. It is drawn like a garment spec drawing and populated
+with the numbers this studio actually works in. This single mechanism is what
+unifies four movements: the same measuring eye applied to a silhouette, to a
+show, and to a page.
 → `src/components/primitives/MeasureFrame.tsx`
 
 ### The Seam
@@ -87,7 +103,7 @@ template-tier:
 | Sticky list with a cursor-trailing thumbnail | Available as a free Framer component; the visual equivalent of a stock photo | Rows expand **in place**, so it works identically under keyboard and touch |
 | Bento grid | The 2026 default, not a choice | A print editorial grid on CSS subgrid |
 | Horizontal-scroll pinned case studies | Breaks reflow at 400% zoom, fights the scrollbar | A publication **contents page** |
-| Client-logo / service-word marquee | Communicates nothing, continuous compositor cost | The marquee carries **live studio figures** — spend managed, campaigns live, builds shipping |
+| Client-logo / service-word marquee | Communicates nothing, continuous compositor cost | The band carries **checkable facts** — the platforms the founders built, and the cities they work across |
 | Magnetic pull on every CTA | A few clicks from any no-code builder | Exactly one magnetic control per region, and the expressive part is a tick that *measures* the button |
 | Instrument Serif / PP Editorial New | The 2026 shorthand for "no type budget" | Fraunces (below) |
 | Inter / Geist | Appear in ~90% of design output; read as undesigned | Bricolage Grotesque (below) |
@@ -204,63 +220,111 @@ entirely — but no information ever disappears.
 ## 7. Structure
 
 ```
-/                 Hero (the swatch) → the argument (full-bleed accent)
-                  → work contents → the readout → journal
-/work             Contents page, filterable by lane
-/work/:slug       Case study — branches by the lane that LED the work
-/services         Three lanes, each stating what it HANDS OVER to the next
-/studio           How the studio works, and what it refuses
+/                 Hero → the argument (full-bleed accent) → selected work
+                  → what we founded → journal
+/work             Contents page, filterable by movement
+/work/:slug       Case study — branches by the movement that LED the work
+/services         Four movements, each stating what it HANDS OVER to the next
+/studio           The two founders, in full, then what they founded
 /journal          Notes
 /contact          The Brief — a measuring instrument, not a form
 ```
 
-Two structural decisions do the heavy lifting:
+Four structural decisions do the heavy lifting:
 
-**Services states handovers, not features.** Each lane declares what it leaves
-the next one — advisory leaves a written position the build can lay out; the
-build leaves a store that is fast and tracked enough to receive paid traffic;
-media feeds what it learns back into advisory. The page is a chain, not a menu,
-so the argument for buying all three is built into the layout rather than
+**Nine services become four movements.** Strategy → Identity → Production →
+Presence. Every service from the brief appears exactly once, in the movement
+where it belongs. Nothing was dropped and nothing was invented.
+
+**Each movement states its handover.** Strategy leaves Identity a written
+position to design against; Identity leaves Production a system that holds at
+campaign scale; Production leaves Presence real assets and real coverage;
+Presence feeds what the audience does back into Strategy. The page is a chain,
+so the argument for the whole practice is built into the layout rather than
 asserted in a paragraph.
 
-**Case studies branch by lane.** A brand identity, a shipped store and a media
-account are not the same kind of evidence, and forcing them through one
-template is what makes a mixed portfolio read as three departments.
+**The founders get the About page, in full.** A studio's credibility is not its
+adjectives — it is who is going to do the work and what they have already done.
+Nine years running a regional branch of an advertising holding, two
+international fashion platforms founded, a multi-brand retail space, a media
+title. Those are checkable, and they are the page.
 
-- `advise` → **The Spread.** The position set at full display size, with the
-  three rejected lines struck through beneath it. Showing the rejects is the
+**Case studies branch by movement.** A position, a campaign and a website are
+not the same kind of evidence.
+
+- `strategy` / `identity` → **The Spread.** The position at full display size,
+  with the rejected lines struck through beneath it. Showing the rejects is the
   point: any studio can present the line it arrived at.
-- `build` → **The Walkthrough.** The store at real device proportions, with
-  before/after field data as a table.
-- `grow` → **The Performance Surface.** The actual ad creative at the ratio it
-  ran at with CTR attached, next to eight weeks of spend and blended ROAS.
-
-That last one is the site's one deliberately strange page. Paid advertising is
-the service line agencies hide behind a testimonial, which is precisely why
-art-directing it is unoccupied ground — and it is the work a fashion founder is
-most sceptical about.
+- `production` → **The Production Surface.** The work at the ratios it was made
+  for, next to the eight weeks that followed — reach and press reported
+  separately, never blended into one flattering number. This is the studio's
+  crown jewel and the page most worth art-directing.
+- `presence` → **The Walkthrough.** The site at real device proportions with
+  before/after field data.
 
 **The Brief** replaces "tell us about your project" with four questions a
 founder can answer without thinking, and returns a spec sheet that recalculates
-live: which lanes they need (including ones they did not ask for, and why),
-a realistic shape of engagement, and what we would need from them to start. The
-visitor leaves with something even if they never send it.
+live — including movements they did not ask for, and why. The visitor leaves
+with something even if they never send it.
 
----
+## 8. SEO
 
-## 8. Charts
+SEO here is content and markup, not a plugin.
 
-Spend and ROAS are different scales, so they are **two charts sharing an x
-axis**, never a dual-axis plot. A dual axis lets you place the two series'
-crossings anywhere by choosing the scales, which is indefensible on a page
-whose argument is that the numbers are honest. One series per panel means no
+**Every route is prerendered to a real HTML file** by `scripts/prerender.mjs`
+after the Vite build, each with its own `<title>`, meta description, canonical,
+Open Graph and Twitter tags, and JSON-LD. A React SPA otherwise ships one
+`index.html` and rewrites the title in JavaScript after paint — which a crawler
+may never execute and a social scraper certainly will not. That single fact is
+the biggest SEO failure mode of a React marketing site.
+
+The same pass writes `sitemap.xml`, `robots.txt`, and a `404.html` fallback,
+which is also what makes deep links work on static hosting.
+
+**Structured data** is a linked graph rather than a lone Organization blob:
+
+- `ProfessionalService` + `Organization` with address, `areaServed`
+  (London / Paris / Dubai), `knowsAbout`, and an `OfferCatalog` generated from
+  the four movements and every service in them;
+- a `Person` node per founder, referenced by `@id` from the organisation's
+  `founder`, each with `founderOf` pointing at London Fashion Day, Odessa
+  Fashion Day, KEKA and Cool'baba — so a search engine can connect Konstantin
+  to the platforms instead of treating them as unrelated strings;
+- `BreadcrumbList` per page, `WebSite` for the site itself.
+
+**Titles and descriptions** are hand-written in `src/data/seo.ts`, one intent
+per page, under ~60 and ~155 characters so neither is truncated into nonsense.
+Every claim in a description is one the page actually makes.
+
+**On-page**: exactly one `<h1>` per route (asserted by the QA harness), a real
+heading hierarchy, `<time datetime>` on entries, tables as tables, and the
+split-text headline reveal carrying its full string on the wrapper's
+`aria-label` — so a crawler and a screen reader both read one sentence rather
+than fragments.
+
+**The preview build is `noindex`** with a disallowing `robots.txt`, so the
+staging copy on `github.io` cannot compete with `akbrand.studio` or put
+placeholder copy into search results.
+
+**In production this gets better, not worse.** WordPress renders all of it
+server-side natively; the prerender script exists to make the prototype honest
+in the meantime.
+
+
+## 9. Charts
+
+Campaign reach is in the hundreds of thousands and press mentions are in the
+tens, so they are **two charts sharing an x axis**, never a dual-axis plot. A
+dual axis lets you place the two series' crossings anywhere by choosing the
+scales, which is indefensible on a page whose argument is that the numbers are
+honest. One series per panel means no
 legend is needed; only the final value is directly labelled; the grid is
 recessive; and the accessible representation is a real `<table>` that is always
 in the DOM.
 
 ---
 
-## 9. Performance & accessibility contract
+## 10. Performance & accessibility contract
 
 | Budget | Target | Current |
 |---|---|---|
@@ -345,17 +409,24 @@ re-measure if transitions get more elaborate.
 
 ---
 
-## 10. Open questions
+## 11. Open questions
 
-1. **The agency brief never arrived in this session.** Every string in
-   `src/data/*` is placeholder — structurally correct (right length, tone and
-   shape for the layouts) and factually invented, including all metrics, client
-   names and the `studio@akbrand.dev` address. Nothing in the design depends on
-   these particular words. **Replace before anything goes near a client.**
-2. **Photography.** The plates are procedural duotone halftones. They are a
-   deliberate placeholder, not a proposal to ship a site with no photography —
-   budget one shoot and put it through the same halftone treatment.
-3. **The hero video** currently points at a third-party demo HLS stream from
-   the original brief. Replace with the studio's own footage.
-4. **Is `AK` the wordmark, or is there an existing logotype?** The header
-   currently sets it in Fraunces italic.
+1. **What is real and what is not.**
+   *Real, from the founders' brief:* the studio description, the nine services,
+   both founder biographies, London Fashion Day, Odessa Fashion Day, KEKA,
+   Cool'baba, London / Paris / Dubai, and the `akbrand.studio` domain.
+   *Placeholder, to be replaced:* every case study in `src/data/work.ts`, every
+   journal entry, the `hello@akbrand.studio` address, and the Instagram and
+   LinkedIn URLs in the footer.
+2. **Photography.** The plates are procedural duotone halftones — a deliberate
+   placeholder, not a proposal to ship without photography. The founders'
+   portraits in particular are labelled as placeholders on the page itself.
+   Budget one shoot and put it through the same halftone treatment.
+3. **The hero video.** Drop two files into `public/media/` — see the README
+   there for the spec. Until they exist the hero shows its drawn plate, which
+   is the intended fallback rather than a broken state.
+4. **The logotype.** The header currently sets `AK` in Fraunces italic as a
+   placeholder. Supply an SVG and it swaps in one component.
+5. **Zeyna has no light/dark mode.** The brief asked to keep it; the theme does
+   not have one. This prototype's two-mode system is the answer — see
+   `docs/WORDPRESS-ZEYNA.md` §6.

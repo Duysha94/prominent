@@ -1,20 +1,20 @@
 import { Link, useParams } from 'react-router-dom'
-import { WORK, laneLabel } from '../data/work'
+import { WORK, movementTag } from '../data/work'
 import { CutText } from '../components/primitives/CutText'
 import { MeasureFrame } from '../components/primitives/MeasureFrame'
 import { Plate } from '../components/primitives/Plate'
 import { Reveal } from '../components/primitives/Reveal'
 import { CaseSpread } from '../components/case/CaseSpread'
 import { CaseWalkthrough } from '../components/case/CaseWalkthrough'
-import { CasePerformance } from '../components/case/CasePerformance'
+import { CaseProduction } from '../components/case/CaseProduction'
 import { NotFound } from './NotFound'
 import { usePageMeta } from '../lib/usePageMeta'
 
 /**
  * A case study opens the same way every time — measured plate, chapters, each
- * with its measurement in the margin — and then branches. The lane that LED
- * the engagement picks the body template: a spread for advisory, a walkthrough
- * for a build, a performance surface for media.
+ * with its measurement in the margin — and then branches. The movement that
+ * LED the work picks the body template: a spread for strategy and identity, a
+ * production surface for a show or campaign, a walkthrough for a website.
  *
  * Forcing three different kinds of work through one layout is what makes a
  * mixed portfolio read as three unrelated departments; giving each its own
@@ -47,9 +47,9 @@ export function CaseStudyPage() {
           <span>{study.category}</span>
           <span>{study.year}</span>
           <span className="flex gap-1.5">
-            {study.lanes.map((l) => (
+            {study.movements.map((l) => (
               <span key={l} className="border border-[var(--rule-strong)] px-1.5 py-0.5">
-                {laneLabel[l]}
+                {movementTag[l]}
               </span>
             ))}
           </span>
@@ -116,9 +116,9 @@ export function CaseStudyPage() {
 
       {/* The lane that led decides the shape of the evidence. */}
       <div className="mt-20 md:mt-28">
-        {study.lead === 'advise' && <CaseSpread study={study} />}
-        {study.lead === 'build' && <CaseWalkthrough study={study} />}
-        {study.lead === 'grow' && <CasePerformance study={study} />}
+        {(study.lead === 'strategy' || study.lead === 'identity') && <CaseSpread study={study} />}
+        {study.lead === 'production' && <CaseProduction study={study} />}
+        {study.lead === 'presence' && <CaseWalkthrough study={study} />}
       </div>
 
       <div className="mx-auto max-w-[1440px] px-5 md:px-10">

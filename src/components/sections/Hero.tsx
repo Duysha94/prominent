@@ -9,7 +9,7 @@ import { useBackgroundVideo } from '../../lib/useBackgroundVideo'
 import { useReducedMotion } from '../../lib/useReducedMotion'
 import { EASE } from '../../lib/motion'
 import { STUDIO } from '../../data/studio'
-import { LANES } from '../../data/services'
+import { MOVEMENTS } from '../../data/services'
 
 /**
  * PLACEHOLDER ASSETS — supply the studio's own 8–12s silent loop.
@@ -21,8 +21,8 @@ import { LANES } from '../../data/services'
  * bitrate. HLS earns its weight on long-form video with real bandwidth
  * adaptation; it earns nothing here.
  */
-const SWATCH_AV1 = '/media/swatch.av1.mp4'
-const SWATCH_H264 = '/media/swatch.h264.mp4'
+const SWATCH_AV1 = `${import.meta.env.BASE_URL}media/swatch.av1.mp4`
+const SWATCH_H264 = `${import.meta.env.BASE_URL}media/swatch.h264.mp4`
 
 /**
  * THE SWATCH — the hero.
@@ -62,18 +62,18 @@ export function Hero() {
         >
           <span className="text-[var(--accent-text)]">{STUDIO.discipline}</span>
           <span aria-hidden="true" className="h-px w-8 bg-[var(--rule-strong)]" />
-          <span>Est. {STUDIO.founded}</span>
-          <span aria-hidden="true" className="h-px w-8 bg-[var(--rule-strong)]" />
           <span>{STUDIO.city}</span>
+          <span aria-hidden="true" className="h-px w-8 bg-[var(--rule-strong)]" />
+          <span>{STUDIO.cities.join(' · ')}</span>
         </motion.p>
 
         <CutText
           as="h1"
           trigger="mount"
           delay={0.25}
-          className="mt-8 max-w-[13ch] font-display text-[clamp(3rem,11vw,10rem)] italic leading-[0.88] tracking-[-0.03em] text-[var(--text)]"
+          className="mt-8 max-w-[15ch] font-display text-[clamp(3rem,11vw,10rem)] italic leading-[0.88] tracking-[-0.03em] text-[var(--text)]"
         >
-          The measure of a brand.
+          From an idea to an international presence.
         </CutText>
 
         <div className="mt-10 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
@@ -84,6 +84,10 @@ export function Hero() {
             transition={{ duration: 0.9, ease: EASE.cut, delay: 0.6 }}
           >
             {STUDIO.promise}
+            <span className="mt-4 block text-[var(--text)]">
+              We founded London Fashion Day and Odessa Fashion Day — so the runway our clients
+              walk on is one we built.
+            </span>
           </motion.p>
 
           <motion.div
@@ -104,7 +108,7 @@ export function Hero() {
               to="/contact"
               className="border border-[var(--rule-strong)] px-6 py-3.5 font-mono text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text)] transition-colors hover:border-[var(--accent-line)] hover:text-[var(--accent-text)]"
             >
-              Start a brief
+              Start a project
             </Link>
           </motion.div>
         </div>
@@ -119,9 +123,9 @@ export function Hero() {
         >
           <MeasureFrame
             always
-            label="Material — SS26"
+            label="Showreel — SS26"
             measures={[
-              { key: 'LANES', value: '03', edge: 'right', at: 0.5 },
+              { key: 'MOVEMENTS', value: '03', edge: 'right', at: 0.5 },
               { key: 'BRANDS', value: '40+', edge: 'left', at: 0.5 },
             ]}
           >
@@ -164,11 +168,11 @@ export function Hero() {
           </MeasureFrame>
         </motion.div>
 
-        {/* The three lanes, stated immediately — the site's argument up front. */}
-        <ul className="mt-14 grid gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-3">
-          {LANES.map((lane, i) => (
+        {/* The four movements, stated immediately — the site's argument up front. */}
+        <ul className="mt-14 grid gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-2 lg:grid-cols-4">
+          {MOVEMENTS.map((movement, i) => (
             <motion.li
-              key={lane.id}
+              key={movement.id}
               className="bg-[var(--bg)]"
               initial={reduced ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -178,16 +182,16 @@ export function Hero() {
                 delay: 0.85 + i * 0.08,
               }}
             >
-              <Link to={`/services#${lane.id}`} className="group block p-6">
+              <Link to={`/services#${movement.id}`} className="group block p-6">
                 <span className="flex items-baseline gap-2 font-mono text-[0.5rem] uppercase tracking-[0.2em] text-[var(--text-faint)]">
-                  {lane.index}
+                  {movement.index}
                   <span className="h-px flex-1 bg-[var(--rule)] transition-colors group-hover:bg-[var(--accent-line)]" />
                 </span>
                 <h2 className="mt-3 font-display text-2xl italic text-[var(--text)] transition-colors group-hover:text-[var(--accent-text)]">
-                  {lane.title}
+                  {movement.title}
                 </h2>
                 <p className="mt-2 text-[0.8125rem] leading-relaxed text-[var(--text-muted)]">
-                  {lane.claim}
+                  {movement.claim}
                 </p>
               </Link>
             </motion.li>
