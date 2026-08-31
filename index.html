@@ -32,12 +32,14 @@
     </script>
 
     <!--
-      Fonts are self-hosted and subset (see base.css). Only the two faces that
-      paint above the fold are preloaded; Martian Mono arrives with the rest of
-      the CSS because nothing in the first viewport is set in it.
+      Fonts are self-hosted and subset (see base.css). Exactly ONE face is
+      preloaded: Fraunces italic, which the H1 — the LCP element — is set in.
+      Preloading several fonts at highest priority ahead of the CSS is a common
+      own goal; each one competes with the thing that actually decides LCP.
+      Bricolage and Martian Mono arrive with the stylesheet, behind
+      metric-matched fallbacks that hold the layout still until they do.
     -->
     <link rel="preload" href="/fonts/fraunces-italic.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <div id="root"></div>

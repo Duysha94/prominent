@@ -55,6 +55,22 @@ for (const theme of ['dark', 'light']) {
       if (r.h1 !== 1) issues.push(`[${theme}/${vp.tag}] ${path} has ${r.h1} <h1>`)
       if (!r.main) issues.push(`[${theme}/${vp.tag}] ${path} missing #main skip target`)
       if (!r.title || r.title.length < 5) issues.push(`[${theme}/${vp.tag}] ${path} weak <title>: "${r.title}"`)
+
+      // WCAG 2.2.2 (Level A): anything auto-moving past five seconds needs a
+      // pause control that exists without hover — hover does not exist on
+      // touch, where most of the traffic is.
+      const marquee = await page.evaluate(() => {
+        const bands = [...document.querySelectorAll('[role="marquee"]')]
+        return bands.map((b) => {
+          const btn = b.querySelector('button')
+          if (!btn) return 'no control'
+          const cs = getComputedStyle(btn)
+          return cs.opacity === '0' || cs.display === 'none' || cs.visibility === 'hidden'
+            ? 'control hidden without hover'
+            : 'ok'
+        }).filter((x) => x !== 'ok')
+      })
+      marquee.forEach((m) => issues.push(`[${theme}/${vp.tag}] ${path} marquee: ${m}`))
     }
     await ctx.close()
   }

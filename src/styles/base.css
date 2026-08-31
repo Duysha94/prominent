@@ -173,7 +173,11 @@ html.lenis, html.lenis body { height: auto; }
 
 .ak-cut-half {
   display: block;
-  will-change: transform, opacity;
+  /* Deliberately no `will-change`. In a static selector it permanently
+     promotes every match to its own compositor layer (roughly w x h x 4 bytes
+     of GPU memory each, on every headline on the page). GSAP's default
+     force3D:'auto' promotes for the duration of the tween and un-promotes
+     afterwards, which is what we actually want. */
 }
 /* Each half shows exactly one side of the line's horizontal midline. The
    bottom copy is pulled back up over the top copy so the two read as one. */
@@ -631,6 +635,7 @@ p, li      { text-wrap: pretty; }
   font-weight: 100 900;
   font-display: swap;
   src: url('/fonts/fraunces-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+2000-206F, U+20A0-20CF, U+2122, U+2212;
 }
 @font-face {
   font-family: 'Bricolage Grotesque';
@@ -638,6 +643,7 @@ p, li      { text-wrap: pretty; }
   font-weight: 200 800;
   font-display: swap;
   src: url('/fonts/bricolage.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+2000-206F, U+20A0-20CF, U+2122, U+2212;
 }
 @font-face {
   font-family: 'Martian Mono';
@@ -645,19 +651,20 @@ p, li      { text-wrap: pretty; }
   font-weight: 100 800;
   font-display: swap;
   src: url('/fonts/martian-mono.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0100-017F, U+2000-206F, U+20A0-20CF, U+2122, U+2212;
 }
 
 /* Metric-matched fallbacks, so the pre-swap frame occupies the same space. */
 @font-face {
   font-family: 'Fraunces Fallback';
-  src: local('Times New Roman'), local('Times');
+  src: local('Times New Roman'), local('Times'), local('Noto Serif'), local('Droid Serif');
   size-adjust: 104%;
   ascent-override: 92%;
   descent-override: 24%;
 }
 @font-face {
   font-family: 'Bricolage Fallback';
-  src: local('Arial'), local('Helvetica');
+  src: local('Arial'), local('Helvetica'), local('Roboto'), local('Helvetica Neue');
   size-adjust: 101%;
   ascent-override: 94%;
   descent-override: 24%;

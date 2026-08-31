@@ -18,8 +18,11 @@ export const getLenis = () => lenis
  * a smooth-scroll library is defensible at all. The transform-hijack pattern
  * is an accessibility failure and is not used here.
  *
- * It is switched off entirely under `prefers-reduced-motion`, and it must stay
- * off any section using CSS `scroll-snap`, which it is documented to fight.
+ * It is switched off entirely under `prefers-reduced-motion` — by guarding the
+ * constructor, NOT by trusting Lenis's own `respectReducedMotion` option,
+ * which only makes programmatic `scrollTo()` instant and leaves wheel
+ * hijacking running at full lerp. It must also stay off any section using CSS
+ * `scroll-snap`, which it is documented to fight.
  * If a future section needs snapping, opt it out with `data-lenis-prevent`
  * rather than tuning Lenis around it.
  *
@@ -41,9 +44,12 @@ export function useLenis() {
       autoRaf: false,
       // Anchor jumps land below the fixed header instead of underneath it.
       anchors: { offset: -HEADER_OFFSET },
-      // Any scrollable panel inside the page (the figures table, a code block)
-      // keeps its own native scrolling instead of the page eating the gesture.
-      allowNestedScroll: true,
+      // NOT allowNestedScroll. That option walks the composed path from the
+      // wheel target to the scroller calling getComputedStyle and reading
+      // scrollHeight on each ancestor — a forced synchronous layout, inside a
+      // non-passive listener, refreshed every two seconds. Marking the two or
+      // three genuinely scrollable panels with `data-lenis-prevent` is a plain
+      // attribute check with no layout read.
     })
     lenis = instance
 
@@ -61,8 +67,20 @@ export function useLenis() {
       dispose = () => gsap.ticker.remove(tick)
     })
 
+    // Lenis ships no keyboard or focus handling at all. When a keyboard user
+    // Tabs to something below the fold the browser scrolls it into view
+    // natively, Lenis immediately fights that, and the page snaps back — so
+    // the focus bridge has to be built by hand.
+    const onFocusIn = (e: FocusEvent) => {
+      const el = e.target as HTMLElement | null
+      if (!el || el.closest('[data-lenis-prevent]')) return
+      instance.scrollTo(el, { immediate: true, offset: -HEADER_OFFSET })
+    }
+    document.addEventListener('focusin', onFocusIn)
+
     return () => {
       cancelled = true
+      document.removeEventListener('focusin', onFocusIn)
       dispose?.()
       instance.destroy()
       lenis = null

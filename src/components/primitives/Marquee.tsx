@@ -103,16 +103,20 @@ export function Marquee({
       onBlurCapture={() => setPaused(false)}
     >
       {!reduced && (
+        // WCAG 2.2.2 is Level A and it is not satisfied by hover. Revealing
+        // this control on hover meant it did not exist on touch — where most
+        // of the traffic is — so it is now always visible, just quiet, and it
+        // gains contrast on hover and focus like any other control.
         <button
           type="button"
           onClick={() => setPaused((p) => !p)}
           aria-pressed={paused}
-          className="absolute right-2 top-1/2 z-10 -translate-y-1/2 border border-[var(--rule-strong)] bg-[var(--bg)] px-2 py-1 font-mono text-[0.5rem] uppercase tracking-[0.14em] text-[var(--text-muted)] opacity-0 transition-opacity focus-visible:opacity-100 group-hover/marquee:opacity-100"
+          className="absolute right-2 top-1/2 z-10 -translate-y-1/2 border border-[var(--rule)] bg-[var(--bg)] px-2 py-1 font-mono text-[0.5rem] uppercase tracking-[0.14em] text-[var(--text-faint)] transition-colors hover:border-[var(--accent-line)] hover:text-[var(--text)] focus-visible:text-[var(--text)]"
         >
           {paused ? 'Play' : 'Pause'}
         </button>
       )}
-      <div ref={track} className="flex w-max will-change-transform">
+      <div ref={track} className="flex w-max">
         {Array.from({ length: reduced ? 1 : repeat * 2 }, (_, i) => (
           <div key={i} className="flex shrink-0 items-center" aria-hidden={i > 0}>
             {children}

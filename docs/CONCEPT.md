@@ -254,17 +254,49 @@ in the DOM.
 
 | Budget | Target | Current |
 |---|---|---|
-| Initial JS (gzip) | < 150KB | **~138KB** |
+| Initial JS (gzip) | < 150KB | **~140KB** |
 | Fonts | < 200KB | **187KB** (3 variable families) |
-| CSS (gzip) | < 15KB | **~9KB** |
+| CSS (gzip) | < 15KB | **~10KB** |
 | LCP element | Text, never media | Hero headline |
 
-- GSAP (51KB gz) and hls.js (179KB gz) are dynamically imported; neither is in
-  the entry chunk. Routes are split; only Home ships eagerly.
+- **hls.js was removed.** The brief specified an HLS hero stream; measured in
+  this build, hls.js cost **176KB gzip** — 3.5x the GSAP chunk and nearly 2x
+  the entire React app — to adaptively stream a silent loop that has one
+  bitrate and never adapts. The hero is now a plain `<video>` with an AV1
+  source and an H.264 fallback, `preload="none"`, started after `load` and
+  only when it is on screen, not under Save-Data, and not on a 2G connection.
+- GSAP (51KB gz) is dynamically imported and not in the entry chunk. Routes are
+  split; only Home ships eagerly.
+- Exactly **one** font is preloaded — the face the H1 is set in. Preloading
+  several at highest priority ahead of the CSS is a common own goal.
+- **Known cost, stated rather than hidden: this ships two animation engines.**
+  GSAP (50.8KB) + Motion (47.1KB) = ~98KB gzip, and they overlap. GSAP is here
+  for SplitText and ScrollTrigger; Motion is here because the React surface is
+  declarative (`AnimatePresence`, `useScroll`, springs). The honest options are
+  (a) `LazyMotion` + `m` with the `domAnimation` feature set, worth roughly
+  19KB, or (b) consolidating onto GSAP outright. Both are real rearchitecture
+  decisions rather than a tidy-up, so they belong to the team that owns the
+  build, not to a late unverifiable refactor.
 - Reveals animate `transform`/`opacity` only — every revealed element occupies
   its final box from first paint, so no reveal can cause CLS.
-- Marquees pause on hover and focus and carry an explicit control (WCAG 2.2.2 —
-  now enforceable in the EU under the European Accessibility Act).
+- Marquees carry a pause control that is **always present, not revealed on
+  hover** — hover does not exist on touch, so a hover-revealed control fails
+  WCAG 2.2.2 (Level A) for most of the traffic. The QA harness asserts this.
+- **Lenis's own `respectReducedMotion` is not trusted.** In the shipped 1.3.26
+  source it only makes programmatic `scrollTo()` instant; wheel hijacking
+  continues at full lerp. The constructor is guarded instead.
+- **A focus bridge is built by hand.** Lenis ships no keyboard or focus
+  handling, so tabbing to anything below the fold makes the browser scroll it
+  into view while Lenis fights back, and the page snaps. A `focusin` listener
+  hands the scroll to Lenis instead.
+- `allowNestedScroll` is deliberately **off**: it walks the composed path
+  calling `getComputedStyle` and reading `scrollHeight` on every ancestor — a
+  forced synchronous layout inside a non-passive wheel listener. Scrollable
+  panels opt out with `data-lenis-prevent` instead, which is a plain attribute
+  check.
+- No `will-change` in any static selector. It permanently promotes every match
+  to its own compositor layer; GSAP's `force3D: 'auto'` promotes for the tween
+  and un-promotes after.
 - Every number reachable by hover is also reachable by keyboard focus, and
   appears automatically on touch. **Nothing is hover-only.**
 - The theme is resolved synchronously in `<head>` before first paint, so a dark
@@ -293,6 +325,13 @@ Two things that harness had to learn, both of which are easy to get wrong:
 
 **Not yet verified:** real-device Core Web Vitals, screen-reader passes with
 NVDA/VoiceOver, and 400% zoom reflow. Those need a staging URL.
+
+One thing to watch once there is one: with `web-vitals` v6, **soft navigations
+are measured**, so the route curtain is now visible to field data where it
+previously was not. The budget is that the incoming page's LCP element paints
+and the curtain lifts inside 1.2s — the current sequence is 480ms cover +
+480ms reveal with the swap at 480ms, which fits, but it is the first thing to
+re-measure if transitions get more elaborate.
 
 ---
 

@@ -56,6 +56,12 @@ export function loadGsap(): Promise<GsapBundle> {
     // Reveals fire slightly before the element is fully on screen, so the page
     // never feels like it is waiting for you.
     ScrollTrigger.defaults({ start: 'top 88%', toggleActions: 'play none none none' })
+
+    // Mobile browsers show and hide the URL bar constantly. Refreshing every
+    // trigger on each of those resizes is a forced-layout pass mid-scroll and
+    // a major source of mobile CLS. ScrollTrigger infers this from touch
+    // support; say it outright instead.
+    ScrollTrigger.config({ ignoreMobileResize: true })
     gsap.defaults({ ease: 'ak.cut', duration: 0.82 })
 
     return { gsap, ScrollTrigger, SplitText }

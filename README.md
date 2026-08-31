@@ -44,7 +44,7 @@ the same kind of evidence.
 ## Stack
 
 React 19 · Vite 8 · TypeScript · Tailwind v4 (CSS-first) · GSAP 3.15 ·
-Motion 13 · Lenis 1.3 · hls.js
+Motion 13 · Lenis 1.3
 
 Motion runs in two tiers: **CSS scroll-driven animation** for everything the
 platform can do on the compositor (0KB of JS, cannot affect INP), and **GSAP**,
@@ -52,9 +52,13 @@ lazily loaded, only for what the CSS spec deliberately excludes.
 
 | Budget | Target | Actual |
 |---|---|---|
-| Initial JS (gzip) | < 150KB | ~138KB |
+| Initial JS (gzip) | < 150KB | ~140KB |
 | Fonts | < 200KB | 187KB — 3 variable families, subset and axis-pruned from 737KB |
-| CSS (gzip) | < 15KB | ~9KB |
+| CSS (gzip) | < 15KB | ~10KB |
+
+The brief asked for an HLS hero. hls.js measured 176KB gzip in this build — 3.5x
+the GSAP chunk — to adaptively stream a silent loop that never adapts, so it was
+removed in favour of a plain gated `<video>`. See `docs/CONCEPT.md` §9.
 
 ---
 

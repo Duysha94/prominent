@@ -5,14 +5,24 @@ import { CutText } from '../primitives/CutText'
 import { MeasureFrame } from '../primitives/MeasureFrame'
 import { Magnetic } from '../primitives/Magnetic'
 import { Plate } from '../primitives/Plate'
-import { useHls } from '../../lib/useHls'
+import { useBackgroundVideo } from '../../lib/useBackgroundVideo'
 import { useReducedMotion } from '../../lib/useReducedMotion'
 import { EASE } from '../../lib/motion'
 import { STUDIO } from '../../data/studio'
 import { LANES } from '../../data/services'
 
-/** PLACEHOLDER ASSET — swap for the studio's own footage before launch. */
-const SWATCH_SRC = 'https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8'
+/**
+ * PLACEHOLDER ASSETS — supply the studio's own 8–12s silent loop.
+ *
+ * Two sources, AV1 first with an H.264 fallback. Deliberately NOT HLS: the
+ * original brief specified an HLS stream, and hls.js measured 176KB gzip in
+ * this build — 3.5x the GSAP chunk and nearly 2x the entire React app — to
+ * adaptively stream something that never adapts. A silent hero loop has one
+ * bitrate. HLS earns its weight on long-form video with real bandwidth
+ * adaptation; it earns nothing here.
+ */
+const SWATCH_AV1 = '/media/swatch.av1.mp4'
+const SWATCH_H264 = '/media/swatch.h264.mp4'
 
 /**
  * THE SWATCH — the hero.
@@ -31,7 +41,7 @@ const SWATCH_SRC = 'https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NY
 export function Hero() {
   const section = useRef<HTMLElement>(null)
   const reduced = useReducedMotion()
-  const { ref: videoRef } = useHls(SWATCH_SRC, !reduced)
+  const videoRef = useBackgroundVideo(!reduced)
 
   const { scrollYProgress } = useScroll({
     target: section,
@@ -128,14 +138,17 @@ export function Hero() {
               <video
                 ref={videoRef}
                 className="relative h-full w-full object-cover"
-                autoPlay
                 muted
                 loop
                 playsInline
                 preload="none"
+                disableRemotePlayback
                 aria-hidden="true"
                 tabIndex={-1}
-              />
+              >
+                <source src={SWATCH_AV1} type='video/mp4; codecs="av01.0.05M.08"' />
+                <source src={SWATCH_H264} type="video/mp4" />
+              </video>
               {/* Halftone, at a scale that reads as print screen rather than
                   as a generic "texture overlay". */}
               <div
