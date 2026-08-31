@@ -147,6 +147,16 @@ The ramp also **drifts in hue** — tints toward yellow-cream (H 62), shades
 toward rust-red (H 27) — because a ramp holding one hue at every step is the
 signature of an auto-generated palette.
 
+**On a P3 display the accent gets hotter.** The brand orange is chroma-limited
+by sRGB, not by choice: at L 0.692 / H 46.21, sRGB tops out at C 0.194 while
+Display-P3 reaches 0.221, so roughly 20% of the colour is being left on the
+table on any modern laptop or phone. Inside `@media (color-gamut: p3)` the
+accent steps up to C 0.217 with **lightness and hue held to four decimals** —
+which is what makes it safe, since every contrast figure above is a function of
+lightness alone. Guarded with both `@supports` and the gamut media query,
+because a wide-gamut-capable browser on an sRGB monitor will otherwise accept
+the declaration and clip it, ending up flatter than the value it replaced.
+
 Which produces the rule the whole palette hangs on:
 
 > **The brand orange is always a surface, never light-mode ink.**

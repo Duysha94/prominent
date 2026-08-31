@@ -110,3 +110,31 @@
   --spacing-gutter: 1.5rem;
   --radius-seam: 2px;    /* the house radius: almost none. Atelier, not app. */
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WIDE GAMUT
+   ═══════════════════════════════════════════════════════════════════════════
+   The brand orange is chroma-limited by sRGB, not by choice: at L 0.692 and
+   hue 46.21, sRGB tops out at C 0.194 while Display-P3 reaches 0.221. On a
+   modern laptop or phone we are leaving roughly 20% of the colour on the table.
+
+   So on a P3 display the accent gets hotter — and ONLY hotter. Lightness and
+   hue are held to four decimals, which is what makes this safe: every contrast
+   ratio in the system is a function of lightness, so nothing that was measured
+   above stops being true. It is the same orange, rendered as far as the screen
+   can actually take it.
+
+   Two guards, both required. `@supports` alone is not enough: a wide-gamut-
+   capable browser on an sRGB monitor will happily accept the declaration and
+   then clip it, giving a flatter result than the sRGB value it replaced.
+   ------------------------------------------------------------------------ */
+@supports (color: oklch(0.7 0.2 46)) {
+  @media (color-gamut: p3) {
+    :root {
+      --color-brand-400: oklch(0.755 0.1970 50);
+      --color-brand-500: oklch(0.6924 0.2174 46.21);
+      --color-brand-600: oklch(0.630 0.1979 42);
+      --color-brand-700: oklch(0.552 0.1737 38);
+    }
+  }
+}
