@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/prominent/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    
+    <meta
+      name="description"
+      content="We take fashion brands from a point of view to a paying customer — advisory, identity, the store that sells it, and the media that fills it."
+    />
+    <meta name="theme-color" content="#100d0a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f9f6f2" media="(prefers-color-scheme: light)" />
+
+    <!--
+      Theme is resolved BEFORE first paint. A dark-mode site that flashes white
+      is called out as a straight UX failure, and it is entirely avoidable: this
+      runs synchronously in <head>, ahead of any stylesheet paint.
+    -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('ak-theme')
+          var theme =
+            stored ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          document.documentElement.setAttribute('data-theme', theme)
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark')
+        }
+      })()
+    </script>
+
+    <!--
+      Fonts are self-hosted and subset (see base.css). Exactly ONE face is
+      preloaded: Fraunces italic, which the H1 — the LCP element — is set in.
+      Preloading several fonts at highest priority ahead of the CSS is a common
+      own goal; each one competes with the thing that actually decides LCP.
+      Bricolage and Martian Mono arrive with the stylesheet, behind
+      metric-matched fallbacks that hold the layout still until they do.
+    -->
+    <link rel="preload" href="/prominent/fonts/fraunces-italic.woff2" as="font" type="font/woff2" crossorigin />
+    <script type="module" crossorigin src="/prominent/assets/index-CndPOzN4.js"></script>
+    <link rel="modulepreload" crossorigin href="/prominent/assets/rolldown-runtime-hePW80VL.js">
+    <link rel="modulepreload" crossorigin href="/prominent/assets/motion-B3B5Vv8r.js">
+    <link rel="modulepreload" crossorigin href="/prominent/assets/usePageMeta-DNOJL38T.js">
+    <link rel="stylesheet" crossorigin href="/prominent/assets/index-D5Hbrvnm.css">
+    <title>Work — Brand, Identity and Fashion Production Projects</title>
+    <meta name="description" content="Selected projects across brand strategy, identity, campaign and fashion show production, and websites. Filter by the movement each project came through." />
+    <link rel="canonical" href="https://akbrand.studio/work" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="AK Brand Development Studio" />
+    <meta property="og:title" content="Work — Brand, Identity and Fashion Production Projects" />
+    <meta property="og:description" content="Selected projects across brand strategy, identity, campaign and fashion show production, and websites. Filter by the movement each project came through." />
+    <meta property="og:url" content="https://akbrand.studio/work" />
+    <meta property="og:locale" content="en_GB" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Work — Brand, Identity and Fashion Production Projects" />
+    <meta name="twitter:description" content="Selected projects across brand strategy, identity, campaign and fashion show production, and websites. Filter by the movement each project came through." />
+    <meta name="robots" content="noindex, nofollow" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://akbrand.studio/#website","url":"https://akbrand.studio","name":"AK Brand Development Studio","publisher":{"@id":"https://akbrand.studio/#studio"},"inLanguage":"en-GB"},{"@type":["ProfessionalService","Organization"],"@id":"https://akbrand.studio/#studio","name":"AK Brand Development Studio","alternateName":"AK Studio","description":"AK Brand Development Studio is an independent creative and strategic practice specialising in brand development, fashion consulting and creative production. We work with designers, entrepreneurs and growing businesses to build strong brands, develop clear positioning and create meaningful visibility.","url":"https://akbrand.studio","email":"hello@akbrand.studio","slogan":"Fashion & Brand Advisory","address":{"@type":"PostalAddress","addressLocality":"London","addressCountry":"GB"},"areaServed":[{"@type":"City","name":"London"},{"@type":"City","name":"Paris"},{"@type":"City","name":"Dubai"}],"knowsAbout":["Brand development","Brand positioning","Personal brand strategy","Brand identity","Creative direction","Fashion consulting","Fashion show production","Photo and video campaign production","Event production","Public relations","Website development","Digital promotion"],"founder":[{"@id":"https://akbrand.studio/studio#konstantin-lieontiev"},{"@id":"https://akbrand.studio/studio#andrey-karakushan"}],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services","itemListElement":[{"@type":"OfferCatalog","name":"Strategy","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Brand concept development"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Brand positioning and strategy"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Brand relaunch and repositioning"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Brand philosophy and identity foundations"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Personal brand strategy for founders and public figures"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Strategic guidance for business growth"}}]},{"@type":"OfferCatalog","name":"Identity","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Brand identity development"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Logo and identity design"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Creative and visual direction"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Brand guidelines"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Visual storytelling"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Content direction"}}]},{"@type":"OfferCatalog","name":"Production","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Photo campaigns and creative direction"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Promotional video production"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Brand presentations and product launches"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Creative events and brand experiences"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Independent fashion shows"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Fashion show production during international fashion weeks"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Industry PR and press support"}}]},{"@type":"OfferCatalog","name":"Presence","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Website creation and development"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"E-commerce and online stores"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Social media presence and digital content"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Online brand positioning"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Digital advertising campaigns"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Google, YouTube and Meta promotion"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Audience growth and engagement"}}]}]}},{"@type":"Person","@id":"https://akbrand.studio/studio#konstantin-lieontiev","name":"Konstantin Lieontiev","jobTitle":"Fashion producer, brand strategist","description":"Konstantin Lieontiev is a fashion producer, brand strategist and media professional with extensive experience in brand development and creative industries.","worksFor":{"@id":"https://akbrand.studio/#studio"},"founderOf":[{"@type":"Event","name":"London Fashion Day"},{"@type":"Event","name":"Odessa Fashion Day"},{"@type":"Brand","name":"KEKA"}]},{"@type":"Person","@id":"https://akbrand.studio/studio#andrey-karakushan","name":"Andrey Karakushan","jobTitle":"Creative entrepreneur, digital & identity","description":"Andrey Karakushan is a creative entrepreneur specialising in brand development, digital presence and visual communication.","worksFor":{"@id":"https://akbrand.studio/#studio"},"founderOf":[{"@type":"Periodical","name":"Cool'baba"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://akbrand.studio"},{"@type":"ListItem","position":2,"name":"Work","item":"https://akbrand.studio/work"}]}</script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
