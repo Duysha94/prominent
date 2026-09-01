@@ -88,6 +88,25 @@ add_action( 'after_switch_theme', 'ak_wire_imported_content' );
 add_action( 'import_end', 'ak_wire_imported_content' );
 
 /**
+ * The imported "Work" page shares its slug with the portfolio archive. With
+ * pretty permalinks the archive rewrite wins and the page is never seen; on
+ * plain permalinks the menu links to the page by ID, so forward it to the
+ * real index whenever the CPT exists.
+ */
+add_action(
+	'template_redirect',
+	function () {
+		if ( is_page( 'work' ) && post_type_exists( 'portfolio' ) ) {
+			$archive = get_post_type_archive_link( 'portfolio' );
+			if ( $archive ) {
+				wp_safe_redirect( $archive, 301 );
+				exit;
+			}
+		}
+	}
+);
+
+/**
  * The ATELIER / RUNWAY switch, appended to the primary menu.
  *
  * Appending through wp_nav_menu_items means Zeyna's header.php stays

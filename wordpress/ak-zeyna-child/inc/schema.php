@@ -36,7 +36,7 @@ add_action(
 				'slogan'      => 'Fashion & Brand Advisory',
 				'description' => 'An independent creative and strategic practice specialising in brand development, fashion consulting and creative production.',
 				'url'         => $site,
-				'email'       => 'hello@akbrand.studio',
+				'email'       => ak_studio_email(),
 				'address'     => array(
 					'@type'           => 'PostalAddress',
 					'addressLocality' => 'London',
@@ -71,43 +71,57 @@ add_action(
 					'Digital promotion',
 				),
 				'founder'     => array(
-					array( '@id' => $site . '/studio#konstantin-lieontiev' ),
-					array( '@id' => $site . '/studio#andrey-karakushan' ),
+					array( '@id' => $site . '/about#konstantin-lieontiev' ),
+					array( '@id' => $site . '/about#andrey-karakushan' ),
 				),
 			),
 			array(
-				'@type'       => 'Person',
-				'@id'         => $site . '/studio#konstantin-lieontiev',
-				'name'        => 'Konstantin Lieontiev',
-				'jobTitle'    => 'Fashion producer, brand strategist',
-				'worksFor'    => array( '@id' => $site . '/#studio' ),
-				'founderOf'   => array(
-					array(
-						'@type' => 'Event',
-						'name'  => 'London Fashion Day',
-					),
-					array(
-						'@type' => 'Event',
-						'name'  => 'Odessa Fashion Day',
-					),
-					array(
-						'@type' => 'Brand',
-						'name'  => 'KEKA',
-					),
-				),
+				'@type'    => 'Person',
+				'@id'      => $site . '/about#konstantin-lieontiev',
+				'name'     => 'Konstantin Lieontiev',
+				'jobTitle' => 'Fashion producer, brand strategist',
+				'url'      => $site . '/about/',
+				'worksFor' => array( '@id' => $site . '/#studio' ),
 			),
 			array(
-				'@type'     => 'Person',
-				'@id'       => $site . '/studio#andrey-karakushan',
-				'name'      => 'Andrey Karakushan',
-				'jobTitle'  => 'Creative entrepreneur, digital and identity',
-				'worksFor'  => array( '@id' => $site . '/#studio' ),
-				'founderOf' => array(
-					array(
-						'@type' => 'Periodical',
-						'name'  => "Cool'baba",
-					),
-				),
+				'@type'    => 'Person',
+				'@id'      => $site . '/about#andrey-karakushan',
+				'name'     => 'Andrey Karakushan',
+				'jobTitle' => 'Creative entrepreneur, digital and identity',
+				'url'      => $site . '/about/',
+				'worksFor' => array( '@id' => $site . '/#studio' ),
+			),
+			// The platforms as first-class nodes. schema.org's `founder`
+			// property belongs to Organization (Person has no `founderOf`
+			// in the released vocabulary), so the relationship is asserted
+			// from the platform's side, where validators accept it.
+			array(
+				'@type'       => 'Organization',
+				'@id'         => $site . '/#london-fashion-day',
+				'name'        => 'London Fashion Day',
+				'description' => 'International fashion platform supporting emerging designers.',
+				'founder'     => array( '@id' => $site . '/about#konstantin-lieontiev' ),
+			),
+			array(
+				'@type'       => 'Organization',
+				'@id'         => $site . '/#odessa-fashion-day',
+				'name'        => 'Odessa Fashion Day',
+				'description' => 'International fashion platform supporting emerging designers.',
+				'founder'     => array( '@id' => $site . '/about#konstantin-lieontiev' ),
+			),
+			array(
+				'@type'       => array( 'Organization', 'Brand' ),
+				'@id'         => $site . '/#keka',
+				'name'        => 'KEKA',
+				'description' => 'Fashion brand in development for the international market.',
+				'founder'     => array( '@id' => $site . '/about#konstantin-lieontiev' ),
+			),
+			array(
+				'@type'       => 'Organization',
+				'@id'         => $site . '/#coolbaba',
+				'name'        => "Cool'baba",
+				'description' => 'Online magazine covering fashion, lifestyle and creative industries.',
+				'founder'     => array( '@id' => $site . '/about#andrey-karakushan' ),
 			),
 		);
 

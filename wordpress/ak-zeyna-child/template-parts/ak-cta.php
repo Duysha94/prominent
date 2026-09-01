@@ -24,7 +24,7 @@ $ak_contact_url = $ak_contact ? get_permalink( $ak_contact ) : home_url( '/conta
 		<h2 class="ak-display ak-vf" data-ak-cut><?php esc_html_e( 'Let us take your measurements.', 'ak-zeyna-child' ); ?></h2>
 		<div class="ak-cta__row">
 			<a class="ak-btn ak-btn--fill" href="<?php echo esc_url( $ak_contact_url ); ?>"><?php esc_html_e( 'Start a project', 'ak-zeyna-child' ); ?></a>
-			<a class="ak-btn ak-btn--line" href="mailto:hello@akbrand.studio">hello@akbrand.studio</a>
+			<a class="ak-btn ak-btn--line" href="mailto:<?php echo esc_attr( ak_studio_email() ); ?>"><?php echo esc_html( ak_studio_email() ); ?></a>
 		</div>
 	</div>
 </section>

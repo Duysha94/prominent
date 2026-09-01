@@ -50,7 +50,8 @@ function item( $args ) {
 	$parent  = isset( $args['parent'] ) ? (int) $args['parent'] : 0;
 	$order   = isset( $args['menu_order'] ) ? (int) $args['menu_order'] : 0;
 	$date    = isset( $args['date'] ) ? $args['date'] : NOW;
-	$link    = SITE . '/' . ( 'page' === $type ? $slug : $type . '/' . $slug ) . '/';
+	// Pages and posts live at /slug/; portfolio rewrites to /work/slug/.
+	$link    = SITE . '/' . ( 'portfolio' === $type ? 'work/' . $slug : $slug ) . '/';
 
 	$out  = "\t<item>\n";
 	$out .= "\t\t<title>" . cdata( $title ) . "</title>\n";
@@ -96,7 +97,7 @@ $items = '';
 
 $pages = array(
 	array( 'Home', 'home', '', 1 ),
-	array( 'Work', 'work-index', 'page-templates/template-ak-page.php', 2 ),
+	array( 'Work', 'work', 'page-templates/template-ak-page.php', 2 ),
 	array( 'Services', 'services', 'page-templates/template-services.php', 3 ),
 	array( 'Journal', 'journal', '', 4 ),
 	array( 'About', 'about', 'page-templates/template-about.php', 5 ),
@@ -118,7 +119,7 @@ foreach ( $pages as $p ) {
 			'slug'       => $p[1],
 			'type'       => 'page',
 			'menu_order' => $p[3],
-			'content'    => 'work-index' === $p[1]
+			'content'    => 'work' === $p[1]
 				? '<!-- This page is a fallback: the Work archive at /work/ is rendered by the portfolio post type. -->'
 				: '',
 			'meta'       => $meta,
@@ -331,7 +332,7 @@ $form_body = <<<FORM
     [select* brand-stage "Just an idea" "Launching — first collection or first product" "Trading — selling, but growth is flat" "Scaling — growing, and the seams are showing"] </label>
 
 <label class="ak-field"><span class="ak-field__label">What do you think you need? *</span>
-    [select* project-need "Brand strategy and positioning" "Personal brand" "Identity and creative direction" "Photo / video campaign" "Event or fashion show production" "Website or online store" "Digital promotion" "Not sure — tell me what I need"] </label>
+    [select* project-need "Brand strategy and positioning" "Personal brand" "Identity and creative direction" "Marketing and communication" "Photo / video campaign" "Event or fashion show production" "Website or online store" "Digital promotion" "Not sure — tell me what I need"] </label>
 
 <label class="ak-field"><span class="ak-field__label">Tell us about the project *</span>
     [textarea* your-message] </label>
@@ -409,7 +410,7 @@ $items .= $xml;
 
 $menu_targets = array(
 	array( 'Home', 'home' ),
-	array( 'Work', 'work-index' ),
+	array( 'Work', 'work' ),
 	array( 'Services', 'services' ),
 	array( 'Journal', 'journal' ),
 	array( 'About', 'about' ),

@@ -25,6 +25,7 @@ $ak_movements = array(
 			__( 'Brand positioning and strategy', 'ak-zeyna-child' ),
 			__( 'Brand relaunch and repositioning', 'ak-zeyna-child' ),
 			__( 'Brand philosophy and identity foundations', 'ak-zeyna-child' ),
+			__( 'Marketing and communication strategy', 'ak-zeyna-child' ),
 			__( 'Personal brand strategy for founders and public figures', 'ak-zeyna-child' ),
 			__( 'Strategic guidance for business growth', 'ak-zeyna-child' ),
 		),
@@ -64,7 +65,7 @@ $ak_movements = array(
 		),
 		'mkey'     => 'RUNWAY',
 		'mval'     => __( 'Ours', 'ak-zeyna-child' ),
-		'mnote'    => __( 'We founded London Fashion Day and Odessa Fashion Day. Most studios have to ask for a slot.', 'ak-zeyna-child' ),
+		'mnote'    => __( 'Our co-founder created London Fashion Day and Odessa Fashion Day. Most studios have to ask for a slot.', 'ak-zeyna-child' ),
 	),
 	array(
 		'id'       => 'presence',

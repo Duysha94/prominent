@@ -18,20 +18,46 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action(
 	'wp_enqueue_scripts',
 	function () {
-		// The parent stylesheet is enqueued by Zeyna under the handle `style`.
-		// Depending on it guarantees ours loads after, so the design system
-		// wins on equal specificity without a single !important.
+		// Zeyna enqueues its stylesheet as wp_enqueue_style( 'style',
+		// get_stylesheet_uri() ) — and under a child theme that URI resolves
+		// to THIS theme's header-only style.css, so the parent's actual CSS
+		// (all of the header/menu/footer chrome) would never load. Enqueue it
+		// explicitly, after the parent's plugins.css, exactly as Zeyna orders
+		// it for itself.
+		wp_enqueue_style(
+			'zeyna-parent',
+			get_template_directory_uri() . '/style.css',
+			array( 'plugins' ),
+			'1.5.0'
+		);
+
+		// Loading after both the parent CSS and the child header stylesheet
+		// means the design system wins on equal specificity without a single
+		// !important.
 		wp_enqueue_style(
 			'ak-design-system',
 			get_stylesheet_directory_uri() . '/assets/css/ak.css',
-			array( 'style' ),
+			array( 'zeyna-parent', 'style' ),
 			AK_CHILD_VERSION
+		);
+
+		// Depend only on parent handles that actually exist: if a Zeyna
+		// update renames one, WordPress would otherwise drop the script
+		// silently. This way ak.js still loads and its own feature guards
+		// degrade gracefully instead.
+		$deps = array_values(
+			array_filter(
+				array( 'zeyna-gsap', 'gsap-plugins' ),
+				function ( $handle ) {
+					return wp_script_is( $handle, 'registered' ) || wp_script_is( $handle, 'enqueued' );
+				}
+			)
 		);
 
 		wp_enqueue_script(
 			'ak-motion',
 			get_stylesheet_directory_uri() . '/assets/js/ak.js',
-			array( 'zeyna-gsap', 'gsap-plugins' ),
+			$deps,
 			AK_CHILD_VERSION,
 			array(
 				'strategy'  => 'defer',

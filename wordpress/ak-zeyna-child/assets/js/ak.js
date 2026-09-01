@@ -14,6 +14,10 @@
 (function () {
   'use strict'
 
+  // Run-once guard: a page optimizer inlining the script beside the enqueued
+  // copy would otherwise double-bind every Barba hook and listener.
+  if (window.AK) return
+
   var doc = document
   var root = doc.documentElement
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -97,11 +101,16 @@
    * First paint is handled by a blocking inline script in <head> (see
    * inc/theme-mode.php), so a dark visitor never sees a white flash.
    * -------------------------------------------------------------------- */
-  function applyMode(mode) {
+  function applyMode(mode, persist) {
     root.setAttribute('data-theme', mode)
-    try {
-      localStorage.setItem('ak-theme', mode)
-    } catch (e) { /* private mode: the choice lasts this visit */ }
+    // Only an explicit click persists. Writing the OS-derived value would
+    // turn a default into a stored "choice" and pin the visitor to their
+    // first-visit mode forever.
+    if (persist) {
+      try {
+        localStorage.setItem('ak-theme', mode)
+      } catch (e) { /* private mode: the choice lasts this visit */ }
+    }
 
     var dark = mode === 'dark'
     Array.prototype.forEach.call(doc.querySelectorAll('[data-ak-mode]'), function (btn) {
@@ -112,19 +121,26 @@
     })
   }
 
+  var chosen = false
+
   doc.addEventListener('click', function (e) {
     var btn = e.target.closest ? e.target.closest('[data-ak-mode]') : null
     if (!btn) return
     e.preventDefault()
-    applyMode(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark')
+    chosen = true
+    applyMode(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true)
   })
 
   var stored = null
   try { stored = localStorage.getItem('ak-theme') } catch (e) { /* ignore */ }
   if (!stored) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (ev) {
-      applyMode(ev.matches ? 'dark' : 'light')
-    })
+    var osMode = window.matchMedia('(prefers-color-scheme: dark)')
+    if (osMode.addEventListener) {
+      osMode.addEventListener('change', function (ev) {
+        if (chosen) return
+        applyMode(ev.matches ? 'dark' : 'light')
+      })
+    }
   }
   applyMode(root.getAttribute('data-theme') || 'light')
 
@@ -140,6 +156,7 @@
   AK.register({
     id: 'ak:cut-text',
     _ctx: null,
+    _timers: [],
     init: function (container) {
       if (!window.gsap || !window.SplitText || reduced.matches) return
       var self = this
@@ -186,11 +203,15 @@
                     { xPercent: 0, yPercent: 0, opacity: 1, duration: 1.2 }, at)
               })
 
-              // A reveal that starts at opacity 0 must never be able to strand
-              // content if its trigger never fires.
-              setTimeout(function () {
-                if (tl.progress() === 0 && !tl.isActive()) tl.play()
-              }, 2500)
+              // A reveal that starts at opacity 0 must never be able to
+              // strand content if its trigger never fires — but only rescue
+              // hosts actually IN the viewport: everything below the fold is
+              // legitimately waiting for the visitor to scroll to it.
+              self._timers.push(setTimeout(function () {
+                var r = host.getBoundingClientRect()
+                if (r.top < window.innerHeight && r.bottom > 0 &&
+                    tl.progress() === 0 && !tl.isActive()) tl.play()
+              }, 2500))
 
               return tl
             }
@@ -199,6 +220,8 @@
       }, container)
     },
     cleanup: function () {
+      this._timers.forEach(clearTimeout)
+      this._timers = []
       if (this._ctx) this._ctx.revert()
       this._ctx = null
     },

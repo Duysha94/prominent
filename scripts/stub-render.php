@@ -197,9 +197,12 @@ function get_header() {
 HTML;
 }
 function get_footer() {
+	$grain = file_get_contents( $GLOBALS['THEME'] . '/template-parts/ak-grain.php' );
+	$grain = preg_replace( '/<\?php.*?\?>/s', '', $grain );
 	$seam = file_get_contents( $GLOBALS['THEME'] . '/template-parts/ak-seam.php' );
 	$seam = preg_replace( '/<\?php.*?\?>/s', '', $seam );
 	echo '<footer style="border-top:1px solid var(--rule);padding:3rem 2rem;background:var(--bg-sunk)"><p style="font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint)">Zeyna footer placeholder — outside the container</p></footer>';
+	echo $grain;
 	echo $seam;
 	echo '<script src="zeyna-js/gsap.min.js"></script><script src="zeyna-js/gsap-plugins.min.js"></script><script src="theme/assets/js/ak.js"></script></body></html>';
 }
@@ -208,6 +211,8 @@ function get_template_part( $slug ) {
 }
 
 /* ── Load helpers + run the requested template ───────────────────────── */
+function ak_studio_email() { return 'hello@akbrand.studio'; }
+
 require $THEME . '/inc/case-meta.php';
 
 $template = isset( $argv[1] ) ? $argv[1] : 'front-page';

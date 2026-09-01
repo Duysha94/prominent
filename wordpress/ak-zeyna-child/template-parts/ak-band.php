@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $ak_facts = array(
-	array( 'Founded', 'London Fashion Day' ),
-	array( 'Founded', 'Odessa Fashion Day' ),
+	array( 'Platform', 'London Fashion Day' ),
+	array( 'Platform', 'Odessa Fashion Day' ),
 	array( 'Working across', 'London · Paris · Dubai' ),
 	array( 'Practice', 'Strategy · Identity · Production · Presence' ),
 );

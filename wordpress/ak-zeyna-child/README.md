@@ -48,17 +48,23 @@ overwrites a choice you made manually.
 
 | What | Where | Notes |
 |---|---|---|
-| **Logo** | Customizer → Site Identity → Logo | SVG preferred. Until then the menu shows "AK" set in Fraunces italic. |
+| **Logo** | Customizer → Site Identity → Logo | SVG preferred. Until then the header shows the site title set in Fraunces italic. |
 | **Photos** | Each case study → Featured image; founders' portraits on the About page slots | Every image slot is labelled "replace via featured image" on the page itself. |
 | **Showreel video** | Customizer → **AK Studio** | Two uploads — AV1 `.mp4` preferred + H.264 `.mp4` fallback — and a poster frame. 8–12 s, silent, loopable. The hero slot stays a labelled placeholder until you do. |
 
 And before launch:
 
-- Replace `hello@akbrand.studio` with the real address in **three** places:
-  `inc/schema.php`, the Contact Form 7 form's **Mail** tab (recipient), and
-  `template-parts/ak-cta.php`.
+- Replace `hello@akbrand.studio` with the real address in **two** places:
+  the `ak_studio_email()` helper at the top of `functions.php` (every
+  template and the JSON-LD read it from there), and the Contact Form 7
+  form — its **Mail** tab recipient plus the "failed to send" line under
+  **Messages**.
 - The six case studies and four journal entries are labelled placeholders —
   rewrite them with real projects at your pace; the layouts hold.
+- Search snippets are built in: every page emits a hand-written meta
+  description (see `inc/seo.php`), and a page's own **excerpt** overrides it
+  — no SEO plugin required. If you later install one (Yoast, Rank Math,
+  AIOSEO, SEOPress), the theme detects it and steps aside automatically.
 
 ---
 

@@ -129,7 +129,7 @@
   --bg-raised:     oklch(1 0 0);
   --text:          var(--color-ink-950);
   --text-muted:    var(--color-ink-600);
-  --text-faint:    var(--color-ink-400);
+  --text-faint:    oklch(0.51 0.008 60);   /* 4.6:1 — carries real text */
   --rule:          oklch(0.145 0.006 60 / 0.14);
   --rule-strong:   oklch(0.145 0.006 60 / 0.32);
 
@@ -152,7 +152,7 @@
   --bg-raised:     var(--color-ink-900);
   --text:          var(--color-paper);
   --text-muted:    var(--color-ink-400);
-  --text-faint:    var(--color-ink-600);
+  --text-faint:    oklch(0.60 0.008 60);   /* 4.9:1 on ink */
   --rule:          oklch(0.975 0.006 70 / 0.13);
   --rule-strong:   oklch(0.975 0.006 70 / 0.28);
 
@@ -174,10 +174,11 @@
     --bg-raised:   var(--color-ink-900);
     --text:        var(--color-paper);
     --text-muted:  var(--color-ink-400);
-    --text-faint:  var(--color-ink-600);
+    --text-faint:  oklch(0.60 0.008 60);
     --rule:        oklch(0.975 0.006 70 / 0.13);
     --rule-strong: oklch(0.975 0.006 70 / 0.28);
     --accent-text: var(--color-brand-400);
+    --accent-line: var(--color-brand-500);
     --accent-glow: oklch(0.6924 0.1812 46.21 / 0.26);
     --grain-opacity: 0.045;
   }
@@ -243,12 +244,19 @@ html.lenis, html.lenis body { height: auto; }
 }
 .skip-link {
   position: absolute; left: 1rem; top: -100%; z-index: 200;
-  background: var(--accent-fill); color: var(--accent-on);
-  padding: 0.75rem 1.25rem; font-family: var(--font-mono);
+  font-family: var(--font-mono);
   font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
   transition: top 200ms var(--ease-cut);
 }
-.skip-link:focus { top: 1rem; }
+/* The whole visual treatment sits on :focus — (0,2,0), same specificity as
+   Zeyna's own .screen-reader-text:focus, and this sheet loads after the
+   parent, so the house style wins instead of the parent's grey box. */
+.skip-link:focus {
+  top: 1rem; left: 1rem;
+  background: var(--accent-fill); color: var(--accent-on);
+  padding: 0.75rem 1.25rem;
+  box-shadow: none; border-radius: 0;
+}
 
 /* ---------------------------------------------------------------------------
    CUT TEXT — the house headline reveal (see CutText.tsx)
@@ -293,7 +301,10 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ak-cut-half, .ak-cut-blade { display: revert; clip-path: none; margin-top: 0; }
+  /* Both halves carry the full line, so unclipping BOTH would render it
+     twice. Keep the top copy whole and drop the duplicate. */
+  .ak-cut-half--top { clip-path: none; }
+  .ak-cut-half--bottom { display: none; }
   .ak-cut-blade { display: none; }
 }
 
@@ -416,6 +427,7 @@ html.lenis, html.lenis body { height: auto; }
   mix-blend-mode: overlay;
   contain: strict;
 }
+.ak-grain__fibre, .ak-grain__film { width: 100%; height: 100%; display: block; }
 @media (prefers-reduced-transparency: reduce) {
   .ak-grain { display: none; }
 }
@@ -559,43 +571,6 @@ p, li      { text-wrap: pretty; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   THE EDITORIAL GRID
-   ═══════════════════════════════════════════════════════════════════════════
-   One 12-column system declared once on the page shell; every block opts into
-   the SAME lines with `subgrid` rather than inventing its own padding. This is
-   what makes a print-style grid maintainable — and in the WordPress build it
-   is what stops each bespoke block from drifting.
-   ------------------------------------------------------------------------ */
-.ak-page {
-  display: grid;
-  grid-template-columns:
-    [full-start] minmax(1.25rem, 1fr)
-    [wide-start] minmax(0, 0.5fr)
-    [text-start] repeat(12, minmax(0, 5.5rem)) [text-end]
-    minmax(0, 0.5fr) [wide-end]
-    minmax(1.25rem, 1fr) [full-end];
-  column-gap: clamp(0.75rem, 1.4vw, 1.5rem);
-}
-.ak-page > * { grid-column: text; }
-.ak-bleed    { grid-column: full; }
-.ak-wide     { grid-column: wide; }
-
-.ak-sub {
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-column: text;
-}
-
-@media (max-width: 900px) {
-  .ak-page {
-    grid-template-columns:
-      [full-start] 1.25rem
-      [wide-start text-start] repeat(6, minmax(0, 1fr)) [text-end wide-end]
-      1.25rem [full-end];
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
    FULL-BLEED ACCENT
    ═══════════════════════════════════════════════════════════════════════════
    Almost every brand with a saturated accent spends it at 5-10% coverage on a
@@ -607,8 +582,8 @@ p, li      { text-wrap: pretty; }
   background: var(--accent-fill);
   color: var(--color-ink-950);
   --text: var(--color-ink-950);
-  --text-muted: oklch(0.162 0.008 58 / 0.72);
-  --text-faint: oklch(0.162 0.008 58 / 0.48);
+  --text-muted: oklch(0.162 0.008 58 / 0.8);   /* ~5.0:1 on brand-500 */
+  --text-faint: oklch(0.162 0.008 58 / 0.62);
   --rule: oklch(0.162 0.008 58 / 0.22);
   --rule-strong: oklch(0.162 0.008 58 / 0.42);
   --accent-text: var(--color-ink-950);
@@ -950,7 +925,7 @@ body { font-weight: 400; }
   background: var(--accent-fill);
   transition: transform var(--dur-spring-ui) var(--ease-spring-ui);
 }
-:root[data-theme='dark'] .ak-mode__knob { transform: translateX(14px); }
+:root[data-theme='dark'] .ak-mode__knob { transform: translateX(16px); }
 
 @media (prefers-reduced-motion: reduce) {
   .ak-mode__knob { transition: none; }
@@ -1109,6 +1084,7 @@ body { font-weight: 400; }
 @media (prefers-reduced-motion: reduce) {
   .ak-band__track { animation: none; width: auto; }
   .ak-band__half { flex-wrap: wrap; row-gap: 0.5rem; }
+  .ak-band__item { white-space: normal; max-width: 100%; }
   .ak-band__copy { display: none; }   /* the duplicate half exists only to loop */
   .ak-band__toggle { display: none; }
 }
@@ -1159,10 +1135,16 @@ body { font-weight: 400; }
 .ak-form select option { background: var(--bg); color: var(--text); }
 .ak-form textarea { resize: vertical; min-height: 6.5rem; }
 .ak-form input:hover, .ak-form select:hover, .ak-form textarea:hover { border-color: var(--text-muted); }
-.ak-form input:focus-visible, .ak-form select:focus-visible, .ak-form textarea:focus-visible {
+.ak-form input:not([type='submit']):focus-visible, .ak-form select:focus-visible, .ak-form textarea:focus-visible {
   outline: none;
   border-color: var(--accent-line);
   box-shadow: 0 1px 0 0 var(--accent-line);
+}
+/* The filled button needs a real ring — an underline under an orange block
+   is imperceptible. */
+.ak-form input[type='submit']:focus-visible {
+  outline: 2px solid var(--accent-line);
+  outline-offset: 3px;
 }
 
 .ak-form input[type='submit'] {
@@ -1196,7 +1178,7 @@ body { font-weight: 400; }
   color: var(--accent-text);
 }
 .ak-form .wpcf7-response-output {
-  margin: 0;
+  margin: 0 !important;
   border: 1px solid var(--rule-strong) !important;
   padding: 1rem 1.25rem !important;
   font-family: var(--font-mono);
@@ -1338,5 +1320,7 @@ body { font-weight: 400; }
 @media print {
   .ak-rise, .ak-vf, .ak-draw, .ak-band__track { animation: none !important; }
   .ak-measure-hud { opacity: 1 !important; }
-  .ak-seam { display: none; }
+  .ak-seam, .ak-grain { display: none; }
+  .ak-cut-half--top { clip-path: none !important; opacity: 1 !important; transform: none !important; }
+  .ak-cut-half--bottom, .ak-cut-blade { display: none !important; }
 }

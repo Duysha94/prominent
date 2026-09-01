@@ -21,7 +21,6 @@ $ak_poster     = get_theme_mod( 'ak_hero_poster', '' );
 $ak_work_page  = get_post_type_archive_link( 'portfolio' );
 $ak_contact    = get_page_by_path( 'contact' );
 $ak_services   = get_page_by_path( 'services' );
-$ak_about      = get_page_by_path( 'about' );
 $ak_journal    = get_page_by_path( 'journal' );
 ?>
 
@@ -42,7 +41,7 @@ $ak_journal    = get_page_by_path( 'journal' );
 
 			<p class="ak-lead">
 				<?php esc_html_e( 'AK Brand Development Studio is an independent creative and strategic practice specialising in brand development, fashion consulting and creative production.', 'ak-zeyna-child' ); ?>
-				<strong style="display:block;margin-top:1rem;color:var(--text)"><?php esc_html_e( 'We founded London Fashion Day and Odessa Fashion Day — so the runway our clients walk on is one we built.', 'ak-zeyna-child' ); ?></strong>
+				<strong style="display:block;margin-top:1rem;color:var(--text)"><?php esc_html_e( 'Our co-founder created London Fashion Day and Odessa Fashion Day — so the runway our clients walk on is one of our own.', 'ak-zeyna-child' ); ?></strong>
 			</p>
 
 			<p class="ak-cta__row">
@@ -69,7 +68,7 @@ $ak_journal    = get_page_by_path( 'journal' );
 					<?php ak_measure_hud( array(
 						array( 'key' => 'MOVEMENTS', 'value' => '04' ),
 						array( 'key' => 'CITIES', 'value' => 'LDN·PAR·DXB' ),
-					), __( 'Showreel — SS26', 'ak-zeyna-child' ) ); ?>
+					), __( 'Showreel', 'ak-zeyna-child' ) ); ?>
 				</div>
 			</div>
 
@@ -166,7 +165,7 @@ $ak_journal    = get_page_by_path( 'journal' );
 				<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
 				<?php esc_html_e( 'What we built', 'ak-zeyna-child' ); ?>
 			</p>
-			<h2 class="ak-display ak-vf" data-ak-cut><?php esc_html_e( 'We do not rent the platform. We founded it.', 'ak-zeyna-child' ); ?></h2>
+			<h2 class="ak-display ak-vf" data-ak-cut><?php esc_html_e( 'We do not rent the platform. Our founders built it.', 'ak-zeyna-child' ); ?></h2>
 			<p class="ak-lead"><?php esc_html_e( 'Most studios advising a young designer have to ask someone else for a slot. These are ours — which is why we can put a first collection on an international runway rather than write a deck about one.', 'ak-zeyna-child' ); ?></p>
 
 			<ul class="ak-grid ak-grid--2" style="list-style:none;padding:0;margin:3rem 0 0">
