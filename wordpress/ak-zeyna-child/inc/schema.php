@@ -33,8 +33,10 @@ add_action(
 				'@type'       => array( 'ProfessionalService', 'Organization' ),
 				'@id'         => $site . '/#studio',
 				'name'        => 'AK Brand Development Studio',
+				'alternateName' => 'AK',
 				'slogan'      => 'Fashion & Brand Advisory',
 				'description' => 'An independent creative and strategic practice specialising in brand development, fashion consulting and creative production.',
+				'disambiguatingDescription' => 'Named for its two co-owners: A is Andrey Karakushan, K is Konstantin Lieontiev.',
 				'url'         => $site,
 				'email'       => ak_studio_email(),
 				'address'     => array(

@@ -258,6 +258,49 @@
     }
   })
 
+  /* ── Tilt ────────────────────────────────────────────────────────────────
+   * Pointer-tracking 3D tilt with a travelling sheen (the sheen itself is
+   * CSS, driven by --tilt-x/--tilt-y). Fine pointers only, never under
+   * reduced motion — on touch the cards simply hold still. The angles are
+   * driven through gsap.quickTo, so the card glides rather than jitters.
+   * -------------------------------------------------------------------- */
+  AK.register({
+    id: 'ak:tilt',
+    _bound: [],
+    init: function (container) {
+      if (!window.gsap || reduced.matches) return
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+      var self = this
+      Array.prototype.forEach.call(container.querySelectorAll('[data-ak-tilt]'), function (el) {
+        gsap.set(el, { transformPerspective: 900 })
+        var rx = gsap.quickTo(el, 'rotationX', { duration: 0.5, ease: 'power2.out' })
+        var ry = gsap.quickTo(el, 'rotationY', { duration: 0.5, ease: 'power2.out' })
+        function move (e) {
+          var r = el.getBoundingClientRect()
+          if (!r.width || !r.height) return
+          var px = (e.clientX - r.left) / r.width - 0.5
+          var py = (e.clientY - r.top) / r.height - 0.5
+          rx(py * -6)
+          ry(px * 8)
+          el.style.setProperty('--tilt-x', (px * 100 + 50) + '%')
+          el.style.setProperty('--tilt-y', (py * 100 + 50) + '%')
+        }
+        function leave () { rx(0); ry(0) }
+        el.addEventListener('pointermove', move)
+        el.addEventListener('pointerleave', leave)
+        self._bound.push({ el: el, move: move, leave: leave })
+      })
+    },
+    cleanup: function () {
+      this._bound.forEach(function (b) {
+        b.el.removeEventListener('pointermove', b.move)
+        b.el.removeEventListener('pointerleave', b.leave)
+        if (window.gsap) gsap.set(b.el, { clearProps: 'transform' })
+      })
+      this._bound = []
+    }
+  })
+
   /* ── The Seam ────────────────────────────────────────────────────────────
    * One orange thread down the page, bowing against scroll velocity on an
    * underdamped spring. It lives in the footer, outside Barba's container, so

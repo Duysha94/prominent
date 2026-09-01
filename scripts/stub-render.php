@@ -211,6 +211,7 @@ function get_template_part( $slug ) {
 }
 
 /* ── Load helpers + run the requested template ───────────────────────── */
+function wp_kses( $s, $allowed ) { return $s; }
 function ak_studio_email() { return 'hello@akbrand.studio'; }
 
 require $THEME . '/inc/case-meta.php';

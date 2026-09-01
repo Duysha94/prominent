@@ -494,7 +494,159 @@ html.lenis, html.lenis body { height: auto; }
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    /* -------------------------------------------------------------------
+       CINEMA — depth, driven by scroll.
+       -------------------------------------------------------------------
+       The plates arrive like set pieces: lifted, angled toward the light,
+       settling flat as they take the stage. perspective() inside the
+       transform keeps the vanishing point per-element — no wrapper needed.
+       ------------------------------------------------------------------ */
+    .ak-plate {
+      animation: ak-stage linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+      transform-origin: center 85%;
+    }
+    @keyframes ak-stage {
+      from { opacity: 0.35; transform: perspective(1100px) rotateX(7deg) translateY(34px) scale(0.97); }
+      to   { opacity: 1;    transform: perspective(1100px) rotateX(0deg) translateY(0)    scale(1); }
+    }
+
+    /* Ken Burns inside the frame: the image drifts slower than the page,
+       so every photograph reads as footage, not a thumbnail. Plates are
+       overflow:hidden — the 8% overscale never escapes the frame. */
+    .ak-plate > img, .ak-plate > video {
+      scale: 1.08;
+      animation: ak-drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+    @keyframes ak-drift {
+      from { translate: 0 3.5%; }
+      to   { translate: 0 -3.5%; }
+    }
   }
+}
+
+/* ---------------------------------------------------------------------------
+   CHIPS — the movement tags on a case page; links into the Services anchors.
+   ------------------------------------------------------------------------ */
+.ak-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.75rem 0 0;
+}
+.ak-chips__label {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-right: 0.5rem;
+}
+.ak-chip {
+  display: inline-block;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 250ms var(--ease-cut), color 250ms var(--ease-cut);
+}
+a.ak-chip:hover, a.ak-chip:focus-visible { border-color: var(--accent-line); color: var(--accent-text); }
+a.ak-chip:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------------------
+   MONOGRAM — the name, spelled out. Two display letters, each a link to its
+   founder; the thread between them is the same seam that stitches the site.
+   ------------------------------------------------------------------------ */
+.ak-monogram {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.25rem, 4vw, 3rem);
+  margin-top: 2.5rem;
+}
+.ak-monogram__letter {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  text-decoration: none;
+  color: var(--text);
+}
+.ak-monogram__glyph {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(4.5rem, 12vw, 9rem);
+  line-height: 0.9;
+  font-variation-settings: 'wght' 500, 'opsz' 144, 'SOFT' 0, 'WONK' 1;
+  transition: color 300ms var(--ease-cut);
+}
+.ak-monogram__letter:hover .ak-monogram__glyph,
+.ak-monogram__letter:focus-visible .ak-monogram__glyph { color: var(--accent-text); }
+.ak-monogram__letter:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 4px; }
+.ak-monogram__who {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+.ak-monogram__thread {
+  flex: 1;
+  height: 1px;
+  min-width: 2rem;
+  background: var(--accent-line);
+  transform-origin: left center;
+}
+@media (max-width: 640px) {
+  .ak-monogram { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  .ak-monogram__thread { width: 3rem; flex: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   CARD — a bounded, tappable panel (the movement cards on the front page).
+   ------------------------------------------------------------------------ */
+.ak-card {
+  display: block;
+  height: 100%;
+  padding: 1.5rem 1.4rem 1.7rem;
+  border: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 300ms var(--ease-cut), background-color 300ms var(--ease-cut);
+}
+.ak-card:hover { border-color: var(--rule-strong); background-color: var(--bg-raised); }
+.ak-card:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 3px; }
+
+/* ---------------------------------------------------------------------------
+   TILT — the pointer-tracking 3D card (ak.js drives the angles; this is the
+   travelling sheen that sells the material). Fine pointers only, by the
+   guards in ak.js; the sheen alone is harmless everywhere.
+   ------------------------------------------------------------------------ */
+[data-ak-tilt] { position: relative; }
+[data-ak-tilt]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    460px circle at var(--tilt-x, 50%) var(--tilt-y, 50%),
+    oklch(0.6924 0.1812 46.21 / 0.09),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 300ms var(--ease-cut);
+}
+[data-ak-tilt]:hover::after { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  [data-ak-tilt]::after { display: none; }
 }
 
 /* ---------------------------------------------------------------------------
@@ -1276,6 +1428,17 @@ body { font-weight: 400; }
 .ak-prose p { font-size: 1.0625rem; line-height: 1.75; color: var(--text-muted); }
 .ak-prose h2, .ak-prose h3 { font-family: var(--font-display); font-style: italic; color: var(--text); margin-top: 2.5em; }
 .ak-prose a { color: var(--accent-text); }
+
+/* Bare inline links anywhere in the design system — house accent, never
+   browser blue. Classed links (.ak-btn, .ak-chip, cards) style themselves. */
+.ak-scope a:not([class]) {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-line);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 250ms var(--ease-cut);
+}
+.ak-scope a:not([class]):hover { text-decoration-color: currentColor; }
 .ak-prose blockquote {
   margin: 2.5rem 0;
   padding-left: 1.5rem;
@@ -1318,7 +1481,8 @@ body { font-weight: 400; }
 /* Print (and print-shaped renderers) get the finished page: a scroll reveal
    that never scrolls would otherwise print as blank rectangles. */
 @media print {
-  .ak-rise, .ak-vf, .ak-draw, .ak-band__track { animation: none !important; }
+  .ak-rise, .ak-vf, .ak-draw, .ak-band__track,
+  .ak-plate, .ak-plate > img, .ak-plate > video { animation: none !important; scale: none; translate: none; }
   .ak-measure-hud { opacity: 1 !important; }
   .ak-seam, .ak-grain { display: none; }
   .ak-cut-half--top { clip-path: none !important; opacity: 1 !important; transform: none !important; }

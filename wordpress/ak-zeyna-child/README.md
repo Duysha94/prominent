@@ -29,6 +29,20 @@ menu, contact form, placeholder case studies — arrives ready.
    front page → *Home*, posts page → *Journal*, the *Primary* menu onto
    Zeyna's `menu-1` location, permalinks flushed so `/work` resolves.
 
+### Installing over an existing site
+
+The import **adopts the site**. When it finishes, the theme automatically:
+
+- reclaims its page addresses — if an old page already held `home` or
+  `services`, the old page is moved to the Trash and the imported page
+  takes the clean URL (no `home-2` leftovers);
+- points the front page, the posts page and the header menu at the
+  imported content, replacing whatever was set before;
+- moves every published page that is **not** part of this import to the
+  Trash, plus the default "Hello world!" post. Nothing is hard-deleted —
+  anything can be restored from Pages → Trash for 30 days. The privacy
+  policy page is deliberately left alone.
+
 Then two settings worth checking:
 
 - **Zeyna theme options (Redux) → Page transitions: ON.** Zeyna gates the
@@ -93,7 +107,9 @@ and rewritten.
 | Measure frames | Tech-pack annotations; hover, focus **and** touch |
 | Tier-1 CSS motion | Scroll-driven reveals and variable-font weight, zero JavaScript |
 | A Barba bridge | Teardown and rebuild around the container swap, plus focus and announcements |
-| JSON-LD | Linked graph: the studio, both founders, and the platforms they founded |
+| JSON-LD | Linked graph: the studio, both founders, the platforms they founded — plus BreadcrumbList on every inner page |
+| Cinema layer | Perspective plate entrances, Ken Burns drift, pointer 3D tilt, the grain — all guarded |
+| The name, explained | The A–K monogram on About and "The name" section on Home: A is Andrey, K is Konstantin |
 | Contact Form 7 form + styling | Imported with the content; found by slug at render time |
 | A bespoke-page template | `AK — Bespoke page`, the pattern all the others follow |
 
@@ -147,9 +163,14 @@ builder, no utility framework, no build step.
 |---|---|
 | `data-ak-cut` | Cut-text reveal on a headline |
 | `data-ak-measure` | Tech-pack annotation frame (add `data-always` to pin it open) |
+| `data-ak-tilt` | Pointer-tracking 3D tilt with a travelling sheen (fine pointers only) |
 | `class="ak-vf"` | Scroll-driven variable-font weight (CSS only) |
 | `class="ak-draw"` | A rule that draws itself as the section scrolls through |
 | `class="ak-rise"` | Short-travel arrival (CSS only) |
+| `class="ak-plate"` | Arrives like a set piece (perspective entrance) and gives any `<img>`/`<video>` inside a slow Ken Burns drift |
+
+All of it degrades honestly: no scroll-driven support → finished state;
+`prefers-reduced-motion` → still pages; touch → no tilt.
 
 ---
 

@@ -131,6 +131,13 @@ $ak_movements = array(
 								<?php echo esc_html( $ak_m['handover'] ); ?>
 							</span>
 						</p>
+
+						<p class="ak-rise" style="margin-top:1.25rem">
+							<a href="<?php echo esc_url( get_post_type_archive_link( 'portfolio' ) ? get_post_type_archive_link( 'portfolio' ) : home_url( '/work/' ) ); ?>" style="font-family:var(--font-mono);font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-text);text-decoration:none"><?php
+								/* translators: %s: movement title */
+								printf( esc_html__( 'See %s in the work →', 'ak-zeyna-child' ), esc_html( $ak_m['title'] ) );
+							?></a>
+						</p>
 					</div>
 				</div>
 			</div>

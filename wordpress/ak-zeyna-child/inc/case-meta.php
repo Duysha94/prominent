@@ -98,3 +98,21 @@ function ak_measure_hud( $measures, $label = '' ) {
 	</div>
 	<?php
 }
+
+/**
+ * Deep link from a movement label to its section on the Services page.
+ * Returns '' for labels that are not one of the four movements.
+ *
+ * @param string $label Movement label, e.g. 'Production'.
+ * @return string
+ */
+function ak_movement_url( $label ) {
+	$known = array( 'strategy', 'identity', 'production', 'presence' );
+	$key   = strtolower( trim( (string) $label ) );
+	if ( ! in_array( $key, $known, true ) ) {
+		return '';
+	}
+	$services = get_page_by_path( 'services' );
+	$base     = $services ? get_permalink( $services ) : home_url( '/services/' );
+	return $base . '#' . $key;
+}

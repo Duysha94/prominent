@@ -41,8 +41,23 @@ get_header();
 						<p class="ak-lead"><?php echo esc_html( ak_meta( 'ak_summary' ) ); ?></p>
 					<?php endif; ?>
 
+					<?php $ak_mv = ak_case_movements(); ?>
+					<?php if ( $ak_mv ) : ?>
+						<p class="ak-chips" aria-label="<?php esc_attr_e( 'Movements this project ran through', 'ak-zeyna-child' ); ?>">
+							<span class="ak-chips__label"><?php esc_html_e( 'Ran through', 'ak-zeyna-child' ); ?></span>
+							<?php foreach ( $ak_mv as $ak_tag ) : ?>
+								<?php $ak_mv_url = ak_movement_url( $ak_tag ); ?>
+								<?php if ( $ak_mv_url ) : ?>
+									<a class="ak-chip" href="<?php echo esc_url( $ak_mv_url ); ?>"><?php echo esc_html( $ak_tag ); ?></a>
+								<?php else : ?>
+									<span class="ak-chip"><?php echo esc_html( $ak_tag ); ?></span>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						</p>
+					<?php endif; ?>
+
 					<div class="ak-rise" style="margin-top:3.5rem">
-						<div data-ak-measure data-always style="position:relative">
+						<div data-ak-measure data-always data-ak-tilt style="position:relative">
 							<div class="ak-plate ak-plate--band ak-r-165">
 								<?php if ( has_post_thumbnail() ) : ?>
 									<?php the_post_thumbnail( 'full' ); ?>

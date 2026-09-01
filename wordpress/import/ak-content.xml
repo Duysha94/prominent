@@ -56,6 +56,14 @@
 		<wp:post_type><![CDATA[page]]></wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[home]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Work]]></title>
@@ -83,6 +91,14 @@
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
 			<wp:meta_value><![CDATA[page-templates/template-ak-page.php]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[work]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -112,6 +128,14 @@
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
 			<wp:meta_value><![CDATA[page-templates/template-services.php]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[services]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Journal]]></title>
@@ -136,6 +160,14 @@
 		<wp:post_type><![CDATA[page]]></wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[journal]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[About]]></title>
@@ -163,6 +195,14 @@
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
 			<wp:meta_value><![CDATA[page-templates/template-about.php]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[about]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -192,6 +232,14 @@
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
 			<wp:meta_value><![CDATA[page-templates/template-contact.php]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[contact]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Client Name]]></title>
@@ -200,7 +248,9 @@
 		<dc:creator><![CDATA[akstudio]]></dc:creator>
 		<guid isPermaLink="false">https://akbrand.studio/?p=1007</guid>
 		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
+		<content:encoded><![CDATA[<p>Placeholder case narrative — replace with the project story. The chapters, measures and position blocks above are driven from the case fields.</p>
+
+<p>This project ran through the <a href="/services/#strategy">Strategy</a>, <a href="/services/#identity">Identity</a> and <a href="/services/#production">Production</a> movements. Browse <a href="/work/">all work</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[Placeholder. A designer with a finished collection and no route to an audience. Position, identity and a runway slot inside one season — replace this text with the real project.]]></excerpt:encoded>
 		<wp:post_id>1007</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
@@ -245,6 +295,14 @@
 			<wp:meta_key><![CDATA[ak_chapters]]></wp:meta_key>
 			<wp:meta_value><![CDATA[[{"title":"The position","body":"Placeholder chapter. Describe what the brand was saying about itself before, and what it says now.","mkey":"DECK","mval":"1 page"},{"title":"The show","body":"Placeholder chapter. Describe the production — the venue, the casting, the running order, the press list.","mkey":"LOOKS","mval":"24"},{"title":"The coverage","body":"Placeholder chapter. Describe what the show produced afterwards: press, stockists, follow-on work.","mkey":"PRESS","mval":"38 titles"}]]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[placeholder-collection-launch]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Client Name]]></title>
@@ -253,7 +311,9 @@
 		<dc:creator><![CDATA[akstudio]]></dc:creator>
 		<guid isPermaLink="false">https://akbrand.studio/?p=1008</guid>
 		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
+		<content:encoded><![CDATA[<p>Placeholder case narrative — replace with the project story. The chapters, measures and position blocks above are driven from the case fields.</p>
+
+<p>This project ran through the <a href="/services/#strategy">Strategy</a> and <a href="/services/#identity">Identity</a> movements. Browse <a href="/work/">all work</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[Placeholder. An identity drawn at ad size first and at backdrop size second — replace with the real project.]]></excerpt:encoded>
 		<wp:post_id>1008</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-30 12:00:00]]></wp:post_date>
@@ -302,6 +362,14 @@
 			<wp:meta_key><![CDATA[ak_position]]></wp:meta_key>
 			<wp:meta_value><![CDATA[{"statement":"Placeholder positioning line — replace with the sentence this brand actually arrived at.","rejected":["Placeholder alternative one — the safe version","Placeholder alternative two — the category version","Placeholder alternative three — the trend version"]}]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[placeholder-brand-identity]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Client Name]]></title>
@@ -310,7 +378,9 @@
 		<dc:creator><![CDATA[akstudio]]></dc:creator>
 		<guid isPermaLink="false">https://akbrand.studio/?p=1009</guid>
 		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
+		<content:encoded><![CDATA[<p>Placeholder case narrative — replace with the project story. The chapters, measures and position blocks above are driven from the case fields.</p>
+
+<p>This project ran through the <a href="/services/#strategy">Strategy</a> and <a href="/services/#presence">Presence</a> movements. Browse <a href="/work/">all work</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[Placeholder. Personal brand strategy for a founder whose company was better known than they were.]]></excerpt:encoded>
 		<wp:post_id>1009</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-29 12:00:00]]></wp:post_date>
@@ -355,6 +425,14 @@
 			<wp:meta_key><![CDATA[ak_chapters]]></wp:meta_key>
 			<wp:meta_value><![CDATA[[{"title":"The position","body":"Placeholder chapter. Describe what the founder stands for and how it was found.","mkey":"","mval":""},{"title":"The channels","body":"Placeholder chapter. Describe where that position was put to work.","mkey":"AUDIENCE","mval":"×4"}]]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[placeholder-personal-brand]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Client Name]]></title>
@@ -363,7 +441,9 @@
 		<dc:creator><![CDATA[akstudio]]></dc:creator>
 		<guid isPermaLink="false">https://akbrand.studio/?p=1010</guid>
 		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
+		<content:encoded><![CDATA[<p>Placeholder case narrative — replace with the project story. The chapters, measures and position blocks above are driven from the case fields.</p>
+
+<p>This project ran through the <a href="/services/#identity">Identity</a> and <a href="/services/#presence">Presence</a> movements. Browse <a href="/work/">all work</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[Placeholder. A website and online store rebuilt around the brand rather than around a template.]]></excerpt:encoded>
 		<wp:post_id>1010</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-28 12:00:00]]></wp:post_date>
@@ -408,6 +488,14 @@
 			<wp:meta_key><![CDATA[ak_chapters]]></wp:meta_key>
 			<wp:meta_value><![CDATA[[{"title":"The rebuild","body":"Placeholder chapter. Describe what the old site got wrong and what replaced it.","mkey":"LCP","mval":"3.8s → 0.9s"},{"title":"The promotion","body":"Placeholder chapter. Describe the digital campaigns that filled it.","mkey":"CVR","mval":"+2.4pp"}]]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[placeholder-website]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Client Name]]></title>
@@ -416,7 +504,9 @@
 		<dc:creator><![CDATA[akstudio]]></dc:creator>
 		<guid isPermaLink="false">https://akbrand.studio/?p=1011</guid>
 		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
+		<content:encoded><![CDATA[<p>Placeholder case narrative — replace with the project story. The chapters, measures and position blocks above are driven from the case fields.</p>
+
+<p>This project ran through the <a href="/services/#identity">Identity</a>, <a href="/services/#production">Production</a> and <a href="/services/#presence">Presence</a> movements. Browse <a href="/work/">all work</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[Placeholder. A seasonal campaign produced across London, Paris and Dubai — replace with the real project.]]></excerpt:encoded>
 		<wp:post_id>1011</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-27 12:00:00]]></wp:post_date>
@@ -461,6 +551,14 @@
 			<wp:meta_key><![CDATA[ak_chapters]]></wp:meta_key>
 			<wp:meta_value><![CDATA[[{"title":"The direction","body":"Placeholder chapter. Describe the creative direction and why it fit the position.","mkey":"","mval":""},{"title":"The shoot","body":"Placeholder chapter. Describe the production itself.","mkey":"ASSETS","mval":"120"}]]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[placeholder-campaign]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Client Name]]></title>
@@ -469,7 +567,9 @@
 		<dc:creator><![CDATA[akstudio]]></dc:creator>
 		<guid isPermaLink="false">https://akbrand.studio/?p=1012</guid>
 		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
+		<content:encoded><![CDATA[<p>Placeholder case narrative — replace with the project story. The chapters, measures and position blocks above are driven from the case fields.</p>
+
+<p>This project ran through the <a href="/services/#strategy">Strategy</a>, <a href="/services/#identity">Identity</a> and <a href="/services/#presence">Presence</a> movements. Browse <a href="/work/">all work</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[Placeholder. A brand relaunch and repositioning for a business that had grown by addition for nine years.]]></excerpt:encoded>
 		<wp:post_id>1012</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-26 12:00:00]]></wp:post_date>
@@ -518,6 +618,14 @@
 			<wp:meta_key><![CDATA[ak_position]]></wp:meta_key>
 			<wp:meta_value><![CDATA[{"statement":"Placeholder repositioning line — replace with the real one.","rejected":["Placeholder alternative one","Placeholder alternative two","Placeholder alternative three"]}]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[placeholder-relaunch]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[What it actually costs to show at a fashion week]]></title>
@@ -528,7 +636,9 @@
 		<description></description>
 		<content:encoded><![CDATA[<p>Placeholder standfirst. The real version should be the honest breakdown a young designer cannot find anywhere else — venue, casting, production, PR, and what a slot is genuinely worth.</p>
 
-<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>]]></content:encoded>
+<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>
+
+<p>Related: this note belongs to the <a href="/services/#production">Production</a> movement. See it applied in <a href="/work/">the work</a>, read <a href="/about/">who is behind the studio</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[Placeholder standfirst. The real version should be the honest breakdown a young designer cannot find anywhere else — venue, casting, production, PR, and what a slot is genuinely worth.]]></excerpt:encoded>
 		<wp:post_id>1013</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-24 12:00:00]]></wp:post_date>
@@ -545,6 +655,14 @@
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
 		<category domain="category" nicename="production"><![CDATA[Production]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[what-it-costs-to-show-at-a-fashion-week]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Design the identity at ad size first]]></title>
@@ -555,7 +673,9 @@
 		<description></description>
 		<content:encoded><![CDATA[<p>Placeholder standfirst. A logo that only works at billboard scale is a logo that will be cropped, shrunk and ignored by the algorithm that decides whether anyone sees it.</p>
 
-<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>]]></content:encoded>
+<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>
+
+<p>Related: this note belongs to the <a href="/services/#identity">Identity</a> movement. See it applied in <a href="/work/">the work</a>, read <a href="/about/">who is behind the studio</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[Placeholder standfirst. A logo that only works at billboard scale is a logo that will be cropped, shrunk and ignored by the algorithm that decides whether anyone sees it.]]></excerpt:encoded>
 		<wp:post_id>1014</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-17 12:00:00]]></wp:post_date>
@@ -572,6 +692,14 @@
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
 		<category domain="category" nicename="identity"><![CDATA[Identity]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[design-the-identity-at-ad-size-first]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Your company is not your personal brand]]></title>
@@ -582,7 +710,9 @@
 		<description></description>
 		<content:encoded><![CDATA[<p>Placeholder standfirst. Why founders in fashion are usually better known than their labels — and what to do when it is the other way round.</p>
 
-<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>]]></content:encoded>
+<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>
+
+<p>Related: this note belongs to the <a href="/services/#strategy">Strategy</a> movement. See it applied in <a href="/work/">the work</a>, read <a href="/about/">who is behind the studio</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[Placeholder standfirst. Why founders in fashion are usually better known than their labels — and what to do when it is the other way round.]]></excerpt:encoded>
 		<wp:post_id>1015</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-10 12:00:00]]></wp:post_date>
@@ -599,6 +729,14 @@
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
 		<category domain="category" nicename="strategy"><![CDATA[Strategy]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[your-company-is-not-your-personal-brand]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Fix the website before you buy the traffic]]></title>
@@ -609,7 +747,9 @@
 		<description></description>
 		<content:encoded><![CDATA[<p>Placeholder standfirst. Every pound of promotion lands on a page. If that page is slow or unclear, promotion just buys a faster exit.</p>
 
-<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>]]></content:encoded>
+<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>
+
+<p>Related: this note belongs to the <a href="/services/#presence">Presence</a> movement. See it applied in <a href="/work/">the work</a>, read <a href="/about/">who is behind the studio</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[Placeholder standfirst. Every pound of promotion lands on a page. If that page is slow or unclear, promotion just buys a faster exit.]]></excerpt:encoded>
 		<wp:post_id>1016</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-03 12:00:00]]></wp:post_date>
@@ -626,6 +766,14 @@
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
 		<category domain="category" nicename="presence"><![CDATA[Presence]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[fix-the-website-before-you-buy-the-traffic]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[AK — Project brief]]></title>
@@ -715,6 +863,14 @@ Fashion & Brand Advisory — London
 			<wp:meta_key><![CDATA[_locale]]></wp:meta_key>
 			<wp:meta_value><![CDATA[en_GB]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[ak-project-brief]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Home]]></title>
@@ -771,6 +927,14 @@ Fashion & Brand Advisory — London
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
 			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[home-menu-item]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -829,6 +993,14 @@ Fashion & Brand Advisory — London
 			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
 			<wp:meta_value><![CDATA[]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[work-menu-item]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Services]]></title>
@@ -885,6 +1057,14 @@ Fashion & Brand Advisory — London
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
 			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[services-menu-item]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -943,6 +1123,14 @@ Fashion & Brand Advisory — London
 			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
 			<wp:meta_value><![CDATA[]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[journal-menu-item]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[About]]></title>
@@ -1000,6 +1188,14 @@ Fashion & Brand Advisory — London
 			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
 			<wp:meta_value><![CDATA[]]></wp:meta_value>
 		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[about-menu-item]]></wp:meta_value>
+		</wp:postmeta>
 	</item>
 	<item>
 		<title><![CDATA[Contact]]></title>
@@ -1056,6 +1252,14 @@ Fashion & Brand Advisory — London
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
 			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_import]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_ak_slug]]></wp:meta_key>
+			<wp:meta_value><![CDATA[contact-menu-item]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 </channel>

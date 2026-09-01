@@ -53,7 +53,7 @@ $ak_journal    = get_page_by_path( 'journal' );
 			     the poster state; the video upgrades it when the Customizer
 			     uploads exist (Appearance → Customize → AK Studio). -->
 			<div class="ak-rise" style="margin-top:4rem">
-				<div data-ak-measure data-always style="position:relative">
+				<div data-ak-measure data-always data-ak-tilt style="position:relative">
 					<div class="ak-plate ak-plate--disc ak-r-165 ak-video">
 						<?php if ( $ak_video_av1 || $ak_video_h264 ) : ?>
 							<video muted loop playsinline preload="none" disableremoteplayback aria-hidden="true" tabindex="-1" data-ak-video
@@ -85,7 +85,7 @@ $ak_journal    = get_page_by_path( 'journal' );
 				foreach ( $ak_movements as $ak_i => $ak_m ) :
 					?>
 					<li class="ak-rise">
-						<a href="<?php echo esc_url( $ak_services_url . '#' . $ak_m[0] ); ?>" style="text-decoration:none;color:inherit;display:block">
+						<a class="ak-card" data-ak-tilt href="<?php echo esc_url( $ak_services_url . '#' . $ak_m[0] ); ?>">
 							<span class="ak-eyebrow" style="gap:.5rem"><span class="ak-eyebrow__folio">0<?php echo (int) ( $ak_i + 1 ); ?></span></span>
 							<h2 style="font-family:var(--font-display);font-style:italic;font-size:1.5rem;margin:.75rem 0 0"><?php echo esc_html( $ak_m[1] ); ?></h2>
 							<p style="font-size:.8125rem;line-height:1.6;color:var(--text-muted);margin:.6rem 0 0"><?php echo esc_html( $ak_m[2] ); ?></p>
@@ -188,6 +188,23 @@ $ak_journal    = get_page_by_path( 'journal' );
 		</div>
 	</section>
 
+	<!-- ── The name ─────────────────────────────────────────────────────── -->
+	<section class="ak-section ak-section--rule">
+		<div class="ak-wrap">
+			<p class="ak-eyebrow">
+				<span class="ak-eyebrow__folio">04</span>
+				<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
+				<?php esc_html_e( 'The name', 'ak-zeyna-child' ); ?>
+			</p>
+			<h2 class="ak-display ak-vf" data-ak-cut><?php esc_html_e( 'A is Andrey. K is Konstantin.', 'ak-zeyna-child' ); ?></h2>
+			<p class="ak-lead"><?php esc_html_e( 'AK is the two co-owners, one letter each. Andrey Karakushan runs digital, identity and media; Konstantin Lieontiev runs strategy and fashion production. Every project gets both letters — which is the point of the studio.', 'ak-zeyna-child' ); ?></p>
+			<p style="margin-top:2rem">
+				<?php $ak_about_page = get_page_by_path( 'about' ); ?>
+				<a class="ak-btn ak-btn--line" href="<?php echo esc_url( $ak_about_page ? get_permalink( $ak_about_page ) : home_url( '/about/' ) ); ?>"><?php esc_html_e( 'Meet the founders', 'ak-zeyna-child' ); ?></a>
+			</p>
+		</div>
+	</section>
+
 	<?php get_template_part( 'template-parts/ak-band' ); ?>
 
 	<!-- ── Journal preview ──────────────────────────────────────────────── -->
@@ -204,7 +221,7 @@ $ak_journal    = get_page_by_path( 'journal' );
 		<section class="ak-section">
 			<div class="ak-wrap">
 				<p class="ak-eyebrow">
-					<span class="ak-eyebrow__folio">04</span>
+					<span class="ak-eyebrow__folio">05</span>
 					<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
 					<?php esc_html_e( 'Journal', 'ak-zeyna-child' ); ?>
 				</p>

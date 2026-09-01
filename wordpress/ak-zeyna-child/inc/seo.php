@@ -62,3 +62,65 @@ add_action(
 	},
 	4
 );
+
+/**
+ * BreadcrumbList structured data — one small graph per inner page so Google
+ * reads the site's shape (Home → Work → case, Home → Journal → entry)
+ * instead of inferring it. The visible design deliberately has no crumb
+ * trail; the eyebrow line plays that role for humans, this plays it for
+ * crawlers, and both describe the same hierarchy.
+ */
+add_action(
+	'wp_head',
+	function () {
+		if ( is_front_page() || is_404() || is_search() ) {
+			return;
+		}
+
+		$crumbs = array(
+			array( __( 'Home', 'ak-zeyna-child' ), home_url( '/' ) ),
+		);
+
+		if ( is_post_type_archive( 'portfolio' ) ) {
+			$crumbs[] = array( __( 'Work', 'ak-zeyna-child' ), get_post_type_archive_link( 'portfolio' ) );
+		} elseif ( is_singular( 'portfolio' ) ) {
+			$crumbs[] = array( __( 'Work', 'ak-zeyna-child' ), get_post_type_archive_link( 'portfolio' ) );
+			$crumbs[] = array( get_the_title(), get_permalink() );
+		} elseif ( is_home() ) {
+			$blog = (int) get_option( 'page_for_posts' );
+			$crumbs[] = array( $blog ? get_the_title( $blog ) : __( 'Journal', 'ak-zeyna-child' ), $blog ? get_permalink( $blog ) : home_url( '/journal/' ) );
+		} elseif ( is_singular( 'post' ) ) {
+			$blog = (int) get_option( 'page_for_posts' );
+			if ( $blog ) {
+				$crumbs[] = array( get_the_title( $blog ), get_permalink( $blog ) );
+			}
+			$crumbs[] = array( get_the_title(), get_permalink() );
+		} elseif ( is_page() ) {
+			$crumbs[] = array( get_the_title(), get_permalink() );
+		} else {
+			return;
+		}
+
+		$list = array();
+		foreach ( $crumbs as $i => $c ) {
+			$list[] = array(
+				'@type'    => 'ListItem',
+				'position' => $i + 1,
+				'name'     => $c[0],
+				'item'     => $c[1],
+			);
+		}
+
+		$json = wp_json_encode(
+			array(
+				'@context'        => 'https://schema.org',
+				'@type'           => 'BreadcrumbList',
+				'itemListElement' => $list,
+			),
+			JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+		);
+
+		echo '<script type="application/ld+json">' . $json . '</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_json_encode output.
+	},
+	6
+);

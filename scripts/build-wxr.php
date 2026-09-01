@@ -87,6 +87,11 @@ function item( $args ) {
 			$out .= meta_row( $k, $v );
 		}
 	}
+	// Ownership markers: the theme's import_end handler uses these to
+	// reclaim canonical slugs from pre-existing pages and to know which
+	// content is NOT ours when tidying the old site away.
+	$out .= meta_row( '_ak_import', '1' );
+	$out .= meta_row( '_ak_slug', $slug );
 	$out .= "\t</item>\n";
 	return array( $id, $out );
 }
@@ -239,11 +244,15 @@ foreach ( $cases as $i => $c ) {
 	if ( isset( $c['position'] ) ) {
 		$meta['ak_position'] = json_encode( $c['position'], JSON_UNESCAPED_UNICODE );
 	}
+	$case_body = '<p>Placeholder case narrative — replace with the project story. The chapters, measures and position blocks above are driven from the case fields.</p>'
+		. "\n\n" . '<p>This project ran through the ' . movement_links( $c['movements'] ) . ' movement' . ( false === strpos( $c['movements'], ',' ) ? '' : 's' ) . '. '
+		. 'Browse <a href="/work/">all work</a>, or <a href="/contact/">start a project</a>.</p>';
 	list( , $xml ) = item(
 		array(
 			'title'   => $c['client'],
 			'slug'    => $c['slug'],
 			'type'    => 'portfolio',
+			'content' => $case_body,
 			'excerpt' => $c['summary'],
 			'date'    => gmdate( 'Y-m-d H:i:s', strtotime( NOW ) - $i * 86400 ),
 			'meta'    => $meta,
@@ -251,6 +260,18 @@ foreach ( $cases as $i => $c ) {
 		)
 	);
 	$items .= $xml;
+}
+
+function movement_links( $movements ) {
+	$parts = array();
+	foreach ( array_map( 'trim', explode( ',', $movements ) ) as $m ) {
+		$anchor  = strtolower( $m );
+		$parts[] = in_array( $anchor, array( 'strategy', 'identity', 'production', 'presence' ), true )
+			? '<a href="/services/#' . $anchor . '">' . $m . '</a>'
+			: $m;
+	}
+	$last = array_pop( $parts );
+	return $parts ? implode( ', ', $parts ) . ' and ' . $last : $last;
 }
 
 function sanitize_slug( $s ) {
@@ -290,7 +311,9 @@ $posts = array(
 
 foreach ( $posts as $i => $p ) {
 	$body = '<p>' . esc_body( $p['excerpt'] ) . '</p>' .
-		"\n\n<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>";
+		"\n\n<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>" .
+		"\n\n" . '<p>Related: this note belongs to the ' . movement_links( $p['cat'] ) . ' movement. '
+		. 'See it applied in <a href="/work/">the work</a>, read <a href="/about/">who is behind the studio</a>, or <a href="/contact/">start a project</a>.</p>';
 	list( , $xml ) = item(
 		array(
 			'title'   => $p['title'],
