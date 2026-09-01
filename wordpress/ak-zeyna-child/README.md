@@ -168,6 +168,11 @@ builder, no utility framework, no build step.
 | `class="ak-draw"` | A rule that draws itself as the section scrolls through |
 | `class="ak-rise"` | Short-travel arrival (CSS only) |
 | `class="ak-plate"` | Arrives like a set piece (perspective entrance) and gives any `<img>`/`<video>` inside a slow Ken Burns drift |
+| `class="ak-lead"` | Arrives line by line from behind a mask, staggered (SplitText; the split is reverted afterwards) |
+| `class="ak-btn"` | Magnetic — leans toward the cursor and springs home (fine pointers only) |
+| Folio numbers & tech-pack figures | Decode into place with ~600ms of monospace noise as they enter the viewport |
+| The facts band | Skews against scroll velocity, like tape being pulled |
+| Index rows & journal notes | Step aside for the cursor on a spring |
 
 All of it degrades honestly: no scroll-driven support → finished state;
 `prefers-reduced-motion` → still pages; touch → no tilt.

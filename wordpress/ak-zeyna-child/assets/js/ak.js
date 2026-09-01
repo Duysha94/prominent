@@ -301,6 +301,181 @@
     }
   })
 
+  /* ── Line reveal ─────────────────────────────────────────────────────────
+   * Every lead paragraph arrives line by line from behind a mask — the
+   * standard grammar of a motion site, done with the SplitText the parent
+   * already ships. The split is reverted on completion so the DOM (and
+   * anything that copies text) stays clean.
+   * -------------------------------------------------------------------- */
+  AK.register({
+    id: 'ak:lines',
+    _ctx: null,
+    _timers: [],
+    init: function (container) {
+      if (!window.gsap || !window.SplitText || !window.ScrollTrigger || reduced.matches) return
+      var self = this
+      self._ctx = gsap.context(function () {
+        Array.prototype.forEach.call(container.querySelectorAll('.ak-lead'), function (host) {
+          if (host.closest('.ak-prose')) return
+          SplitText.create(host, {
+            type: 'lines',
+            mask: 'lines',
+            linesClass: 'ak-line',
+            autoSplit: true,
+            aria: 'auto',
+            onSplit: function (split) {
+              var tl = gsap.timeline({
+                scrollTrigger: { trigger: host, start: 'top 88%', once: true },
+                onComplete: function () { split.revert() }
+              })
+              tl.fromTo(split.lines, { yPercent: 105 }, {
+                yPercent: 0, duration: 0.9, ease: 'ak.drape', stagger: 0.07
+              })
+              // Same stranding rule as the cut text: only rescue what is
+              // actually in the viewport.
+              self._timers.push(setTimeout(function () {
+                var r = host.getBoundingClientRect()
+                if (r.top < window.innerHeight && r.bottom > 0 &&
+                    tl.progress() === 0 && !tl.isActive()) tl.play()
+              }, 2500))
+              return tl
+            }
+          })
+        })
+      }, container)
+    },
+    cleanup: function () {
+      this._timers.forEach(clearTimeout)
+      this._timers = []
+      if (this._ctx) this._ctx.revert()
+      this._ctx = null
+    },
+    reinit: function () {
+      if (window.ScrollTrigger) ScrollTrigger.refresh()
+    }
+  })
+
+  /* ── Magnetic buttons ────────────────────────────────────────────────────
+   * The buttons lean toward the cursor and spring home when it leaves.
+   * Fine pointers only; .ak-btn transitions colours, never transform, so
+   * GSAP owns the movement without a tug-of-war.
+   * -------------------------------------------------------------------- */
+  AK.register({
+    id: 'ak:magnet',
+    _bound: [],
+    init: function (container) {
+      if (!window.gsap || reduced.matches) return
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+      var self = this
+      Array.prototype.forEach.call(container.querySelectorAll('.ak-btn'), function (el) {
+        var qx = gsap.quickTo(el, 'x', { duration: 0.4, ease: 'power3.out' })
+        var qy = gsap.quickTo(el, 'y', { duration: 0.4, ease: 'power3.out' })
+        function move (e) {
+          var r = el.getBoundingClientRect()
+          qx((e.clientX - r.left - r.width / 2) * 0.22)
+          qy((e.clientY - r.top - r.height / 2) * 0.22)
+        }
+        function leave () { qx(0); qy(0) }
+        el.addEventListener('pointermove', move)
+        el.addEventListener('pointerleave', leave)
+        self._bound.push({ el: el, move: move, leave: leave })
+      })
+    },
+    cleanup: function () {
+      this._bound.forEach(function (b) {
+        b.el.removeEventListener('pointermove', b.move)
+        b.el.removeEventListener('pointerleave', b.leave)
+        if (window.gsap) gsap.set(b.el, { clearProps: 'x,y' })
+      })
+      this._bound = []
+    }
+  })
+
+  /* ── Scramble ────────────────────────────────────────────────────────────
+   * Folio numbers and tech-pack figures decode into place as they enter
+   * the viewport — the measurement being taken, in ~600ms of monospace
+   * noise. Purely decorative characters, so nothing important is ever
+   * unreadable, and reduced-motion users skip it entirely.
+   * -------------------------------------------------------------------- */
+  AK.register({
+    id: 'ak:scramble',
+    _io: null,
+    _frames: [],
+    init: function (container) {
+      if (reduced.matches || !('IntersectionObserver' in window)) return
+      var els = container.querySelectorAll('.ak-eyebrow__folio, .ak-index__folio, .ak-callout__value, .ak-chapter__measure b')
+      if (!els.length) return
+      var CHARS = '0123456789·—/AKX'
+      var self = this
+      this._io = new IntersectionObserver(function (entries, io) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return
+          io.unobserve(entry.target)
+          var el = entry.target
+          var final = el.textContent
+          if (!final || final.length > 24 || el.children.length) return
+          var start = null
+          var dur = 450 + 300 * Math.random()
+          function tick (ts) {
+            if (start === null) start = ts
+            var p = (ts - start) / dur
+            if (p >= 1) { el.textContent = final; return }
+            var out = ''
+            for (var i = 0; i < final.length; i++) {
+              out += (i / final.length < p || ' ' === final[i]) ? final[i] : CHARS[(Math.random() * CHARS.length) | 0]
+            }
+            el.textContent = out
+            self._frames.push(requestAnimationFrame(tick))
+          }
+          self._frames.push(requestAnimationFrame(tick))
+        })
+      }, { threshold: 0.6 })
+      var io = this._io
+      Array.prototype.forEach.call(els, function (el) { io.observe(el) })
+    },
+    cleanup: function () {
+      if (this._io) this._io.disconnect()
+      this._io = null
+      this._frames.forEach(cancelAnimationFrame)
+      this._frames = []
+    }
+  })
+
+  /* ── Band velocity ───────────────────────────────────────────────────────
+   * The facts band skews against scroll velocity — the strip behaves like
+   * tape being pulled. The skew sits on .ak-band (the marquee keyframes
+   * own the track's transform), and the loop only runs on pages that
+   * actually have a band.
+   * -------------------------------------------------------------------- */
+  AK.register({
+    id: 'ak:band-velocity',
+    _raf: null,
+    init: function (container) {
+      if (reduced.matches) return
+      var bands = container.querySelectorAll('.ak-band')
+      if (!bands.length) return
+      var self = this
+      var last = window.scrollY
+      var skew = 0
+      function loop () {
+        var y = window.scrollY
+        var target = Math.max(-6, Math.min(6, (y - last) * 0.35))
+        last = y
+        skew += (target - skew) * 0.12
+        if (Math.abs(skew) < 0.01) skew = 0
+        for (var i = 0; i < bands.length; i++) {
+          bands[i].style.transform = skew ? 'skewX(' + skew.toFixed(2) + 'deg)' : ''
+        }
+        self._raf = requestAnimationFrame(loop)
+      }
+      self._raf = requestAnimationFrame(loop)
+    },
+    cleanup: function () {
+      if (this._raf) cancelAnimationFrame(this._raf)
+      this._raf = null
+    }
+  })
+
   /* ── The Seam ────────────────────────────────────────────────────────────
    * One orange thread down the page, bowing against scroll velocity on an
    * underdamped spring. It lives in the footer, outside Barba's container, so
