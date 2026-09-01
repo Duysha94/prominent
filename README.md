@@ -17,6 +17,17 @@ was rejected and why, and the open questions.
 
 ---
 
+## Install on WordPress
+
+The production build lives in [`wordpress/`](wordpress/): the **Zeyna child
+theme** (`ak-zeyna-child.zip`) plus a **content import**
+(`import/ak-content.xml`) that carries every page, the menu, six placeholder
+case studies, four journal entries and the Contact Form 7 project-brief form.
+Install order and the post-install checklist:
+[`wordpress/ak-zeyna-child/README.md`](wordpress/ak-zeyna-child/README.md).
+
+---
+
 ## Run it
 
 ```bash

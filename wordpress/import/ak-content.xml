@@ -1,0 +1,1062 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  AK Brand Development Studio — content import.
+  Import via Tools → Import → WordPress (with the child theme already active,
+  so the portfolio post type exists to receive the case studies).
+-->
+<rss version="2.0"
+	xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:wp="http://wordpress.org/export/1.2/">
+<channel>
+	<title>AK Brand Development Studio</title>
+	<link>https://akbrand.studio</link>
+	<description>Fashion &#38; Brand Advisory</description>
+	<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+	<language>en-GB</language>
+	<wp:wxr_version>1.2</wp:wxr_version>
+	<wp:base_site_url>https://akbrand.studio</wp:base_site_url>
+	<wp:base_blog_url>https://akbrand.studio</wp:base_blog_url>
+	<wp:author>
+		<wp:author_id>1</wp:author_id>
+		<wp:author_login><![CDATA[akstudio]]></wp:author_login>
+		<wp:author_email><![CDATA[hello@akbrand.studio]]></wp:author_email>
+		<wp:author_display_name><![CDATA[AK Studio]]></wp:author_display_name>
+		<wp:author_first_name><![CDATA[]]></wp:author_first_name>
+		<wp:author_last_name><![CDATA[]]></wp:author_last_name>
+	</wp:author>
+	<wp:term>
+		<wp:term_id>901</wp:term_id>
+		<wp:term_taxonomy><![CDATA[nav_menu]]></wp:term_taxonomy>
+		<wp:term_slug><![CDATA[primary]]></wp:term_slug>
+		<wp:term_name><![CDATA[Primary]]></wp:term_name>
+	</wp:term>
+	<item>
+		<title><![CDATA[Home]]></title>
+		<link>https://akbrand.studio/home/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1001</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1001</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[home]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>1</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+	</item>
+	<item>
+		<title><![CDATA[Work]]></title>
+		<link>https://akbrand.studio/work-index/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1002</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- This page is a fallback: the Work archive at /work/ is rendered by the portfolio post type. -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1002</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[work-index]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>2</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page-templates/template-ak-page.php]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Services]]></title>
+		<link>https://akbrand.studio/services/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1003</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1003</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[services]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>3</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page-templates/template-services.php]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Journal]]></title>
+		<link>https://akbrand.studio/journal/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1004</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1004</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[journal]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>4</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+	</item>
+	<item>
+		<title><![CDATA[About]]></title>
+		<link>https://akbrand.studio/about/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1005</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1005</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[about]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>5</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page-templates/template-about.php]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Contact]]></title>
+		<link>https://akbrand.studio/contact/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1006</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1006</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[contact]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>6</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page-templates/template-contact.php]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Client Name]]></title>
+		<link>https://akbrand.studio/portfolio/placeholder-collection-launch/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1007</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[Placeholder. A designer with a finished collection and no route to an audience. Position, identity and a runway slot inside one season — replace this text with the real project.]]></excerpt:encoded>
+		<wp:post_id>1007</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[placeholder-collection-launch]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[portfolio]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="project-categories" nicename="collection-launch"><![CDATA[Collection launch]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[A first collection, shown in London.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_category]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Collection launch]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_year]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2026]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_movements]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Strategy, Identity, Production]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Placeholder. A designer with a finished collection and no route to an audience. Position, identity and a runway slot inside one season — replace this text with the real project.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_measures]]></wp:meta_key>
+			<wp:meta_value><![CDATA[[{"key":"LOOKS","value":"24"},{"key":"PRESS","value":"38"},{"key":"RUNWAY","value":"LDN"}]]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_chapters]]></wp:meta_key>
+			<wp:meta_value><![CDATA[[{"title":"The position","body":"Placeholder chapter. Describe what the brand was saying about itself before, and what it says now.","mkey":"DECK","mval":"1 page"},{"title":"The show","body":"Placeholder chapter. Describe the production — the venue, the casting, the running order, the press list.","mkey":"LOOKS","mval":"24"},{"title":"The coverage","body":"Placeholder chapter. Describe what the show produced afterwards: press, stockists, follow-on work.","mkey":"PRESS","mval":"38 titles"}]]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Client Name]]></title>
+		<link>https://akbrand.studio/portfolio/placeholder-brand-identity/</link>
+		<pubDate>Sun, 30 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1008</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[Placeholder. An identity drawn at ad size first and at backdrop size second — replace with the real project.]]></excerpt:encoded>
+		<wp:post_id>1008</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-30 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-30 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-30 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-30 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[placeholder-brand-identity]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[portfolio]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="project-categories" nicename="brand-identity"><![CDATA[Brand identity]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[An identity built to survive the feed.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_category]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Brand identity]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_year]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2026]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_movements]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Strategy, Identity]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Placeholder. An identity drawn at ad size first and at backdrop size second — replace with the real project.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_measures]]></wp:meta_key>
+			<wp:meta_value><![CDATA[[{"key":"MARKS","value":"3"},{"key":"SCALE","value":"4:5 → 6m"}]]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_chapters]]></wp:meta_key>
+			<wp:meta_value><![CDATA[[{"title":"Drawn at ad size","body":"Placeholder chapter. Describe why the identity was designed for the crop it would actually live in.","mkey":"CROP","mval":"4:5 first"},{"title":"The system","body":"Placeholder chapter. Describe the guidelines, the type, the colour and how the team uses it without you.","mkey":"","mval":""}]]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_position]]></wp:meta_key>
+			<wp:meta_value><![CDATA[{"statement":"Placeholder positioning line — replace with the sentence this brand actually arrived at.","rejected":["Placeholder alternative one — the safe version","Placeholder alternative two — the category version","Placeholder alternative three — the trend version"]}]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Client Name]]></title>
+		<link>https://akbrand.studio/portfolio/placeholder-personal-brand/</link>
+		<pubDate>Sat, 29 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1009</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[Placeholder. Personal brand strategy for a founder whose company was better known than they were.]]></excerpt:encoded>
+		<wp:post_id>1009</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-29 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-29 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-29 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-29 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[placeholder-personal-brand]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[portfolio]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="project-categories" nicename="personal-brand"><![CDATA[Personal brand]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[A founder who stopped hiding behind the brand.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_category]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Personal brand]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_year]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2025]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_movements]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Strategy, Presence]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Placeholder. Personal brand strategy for a founder whose company was better known than they were.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_measures]]></wp:meta_key>
+			<wp:meta_value><![CDATA[[{"key":"AUDIENCE","value":"×4"},{"key":"SPEAKING","value":"6"}]]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_chapters]]></wp:meta_key>
+			<wp:meta_value><![CDATA[[{"title":"The position","body":"Placeholder chapter. Describe what the founder stands for and how it was found.","mkey":"","mval":""},{"title":"The channels","body":"Placeholder chapter. Describe where that position was put to work.","mkey":"AUDIENCE","mval":"×4"}]]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Client Name]]></title>
+		<link>https://akbrand.studio/portfolio/placeholder-website/</link>
+		<pubDate>Fri, 28 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1010</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[Placeholder. A website and online store rebuilt around the brand rather than around a template.]]></excerpt:encoded>
+		<wp:post_id>1010</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-28 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-28 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-28 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-28 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[placeholder-website]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[portfolio]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="project-categories" nicename="e-commerce"><![CDATA[E-commerce]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[A store that finally looked like the clothes.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_category]]></wp:meta_key>
+			<wp:meta_value><![CDATA[E-commerce]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_year]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2025]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_movements]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Identity, Presence]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Placeholder. A website and online store rebuilt around the brand rather than around a template.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_measures]]></wp:meta_key>
+			<wp:meta_value><![CDATA[[{"key":"LCP","value":"0.9s"},{"key":"CVR","value":"+2.4pp"}]]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_chapters]]></wp:meta_key>
+			<wp:meta_value><![CDATA[[{"title":"The rebuild","body":"Placeholder chapter. Describe what the old site got wrong and what replaced it.","mkey":"LCP","mval":"3.8s → 0.9s"},{"title":"The promotion","body":"Placeholder chapter. Describe the digital campaigns that filled it.","mkey":"CVR","mval":"+2.4pp"}]]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Client Name]]></title>
+		<link>https://akbrand.studio/portfolio/placeholder-campaign/</link>
+		<pubDate>Thu, 27 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1011</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[Placeholder. A seasonal campaign produced across London, Paris and Dubai — replace with the real project.]]></excerpt:encoded>
+		<wp:post_id>1011</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-27 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-27 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-27 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-27 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[placeholder-campaign]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[portfolio]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="project-categories" nicename="photo-video"><![CDATA[Photo & video]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[A campaign shot in three cities.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_category]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Photo & video]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_year]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2026]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_movements]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Identity, Production, Presence]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Placeholder. A seasonal campaign produced across London, Paris and Dubai — replace with the real project.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_measures]]></wp:meta_key>
+			<wp:meta_value><![CDATA[[{"key":"CITIES","value":"3"},{"key":"ASSETS","value":"120"}]]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_chapters]]></wp:meta_key>
+			<wp:meta_value><![CDATA[[{"title":"The direction","body":"Placeholder chapter. Describe the creative direction and why it fit the position.","mkey":"","mval":""},{"title":"The shoot","body":"Placeholder chapter. Describe the production itself.","mkey":"ASSETS","mval":"120"}]]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Client Name]]></title>
+		<link>https://akbrand.studio/portfolio/placeholder-relaunch/</link>
+		<pubDate>Wed, 26 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1012</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[Placeholder. A brand relaunch and repositioning for a business that had grown by addition for nine years.]]></excerpt:encoded>
+		<wp:post_id>1012</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-26 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-26 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-26 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-26 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[placeholder-relaunch]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[portfolio]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="project-categories" nicename="repositioning"><![CDATA[Repositioning]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_headline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[A relaunch that kept the customers it had.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_category]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Repositioning]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_year]]></wp:meta_key>
+			<wp:meta_value><![CDATA[2025]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_movements]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Strategy, Identity, Presence]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Placeholder. A brand relaunch and repositioning for a business that had grown by addition for nine years.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_measures]]></wp:meta_key>
+			<wp:meta_value><![CDATA[[{"key":"RANGE","value":"−60%"},{"key":"AOV","value":"+38%"}]]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_chapters]]></wp:meta_key>
+			<wp:meta_value><![CDATA[[{"title":"The cut","body":"Placeholder chapter. Describe what was removed and how that decision was made.","mkey":"RANGE","mval":"−60%"}]]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[ak_position]]></wp:meta_key>
+			<wp:meta_value><![CDATA[{"statement":"Placeholder repositioning line — replace with the real one.","rejected":["Placeholder alternative one","Placeholder alternative two","Placeholder alternative three"]}]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[What it actually costs to show at a fashion week]]></title>
+		<link>https://akbrand.studio/post/what-it-costs-to-show-at-a-fashion-week/</link>
+		<pubDate>Mon, 24 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1013</guid>
+		<description></description>
+		<content:encoded><![CDATA[<p>Placeholder standfirst. The real version should be the honest breakdown a young designer cannot find anywhere else — venue, casting, production, PR, and what a slot is genuinely worth.</p>
+
+<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>]]></content:encoded>
+		<excerpt:encoded><![CDATA[Placeholder standfirst. The real version should be the honest breakdown a young designer cannot find anywhere else — venue, casting, production, PR, and what a slot is genuinely worth.]]></excerpt:encoded>
+		<wp:post_id>1013</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-24 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-24 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-24 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-24 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[what-it-costs-to-show-at-a-fashion-week]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[post]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="category" nicename="production"><![CDATA[Production]]></category>
+	</item>
+	<item>
+		<title><![CDATA[Design the identity at ad size first]]></title>
+		<link>https://akbrand.studio/post/design-the-identity-at-ad-size-first/</link>
+		<pubDate>Mon, 17 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1014</guid>
+		<description></description>
+		<content:encoded><![CDATA[<p>Placeholder standfirst. A logo that only works at billboard scale is a logo that will be cropped, shrunk and ignored by the algorithm that decides whether anyone sees it.</p>
+
+<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>]]></content:encoded>
+		<excerpt:encoded><![CDATA[Placeholder standfirst. A logo that only works at billboard scale is a logo that will be cropped, shrunk and ignored by the algorithm that decides whether anyone sees it.]]></excerpt:encoded>
+		<wp:post_id>1014</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-17 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-17 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-17 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-17 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[design-the-identity-at-ad-size-first]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[post]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="category" nicename="identity"><![CDATA[Identity]]></category>
+	</item>
+	<item>
+		<title><![CDATA[Your company is not your personal brand]]></title>
+		<link>https://akbrand.studio/post/your-company-is-not-your-personal-brand/</link>
+		<pubDate>Mon, 10 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1015</guid>
+		<description></description>
+		<content:encoded><![CDATA[<p>Placeholder standfirst. Why founders in fashion are usually better known than their labels — and what to do when it is the other way round.</p>
+
+<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>]]></content:encoded>
+		<excerpt:encoded><![CDATA[Placeholder standfirst. Why founders in fashion are usually better known than their labels — and what to do when it is the other way round.]]></excerpt:encoded>
+		<wp:post_id>1015</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-10 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-10 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-10 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-10 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[your-company-is-not-your-personal-brand]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[post]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="category" nicename="strategy"><![CDATA[Strategy]]></category>
+	</item>
+	<item>
+		<title><![CDATA[Fix the website before you buy the traffic]]></title>
+		<link>https://akbrand.studio/post/fix-the-website-before-you-buy-the-traffic/</link>
+		<pubDate>Mon, 03 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1016</guid>
+		<description></description>
+		<content:encoded><![CDATA[<p>Placeholder standfirst. Every pound of promotion lands on a page. If that page is slow or unclear, promotion just buys a faster exit.</p>
+
+<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>]]></content:encoded>
+		<excerpt:encoded><![CDATA[Placeholder standfirst. Every pound of promotion lands on a page. If that page is slow or unclear, promotion just buys a faster exit.]]></excerpt:encoded>
+		<wp:post_id>1016</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-03 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-03 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-03 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-03 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[fix-the-website-before-you-buy-the-traffic]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[post]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="category" nicename="presence"><![CDATA[Presence]]></category>
+	</item>
+	<item>
+		<title><![CDATA[AK — Project brief]]></title>
+		<link>https://akbrand.studio/wpcf7_contact_form/ak-project-brief/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1017</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1017</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[ak-project-brief]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[wpcf7_contact_form]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_form]]></wp:meta_key>
+			<wp:meta_value><![CDATA[<div class="ak-grid-2">
+<label class="ak-field"><span class="ak-field__label">Your name *</span>
+    [text* your-name autocomplete:name] </label>
+
+<label class="ak-field"><span class="ak-field__label">Email *</span>
+    [email* your-email autocomplete:email] </label>
+</div>
+
+<div class="ak-grid-2">
+<label class="ak-field"><span class="ak-field__label">Brand or company</span>
+    [text your-brand autocomplete:organization] </label>
+
+<label class="ak-field"><span class="ak-field__label">Website or Instagram</span>
+    [text your-link] </label>
+</div>
+
+<label class="ak-field"><span class="ak-field__label">Where is the brand now? *</span>
+    [select* brand-stage "Just an idea" "Launching — first collection or first product" "Trading — selling, but growth is flat" "Scaling — growing, and the seams are showing"] </label>
+
+<label class="ak-field"><span class="ak-field__label">What do you think you need? *</span>
+    [select* project-need "Brand strategy and positioning" "Personal brand" "Identity and creative direction" "Photo / video campaign" "Event or fashion show production" "Website or online store" "Digital promotion" "Not sure — tell me what I need"] </label>
+
+<label class="ak-field"><span class="ak-field__label">Tell us about the project *</span>
+    [textarea* your-message] </label>
+
+[submit "Send the brief"]]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_mail]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:9:{s:6:"active";b:1;s:7:"subject";s:41:"[AK Studio] Project brief — [your-name]";s:6:"sender";s:40:"[_site_title] <wordpress@[_site_domain]>";s:9:"recipient";s:20:"hello@akbrand.studio";s:4:"body";s:172:"From: [your-name] <[your-email]>
+Brand: [your-brand]
+Link: [your-link]
+
+Stage: [brand-stage]
+Needs: [project-need]
+
+[your-message]
+
+--
+Sent from [_site_title] ([_site_url])";s:18:"additional_headers";s:22:"Reply-To: [your-email]";s:11:"attachments";s:0:"";s:8:"use_html";b:0;s:13:"exclude_blank";b:0;}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_mail_2]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:9:{s:6:"active";b:1;s:7:"subject";s:54:"AK Brand Development Studio — we received your brief";s:6:"sender";s:40:"[_site_title] <wordpress@[_site_domain]>";s:9:"recipient";s:12:"[your-email]";s:4:"body";s:248:"Thank you — your brief has reached the studio.
+
+We reply within two working days with an honest read: which movements your project actually needs, and which it does not.
+
+AK Brand Development Studio
+Fashion & Brand Advisory — London
+[_site_url]";s:18:"additional_headers";s:30:"Reply-To: hello@akbrand.studio";s:11:"attachments";s:0:"";s:8:"use_html";b:0;s:13:"exclude_blank";b:0;}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_messages]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:22:{s:12:"mail_sent_ok";s:39:"Sent. We reply within two working days.";s:12:"mail_sent_ng";s:66:"Something failed on our side. Email hello@akbrand.studio directly.";s:16:"validation_error";s:37:"A field or two needs attention below.";s:4:"spam";s:42:"The form could not verify this submission.";s:12:"accept_terms";s:36:"Please accept the terms to continue.";s:16:"invalid_required";s:23:"This field is required.";s:16:"invalid_too_long";s:23:"This field is too long.";s:17:"invalid_too_short";s:24:"This field is too short.";s:13:"upload_failed";s:14:"Upload failed.";s:24:"upload_file_type_invalid";s:30:"This file type is not allowed.";s:21:"upload_file_too_large";s:23:"This file is too large.";s:23:"upload_failed_php_error";s:14:"Upload failed.";s:12:"invalid_date";s:26:"Date format seems invalid.";s:14:"date_too_early";s:23:"This date is too early.";s:13:"date_too_late";s:22:"This date is too late.";s:14:"invalid_number";s:28:"Number format seems invalid.";s:16:"number_too_small";s:25:"This number is too small.";s:16:"number_too_large";s:25:"This number is too large.";s:23:"quiz_answer_not_correct";s:36:"The answer to the quiz is incorrect.";s:13:"invalid_email";s:33:"This email address seems invalid.";s:11:"invalid_url";s:23:"This URL seems invalid.";s:11:"invalid_tel";s:36:"This telephone number seems invalid.";}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_additional_settings]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_locale]]></wp:meta_key>
+			<wp:meta_value><![CDATA[en_GB]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Home]]></title>
+		<link>https://akbrand.studio/nav_menu_item/home-menu-item/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1018</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1018</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[home-menu-item]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>1</wp:menu_order>
+		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="nav_menu" nicename="primary"><![CDATA[Primary]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
+			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1001]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Work]]></title>
+		<link>https://akbrand.studio/nav_menu_item/work-menu-item/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1019</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1019</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[work-menu-item]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>2</wp:menu_order>
+		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="nav_menu" nicename="primary"><![CDATA[Primary]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
+			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1002]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Services]]></title>
+		<link>https://akbrand.studio/nav_menu_item/services-menu-item/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1020</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1020</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[services-menu-item]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>3</wp:menu_order>
+		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="nav_menu" nicename="primary"><![CDATA[Primary]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
+			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1003]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Journal]]></title>
+		<link>https://akbrand.studio/nav_menu_item/journal-menu-item/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1021</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1021</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[journal-menu-item]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>4</wp:menu_order>
+		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="nav_menu" nicename="primary"><![CDATA[Primary]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
+			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1004]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[About]]></title>
+		<link>https://akbrand.studio/nav_menu_item/about-menu-item/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1022</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1022</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[about-menu-item]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>5</wp:menu_order>
+		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="nav_menu" nicename="primary"><![CDATA[Primary]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
+			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1005]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title><![CDATA[Contact]]></title>
+		<link>https://akbrand.studio/nav_menu_item/contact-menu-item/</link>
+		<pubDate>Mon, 31 Aug 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[akstudio]]></dc:creator>
+		<guid isPermaLink="false">https://akbrand.studio/?p=1023</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1023</wp:post_id>
+		<wp:post_date><![CDATA[2026-08-31 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-08-31 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-08-31 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[contact-menu-item]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>6</wp:menu_order>
+		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain="nav_menu" nicename="primary"><![CDATA[Primary]]></category>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_type]]></wp:meta_key>
+			<wp:meta_value><![CDATA[post_type]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_menu_item_parent]]></wp:meta_key>
+			<wp:meta_value><![CDATA[0]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
+			<wp:meta_value><![CDATA[1006]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_target]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_classes]]></wp:meta_key>
+			<wp:meta_value><![CDATA[a:1:{i:0;s:0:"";}]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_xfn]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+</channel>
+</rss>

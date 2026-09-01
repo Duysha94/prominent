@@ -1,0 +1,241 @@
+<?php
+/**
+ * The front page.
+ *
+ * Sequence answers the visitor's questions in order: what is this → why this
+ * studio → what has it done → who is behind it → what to do next. The one
+ * full-bleed accent section is spent exactly once.
+ *
+ * @package ak-zeyna-child
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+get_header();
+
+$ak_video_av1  = get_theme_mod( 'ak_hero_video_av1', '' );
+$ak_video_h264 = get_theme_mod( 'ak_hero_video_h264', '' );
+$ak_poster     = get_theme_mod( 'ak_hero_poster', '' );
+$ak_work_page  = get_post_type_archive_link( 'portfolio' );
+$ak_contact    = get_page_by_path( 'contact' );
+$ak_services   = get_page_by_path( 'services' );
+$ak_about      = get_page_by_path( 'about' );
+$ak_journal    = get_page_by_path( 'journal' );
+?>
+
+<main id="primary" class="site-main ak-scope" <?php echo function_exists( 'zeyna_barba' ) ? zeyna_barba( false ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+
+	<!-- ── Hero ─────────────────────────────────────────────────────────── -->
+	<section class="ak-section">
+		<div class="ak-wrap">
+			<p class="ak-eyebrow">
+				<span class="ak-eyebrow__folio">01</span>
+				<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
+				<span style="color:var(--accent-text)"><?php esc_html_e( 'Fashion & Brand Advisory', 'ak-zeyna-child' ); ?></span>
+				<span aria-hidden="true">—</span>
+				<?php esc_html_e( 'London · Paris · Dubai', 'ak-zeyna-child' ); ?>
+			</p>
+
+			<h1 class="ak-display ak-display--hero" data-ak-cut><?php esc_html_e( 'From an idea to an international presence.', 'ak-zeyna-child' ); ?></h1>
+
+			<p class="ak-lead">
+				<?php esc_html_e( 'AK Brand Development Studio is an independent creative and strategic practice specialising in brand development, fashion consulting and creative production.', 'ak-zeyna-child' ); ?>
+				<strong style="display:block;margin-top:1rem;color:var(--text)"><?php esc_html_e( 'We founded London Fashion Day and Odessa Fashion Day — so the runway our clients walk on is one we built.', 'ak-zeyna-child' ); ?></strong>
+			</p>
+
+			<p class="ak-cta__row">
+				<a class="ak-btn ak-btn--fill" href="<?php echo esc_url( $ak_work_page ? $ak_work_page : home_url( '/work/' ) ); ?>"><?php esc_html_e( 'See the work', 'ak-zeyna-child' ); ?></a>
+				<a class="ak-btn ak-btn--line" href="<?php echo esc_url( $ak_contact ? get_permalink( $ak_contact ) : home_url( '/contact/' ) ); ?>"><?php esc_html_e( 'Start a project', 'ak-zeyna-child' ); ?></a>
+			</p>
+
+			<!-- The showreel swatch: a measured band of material. The plate is
+			     the poster state; the video upgrades it when the Customizer
+			     uploads exist (Appearance → Customize → AK Studio). -->
+			<div class="ak-rise" style="margin-top:4rem">
+				<div data-ak-measure data-always style="position:relative">
+					<div class="ak-plate ak-plate--disc ak-r-165 ak-video">
+						<?php if ( $ak_video_av1 || $ak_video_h264 ) : ?>
+							<video muted loop playsinline preload="none" disableremoteplayback aria-hidden="true" tabindex="-1" data-ak-video
+								<?php echo $ak_poster ? 'poster="' . esc_url( $ak_poster ) . '"' : ''; ?>>
+								<?php if ( $ak_video_av1 ) : ?><source src="<?php echo esc_url( $ak_video_av1 ); ?>" type='video/mp4; codecs="av01.0.05M.08"' /><?php endif; ?>
+								<?php if ( $ak_video_h264 ) : ?><source src="<?php echo esc_url( $ak_video_h264 ); ?>" type="video/mp4" /><?php endif; ?>
+							</video>
+						<?php else : ?>
+							<span class="ak-plate__note"><?php esc_html_e( 'Showreel slot — upload in Customizer → AK Studio', 'ak-zeyna-child' ); ?></span>
+						<?php endif; ?>
+					</div>
+					<?php ak_measure_hud( array(
+						array( 'key' => 'MOVEMENTS', 'value' => '04' ),
+						array( 'key' => 'CITIES', 'value' => 'LDN·PAR·DXB' ),
+					), __( 'Showreel — SS26', 'ak-zeyna-child' ) ); ?>
+				</div>
+			</div>
+
+			<!-- The four movements, stated immediately. -->
+			<ol class="ak-grid ak-grid--2 ak-grid--4" style="list-style:none;padding:0;margin:3.5rem 0 0">
+				<?php
+				$ak_movements = array(
+					array( 'strategy', __( 'Strategy', 'ak-zeyna-child' ), __( 'Decide what the brand is, who it is for, and what it will not be.', 'ak-zeyna-child' ) ),
+					array( 'identity', __( 'Identity', 'ak-zeyna-child' ), __( 'Give the position a face that survives contact with the real world.', 'ak-zeyna-child' ) ),
+					array( 'production', __( 'Production', 'ak-zeyna-child' ), __( 'Make it exist — the campaign, the event, the show, the room.', 'ak-zeyna-child' ) ),
+					array( 'presence', __( 'Presence', 'ak-zeyna-child' ), __( 'Put it where people already are, and make it findable.', 'ak-zeyna-child' ) ),
+				);
+				$ak_services_url = $ak_services ? get_permalink( $ak_services ) : home_url( '/services/' );
+				foreach ( $ak_movements as $ak_i => $ak_m ) :
+					?>
+					<li class="ak-rise">
+						<a href="<?php echo esc_url( $ak_services_url . '#' . $ak_m[0] ); ?>" style="text-decoration:none;color:inherit;display:block">
+							<span class="ak-eyebrow" style="gap:.5rem"><span class="ak-eyebrow__folio">0<?php echo (int) ( $ak_i + 1 ); ?></span></span>
+							<h2 style="font-family:var(--font-display);font-style:italic;font-size:1.5rem;margin:.75rem 0 0"><?php echo esc_html( $ak_m[1] ); ?></h2>
+							<p style="font-size:.8125rem;line-height:1.6;color:var(--text-muted);margin:.6rem 0 0"><?php echo esc_html( $ak_m[2] ); ?></p>
+						</a>
+					</li>
+				<?php endforeach; ?>
+			</ol>
+		</div>
+	</section>
+
+	<!-- ── The argument: the one full-bleed accent section ──────────────── -->
+	<section class="ak-accent-field">
+		<div class="ak-wrap">
+			<p class="ak-eyebrow"><?php esc_html_e( 'Why this studio', 'ak-zeyna-child' ); ?></p>
+			<h2 class="ak-display" data-ak-cut><?php esc_html_e( 'Strategy that never leaves the deck is not strategy.', 'ak-zeyna-child' ); ?></h2>
+			<p class="ak-lead" style="color:inherit;opacity:.82">
+				<?php esc_html_e( 'Most advisories hand you a deck and wish you luck. We produce the campaign, we produce the show, and we own the runways our clients walk on. From the initial idea to international presence, we support projects at every stage of their development.', 'ak-zeyna-child' ); ?>
+			</p>
+		</div>
+	</section>
+
+	<!-- ── Selected work ────────────────────────────────────────────────── -->
+	<?php
+	$ak_cases = new WP_Query(
+		array(
+			'post_type'      => 'portfolio',
+			'posts_per_page' => 4,
+			'no_found_rows'  => true,
+		)
+	);
+	if ( $ak_cases->have_posts() ) :
+		?>
+		<section class="ak-section ak-section--rule">
+			<div class="ak-wrap">
+				<p class="ak-eyebrow">
+					<span class="ak-eyebrow__folio">02</span>
+					<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
+					<?php esc_html_e( 'Selected work', 'ak-zeyna-child' ); ?>
+				</p>
+				<h2 class="ak-display ak-vf" data-ak-cut><?php esc_html_e( 'Selected work, and what it moved.', 'ak-zeyna-child' ); ?></h2>
+
+				<ul class="ak-index">
+					<?php
+					$ak_folio = 0;
+					while ( $ak_cases->have_posts() ) :
+						$ak_cases->the_post();
+						$ak_folio++;
+						?>
+						<li class="ak-index__row ak-rise">
+							<a class="ak-index__link" href="<?php the_permalink(); ?>">
+								<span class="ak-index__folio"><?php echo esc_html( str_pad( (string) $ak_folio, 3, '0', STR_PAD_LEFT ) ); ?></span>
+								<span class="ak-index__client"><?php the_title(); ?></span>
+								<span class="ak-index__title"><?php echo esc_html( ak_meta( 'ak_headline', get_the_title() ) ); ?></span>
+								<span class="ak-index__tags">
+									<?php foreach ( ak_case_movements() as $ak_tag ) : ?>
+										<span class="ak-index__tag"><?php echo esc_html( $ak_tag ); ?></span>
+									<?php endforeach; ?>
+								</span>
+								<span class="ak-index__year"><?php echo esc_html( ak_meta( 'ak_year' ) ); ?></span>
+							</a>
+						</li>
+					<?php endwhile; wp_reset_postdata(); ?>
+				</ul>
+
+				<p style="margin-top:2.5rem">
+					<a class="ak-btn ak-btn--line" href="<?php echo esc_url( $ak_work_page ? $ak_work_page : home_url( '/work/' ) ); ?>"><?php esc_html_e( 'All work', 'ak-zeyna-child' ); ?></a>
+				</p>
+			</div>
+		</section>
+	<?php endif; ?>
+
+	<!-- ── What we founded ──────────────────────────────────────────────── -->
+	<section class="ak-section ak-section--rule">
+		<div class="ak-wrap">
+			<p class="ak-eyebrow">
+				<span class="ak-eyebrow__folio">03</span>
+				<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
+				<?php esc_html_e( 'What we built', 'ak-zeyna-child' ); ?>
+			</p>
+			<h2 class="ak-display ak-vf" data-ak-cut><?php esc_html_e( 'We do not rent the platform. We founded it.', 'ak-zeyna-child' ); ?></h2>
+			<p class="ak-lead"><?php esc_html_e( 'Most studios advising a young designer have to ask someone else for a slot. These are ours — which is why we can put a first collection on an international runway rather than write a deck about one.', 'ak-zeyna-child' ); ?></p>
+
+			<ul class="ak-grid ak-grid--2" style="list-style:none;padding:0;margin:3rem 0 0">
+				<?php
+				$ak_platforms = array(
+					array( 'London Fashion Day', __( 'Founded and produced by Konstantin Lieontiev', 'ak-zeyna-child' ), __( 'An international platform created to support emerging designers.', 'ak-zeyna-child' ) ),
+					array( 'Odessa Fashion Day', __( 'Founded and produced by Konstantin Lieontiev', 'ak-zeyna-child' ), __( 'Built to develop international creative communities.', 'ak-zeyna-child' ) ),
+					array( 'KEKA', __( 'Fashion brand founded by Konstantin Lieontiev', 'ak-zeyna-child' ), __( 'Currently being developed for the international market.', 'ak-zeyna-child' ) ),
+					array( "Cool'baba", __( 'Online magazine founded by Andrey Karakushan', 'ak-zeyna-child' ), __( 'A media platform covering fashion, lifestyle and creative industries.', 'ak-zeyna-child' ) ),
+				);
+				foreach ( $ak_platforms as $ak_p ) :
+					?>
+					<li class="ak-rise">
+						<h3 style="font-family:var(--font-display);font-style:italic;font-size:clamp(1.25rem,2.6vw,1.875rem);margin:0"><?php echo esc_html( $ak_p[0] ); ?></h3>
+						<p style="font-family:var(--font-mono);font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-text);margin:.75rem 0 0"><?php echo esc_html( $ak_p[1] ); ?></p>
+						<p style="font-size:.875rem;line-height:1.6;color:var(--text-muted);margin:.75rem 0 0;max-width:46ch"><?php echo esc_html( $ak_p[2] ); ?></p>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+	</section>
+
+	<?php get_template_part( 'template-parts/ak-band' ); ?>
+
+	<!-- ── Journal preview ──────────────────────────────────────────────── -->
+	<?php
+	$ak_notes = new WP_Query(
+		array(
+			'post_type'      => 'post',
+			'posts_per_page' => 4,
+			'no_found_rows'  => true,
+		)
+	);
+	if ( $ak_notes->have_posts() ) :
+		?>
+		<section class="ak-section">
+			<div class="ak-wrap">
+				<p class="ak-eyebrow">
+					<span class="ak-eyebrow__folio">04</span>
+					<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
+					<?php esc_html_e( 'Journal', 'ak-zeyna-child' ); ?>
+				</p>
+				<h2 class="ak-display ak-vf" data-ak-cut><?php esc_html_e( 'What we have argued about lately.', 'ak-zeyna-child' ); ?></h2>
+
+				<ul class="ak-notes">
+					<?php while ( $ak_notes->have_posts() ) : $ak_notes->the_post(); ?>
+						<li class="ak-note ak-rise">
+							<span class="ak-index__folio"><?php echo esc_html( get_the_date( 'M Y' ) ); ?></span>
+							<div>
+								<h3 class="ak-note__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+								<p class="ak-note__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
+							</div>
+							<span class="ak-note__meta">
+								<?php $ak_cat = get_the_category(); if ( $ak_cat ) : ?><span class="cat"><?php echo esc_html( $ak_cat[0]->name ); ?></span><?php endif; ?>
+							</span>
+						</li>
+					<?php endwhile; wp_reset_postdata(); ?>
+				</ul>
+
+				<p style="margin-top:2.5rem">
+					<a class="ak-btn ak-btn--line" href="<?php echo esc_url( $ak_journal ? get_permalink( $ak_journal ) : home_url( '/journal/' ) ); ?>"><?php esc_html_e( 'All notes', 'ak-zeyna-child' ); ?></a>
+				</p>
+			</div>
+		</section>
+	<?php endif; ?>
+
+	<?php get_template_part( 'template-parts/ak-cta' ); ?>
+
+</main>
+
+<?php
+get_footer();

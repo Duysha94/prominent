@@ -17,6 +17,8 @@ define( 'AK_CHILD_VERSION', '1.0.0' );
 require_once get_stylesheet_directory() . '/inc/enqueue.php';
 require_once get_stylesheet_directory() . '/inc/theme-mode.php';
 require_once get_stylesheet_directory() . '/inc/schema.php';
+require_once get_stylesheet_directory() . '/inc/setup.php';
+require_once get_stylesheet_directory() . '/inc/case-meta.php';
 
 /**
  * Mark the document so the design system can scope itself without competing

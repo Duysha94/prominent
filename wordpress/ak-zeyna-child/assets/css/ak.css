@@ -984,3 +984,359 @@ body { font-weight: 400; }
 @media (prefers-reduced-motion: reduce) {
   .ak-measure-hud { transition: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PLATES — the image system, as pure CSS
+   ═══════════════════════════════════════════════════════════════════════════
+   Halftone placeholders in the two brand colours: ink ground, orange screen.
+   They are deliberately drawn rather than photographic, so a page full of
+   placeholders still reads as art-directed instead of broken — and when real
+   photography arrives it drops into the same box with the same treatment.
+
+   Four screen angles so a grid of plates does not read as wallpaper. Swap any
+   plate for a real image by putting an <img> inside .ak-plate — the halftone
+   then becomes the loading ground behind it.
+   ------------------------------------------------------------------------ */
+.ak-plate {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-ink-950);
+  background-image: radial-gradient(circle, var(--color-brand-500) 1.1px, transparent 1.1px);
+  background-size: 7px 7px;
+}
+.ak-plate--fine   { background-size: 5px 5px; }
+.ak-plate--coarse { background-size: 11px 11px; }
+.ak-plate--band {
+  background-image:
+    radial-gradient(circle, var(--color-brand-500) 1.1px, transparent 1.1px),
+    linear-gradient(115deg, transparent 0 58%, oklch(0.6924 0.1812 46.21 / 0.85) 58%);
+  background-size: 7px 7px, 100% 100%;
+}
+.ak-plate--disc {
+  background-image:
+    radial-gradient(circle at 68% 42%, oklch(0.6924 0.1812 46.21 / 0.9) 0 26%, transparent 27%),
+    radial-gradient(circle, var(--color-brand-500) 1.1px, transparent 1.1px);
+  background-size: 100% 100%, 7px 7px;
+}
+.ak-plate > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ak-plate__note {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-brand-300);
+}
+
+/* Aspect helpers used across the templates. */
+.ak-r-45   { aspect-ratio: 4 / 5; }
+.ak-r-169  { aspect-ratio: 16 / 9; }
+.ak-r-165  { aspect-ratio: 16 / 5; }
+.ak-r-sq   { aspect-ratio: 1 / 1; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE BAND — a marquee that earns its movement
+   ═══════════════════════════════════════════════════════════════════════════
+   Pure CSS, so it costs no main-thread time. WCAG 2.2.2 is Level A: anything
+   auto-moving past five seconds needs a pause control that exists WITHOUT
+   hover — hover does not exist on touch. The checkbox hack keeps even the
+   control JavaScript-free.
+   ------------------------------------------------------------------------ */
+.ak-band {
+  position: relative;
+  overflow: hidden;
+  border-block: 1px solid var(--rule);
+  padding-block: 1.1rem;
+}
+.ak-band__track {
+  display: flex;
+  width: max-content;
+  gap: 0;
+  animation: ak-band-scroll 36s linear infinite;
+}
+.ak-band__half, .ak-band__copy { display: flex; }
+.ak-band:hover .ak-band__track,
+.ak-band:focus-within .ak-band__track,
+.ak-band__pause:checked ~ .ak-band__track { animation-play-state: paused; }
+
+@keyframes ak-band-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.ak-band__item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding-inline: 2rem;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.ak-band__key { opacity: 0.55; font-size: 0.5rem; letter-spacing: 0.18em; }
+
+.ak-band__pause { position: absolute; opacity: 0; pointer-events: none; }
+.ak-band__toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 2;
+  cursor: pointer;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  color: var(--text-faint);
+  padding: 0.2rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.ak-band__pause:focus-visible ~ .ak-band__toggle { outline: 2px solid var(--accent-line); outline-offset: 2px; }
+.ak-band__toggle::after { content: 'Pause'; }
+.ak-band__pause:checked ~ .ak-band__toggle::after { content: 'Play'; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ak-band__track { animation: none; width: auto; }
+  .ak-band__half { flex-wrap: wrap; row-gap: 0.5rem; }
+  .ak-band__copy { display: none; }   /* the duplicate half exists only to loop */
+  .ak-band__toggle { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONTACT FORM 7 — the form language
+   ═══════════════════════════════════════════════════════════════════════════
+   CF7 markup is what it is; these rules dress it in the house language —
+   a ruled line, not a rounded box — without touching the plugin.
+   ------------------------------------------------------------------------ */
+.ak-form .wpcf7-form { display: grid; gap: 2.25rem; }
+
+.ak-form .ak-field { display: block; }
+.ak-form .ak-field > .ak-field__label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+.ak-form .ak-grid-2 {
+  display: grid;
+  gap: 2.25rem;
+}
+@media (min-width: 640px) { .ak-form .ak-grid-2 { grid-template-columns: 1fr 1fr; } }
+
+.ak-form input[type='text'],
+.ak-form input[type='email'],
+.ak-form input[type='tel'],
+.ak-form input[type='url'],
+.ak-form select,
+.ak-form textarea {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  border-radius: 0;
+  padding: 0.6rem 0;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  transition: border-color var(--duration-quick) var(--ease-cut);
+}
+.ak-form select { cursor: pointer; }
+.ak-form select option { background: var(--bg); color: var(--text); }
+.ak-form textarea { resize: vertical; min-height: 6.5rem; }
+.ak-form input:hover, .ak-form select:hover, .ak-form textarea:hover { border-color: var(--text-muted); }
+.ak-form input:focus-visible, .ak-form select:focus-visible, .ak-form textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent-line);
+  box-shadow: 0 1px 0 0 var(--accent-line);
+}
+
+.ak-form input[type='submit'] {
+  justify-self: start;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: var(--accent-fill);
+  color: var(--accent-on);
+  padding: 0.95rem 1.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: transform var(--dur-spring-ui) var(--ease-spring-ui);
+}
+.ak-form input[type='submit']:hover  { transform: translateY(-2px); }
+.ak-form input[type='submit']:active { transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .ak-form input[type='submit'] { transition: none; }
+}
+
+/* CF7 validation states, in the house voice rather than the plugin's red. */
+.ak-form .wpcf7-not-valid { border-color: var(--accent-line) !important; }
+.ak-form .wpcf7-not-valid-tip {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.ak-form .wpcf7-response-output {
+  margin: 0;
+  border: 1px solid var(--rule-strong) !important;
+  padding: 1rem 1.25rem !important;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+.ak-form .wpcf7-form.sent .wpcf7-response-output {
+  border-color: var(--accent-line) !important;
+  color: var(--accent-text);
+}
+.ak-form .wpcf7-spinner { filter: grayscale(1); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WORK INDEX + CASE FURNITURE
+   ------------------------------------------------------------------------ */
+.ak-index { list-style: none; margin: 3rem 0 0; padding: 0; border-top: 1px solid var(--rule); }
+.ak-index__row { border-bottom: 1px solid var(--rule); }
+.ak-index__link {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr auto;
+  gap: 0.5rem 1.25rem;
+  align-items: baseline;
+  padding: 1.6rem 0;
+  text-decoration: none;
+  color: inherit;
+}
+@media (min-width: 900px) {
+  .ak-index__link { grid-template-columns: 3.5rem 11rem 1fr auto 4rem; }
+}
+.ak-index__folio { font-family: var(--font-mono); font-size: 0.5625rem; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+.ak-index__client { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
+.ak-index__title {
+  grid-column: 1 / -1;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.25rem, 2.6vw, 2rem);
+  line-height: 1.15;
+  color: var(--text);
+  transition: color var(--duration-quick) var(--ease-cut);
+}
+@media (min-width: 900px) { .ak-index__title { grid-column: auto; } }
+.ak-index__link:hover .ak-index__title,
+.ak-index__link:focus-visible .ak-index__title { color: var(--accent-text); }
+.ak-index__tags { display: flex; gap: 0.375rem; flex-wrap: wrap; }
+.ak-index__tag {
+  border: 1px solid var(--rule-strong);
+  padding: 0.15rem 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.ak-index__year { display: none; font-family: var(--font-mono); font-size: 0.5625rem; color: var(--text-faint); text-align: right; }
+@media (min-width: 900px) { .ak-index__year { display: block; } }
+
+/* Case chapters: numbered, with the measure in the margin. */
+.ak-chapters { list-style: none; margin: 3rem 0 0; padding: 0; border-top: 1px solid var(--rule); }
+.ak-chapter {
+  display: grid;
+  gap: 1rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+@media (min-width: 900px) { .ak-chapter { grid-template-columns: 4rem 1fr 14rem; gap: 2.5rem; } }
+.ak-chapter__no { font-family: var(--font-mono); font-size: 0.5625rem; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+.ak-chapter__title { margin: 0; font-family: var(--font-display); font-style: italic; font-size: clamp(1.375rem, 3vw, 2.25rem); line-height: 1.1; color: var(--text); }
+.ak-chapter__body { margin-top: 1rem; max-width: 56ch; font-size: 0.9375rem; line-height: 1.65; color: var(--text-muted); }
+.ak-chapter__measure { align-self: start; border: 1px solid var(--rule-strong); padding: 1rem 1.1rem; }
+.ak-chapter__measure b { display: block; font-family: var(--font-mono); font-weight: 700; font-size: 1.35rem; color: var(--accent-text); }
+.ak-chapter__measure span { font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint); }
+
+/* Founder spread. */
+.ak-founder { display: grid; gap: 2rem; border-top: 1px solid var(--rule); padding-top: 2.5rem; }
+@media (min-width: 900px) { .ak-founder { grid-template-columns: minmax(0, 22rem) 1fr; gap: 3.5rem; } }
+.ak-founder__name { margin: 0.75rem 0 0; font-family: var(--font-display); font-style: italic; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 0.95; color: var(--text); }
+.ak-founder__role { margin-top: 0.75rem; font-family: var(--font-mono); font-size: 0.5625rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-text); }
+.ak-founder__bio p { max-width: 62ch; font-size: 0.9375rem; line-height: 1.65; color: var(--text-muted); }
+
+/* Journal list. */
+.ak-notes { list-style: none; margin: 3rem 0 0; padding: 0; border-top: 1px solid var(--rule); }
+.ak-note { display: grid; gap: 1rem; padding: 2.25rem 0; border-bottom: 1px solid var(--rule); }
+@media (min-width: 900px) { .ak-note { grid-template-columns: 4rem 1fr 9rem; gap: 2rem; } }
+.ak-note__meta { display: flex; gap: 0.75rem; font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); }
+@media (min-width: 900px) { .ak-note__meta { flex-direction: column; text-align: right; } }
+.ak-note__meta .cat { color: var(--accent-text); }
+.ak-note__title { margin: 0; max-width: 30ch; font-family: var(--font-display); font-style: italic; font-size: clamp(1.375rem, 3.4vw, 2.5rem); line-height: 1.08; }
+.ak-note__title a { color: var(--text); text-decoration: none; transition: color var(--duration-quick) var(--ease-cut); }
+.ak-note__title a:hover, .ak-note__title a:focus-visible { color: var(--accent-text); }
+.ak-note__excerpt { margin-top: 1rem; max-width: 62ch; font-size: 0.9375rem; line-height: 1.65; color: var(--text-muted); }
+
+/* Long-form entry body. */
+.ak-prose { max-width: 68ch; }
+.ak-prose p { font-size: 1.0625rem; line-height: 1.75; color: var(--text-muted); }
+.ak-prose h2, .ak-prose h3 { font-family: var(--font-display); font-style: italic; color: var(--text); margin-top: 2.5em; }
+.ak-prose a { color: var(--accent-text); }
+.ak-prose blockquote {
+  margin: 2.5rem 0;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--accent-line);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.375rem;
+  color: var(--text);
+}
+
+/* Pre-footer CTA — every page closes on the same invitation. */
+.ak-cta { background: var(--bg-sunk); border-top: 1px solid var(--rule); }
+.ak-cta .ak-display { max-width: 16ch; }
+.ak-cta__row { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2.25rem; }
+
+/* Video slot: a plate that upgrades itself when sources exist (see ak.js). */
+.ak-video { position: relative; }
+.ak-video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* In a crowded mobile menu row the switch keeps its function and sheds its
+   label — the aria-label still names both rooms for assistive tech. */
+@media (max-width: 560px) {
+  .ak-menu-mode .ak-mode__label { display: none; }
+}
+.ak-menu-mode { display: flex; align-items: center; }
+
+/* WordPress's own screen-reader class, restated here so the theme never
+   depends on the parent defining it — an sr-only span that renders visibly
+   is worse than none. */
+.screen-reader-text {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Print (and print-shaped renderers) get the finished page: a scroll reveal
+   that never scrolls would otherwise print as blank rectangles. */
+@media print {
+  .ak-rise, .ak-vf, .ak-draw, .ak-band__track { animation: none !important; }
+  .ak-measure-hud { opacity: 1 !important; }
+  .ak-seam { display: none; }
+}

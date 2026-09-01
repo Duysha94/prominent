@@ -1,30 +1,84 @@
 # AK Brand Development Studio — child theme for Zeyna
 
-Installable WordPress child theme. It keeps Zeyna's header, footer, menu and
-Barba page transitions, and layers the studio's design system and motion on
-top.
+A complete, installable website: child theme + content import. It keeps
+Zeyna's header, footer, menu and Barba page transitions, and layers the
+studio's design system, motion and finished page layouts on top.
+
+After install, only three things are yours to swap: the **logo**, the
+**photography**, and the **showreel video**. Everything else — pages, copy,
+menu, contact form, placeholder case studies — arrives ready.
 
 ---
 
-## Install
+## Install — in this exact order
 
-1. WordPress admin → **Appearance → Themes → Add New → Upload Theme**
-2. Upload `ak-zeyna-child.zip`
-3. **Activate**
+1. **Zeyna** (parent theme): admin → **Appearance → Themes → Add New →
+   Upload Theme** → upload the Zeyna zip from your ThemeForest purchase.
+   Install only — no need to activate it.
+2. **Contact Form 7**: **Plugins → Add New** → search "Contact Form 7" →
+   Install → Activate. (Free, by Takayuki Miyoshi.)
+3. **This child theme**: **Appearance → Themes → Add New → Upload Theme** →
+   upload `ak-zeyna-child.zip` → **Activate**. Activating the child first
+   matters: it registers the portfolio content type and page templates the
+   import is about to reference.
+4. **The content**: **Tools → Import → WordPress** (install the importer
+   when prompted) → upload `ak-content.xml` → assign posts to your own
+   user → run. There are no attachments to download, so that checkbox does
+   not matter.
+5. Done. The theme wires the rest itself the moment the import finishes:
+   front page → *Home*, posts page → *Journal*, the *Primary* menu onto
+   Zeyna's `menu-1` location, permalinks flushed so `/work` resolves.
 
-Zeyna must be installed (it does not need to be the active theme — a child
-theme activates its parent automatically).
+Then two settings worth checking:
 
-Then, in **Zeyna's theme options (Redux)**, make sure **Page transitions** is
-**on**. Zeyna gates the whole Barba system on that switch, and the child theme
-follows it rather than fighting it.
+- **Zeyna theme options (Redux) → Page transitions: ON.** Zeyna gates the
+  whole Barba system on that switch; the child theme follows it.
+- **Settings → Permalinks** — any pretty-permalink structure ("Post name"
+  is fine). Just visiting the screen re-saves rewrite rules if a URL ever 404s.
+
+### Import ran before the theme was active, or pages look unassigned?
+
+Re-activate the child theme (switch to another theme and back, or just
+re-run the import — both are safe and idempotent). The wiring never
+overwrites a choice you made manually.
 
 ---
 
-## What this actually gives you
+## After install: the three swaps
+
+| What | Where | Notes |
+|---|---|---|
+| **Logo** | Customizer → Site Identity → Logo | SVG preferred. Until then the menu shows "AK" set in Fraunces italic. |
+| **Photos** | Each case study → Featured image; founders' portraits on the About page slots | Every image slot is labelled "replace via featured image" on the page itself. |
+| **Showreel video** | Customizer → **AK Studio** | Two uploads — AV1 `.mp4` preferred + H.264 `.mp4` fallback — and a poster frame. 8–12 s, silent, loopable. The hero slot stays a labelled placeholder until you do. |
+
+And before launch:
+
+- Replace `hello@akbrand.studio` with the real address in **three** places:
+  `inc/schema.php`, the Contact Form 7 form's **Mail** tab (recipient), and
+  `template-parts/ak-cta.php`.
+- The six case studies and four journal entries are labelled placeholders —
+  rewrite them with real projects at your pace; the layouts hold.
+
+---
+
+## The contact form
+
+The import creates a Contact Form 7 form named **ak-project-brief** — the
+project brief: name, email, brand, link, two selects ("Where is the brand
+now?", "What do you think you need?") and the message. The contact page
+finds it **by that name**, not by ID (IDs change on import), so never rename
+it. Mail 1 goes to the studio with Reply-To set to the sender; Mail 2 is a
+short auto-reply in the house voice. All validation messages are restyled
+and rewritten.
+
+---
+
+## What is in the box
 
 | Included | Notes |
 |---|---|
+| **Every page, finished** | Home, Work index, six case studies, Services, About, Journal + four entries, Contact — templates and imported content |
 | The full colour system | `#f37021` with the measured contrast rules, both modes, wide-gamut P3 |
 | Three variable fonts, self-hosted | Fraunces, Bricolage Grotesque, Martian Mono — subset and axis-pruned to 187KB total |
 | **ATELIER / RUNWAY** light-dark mode | Zeyna has none — see below |
@@ -34,32 +88,25 @@ follows it rather than fighting it.
 | Tier-1 CSS motion | Scroll-driven reveals and variable-font weight, zero JavaScript |
 | A Barba bridge | Teardown and rebuild around the container swap, plus focus and announcements |
 | JSON-LD | Linked graph: the studio, both founders, and the platforms they founded |
-| One page template | `AK — Bespoke page`, the pattern for all the others |
-
-**Not included:** the finished page layouts. Those are a build project, not a
-theme file — this gives you the system to build them in.
+| Contact Form 7 form + styling | Imported with the content; found by slug at render time |
+| A bespoke-page template | `AK — Bespoke page`, the pattern all the others follow |
 
 ---
 
 ## Zeyna has no light/dark mode
 
-Worth stating plainly because the brief assumed otherwise. Verified against the
-theme source: there is not one occurrence of `data-theme`, `.dark`,
+Worth stating plainly because the brief assumed otherwise. Verified against
+the theme source: there is not one occurrence of `data-theme`, `.dark`,
 `.light-mode` or `prefers-color-scheme` in Zeyna's CSS, and no toggle in its
-JavaScript. What looks like a dark mode in the demos is a **demo variant** — a
-Redux colour preset you import once — not a switch a visitor can operate.
+JavaScript. What looks like a dark mode in the demos is a **demo variant** —
+a Redux colour preset you import once — not a switch a visitor can operate.
 
 So the child theme brings its own, and it is better than a hex-swap: ATELIER
-(the daylit workroom) and RUNWAY (the show) are two designed modes that differ
-in *material* — paper fibre against film grain — not only in colour.
-
-**Add the switch to the header** with either:
-
-```php
-<?php ak_mode_toggle(); ?>
-```
-
-…or the `[ak_mode_toggle]` shortcode if you are placing it from a builder.
+(the daylit workroom) and RUNWAY (the show) are two designed modes that
+differ in *material* — paper fibre against film grain — not only in colour.
+The switch is appended to the primary menu automatically; it is also
+available as `<?php ak_mode_toggle(); ?>` or the `[ak_mode_toggle]`
+shortcode if you want it elsewhere.
 
 The mode is resolved in a blocking inline script in `<head>` before first
 paint, so a dark visitor never sees a white flash, and it is stored on
@@ -79,34 +126,14 @@ rather than hard-coding the attribute, so the theme's own transition option
 still governs it. Miss it and transitions silently degrade to full browser
 navigations.
 
-**Leave `get_footer()` after `</main>`.** The footer sits outside the container
-and persists across navigations — which is exactly why the Seam lives there.
+**Leave `get_footer()` after `</main>`.** The footer sits outside the
+container and persists across navigations — which is exactly why the Seam
+lives there.
 
-Markup uses plain classes from `assets/css/ak.css`: `.ak-wrap`, `.ak-section`,
-`.ak-eyebrow`, `.ak-display`, `.ak-lead`, `.ak-grid`, `.ak-btn`,
-`.ak-accent-field`. No page builder, no utility framework, no build step.
-
-**The measure frame** needs a wrapper and a HUD:
-
-```html
-<div data-ak-measure style="position:relative">
-  <img src="..." alt="">
-  <div class="ak-measure-hud" aria-hidden="true">
-    <span class="ak-tick ak-tick--tl"></span><span class="ak-tick ak-tick--tr"></span>
-    <span class="ak-tick ak-tick--bl"></span><span class="ak-tick ak-tick--br"></span>
-    <span class="ak-dim ak-dim--top"></span>
-    <span class="ak-dim-label">SS26 — Campaign</span>
-    <span class="ak-callout ak-callout--right" style="top:35%">
-      <i class="ak-callout__leader"></i>
-      <b class="ak-callout__key">LOOKS</b><b class="ak-callout__value">24</b>
-    </span>
-  </div>
-</div>
-```
-
-It opens on hover and on keyboard focus with no JavaScript at all; on touch,
-`ak.js` adds `.is-measured` when the block scrolls into view. The HUD is
-`aria-hidden` because it repeats figures stated elsewhere in the block.
+Markup uses plain classes from `assets/css/ak.css`: `.ak-wrap`,
+`.ak-section`, `.ak-eyebrow`, `.ak-display`, `.ak-lead`, `.ak-grid`,
+`.ak-btn`, `.ak-accent-field`, `.ak-plate`, `.ak-band`, `.ak-form`. No page
+builder, no utility framework, no build step.
 
 **Hooks for the motion devices** — add these attributes to any element:
 
@@ -134,8 +161,8 @@ Measured against this site's own surfaces:
 | brand-500 on ink | 6.60:1 | Marks and text on dark |
 | ink on brand-500 | 6.60:1 | Orange fills take **ink** type |
 
-White on orange measures **2.94:1** and fails three thresholds at once. It is
-also what nearly every orange brand ships. Do not add it back.
+White on orange measures **2.94:1** and fails three thresholds at once. It
+is also what nearly every orange brand ships. Do not add it back.
 
 Use `var(--accent-fill)` for surfaces, `var(--accent-text)` for type and
 `var(--accent-line)` for marks — each already resolves correctly per mode.
@@ -146,30 +173,20 @@ Use `var(--accent-fill)` for surfaces, `var(--accent-text)` for type and
 
 Zeyna enqueues GSAP (`zeyna-gsap`), its plugin bundle (`gsap-plugins` —
 SplitText, ScrollTrigger, Flip, Observer), Lenis and Barba. This child theme
-declares dependencies on those handles instead of shipping duplicates: two GSAP
-instances would fight over the same ticker, and it would be ~130KB of duplicate
-JavaScript.
+declares dependencies on those handles instead of shipping duplicates: two
+GSAP instances would fight over the same ticker, and it would be ~130KB of
+duplicate JavaScript.
 
-One consequence worth knowing: Zeyna's bundle does **not** include CustomEase,
-so the four house easing curves are registered as plain functions via
-`gsap.registerEase` in `assets/js/ak.js`. They are the same curves as the CSS
-tokens, so a GSAP tween and a CSS transition on one element move identically.
-
----
-
-## Before launch
-
-- Replace `hello@akbrand.studio` in `inc/schema.php` with the real address.
-- Drop the hero video into the media library, or into a `media/` folder — the
-  React prototype expects `swatch.av1.mp4` + `swatch.h264.mp4`, 8–12s, silent.
-- Replace the placeholder case studies and imagery.
-- Supply the logotype (an SVG); the prototype sets `AK` in Fraunces italic as a
-  stand-in.
+One consequence worth knowing: Zeyna's bundle does **not** include
+CustomEase, so the four house easing curves are registered as plain
+functions via `gsap.registerEase` in `assets/js/ak.js`. They are the same
+curves as the CSS tokens, so a GSAP tween and a CSS transition on one
+element move identically.
 
 ---
 
 ## Reference
 
-The React prototype is the design reference for anything not covered here —
-exact spacing, motion timing, and the page compositions. See `docs/CONCEPT.md`,
-`docs/MOTION.md` and `docs/WORDPRESS-ZEYNA.md` in the repository.
+The React prototype in the repository is the design reference for anything
+not covered here — exact spacing, motion timing, and the page compositions.
+See `docs/CONCEPT.md`, `docs/MOTION.md` and `docs/WORDPRESS-ZEYNA.md`.

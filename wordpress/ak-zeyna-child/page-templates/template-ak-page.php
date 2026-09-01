@@ -52,6 +52,8 @@ get_header();
 
 	<?php endwhile; ?>
 
+	<?php get_template_part( 'template-parts/ak-cta' ); ?>
+
 </main>
 
 <?php
