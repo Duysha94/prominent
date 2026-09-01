@@ -1440,14 +1440,16 @@ body { font-weight: 400; }
 
 /* Bare inline links anywhere in the design system — house accent, never
    browser blue. Classed links (.ak-btn, .ak-chip, cards) style themselves. */
-.ak-scope a:not([class]) {
+.ak-scope p a:not([class]),
+.ak-prose a:not([class]) {
   color: var(--accent-text);
   text-decoration: underline;
   text-decoration-color: var(--accent-line);
   text-underline-offset: 0.2em;
   transition: text-decoration-color 250ms var(--ease-cut);
 }
-.ak-scope a:not([class]):hover { text-decoration-color: currentColor; }
+.ak-scope p a:not([class]):hover,
+.ak-prose a:not([class]):hover { text-decoration-color: currentColor; }
 .ak-prose blockquote {
   margin: 2.5rem 0;
   padding-left: 1.5rem;
@@ -1469,9 +1471,6 @@ body { font-weight: 400; }
 
 /* In a crowded mobile menu row the switch keeps its function and sheds its
    label — the aria-label still names both rooms for assistive tech. */
-@media (max-width: 560px) {
-  .ak-menu-mode .ak-mode__label { display: none; }
-}
 .ak-menu-mode { display: flex; align-items: center; }
 
 /* WordPress's own screen-reader class, restated here so the theme never
@@ -1489,6 +1488,296 @@ body { font-weight: 400; }
 
 /* Print (and print-shaped renderers) get the finished page: a scroll reveal
    that never scrolls would otherwise print as blank rectangles. */
+/* ═══════════════════════════════════════════════════════════════════════════
+   ZEYNA BRIDGE — the parent chrome, taught the house language.
+   ═══════════════════════════════════════════════════════════════════════════
+   Zeyna's own CSS is driven by Redux-printed variables (--mainColor,
+   --secondaryBackground, …). Without a demo import those are UNDEFINED and
+   the menu collapses into an unstyled heap. The child defines every one of
+   them from the AK tokens — in both modes — so the chrome never depends on
+   Redux being configured, and follows ATELIER/RUNWAY automatically.
+   The body.layout--switched selectors out-cascade the parent's own
+   "switched" palette; the PHP bridge (inc/theme-mode.php) turns that
+   per-page Zeyna option into data-theme, so both systems agree.
+   ------------------------------------------------------------------------ */
+:root,
+.e-con,
+.layout--colors,
+.header--switched,
+body.layout--switched,
+:root body.layout--switched,
+:root body.layout--switched .e-con,
+.e-con.layout--switched,
+.e-con.layout--switched .e-con {
+  --mainColor: var(--text);
+  --secondaryColor: var(--text-muted);
+  --mainBackground: var(--bg);
+  --secondaryBackground: var(--bg-raised);
+  --linesColor: var(--rule-strong);
+  --customMainColor: var(--text);
+  --customSecondaryColor: var(--text-muted);
+  --customMainBackground: var(--bg);
+  --customSecondaryBackground: var(--bg-raised);
+  --customLinesColor: var(--rule-strong);
+}
+
+/* ── Header (Zeyna's default header, restyled deterministically) ─────── */
+/* Zeyna keeps the header at opacity:0 under html.first--load and relies on
+   its intro script to reveal it — if that script is late, blocked, or its
+   Redux options absent, the site renders headless. The child's own entrance
+   animation always wins (running animations out-cascade declarations), so
+   the header can never be stranded invisible. */
+.first--load .site-header { opacity: 1; }
+/* fill:backwards, deliberately: a held transform (even identity) would make
+   the header a containing block and trap the fixed mobile panel inside it.
+   After the entrance ends, transform returns to none and opacity is held by
+   the .first--load rule above. */
+.site-header { animation: ak-header-in 700ms var(--ease-cut) backwards; }
+@keyframes ak-header-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header { animation: none; opacity: 1; }
+}
+
+.header--default { position: relative; z-index: 120; }
+.header--default .site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.05rem clamp(1.25rem, 4vw, 3rem);
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+}
+.header--default .site-header .pe-col-6 { width: auto; flex: none; }
+
+.site-branding { display: flex; align-items: center; gap: 0.9rem; }
+.site-branding .custom-logo-link img,
+.site-branding img.custom-logo { max-height: 2.4rem; width: auto; display: block; }
+.site-branding .site-title { font-size: 1.375rem; line-height: 1; }
+.site-branding .site-title a { color: var(--text); text-decoration: none; }
+.site-branding .site-description { display: none; }
+/* Once a real logo is uploaded, the text fallback steps aside. */
+.wp-custom-logo .site-branding .site-title { display: none; }
+
+.main-navigation { width: auto; }
+.main-navigation ul { margin: 0; padding: 0; list-style: none; align-items: center; }
+.main-navigation li { position: relative; }
+.main-navigation a {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text);
+  padding: 0.4rem 0;
+  transition: color 250ms var(--ease-cut);
+}
+.main-navigation a:hover,
+.main-navigation a:focus-visible { color: var(--accent-text); }
+.main-navigation a:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 3px; }
+.main-navigation .current-menu-item > a,
+.main-navigation .current_page_item > a {
+  color: var(--accent-text);
+  box-shadow: 0 1px 0 0 var(--accent-line);
+}
+
+/* Submenus (if ever used) — the parent's absolute dropdown, on our surface. */
+.main-navigation ul ul {
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  box-shadow: 0 18px 40px oklch(0.162 0.008 58 / 0.14);
+}
+
+/* ── The mobile menu: a proper side panel, not a collapsed heap ───────── */
+.menu-toggle {
+  display: none;
+  font-size: 0;                      /* visually replace the long default label */
+  line-height: 0;
+  background: none;
+  border: 1px solid var(--rule-strong);
+  color: var(--text);
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+}
+.menu-toggle::before {
+  content: 'Menu';
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.main-navigation.toggled .menu-toggle::before { content: 'Close'; }
+.menu-toggle:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 3px; }
+
+@media (max-width: 37.49em) {
+  .header--default .site-header { gap: 1rem; }
+  .header--default .site-header .pe-col-6:first-child { min-width: 0; flex: 1 1 auto; }
+  .site-branding .site-title { font-size: 1rem; line-height: 1.25; white-space: normal; }
+  .menu-toggle { display: inline-block; position: relative; z-index: 320; }
+  .main-navigation ul#primary-menu { display: none; }
+  .main-navigation.toggled ul#primary-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.15rem;
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: auto;
+    width: min(20rem, 86vw);
+    padding: 5.75rem 1.75rem 2rem;
+    margin: 0;
+    background: var(--bg);
+    border-left: 1px solid var(--rule-strong);
+    box-shadow: -24px 0 60px oklch(0.162 0.008 58 / 0.22);
+    z-index: 310;
+    overflow-y: auto;
+  }
+  .main-navigation.toggled ul#primary-menu a { font-size: 0.8125rem; }
+  .main-navigation.toggled .ak-menu-mode { margin-top: 1.25rem; }
+}
+
+/* ── The AK footer (template override in footer.php) ─────────────────── */
+.ak-footer {
+  border-top: 1px solid var(--rule);
+  background: var(--bg-sunk);
+}
+.ak-footer__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2.5rem;
+  padding: 4rem 0 3rem;
+}
+@media (max-width: 900px) { .ak-footer__grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .ak-footer__grid { grid-template-columns: 1fr; gap: 2rem; } }
+.ak-footer__mark {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 2.25rem;
+  line-height: 1;
+  color: var(--text);
+  margin: 0 0 1rem;
+}
+.ak-footer__mark a { color: inherit; text-decoration: none; }
+.ak-footer__blurb { font-size: 0.875rem; line-height: 1.7; color: var(--text-muted); max-width: 34ch; margin: 0; }
+.ak-footer__head {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 1.1rem;
+}
+.ak-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+.ak-footer ul a,
+.ak-footer address a {
+  font-size: 0.8125rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 250ms var(--ease-cut);
+}
+.ak-footer ul a:hover, .ak-footer address a:hover { color: var(--accent-text); }
+.ak-footer address { font-style: normal; font-size: 0.8125rem; line-height: 1.8; color: var(--text-muted); }
+.ak-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1.4rem 0;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* The footer marquee: the studio sentence in giant outlined display type. */
+.ak-band--type { border-block: 0; border-top: 1px solid var(--rule); }
+.ak-band--type .ak-band__item {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(2.5rem, 7.5vw, 6rem);
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-muted);
+  padding-block: 1.5rem;
+}
+.ak-band--type .ak-band__track { animation-duration: 70s; }
+@media (prefers-reduced-motion: reduce) {
+  .ak-band--type .ak-band__item { color: var(--text-muted); -webkit-text-stroke: 0; font-size: clamp(1.5rem, 4vw, 2.5rem); }
+}
+
+/* ── The video slot: unmistakable until the real showreel arrives ────── */
+.ak-video-slot {
+  position: absolute;
+  inset: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border: 1px dashed var(--color-brand-500);
+  text-align: center;
+  padding: 1rem;
+}
+.ak-video-slot__play {
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 1px solid var(--color-brand-500);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--color-brand-400);
+  font-size: 1rem;
+}
+.ak-video-slot__label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-brand-400);
+}
+.ak-video-slot__note {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: oklch(0.975 0.006 70 / 0.55);
+}
+
+/* ── Stats strip — the count-up numbers of a motion site ─────────────── */
+.ak-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3.75rem;
+}
+@media (max-width: 700px) { .ak-stats { grid-template-columns: 1fr 1fr; } }
+.ak-stat { border-top: 1px solid var(--rule-strong); padding-top: 1.1rem; }
+.ak-stat__value {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.ak-stat__value sup { font-size: 0.45em; color: var(--accent-text); }
+.ak-stat__key {
+  display: block;
+  margin-top: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
 @media print {
   .ak-rise, .ak-vf, .ak-draw, .ak-band__track,
   .ak-plate, .ak-plate > img, .ak-plate > video { animation: none !important; scale: none; translate: none; }

@@ -476,6 +476,56 @@
     }
   })
 
+  /* ── Count-up ────────────────────────────────────────────────────────────
+   * The stat figures count up as they enter the viewport. The markup ships
+   * with the FINAL value, so crawlers and reduced-motion visitors read the
+   * real number with zero JavaScript; the animation only ever counts toward
+   * what is already there.
+   * -------------------------------------------------------------------- */
+  AK.register({
+    id: 'ak:count',
+    _io: null,
+    _frames: [],
+    init: function (container) {
+      if (reduced.matches || !('IntersectionObserver' in window)) return
+      var els = container.querySelectorAll('[data-ak-count]')
+      if (!els.length) return
+      var self = this
+      this._io = new IntersectionObserver(function (entries, io) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return
+          io.unobserve(entry.target)
+          var el = entry.target
+          var final = parseFloat(el.getAttribute('data-ak-count'))
+          if (isNaN(final)) return
+          var padLen = el.textContent.length
+          var start = null
+          function fmt (n) {
+            var s = String(Math.round(n))
+            while (s.length < padLen) s = '0' + s
+            return s
+          }
+          function tick (ts) {
+            if (null === start) start = ts
+            var p = Math.min(1, (ts - start) / 900)
+            var e = 1 - Math.pow(1 - p, 3)
+            el.textContent = fmt(final * e)
+            if (p < 1) self._frames.push(requestAnimationFrame(tick))
+          }
+          self._frames.push(requestAnimationFrame(tick))
+        })
+      }, { threshold: 0.6 })
+      var io = this._io
+      Array.prototype.forEach.call(els, function (el) { io.observe(el) })
+    },
+    cleanup: function () {
+      if (this._io) this._io.disconnect()
+      this._io = null
+      this._frames.forEach(cancelAnimationFrame)
+      this._frames = []
+    }
+  })
+
   /* ── The Seam ────────────────────────────────────────────────────────────
    * One orange thread down the page, bowing against scroll velocity on an
    * underdamped spring. It lives in the footer, outside Barba's container, so
@@ -488,40 +538,24 @@
     var knot = host.querySelector('circle')
     if (paths.length < 2) return
 
+    // A straight, taut thread. It used to bow against scroll velocity on a
+    // spring; the curve read as a glitch rather than a material, so the
+    // thread now stays true — the orange fill is scroll progress and the
+    // knot is where you are in the document.
     var X = 30, H = 1000
-    var pos = 0, vel = 0, target = 0
-    var last = window.scrollY, lastT = performance.now()
+    var d = 'M ' + X + ' 0 L ' + X + ' ' + H
+    paths[0].setAttribute('d', d)
+    paths[1].setAttribute('d', d)
+    paths[1].setAttribute('pathLength', '1')
+    paths[1].style.strokeDasharray = '1'
+    paths[1].style.strokeDashoffset = '1'
 
     function draw() {
-      if (reduced.matches) {
-        pos = 0
-      } else {
-        // Underdamped spring: the thread wobbles taut rather than snapping.
-        vel = (vel + (target - pos) * 0.09) * 0.78
-        pos += vel
-      }
-      var d = 'M ' + X + ' 0 Q ' + (X + pos) + ' ' + H / 2 + ' ' + X + ' ' + H
-      paths[0].setAttribute('d', d)
-      paths[1].setAttribute('d', d)
-
       var max = doc.documentElement.scrollHeight - window.innerHeight
       var prog = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0
-      paths[1].style.strokeDasharray = '2000'
-      paths[1].style.strokeDashoffset = String((1 - prog) * 2000)
-      if (knot) {
-        knot.setAttribute('cy', String(prog * H))
-        knot.setAttribute('cx', String(X + 2 * (1 - prog) * prog * pos))
-      }
+      paths[1].style.strokeDashoffset = String(1 - prog)
+      if (knot) knot.setAttribute('cy', String(prog * H))
     }
-
-    window.addEventListener('scroll', function () {
-      var now = performance.now()
-      var dt = Math.max(1, now - lastT)
-      var v = ((window.scrollY - last) / dt) * 16
-      last = window.scrollY
-      lastT = now
-      target = Math.max(-34, Math.min(34, -v * 0.9))
-    }, { passive: true })
 
     gsap.ticker.add(draw)
   })()

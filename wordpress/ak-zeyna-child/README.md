@@ -75,6 +75,9 @@ And before launch:
   **Messages**.
 - The six case studies and four journal entries are labelled placeholders —
   rewrite them with real projects at your pace; the layouts hold.
+- The footer is a template file: edit columns/links in `footer.php`. If you
+  ever assign an Elementor footer template in Zeyna's options, it takes
+  precedence automatically.
 - Search snippets are built in: every page emits a hand-written meta
   description (see `inc/seo.php`), and a page's own **excerpt** overrides it
   — no SEO plugin required. If you later install one (Yoast, Rank Math,
@@ -109,19 +112,29 @@ and rewritten.
 | A Barba bridge | Teardown and rebuild around the container swap, plus focus and announcements |
 | JSON-LD | Linked graph: the studio, both founders, the platforms they founded — plus BreadcrumbList on every inner page |
 | Cinema layer | Perspective plate entrances, Ken Burns drift, pointer 3D tilt, the grain — all guarded |
+| **A designed footer** | `footer.php` override: outline-type marquee, Studio/Movements/Contact columns, © bar — replaces Zeyna's "powered by" line |
+| **A real mobile menu** | Side panel with the mode switch inside, instead of Zeyna's collapsed list |
+| **Chrome that cannot break** | Zeyna's `--mainColor`/`--secondaryBackground`/… variables are defined from the AK tokens, so the header and menu never depend on Redux being configured |
 | The name, explained | The A–K monogram on About and "The name" section on Home: A is Andrey, K is Konstantin |
 | Contact Form 7 form + styling | Imported with the content; found by slug at render time |
 | A bespoke-page template | `AK — Bespoke page`, the pattern all the others follow |
 
 ---
 
-## Zeyna has no light/dark mode
+## Light/dark: how the two systems agree
 
-Worth stating plainly because the brief assumed otherwise. Verified against
-the theme source: there is not one occurrence of `data-theme`, `.dark`,
-`.light-mode` or `prefers-color-scheme` in Zeyna's CSS, and no toggle in its
-JavaScript. What looks like a dark mode in the demos is a **demo variant** —
-a Redux colour preset you import once — not a switch a visitor can operate.
+Zeyna has no visitor-facing dark switch — what its demos show as "dark" is a
+one-time Redux preset. What Zeyna DOES have is a per-page **"switched"
+layout** (an ACF field, `page_layout`, that flips the parent palette for
+that one page). The child bridges both worlds:
+
+- The **AK toggle** in the menu is the visitor's control, and an explicit
+  choice always wins (it is remembered).
+- A page marked "switched" in Zeyna's options opens in RUNWAY (dark) by
+  default — the bridge reads that field and sets the initial mode.
+- Every Zeyna palette variable (`--mainColor`, `--secondaryBackground`, …)
+  is re-defined from the AK tokens in both modes, so the parent chrome,
+  submenus and any Elementor block follow the switch automatically.
 
 So the child theme brings its own, and it is better than a hex-swap: ATELIER
 (the daylit workroom) and RUNWAY (the show) are two designed modes that

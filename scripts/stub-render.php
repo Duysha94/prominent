@@ -177,34 +177,59 @@ HTML;
 /* ── Theme shell ─────────────────────────────────────────────────────── */
 function zeyna_barba( $body ) { return $body ? 'data-barba="wrapper"' : 'data-barba="container"'; }
 function get_header() {
+	// The REAL cascade and the REAL chrome: Zeyna's plugins.css + style.css,
+	// then the child's header stylesheet and ak.css, then Zeyna's actual
+	// default-header markup — so QA sees exactly what the live site serves.
 	echo <<<HTML
-<!doctype html><html lang="en"><head><meta charset="utf-8">
+<!doctype html><html class="first--load ajax--first" lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AK stub render</title>
 <script>(function(){try{var t=localStorage.getItem('ak-theme');if(!t){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+<link rel="stylesheet" href="zeyna-css/plugins.css">
+<link rel="stylesheet" href="zeyna-css/style.css">
+<link rel="stylesheet" href="theme/style.css">
 <link rel="stylesheet" href="theme/assets/css/ak.css">
-</head><body class="ak" data-barba="wrapper">
-<header style="padding:1rem 2rem;display:flex;gap:2rem;align-items:center;border-bottom:1px solid var(--rule)">
-<span style="font-family:var(--font-display);font-style:italic;font-size:1.25rem">AK</span>
-<nav style="margin-left:auto;display:flex;gap:1rem;align-items:center;font-size:.8125rem;flex-wrap:wrap;justify-content:flex-end">
-<a href="index-front-page.html" style="color:inherit;text-decoration:none">Home</a>
-<a href="index-archive-portfolio.html" style="color:inherit;text-decoration:none">Work</a>
-<a href="index-template-services.html" style="color:inherit;text-decoration:none">Services</a>
-<a href="index-template-contact.html" style="color:inherit;text-decoration:none">Contact</a>
-<button type="button" class="ak-mode" data-ak-mode aria-pressed="false"><span class="ak-mode__label">Atelier</span><span class="ak-mode__track" aria-hidden="true"><span class="ak-mode__knob"></span></span></button>
+</head><body class="ak show--footer" data-barba="wrapper">
+<span hidden class="layout--colors"></span>
+<div id="page" class="site">
+<a class="skip-link screen-reader-text" href="#primary">Skip to content</a>
+<div class="pe-section header--default">
+<header id="masthead" class="site-header pe-wrapper pe-items-center">
+<div class="pe-col-6">
+<div class="site-branding">
+<h5 class="site-title"><a href="index-front-page.html" rel="home">AK Brand Development Studio</a></h5>
+</div>
+</div>
+<div class="pe-col-6 pe-items-right">
+<nav id="site-navigation" class="main-navigation">
+<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">Primary Menu</button>
+<div class="menu-primary-container"><ul id="primary-menu" class="menu">
+<li class="menu-item current-menu-item"><a href="index-front-page.html">Home</a></li>
+<li class="menu-item"><a href="index-archive-portfolio.html">Work</a></li>
+<li class="menu-item"><a href="index-template-services.html">Services</a></li>
+<li class="menu-item"><a href="index-home.html">Journal</a></li>
+<li class="menu-item"><a href="index-template-about.html">About</a></li>
+<li class="menu-item"><a href="index-template-contact.html">Contact</a></li>
+<li class="menu-item ak-menu-mode"><button type="button" class="ak-mode" data-ak-mode aria-pressed="false"><span class="ak-mode__label">Atelier</span><span class="ak-mode__track" aria-hidden="true"><span class="ak-mode__knob"></span></span></button></li>
+</ul></div>
 </nav>
+</div>
 </header>
+</div>
 HTML;
 }
-function get_footer() {
+function wp_footer() {
 	$grain = file_get_contents( $GLOBALS['THEME'] . '/template-parts/ak-grain.php' );
 	$grain = preg_replace( '/<\?php.*?\?>/s', '', $grain );
 	$seam = file_get_contents( $GLOBALS['THEME'] . '/template-parts/ak-seam.php' );
 	$seam = preg_replace( '/<\?php.*?\?>/s', '', $seam );
-	echo '<footer style="border-top:1px solid var(--rule);padding:3rem 2rem;background:var(--bg-sunk)"><p style="font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint)">Zeyna footer placeholder — outside the container</p></footer>';
 	echo $grain;
 	echo $seam;
-	echo '<script src="zeyna-js/gsap.min.js"></script><script src="zeyna-js/gsap-plugins.min.js"></script><script src="theme/assets/js/ak.js"></script></body></html>';
+	echo '<div id="ak-route-announcer" class="screen-reader-text" role="status" aria-live="polite"></div>';
+	echo '<script src="zeyna-js/navigation.js"></script><script src="zeyna-js/gsap.min.js"></script><script src="zeyna-js/gsap-plugins.min.js"></script><script src="theme/assets/js/ak.js"></script>';
+}
+function get_footer() {
+	include $GLOBALS['THEME'] . '/footer.php';
 }
 function get_template_part( $slug ) {
 	include $GLOBALS['THEME'] . '/' . $slug . '.php';

@@ -62,7 +62,11 @@ $ak_journal    = get_page_by_path( 'journal' );
 								<?php if ( $ak_video_h264 ) : ?><source src="<?php echo esc_url( $ak_video_h264 ); ?>" type="video/mp4" /><?php endif; ?>
 							</video>
 						<?php else : ?>
-							<span class="ak-plate__note"><?php esc_html_e( 'Showreel slot — upload in Customizer → AK Studio', 'ak-zeyna-child' ); ?></span>
+							<span class="ak-video-slot">
+								<span class="ak-video-slot__play" aria-hidden="true"><svg width="13" height="15" viewBox="0 0 13 15" fill="currentColor" aria-hidden="true"><path d="M0 0 L13 7.5 L0 15 Z" /></svg></span>
+								<span class="ak-video-slot__label"><?php esc_html_e( 'Video — showreel slot', 'ak-zeyna-child' ); ?></span>
+								<span class="ak-video-slot__note"><?php esc_html_e( 'Upload in Customizer → AK Studio · AV1 + H.264 .mp4 · 8–12 s · silent', 'ak-zeyna-child' ); ?></span>
+							</span>
 						<?php endif; ?>
 					</div>
 					<?php ak_measure_hud( array(
@@ -70,6 +74,14 @@ $ak_journal    = get_page_by_path( 'journal' );
 						array( 'key' => 'CITIES', 'value' => 'LDN·PAR·DXB' ),
 					), __( 'Showreel', 'ak-zeyna-child' ) ); ?>
 				</div>
+			</div>
+
+			<!-- The figures, counted up as they enter. All checkable facts. -->
+			<div class="ak-stats">
+				<div class="ak-stat ak-rise"><span class="ak-stat__value" data-ak-count="2">02</span><span class="ak-stat__key"><?php esc_html_e( 'Platforms founded', 'ak-zeyna-child' ); ?></span></div>
+				<div class="ak-stat ak-rise"><span class="ak-stat__value" data-ak-count="4">04</span><span class="ak-stat__key"><?php esc_html_e( 'Movements', 'ak-zeyna-child' ); ?></span></div>
+				<div class="ak-stat ak-rise"><span class="ak-stat__value" data-ak-count="9">09</span><span class="ak-stat__key"><?php esc_html_e( 'Services', 'ak-zeyna-child' ); ?></span></div>
+				<div class="ak-stat ak-rise"><span class="ak-stat__value" data-ak-count="3">03</span><span class="ak-stat__key"><?php esc_html_e( 'Cities', 'ak-zeyna-child' ); ?></span></div>
 			</div>
 
 			<!-- The four movements, stated immediately. -->

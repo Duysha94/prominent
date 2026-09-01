@@ -2,12 +2,14 @@
 /**
  * ATELIER / RUNWAY — the two modes.
  *
- * Zeyna has no light/dark mode. Verified against the theme source: not one
- * occurrence of `data-theme`, `.dark`, `.light-mode` or `prefers-color-scheme`
- * in its CSS, and no toggle in its JavaScript. What looks like a dark mode in
- * the demos is a *demo variant* — a Redux colour preset imported once — not a
- * switch a visitor can operate. So the studio's own two-mode system fills that
- * gap.
+ * Zeyna itself has no visitor-facing dark switch. What it DOES have is a
+ * per-page "switched" layout: an ACF field (`page_layout`) that puts
+ * `layout--switched` on <body> and flips the parent's palette variables for
+ * that one page. The child bridges both worlds: that Zeyna field sets the
+ * page's DEFAULT mode here, the AK toggle remains the visitor's control,
+ * and an explicit visitor choice always wins. The parent's palette
+ * variables are re-mapped onto the AK tokens in ak.css, so whichever way
+ * the mode is set, every part of the chrome follows.
  *
  * @package ak-zeyna-child
  */
@@ -31,9 +33,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action(
 	'wp_head',
 	function () {
+		// Zeyna's per-page "switched" (dark) layout, read server-side. With
+		// ACF absent the child's get_field() shim returns null and this is
+		// simply false.
+		$ak_page_dark = function_exists( 'get_field' ) && 'layout--switched' === get_field( 'page_layout' );
 		?>
 <script>
-(function(){try{var t=localStorage.getItem('ak-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
+(function(){var d=<?php echo $ak_page_dark ? 'true' : 'false'; ?>;try{var t=localStorage.getItem('ak-theme');if(!t){t=d||window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme',d?'dark':'light');}})();
 </script>
 		<?php
 	},
