@@ -51,12 +51,19 @@ $ak_journal    = get_page_by_path( 'journal' );
 				<a class="ak-btn ak-btn--line" href="<?php echo esc_url( $ak_contact ? get_permalink( $ak_contact ) : home_url( '/contact/' ) ); ?>"><?php esc_html_e( 'Start a project', 'ak-zeyna-child' ); ?></a>
 			</p>
 
-			<!-- The showreel swatch: a measured band of material. The plate is
-			     the poster state; the video upgrades it when the Customizer
-			     uploads exist (Appearance → Customize → AK Studio). -->
-			<div class="ak-rise" style="margin-top:4rem">
-				<div data-ak-measure data-always data-ak-tilt style="position:relative">
-					<div class="ak-plate ak-plate--disc ak-r-165 ak-video">
+		</div>
+	</section>
+
+	<!-- ── The showreel: a framed swatch that takes the whole screen ────── -->
+	<!-- The section is tall; a sticky child pins the frame while the named
+	     view-timeline (on the section, which DOES move) drives the growth
+	     from a measured swatch to full-bleed. Without scroll-driven support
+	     the reel is simply one full screen of video — it still fills the
+	     screen, it just skips the transition. -->
+	<section class="ak-reel" id="showreel" aria-label="<?php esc_attr_e( 'Showreel', 'ak-zeyna-child' ); ?>">
+		<div class="ak-reel__sticky">
+			<div class="ak-reel__frame" data-ak-measure data-always>
+				<div class="ak-plate ak-plate--disc ak-video ak-reel__plate">
 						<?php if ( $ak_video_av1 || $ak_video_h264 ) : ?>
 							<video autoplay muted loop playsinline preload="metadata" disableremoteplayback aria-hidden="true" tabindex="-1" data-ak-video
 								<?php echo $ak_poster ? 'poster="' . esc_url( $ak_poster ) . '"' : ''; ?>>
@@ -70,14 +77,18 @@ $ak_journal    = get_page_by_path( 'journal' );
 								<span class="ak-video-slot__note"><?php esc_html_e( 'Upload in Customizer → AK Studio · AV1 + H.264 .mp4 · 8–12 s · silent', 'ak-zeyna-child' ); ?></span>
 							</span>
 						<?php endif; ?>
-					</div>
-					<?php ak_measure_hud( array(
-						array( 'key' => 'MOVEMENTS', 'value' => '04' ),
-						array( 'key' => 'CITIES', 'value' => 'LDN·PAR·DXB' ),
-					), __( 'Showreel', 'ak-zeyna-child' ) ); ?>
 				</div>
+				<?php ak_measure_hud( array(
+					array( 'key' => 'MOVEMENTS', 'value' => '04' ),
+					array( 'key' => 'CITIES', 'value' => 'LDN·PAR·DXB' ),
+				), __( 'Showreel', 'ak-zeyna-child' ) ); ?>
 			</div>
+		</div>
+	</section>
 
+	<!-- ── The figures and the four movements ───────────────────────────── -->
+	<section class="ak-section">
+		<div class="ak-wrap">
 			<!-- The figures, counted up as they enter. All checkable facts. -->
 			<div class="ak-stats">
 				<div class="ak-stat ak-rise"><span class="ak-stat__value" data-ak-count="2">02</span><span class="ak-stat__key"><?php esc_html_e( 'Platforms founded', 'ak-zeyna-child' ); ?></span></div>

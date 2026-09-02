@@ -62,6 +62,7 @@ function ak_live_preview( $url, $title ) {
 
 require_once get_stylesheet_directory() . '/inc/enqueue.php';
 require_once get_stylesheet_directory() . '/inc/seo.php';
+require_once get_stylesheet_directory() . '/inc/updates.php';
 require_once get_stylesheet_directory() . '/inc/theme-mode.php';
 require_once get_stylesheet_directory() . '/inc/schema.php';
 require_once get_stylesheet_directory() . '/inc/setup.php';

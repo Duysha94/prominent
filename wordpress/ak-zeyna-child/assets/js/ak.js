@@ -144,6 +144,20 @@
   }
   applyMode(root.getAttribute('data-theme') || 'light')
 
+  // Insurance: if the header rendered no toggle (a builder header that
+  // bypasses the menu filter), float one in so the two modes are always
+  // reachable.
+  if (!doc.querySelector('[data-ak-mode]')) {
+    var fbToggle = doc.createElement('button')
+    fbToggle.type = 'button'
+    fbToggle.className = 'ak-mode ak-mode--floating'
+    fbToggle.setAttribute('data-ak-mode', '')
+    fbToggle.setAttribute('aria-pressed', 'false')
+    fbToggle.innerHTML = '<span class="ak-mode__label">Atelier</span><span class="ak-mode__track" aria-hidden="true"><span class="ak-mode__knob"></span></span>'
+    doc.body.appendChild(fbToggle)
+    applyMode(root.getAttribute('data-theme') || 'light')
+  }
+
   /* ── Cut text ────────────────────────────────────────────────────────────
    * The house headline reveal: each line split along its midline into two
    * halves that start displaced in opposite directions and close.

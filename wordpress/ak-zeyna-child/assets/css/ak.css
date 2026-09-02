@@ -1565,7 +1565,7 @@ body.layout--switched,
 .wp-custom-logo .site-branding .site-title { display: none; }
 
 .main-navigation { width: auto; }
-.main-navigation ul { margin: 0; padding: 0; list-style: none; align-items: center; }
+.main-navigation ul { margin: 0; padding: 0; list-style: none; align-items: center; gap: 2rem; }
 .main-navigation li { position: relative; }
 .main-navigation a {
   font-family: var(--font-mono);
@@ -1640,6 +1640,17 @@ body.layout--switched,
   }
   .main-navigation.toggled ul#primary-menu a { font-size: 0.8125rem; }
   .main-navigation.toggled .ak-menu-mode { margin-top: 1.25rem; }
+}
+
+/* The insurance toggle ak.js floats in when no header rendered one. */
+.ak-mode--floating {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 400;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule-strong);
+  padding: 0.55rem 0.8rem;
 }
 
 /* ── The AK footer (template override in footer.php) ─────────────────── */
@@ -1726,6 +1737,59 @@ body.layout--switched,
 .ak-band--type .ak-band__track { animation-duration: 70s; }
 @media (prefers-reduced-motion: reduce) {
   .ak-band--type .ak-band__item { color: var(--text-muted); -webkit-text-stroke: 0; font-size: clamp(1.5rem, 4vw, 2.5rem); }
+}
+
+/* Zeyna clips .site-main, which kills position:sticky for EVERYTHING
+   inside the Barba container — including the reel's pin. The transitions
+   animate the container itself, not overflowing children, so releasing
+   the clip is safe. */
+main.site-main { overflow: visible; }
+
+/* ── The reel: a measured swatch that takes the whole screen ─────────── */
+.ak-reel { view-timeline: --ak-reel block; }
+.ak-reel__sticky {
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: clip;
+}
+.ak-reel__frame {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+}
+.ak-reel__plate { position: absolute; inset: 0; }
+.ak-reel__plate > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* The reel's plate neither tilts nor stages — it IS the stage. */
+.ak-reel .ak-plate { animation: none; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ak-reel { height: 220svh; }
+    .ak-reel__sticky { position: sticky; top: 0; }
+    .ak-reel__frame {
+      animation: ak-reel-grow linear both;
+      animation-timeline: --ak-reel;
+      animation-range: cover 5% cover 45%;
+    }
+    @keyframes ak-reel-grow {
+      from { width: min(78vw, 1240px); height: min(58svh, 46vw); }
+      to   { width: 100%; height: 100svh; }
+    }
+    /* The tech-pack callouts belong to the swatch, not the cinema. */
+    .ak-reel__frame .ak-measure-hud {
+      animation: ak-reel-hud linear both;
+      animation-timeline: --ak-reel;
+      animation-range: cover 25% cover 45%;
+    }
+    @keyframes ak-reel-hud { to { opacity: 0; visibility: hidden; } }
+  }
 }
 
 /* ── The video slot: unmistakable until the real showreel arrives ────── */

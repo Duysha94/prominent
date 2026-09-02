@@ -198,6 +198,27 @@ add_action(
 );
 
 /**
+ * The AK chrome is not optional.
+ *
+ * Zeyna's demo import sets `header_type` and `footer_template` to Elementor
+ * templates, which silently replaces the studio's header and footer with
+ * demo content (the ZEYNA CREATIVE footer, demo contact block, demo email).
+ * Force both keys back to the default chrome the child styles; every other
+ * Redux option — transitions, loader, smooth scroll — passes through
+ * untouched.
+ */
+add_filter(
+	'option_pe-redux',
+	function ( $option ) {
+		if ( is_array( $option ) ) {
+			$option['header_type']     = 'default';
+			$option['footer_template'] = 'default';
+		}
+		return $option;
+	}
+);
+
+/**
  * The ATELIER / RUNWAY switch, appended to the primary menu.
  *
  * Appending through wp_nav_menu_items means Zeyna's header.php stays

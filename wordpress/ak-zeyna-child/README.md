@@ -29,6 +29,14 @@ menu, contact form, placeholder case studies — arrives ready.
    front page → *Home*, posts page → *Journal*, the *Primary* menu onto
    Zeyna's `menu-1` location, permalinks flushed so `/work` resolves.
 
+### Updates are automatic from here
+
+This build (1.1.0) is the LAST one you install by hand. The theme checks
+its published update channel twice a day; when a newer build exists,
+WordPress shows the normal update notice under **Appearance → Themes**
+and **Dashboard → Updates** — one click updates it. If the channel is
+unreachable, nothing breaks and nothing is shown.
+
 ### Installing over an existing site
 
 The import **adopts the site**. When it finishes, the theme automatically:
@@ -117,6 +125,9 @@ and rewritten.
 | **A designed footer** | `footer.php` override: outline-type marquee, Studio/Movements/Contact columns, © bar — replaces Zeyna's "powered by" line |
 | **A real mobile menu** | Side panel with the mode switch inside, instead of Zeyna's collapsed list |
 | **Chrome that cannot break** | Zeyna's `--mainColor`/`--secondaryBackground`/… variables are defined from the AK tokens, so the header and menu never depend on Redux being configured |
+| **Demo-proof** | The theme forces its own header/footer even after a Zeyna demo import (which switches both to Elementor demo templates) |
+| **Fullscreen showreel** | The reel starts as a measured swatch and grows to fill the screen as you scroll, then the site continues |
+| **Self-updates** | The theme checks its update channel twice a day; WordPress shows the standard one-click update notice when a new build ships |
 | The name, explained | The A–K monogram on About and "The name" section on Home: A is Andrey, K is Konstantin |
 | Contact Form 7 form + styling | Imported with the content; found by slug at render time |
 | A bespoke-page template | `AK — Bespoke page`, the pattern all the others follow |

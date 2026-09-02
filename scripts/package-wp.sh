@@ -8,3 +8,15 @@ rm -f ak-zeyna-child.zip
 zip -r -X ak-zeyna-child.zip ak-zeyna-child \
   -x 'ak-zeyna-child/.DS_Store' -x '*/.DS_Store'
 unzip -l ak-zeyna-child.zip | tail -3
+
+# Regenerate the update manifest the theme's self-updater polls.
+VERSION=$(grep -m1 '^Version:' ak-zeyna-child/style.css | awk '{print $2}')
+mkdir -p update
+cat > update/update.json <<JSON
+{
+  "version": "$VERSION",
+  "package": "https://duysha94.github.io/prominent/theme/ak-zeyna-child.zip",
+  "details": "https://duysha94.github.io/prominent/"
+}
+JSON
+echo "manifest: version $VERSION"
