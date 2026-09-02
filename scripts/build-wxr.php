@@ -15,7 +15,7 @@
 date_default_timezone_set( 'UTC' );
 
 const SITE  = 'https://akbrand.studio';
-const EMAIL = 'hello@akbrand.studio';
+const EMAIL = 'ak@akbrand.studio';
 const NOW   = '2026-08-31 12:00:00';
 
 $ids = 1000; // deterministic, far above a fresh install's range
@@ -287,33 +287,96 @@ $posts = array(
 		'title'   => 'What it actually costs to show at a fashion week',
 		'slug'    => 'what-it-costs-to-show-at-a-fashion-week',
 		'cat'     => 'Production',
-		'excerpt' => 'Placeholder standfirst. The real version should be the honest breakdown a young designer cannot find anywhere else — venue, casting, production, PR, and what a slot is genuinely worth.',
+		'excerpt' => 'The honest breakdown a young designer cannot find anywhere else — what a runway slot really costs, where the money actually goes, and what a show is genuinely worth.',
+		'body'    => <<<'HTML'
+<p>Ask ten designers what their first fashion-week show cost and you will get ten numbers, none of them the one they were quoted at the start. That is not because anyone lied. It is because a runway show is a production, and productions have line items that only become visible once you are inside one.</p>
+
+<h2>Where the money actually goes</h2>
+
+<p>The slot itself is the price everyone talks about and the smallest part of the story. Around it sit the venue hours you did not know you were buying — fittings, rehearsal, load-in, load-out — casting and model fees, hair and make-up teams working to a running order measured in minutes, backstage crew, front-of-house, photography and video that you will be using for the next two years, seeding and dressing, steaming, insurance, and the press work that determines whether anyone who matters was in the room at all.</p>
+
+<p>A useful rule: whatever the slot costs, the show around it costs the same again, and the campaign that makes the show travel costs the same again after that. A collection that spends everything on the slot walks in front of empty benches and lives on one phone video.</p>
+
+<h2>What a show is actually for</h2>
+
+<p>A show is not applause. It is thirty minutes that produce assets and proof: press coverage with your name spelled correctly, buyer appointments that reference a look number, campaign imagery shot in the only room where the collection will ever look like that again, and the single line every young brand needs — <em>shown in London</em>.</p>
+
+<p>Judge the spend against those outputs and the decision becomes clear. If the production cannot generate press, buyers and imagery, the money is better spent elsewhere this season. If it can, underfunding the parts that generate them — casting, photography, PR — to afford the slot is spending most of the money to waste all of it.</p>
+
+<h2>Why we count differently</h2>
+
+<p>This studio's co-founder created <a href="https://londonfashionday.co.uk/">London Fashion Day</a> and <a href="https://ofd.org.ua/">Odessa Fashion Day</a>, so we sit on the other side of this table too: we know what a platform's costs look like from the inside, which line items are negotiable, and which corners genuinely cannot be cut. That is the arithmetic we bring into every <a href="/services/#production">production engagement</a> — and the reason our clients' budgets buy shows, not just slots.</p>
+
+<p>If you are weighing a season, <a href="/contact/">send us the brief</a> — we will tell you honestly whether a show is the right spend, and what it will really cost. The projects in <a href="/work/">the work</a> show how that honesty ends.</p>
+HTML
 	),
 	array(
 		'title'   => 'Design the identity at ad size first',
 		'slug'    => 'design-the-identity-at-ad-size-first',
 		'cat'     => 'Identity',
-		'excerpt' => 'Placeholder standfirst. A logo that only works at billboard scale is a logo that will be cropped, shrunk and ignored by the algorithm that decides whether anyone sees it.',
+		'excerpt' => 'A logo that only works at billboard scale is a logo that will be cropped, shrunk and ignored by the algorithm that decides whether anyone sees it. Design for the crop it will live in.',
+		'body'    => <<<'HTML'
+<p>Most identities are presented on mock-ups the brand will never buy: a building façade, a shopping bag held in perfect light, a billboard by a motorway. Then the identity ships, and it spends its actual life at 1080 pixels wide, cropped to 4:5, behind a play button, next to fourteen competitors in the same feed.</p>
+
+<h2>The feed is the primary medium</h2>
+
+<p>For a fashion brand launching now, the order of media is not negotiable: the identity will be seen on a phone first, on a website second, on a garment third, and on a billboard — if things go very well — last. So the sequence in which it is designed should match. A mark drawn at advert size and then scaled up will survive the billboard; the reverse almost never survives the feed.</p>
+
+<p>Designing at ad size forces the useful disciplines early: a wordmark that stays legible at 24 pixels, a palette that reads through a compressed video thumbnail, type that holds its character when a platform re-encodes it, a system that still looks like the brand when the crop removes half of it.</p>
+
+<h2>Scale is a test, not a presentation</h2>
+
+<p>In our <a href="/services/#identity">identity work</a> every system is proofed at two sizes before it is shown to anyone: the 4:5 paid-social crop, because that is where the money lands, and six-metre runway backdrop scale, because that is where the photographs that define the brand get taken. If it holds at both, everything between is safe. That test is baked into how we hand identities over to <a href="/services/#production">Production</a> — the campaign team should never discover the logo dissolves on camera.</p>
+
+<p>The wrong response to all this is to design something inoffensive that survives every crop by saying nothing in any of them. Character first; then engineer the character to travel. You can see how that balance lands in <a href="/work/">the work</a> — or <a href="/contact/">tell us where your identity is</a> and we will tell you what it needs.</p>
+HTML
 	),
 	array(
 		'title'   => 'Your company is not your personal brand',
 		'slug'    => 'your-company-is-not-your-personal-brand',
 		'cat'     => 'Strategy',
-		'excerpt' => 'Placeholder standfirst. Why founders in fashion are usually better known than their labels — and what to do when it is the other way round.',
+		'excerpt' => 'Founders in fashion are usually better known than their labels — or invisible behind them. Both are strategy problems, and both are fixable.',
+		'body'    => <<<'HTML'
+<p>There are two versions of this problem and they look nothing alike. In the first, the founder is the brand: every sale, every invitation and every piece of press routes through one person's face, and the company cannot be valued, delegated or sold. In the second, the founder has vanished behind the label: the brand posts campaigns into silence while its most credible asset — a person with a story — sits unused.</p>
+
+<h2>Two accounts, two jobs</h2>
+
+<p>The fix in both cases starts with the same decision: the founder and the company are two different media properties with two different jobs. The company account sells; it holds the campaigns, the drops, the stockists, the proof. The founder's account builds trust; it holds the opinions, the process, the rooms they walk into, the things a logo cannot say. Confusing the two jobs is what produces both failure modes above.</p>
+
+<p>A working <a href="/services/#strategy">personal-brand strategy</a> is mostly subtraction: what this person will not post, which conversations they will not join, which stages are not worth their time. What remains is a position a human can actually hold for years — stated in one page, not twelve slides, because a position nobody remembers on a Tuesday is not a position.</p>
+
+<h2>The fashion-specific part</h2>
+
+<p>Fashion buys people before it buys products. Editors commission stories about designers, not SKUs; buyers back founders they believe will still exist in three seasons; collaborations happen between names. A founder with a clear public position lowers the cost of everything else the brand does — the press comes warmer, the <a href="/services/#production">show</a> seats fill easier, the <a href="/services/#presence">ads</a> convert better because the person behind the label is already trusted.</p>
+
+<p>Both of us run public work of our own — the platforms and titles on <a href="/about/">the about page</a> are how we test this thinking on ourselves before we charge anyone for it. If your label and your name have drifted out of balance, <a href="/contact/">start with the brief</a>; the read is honest and it costs you one form.</p>
+HTML
 	),
 	array(
 		'title'   => 'Fix the website before you buy the traffic',
 		'slug'    => 'fix-the-website-before-you-buy-the-traffic',
 		'cat'     => 'Presence',
-		'excerpt' => 'Placeholder standfirst. Every pound of promotion lands on a page. If that page is slow or unclear, promotion just buys a faster exit.',
+		'excerpt' => 'Every pound of promotion lands on a page. If that page is slow, confusing or generic, promotion does not build the brand — it just buys a faster exit.',
+		'body'    => <<<'HTML'
+<p>The most common brief we receive is some version of "we need ads". The most common thing we find when we look is a website that would waste them: seven seconds to first paint on a phone, a template that looks like every competitor, product pages that answer none of the questions a first-time visitor actually has.</p>
+
+<h2>Traffic multiplies the page, nothing more</h2>
+
+<p>Paid promotion is a multiplier on whatever it lands on. Land it on a page that converts at two percent and you buy growth; land it on a page that converts at nought point three and you buy the world's most expensive bounce statistics. The arithmetic is brutal and it is why our <a href="/services/#presence">Presence movement</a> refuses to run Google, YouTube or Meta budgets onto a site we would not sign.</p>
+
+<p>What "fixed" means is concrete, not aesthetic. The page loads in about a second on a mid-range phone. The first screen says what the brand is, who it is for and what to do next — without scrolling, without a cookie wall eating the viewport. The product photography matches the standard of the clothes. Checkout does not ask for an account before it asks for a size. None of this is glamorous; all of it decides whether the ad money compounds or evaporates.</p>
+
+<h2>Order of operations</h2>
+
+<p>So the sequence we run is fixed: <a href="/services/#identity">identity and site</a> first, measurement second, promotion third. Build the store around the brand rather than around a theme, wire the analytics so decisions have numbers, then — and only then — buy the traffic. Campaigns tuned on a working site get cheaper every month, because the platforms reward pages that people do not immediately leave.</p>
+
+<p>If the ads are running and the growth is not, the diagnosis is usually one audit away. <a href="/contact/">Send us the link</a> — we will tell you whether it is the traffic, the page, or the position underneath both. The rebuilds in <a href="/work/">the work</a> show what changes when the order is right.</p>
+HTML
 	),
 );
 
 foreach ( $posts as $i => $p ) {
-	$body = '<p>' . esc_body( $p['excerpt'] ) . '</p>' .
-		"\n\n<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>" .
-		"\n\n" . '<p>Related: this note belongs to the ' . movement_links( $p['cat'] ) . ' movement. '
-		. 'See it applied in <a href="/work/">the work</a>, read <a href="/about/">who is behind the studio</a>, or <a href="/contact/">start a project</a>.</p>';
+	$body = $p['body'];
 	list( , $xml ) = item(
 		array(
 			'title'   => $p['title'],
@@ -389,7 +452,7 @@ $mail_2 = array(
 
 $messages = array(
 	'mail_sent_ok'             => 'Sent. We reply within two working days.',
-	'mail_sent_ng'             => 'Something failed on our side. Email hello@akbrand.studio directly.',
+	'mail_sent_ng'             => 'Something failed on our side. Email ak@akbrand.studio directly.',
 	'validation_error'         => 'A field or two needs attention below.',
 	'spam'                     => 'The form could not verify this submission.',
 	'accept_terms'             => 'Please accept the terms to continue.',
@@ -490,7 +553,7 @@ $header = <<<XML
 	<wp:author>
 		<wp:author_id>1</wp:author_id>
 		<wp:author_login><![CDATA[akstudio]]></wp:author_login>
-		<wp:author_email><![CDATA[hello@akbrand.studio]]></wp:author_email>
+		<wp:author_email><![CDATA[ak@akbrand.studio]]></wp:author_email>
 		<wp:author_display_name><![CDATA[AK Studio]]></wp:author_display_name>
 		<wp:author_first_name><![CDATA[]]></wp:author_first_name>
 		<wp:author_last_name><![CDATA[]]></wp:author_last_name>

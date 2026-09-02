@@ -1023,6 +1023,7 @@ body { font-weight: 400; }
 }
 @media (min-width: 640px)  { .ak-grid--2 { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 900px)  { .ak-grid--4 { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 900px)  { .ak-grid--3 { grid-template-columns: repeat(3, 1fr); } }
 .ak-grid > * { background: var(--bg); padding: clamp(1.25rem, 2.5vw, 1.75rem); }
 .ak-accent-field .ak-grid > * { background: var(--color-brand-500); }
 
@@ -1166,6 +1167,7 @@ body { font-weight: 400; }
 /* Aspect helpers used across the templates. */
 .ak-r-45   { aspect-ratio: 4 / 5; }
 .ak-r-169  { aspect-ratio: 16 / 9; }
+.ak-r-1610 { aspect-ratio: 16 / 10; }
 .ak-r-165  { aspect-ratio: 16 / 5; }
 .ak-r-sq   { aspect-ratio: 1 / 1; }
 
@@ -1681,6 +1683,20 @@ body.layout--switched,
 }
 .ak-footer ul a:hover, .ak-footer address a:hover { color: var(--accent-text); }
 .ak-footer address { font-style: normal; font-size: 0.8125rem; line-height: 1.8; color: var(--text-muted); }
+.ak-footer__social {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  margin-top: 1.25rem !important;
+}
+.ak-footer__social a {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.ak-footer__soc-todo { opacity: 0.5; cursor: default; }
+
 .ak-footer__bottom {
   display: flex;
   flex-wrap: wrap;
@@ -1749,6 +1765,68 @@ body.layout--switched,
   text-transform: uppercase;
   color: oklch(0.975 0.006 70 / 0.55);
 }
+
+/* ── Site cards — the founded platforms, live ────────────────────────── */
+.ak-site-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.ak-site-card .ak-plate { display: block; }
+.ak-site-card .ak-plate > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: saturate(0.92);
+  transition: filter 400ms var(--ease-cut);
+}
+.ak-site-card:hover .ak-plate > img { filter: saturate(1); }
+.ak-site-card__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.9rem;
+}
+.ak-site-card__name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+  color: var(--text);
+  transition: color 250ms var(--ease-cut);
+}
+.ak-site-card:hover .ak-site-card__name,
+.ak-site-card:focus-visible .ak-site-card__name { color: var(--accent-text); }
+.ak-site-card:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 4px; }
+.ak-site-card__domain {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+.ak-site-card__by {
+  display: block;
+  margin-top: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.ak-site-card__desc {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 44ch;
+}
+.ak-site-card--small .ak-site-card__name { font-size: 1rem; }
 
 /* ── Stats strip — the count-up numbers of a motion site ─────────────── */
 .ak-stats {

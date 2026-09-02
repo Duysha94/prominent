@@ -16,7 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 
 $ak_video_av1  = get_theme_mod( 'ak_hero_video_av1', '' );
-$ak_video_h264 = get_theme_mod( 'ak_hero_video_h264', '' );
+// Defaults to the showreel already in the media library; swap it any
+// time in Customizer → AK Studio.
+$ak_video_h264 = get_theme_mod( 'ak_hero_video_h264', 'https://akbrand.studio/wp-content/uploads/2026/03/OFD29COMP-online-video-cutter.com_-1.mp4' );
 $ak_poster     = get_theme_mod( 'ak_hero_poster', '' );
 $ak_work_page  = get_post_type_archive_link( 'portfolio' );
 $ak_contact    = get_page_by_path( 'contact' );
@@ -56,7 +58,7 @@ $ak_journal    = get_page_by_path( 'journal' );
 				<div data-ak-measure data-always data-ak-tilt style="position:relative">
 					<div class="ak-plate ak-plate--disc ak-r-165 ak-video">
 						<?php if ( $ak_video_av1 || $ak_video_h264 ) : ?>
-							<video muted loop playsinline preload="none" disableremoteplayback aria-hidden="true" tabindex="-1" data-ak-video
+							<video autoplay muted loop playsinline preload="metadata" disableremoteplayback aria-hidden="true" tabindex="-1" data-ak-video
 								<?php echo $ak_poster ? 'poster="' . esc_url( $ak_poster ) . '"' : ''; ?>>
 								<?php if ( $ak_video_av1 ) : ?><source src="<?php echo esc_url( $ak_video_av1 ); ?>" type='video/mp4; codecs="av01.0.05M.08"' /><?php endif; ?>
 								<?php if ( $ak_video_h264 ) : ?><source src="<?php echo esc_url( $ak_video_h264 ); ?>" type="video/mp4" /><?php endif; ?>
@@ -180,20 +182,53 @@ $ak_journal    = get_page_by_path( 'journal' );
 			<h2 class="ak-display ak-vf" data-ak-cut><?php esc_html_e( 'We do not rent the platform. Our founders built it.', 'ak-zeyna-child' ); ?></h2>
 			<p class="ak-lead"><?php esc_html_e( 'Most studios advising a young designer have to ask someone else for a slot. These are ours — which is why we can put a first collection on an international runway rather than write a deck about one.', 'ak-zeyna-child' ); ?></p>
 
+			<?php
+			// Founded platforms — live: the cards show each site's CURRENT
+			// front page (auto-refreshing capture), not a stale photo.
+			$ak_founded = array(
+				array( 'London Fashion Day', 'https://londonfashionday.co.uk/', __( 'Founded and produced by Konstantin Lieontiev', 'ak-zeyna-child' ), __( 'An international platform created to support emerging designers.', 'ak-zeyna-child' ) ),
+				array( 'Odessa Fashion Day', 'https://ofd.org.ua/', __( 'Founded and produced by Konstantin Lieontiev', 'ak-zeyna-child' ), __( 'Built to develop international creative communities.', 'ak-zeyna-child' ) ),
+				array( 'KEKA', 'https://keka.design/', __( 'Fashion brand founded by Konstantin Lieontiev', 'ak-zeyna-child' ), __( 'Currently being developed for the international market.', 'ak-zeyna-child' ) ),
+				array( "Cool'baba", 'https://coolbaba.in.ua/', __( 'Online magazine founded by Andrey Karakushan', 'ak-zeyna-child' ), __( 'A media platform covering fashion, lifestyle and creative industries.', 'ak-zeyna-child' ) ),
+			);
+			?>
 			<ul class="ak-grid ak-grid--2" style="list-style:none;padding:0;margin:3rem 0 0">
-				<?php
-				$ak_platforms = array(
-					array( 'London Fashion Day', __( 'Founded and produced by Konstantin Lieontiev', 'ak-zeyna-child' ), __( 'An international platform created to support emerging designers.', 'ak-zeyna-child' ) ),
-					array( 'Odessa Fashion Day', __( 'Founded and produced by Konstantin Lieontiev', 'ak-zeyna-child' ), __( 'Built to develop international creative communities.', 'ak-zeyna-child' ) ),
-					array( 'KEKA', __( 'Fashion brand founded by Konstantin Lieontiev', 'ak-zeyna-child' ), __( 'Currently being developed for the international market.', 'ak-zeyna-child' ) ),
-					array( "Cool'baba", __( 'Online magazine founded by Andrey Karakushan', 'ak-zeyna-child' ), __( 'A media platform covering fashion, lifestyle and creative industries.', 'ak-zeyna-child' ) ),
-				);
-				foreach ( $ak_platforms as $ak_p ) :
-					?>
+				<?php foreach ( $ak_founded as $ak_p ) : ?>
 					<li class="ak-rise">
-						<h3 style="font-family:var(--font-display);font-style:italic;font-size:clamp(1.25rem,2.6vw,1.875rem);margin:0"><?php echo esc_html( $ak_p[0] ); ?></h3>
-						<p style="font-family:var(--font-mono);font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-text);margin:.75rem 0 0"><?php echo esc_html( $ak_p[1] ); ?></p>
-						<p style="font-size:.875rem;line-height:1.6;color:var(--text-muted);margin:.75rem 0 0;max-width:46ch"><?php echo esc_html( $ak_p[2] ); ?></p>
+						<a class="ak-site-card" data-ak-tilt href="<?php echo esc_url( $ak_p[1] ); ?>" target="_blank" rel="noopener">
+							<span class="ak-plate ak-plate--fine ak-r-1610"><?php ak_live_preview( $ak_p[1], $ak_p[0] ); ?></span>
+							<span class="ak-site-card__row">
+								<span class="ak-site-card__name"><?php echo esc_html( $ak_p[0] ); ?></span>
+								<span class="ak-site-card__domain"><?php echo esc_html( wp_parse_url( $ak_p[1], PHP_URL_HOST ) ); ?></span>
+							</span>
+							<span class="ak-site-card__by"><?php echo esc_html( $ak_p[2] ); ?></span>
+							<span class="ak-site-card__desc"><?php echo esc_html( $ak_p[3] ); ?></span>
+						</a>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+
+			<p class="ak-eyebrow" style="margin-top:4rem"><?php esc_html_e( 'Built and run by the studio', 'ak-zeyna-child' ); ?></p>
+			<?php
+			$ak_built = array(
+				array( 'Fashion Frontier', 'https://fashionfrontier.uk/' ),
+				array( 'Prominent Magazine', 'https://prominentmagazine.co.uk/' ),
+				array( 'Lenie Boya', 'https://www.lenieboya.com/' ),
+				array( 'Wolax', 'https://wolax.co.uk/' ),
+				array( 'UTREND Store', 'https://utrendstore.co.uk/' ),
+				array( 'Show Me Your Nails', 'https://showmeyournails.com/' ),
+			);
+			?>
+			<ul class="ak-grid ak-grid--3" style="list-style:none;padding:0;margin:1.75rem 0 0">
+				<?php foreach ( $ak_built as $ak_p ) : ?>
+					<li class="ak-rise">
+						<a class="ak-site-card ak-site-card--small" data-ak-tilt href="<?php echo esc_url( $ak_p[1] ); ?>" target="_blank" rel="noopener">
+							<span class="ak-plate ak-plate--fine ak-r-1610"><?php ak_live_preview( $ak_p[1], $ak_p[0] ); ?></span>
+							<span class="ak-site-card__row">
+								<span class="ak-site-card__name"><?php echo esc_html( $ak_p[0] ); ?></span>
+								<span class="ak-site-card__domain"><?php echo esc_html( wp_parse_url( $ak_p[1], PHP_URL_HOST ) ); ?></span>
+							</span>
+						</a>
 					</li>
 				<?php endforeach; ?>
 			</ul>

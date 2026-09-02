@@ -237,7 +237,12 @@ function get_template_part( $slug ) {
 
 /* ── Load helpers + run the requested template ───────────────────────── */
 function wp_kses( $s, $allowed ) { return $s; }
-function ak_studio_email() { return 'hello@akbrand.studio'; }
+function wp_parse_url( $url, $component = -1 ) { return parse_url( $url, $component ); }
+function ak_live_preview( $url, $title ) {
+	$shot = 'https://s0.wp.com/mshots/v1/' . rawurlencode( $url ) . '?w=760';
+	printf( '<img loading="lazy" decoding="async" width="760" height="570" src="%s" alt="%s" />', esc_url( $shot ), esc_attr( $title . ' — live front page' ) );
+}
+function ak_studio_email() { return 'ak@akbrand.studio'; }
 
 require $THEME . '/inc/case-meta.php';
 

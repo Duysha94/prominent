@@ -97,6 +97,30 @@ $ak_marquee_id    = 'ak-fmq-' . wp_unique_id();
 						<?php esc_html_e( 'London, United Kingdom', 'ak-zeyna-child' ); ?><br>
 						<?php esc_html_e( 'London · Paris · Dubai', 'ak-zeyna-child' ); ?>
 					</address>
+
+					<?php
+					// ── EDIT ME: paste the real profile URLs here. ──────────
+					// Networks with an empty URL still render (as inert
+					// links) so the layout is ready the moment you fill them.
+					$ak_socials = array(
+						'Instagram' => '',
+						'Facebook'  => '',
+						'YouTube'   => '',
+						'LinkedIn'  => '',
+						'TikTok'    => '',
+					);
+					?>
+					<ul class="ak-footer__social">
+						<?php foreach ( $ak_socials as $ak_net => $ak_url ) : ?>
+							<li>
+								<?php if ( $ak_url ) : ?>
+									<a href="<?php echo esc_url( $ak_url ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $ak_net ); ?></a>
+								<?php else : ?>
+									<a href="#" class="ak-footer__soc-todo" title="<?php esc_attr_e( 'Add the link in footer.php', 'ak-zeyna-child' ); ?>" onclick="return false"><?php echo esc_html( $ak_net ); ?></a>
+								<?php endif; ?>
+							</li>
+						<?php endforeach; ?>
+					</ul>
 				</div>
 
 			</div>

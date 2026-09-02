@@ -251,7 +251,7 @@ add_action(
 			$wp_customize->add_setting(
 				$key,
 				array(
-					'default'           => '',
+					'default'           => 'ak_hero_video_h264' === $key ? 'https://akbrand.studio/wp-content/uploads/2026/03/OFD29COMP-online-video-cutter.com_-1.mp4' : '',
 					'sanitize_callback' => 'esc_url_raw',
 				)
 			);

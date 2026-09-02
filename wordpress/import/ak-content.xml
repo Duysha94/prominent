@@ -22,7 +22,7 @@
 	<wp:author>
 		<wp:author_id>1</wp:author_id>
 		<wp:author_login><![CDATA[akstudio]]></wp:author_login>
-		<wp:author_email><![CDATA[hello@akbrand.studio]]></wp:author_email>
+		<wp:author_email><![CDATA[ak@akbrand.studio]]></wp:author_email>
 		<wp:author_display_name><![CDATA[AK Studio]]></wp:author_display_name>
 		<wp:author_first_name><![CDATA[]]></wp:author_first_name>
 		<wp:author_last_name><![CDATA[]]></wp:author_last_name>
@@ -634,12 +634,26 @@
 		<dc:creator><![CDATA[akstudio]]></dc:creator>
 		<guid isPermaLink="false">https://akbrand.studio/?p=1013</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>Placeholder standfirst. The real version should be the honest breakdown a young designer cannot find anywhere else — venue, casting, production, PR, and what a slot is genuinely worth.</p>
+		<content:encoded><![CDATA[<p>Ask ten designers what their first fashion-week show cost and you will get ten numbers, none of them the one they were quoted at the start. That is not because anyone lied. It is because a runway show is a production, and productions have line items that only become visible once you are inside one.</p>
 
-<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>
+<h2>Where the money actually goes</h2>
 
-<p>Related: this note belongs to the <a href="/services/#production">Production</a> movement. See it applied in <a href="/work/">the work</a>, read <a href="/about/">who is behind the studio</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
-		<excerpt:encoded><![CDATA[Placeholder standfirst. The real version should be the honest breakdown a young designer cannot find anywhere else — venue, casting, production, PR, and what a slot is genuinely worth.]]></excerpt:encoded>
+<p>The slot itself is the price everyone talks about and the smallest part of the story. Around it sit the venue hours you did not know you were buying — fittings, rehearsal, load-in, load-out — casting and model fees, hair and make-up teams working to a running order measured in minutes, backstage crew, front-of-house, photography and video that you will be using for the next two years, seeding and dressing, steaming, insurance, and the press work that determines whether anyone who matters was in the room at all.</p>
+
+<p>A useful rule: whatever the slot costs, the show around it costs the same again, and the campaign that makes the show travel costs the same again after that. A collection that spends everything on the slot walks in front of empty benches and lives on one phone video.</p>
+
+<h2>What a show is actually for</h2>
+
+<p>A show is not applause. It is thirty minutes that produce assets and proof: press coverage with your name spelled correctly, buyer appointments that reference a look number, campaign imagery shot in the only room where the collection will ever look like that again, and the single line every young brand needs — <em>shown in London</em>.</p>
+
+<p>Judge the spend against those outputs and the decision becomes clear. If the production cannot generate press, buyers and imagery, the money is better spent elsewhere this season. If it can, underfunding the parts that generate them — casting, photography, PR — to afford the slot is spending most of the money to waste all of it.</p>
+
+<h2>Why we count differently</h2>
+
+<p>This studio's co-founder created <a href="https://londonfashionday.co.uk/">London Fashion Day</a> and <a href="https://ofd.org.ua/">Odessa Fashion Day</a>, so we sit on the other side of this table too: we know what a platform's costs look like from the inside, which line items are negotiable, and which corners genuinely cannot be cut. That is the arithmetic we bring into every <a href="/services/#production">production engagement</a> — and the reason our clients' budgets buy shows, not just slots.</p>
+
+<p>If you are weighing a season, <a href="/contact/">send us the brief</a> — we will tell you honestly whether a show is the right spend, and what it will really cost. The projects in <a href="/work/">the work</a> show how that honesty ends.</p>]]></content:encoded>
+		<excerpt:encoded><![CDATA[The honest breakdown a young designer cannot find anywhere else — what a runway slot really costs, where the money actually goes, and what a show is genuinely worth.]]></excerpt:encoded>
 		<wp:post_id>1013</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-24 12:00:00]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2026-08-24 12:00:00]]></wp:post_date_gmt>
@@ -671,12 +685,20 @@
 		<dc:creator><![CDATA[akstudio]]></dc:creator>
 		<guid isPermaLink="false">https://akbrand.studio/?p=1014</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>Placeholder standfirst. A logo that only works at billboard scale is a logo that will be cropped, shrunk and ignored by the algorithm that decides whether anyone sees it.</p>
+		<content:encoded><![CDATA[<p>Most identities are presented on mock-ups the brand will never buy: a building façade, a shopping bag held in perfect light, a billboard by a motorway. Then the identity ships, and it spends its actual life at 1080 pixels wide, cropped to 4:5, behind a play button, next to fourteen competitors in the same feed.</p>
 
-<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>
+<h2>The feed is the primary medium</h2>
 
-<p>Related: this note belongs to the <a href="/services/#identity">Identity</a> movement. See it applied in <a href="/work/">the work</a>, read <a href="/about/">who is behind the studio</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
-		<excerpt:encoded><![CDATA[Placeholder standfirst. A logo that only works at billboard scale is a logo that will be cropped, shrunk and ignored by the algorithm that decides whether anyone sees it.]]></excerpt:encoded>
+<p>For a fashion brand launching now, the order of media is not negotiable: the identity will be seen on a phone first, on a website second, on a garment third, and on a billboard — if things go very well — last. So the sequence in which it is designed should match. A mark drawn at advert size and then scaled up will survive the billboard; the reverse almost never survives the feed.</p>
+
+<p>Designing at ad size forces the useful disciplines early: a wordmark that stays legible at 24 pixels, a palette that reads through a compressed video thumbnail, type that holds its character when a platform re-encodes it, a system that still looks like the brand when the crop removes half of it.</p>
+
+<h2>Scale is a test, not a presentation</h2>
+
+<p>In our <a href="/services/#identity">identity work</a> every system is proofed at two sizes before it is shown to anyone: the 4:5 paid-social crop, because that is where the money lands, and six-metre runway backdrop scale, because that is where the photographs that define the brand get taken. If it holds at both, everything between is safe. That test is baked into how we hand identities over to <a href="/services/#production">Production</a> — the campaign team should never discover the logo dissolves on camera.</p>
+
+<p>The wrong response to all this is to design something inoffensive that survives every crop by saying nothing in any of them. Character first; then engineer the character to travel. You can see how that balance lands in <a href="/work/">the work</a> — or <a href="/contact/">tell us where your identity is</a> and we will tell you what it needs.</p>]]></content:encoded>
+		<excerpt:encoded><![CDATA[A logo that only works at billboard scale is a logo that will be cropped, shrunk and ignored by the algorithm that decides whether anyone sees it. Design for the crop it will live in.]]></excerpt:encoded>
 		<wp:post_id>1014</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-17 12:00:00]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2026-08-17 12:00:00]]></wp:post_date_gmt>
@@ -708,12 +730,20 @@
 		<dc:creator><![CDATA[akstudio]]></dc:creator>
 		<guid isPermaLink="false">https://akbrand.studio/?p=1015</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>Placeholder standfirst. Why founders in fashion are usually better known than their labels — and what to do when it is the other way round.</p>
+		<content:encoded><![CDATA[<p>There are two versions of this problem and they look nothing alike. In the first, the founder is the brand: every sale, every invitation and every piece of press routes through one person's face, and the company cannot be valued, delegated or sold. In the second, the founder has vanished behind the label: the brand posts campaigns into silence while its most credible asset — a person with a story — sits unused.</p>
 
-<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>
+<h2>Two accounts, two jobs</h2>
 
-<p>Related: this note belongs to the <a href="/services/#strategy">Strategy</a> movement. See it applied in <a href="/work/">the work</a>, read <a href="/about/">who is behind the studio</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
-		<excerpt:encoded><![CDATA[Placeholder standfirst. Why founders in fashion are usually better known than their labels — and what to do when it is the other way round.]]></excerpt:encoded>
+<p>The fix in both cases starts with the same decision: the founder and the company are two different media properties with two different jobs. The company account sells; it holds the campaigns, the drops, the stockists, the proof. The founder's account builds trust; it holds the opinions, the process, the rooms they walk into, the things a logo cannot say. Confusing the two jobs is what produces both failure modes above.</p>
+
+<p>A working <a href="/services/#strategy">personal-brand strategy</a> is mostly subtraction: what this person will not post, which conversations they will not join, which stages are not worth their time. What remains is a position a human can actually hold for years — stated in one page, not twelve slides, because a position nobody remembers on a Tuesday is not a position.</p>
+
+<h2>The fashion-specific part</h2>
+
+<p>Fashion buys people before it buys products. Editors commission stories about designers, not SKUs; buyers back founders they believe will still exist in three seasons; collaborations happen between names. A founder with a clear public position lowers the cost of everything else the brand does — the press comes warmer, the <a href="/services/#production">show</a> seats fill easier, the <a href="/services/#presence">ads</a> convert better because the person behind the label is already trusted.</p>
+
+<p>Both of us run public work of our own — the platforms and titles on <a href="/about/">the about page</a> are how we test this thinking on ourselves before we charge anyone for it. If your label and your name have drifted out of balance, <a href="/contact/">start with the brief</a>; the read is honest and it costs you one form.</p>]]></content:encoded>
+		<excerpt:encoded><![CDATA[Founders in fashion are usually better known than their labels — or invisible behind them. Both are strategy problems, and both are fixable.]]></excerpt:encoded>
 		<wp:post_id>1015</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-10 12:00:00]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2026-08-10 12:00:00]]></wp:post_date_gmt>
@@ -745,12 +775,20 @@
 		<dc:creator><![CDATA[akstudio]]></dc:creator>
 		<guid isPermaLink="false">https://akbrand.studio/?p=1016</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>Placeholder standfirst. Every pound of promotion lands on a page. If that page is slow or unclear, promotion just buys a faster exit.</p>
+		<content:encoded><![CDATA[<p>The most common brief we receive is some version of "we need ads". The most common thing we find when we look is a website that would waste them: seven seconds to first paint on a phone, a template that looks like every competitor, product pages that answer none of the questions a first-time visitor actually has.</p>
 
-<p>Placeholder body. Replace with the full note — 600–900 words in the studio's voice. Subheadings set themselves in the display face automatically.</p>
+<h2>Traffic multiplies the page, nothing more</h2>
 
-<p>Related: this note belongs to the <a href="/services/#presence">Presence</a> movement. See it applied in <a href="/work/">the work</a>, read <a href="/about/">who is behind the studio</a>, or <a href="/contact/">start a project</a>.</p>]]></content:encoded>
-		<excerpt:encoded><![CDATA[Placeholder standfirst. Every pound of promotion lands on a page. If that page is slow or unclear, promotion just buys a faster exit.]]></excerpt:encoded>
+<p>Paid promotion is a multiplier on whatever it lands on. Land it on a page that converts at two percent and you buy growth; land it on a page that converts at nought point three and you buy the world's most expensive bounce statistics. The arithmetic is brutal and it is why our <a href="/services/#presence">Presence movement</a> refuses to run Google, YouTube or Meta budgets onto a site we would not sign.</p>
+
+<p>What "fixed" means is concrete, not aesthetic. The page loads in about a second on a mid-range phone. The first screen says what the brand is, who it is for and what to do next — without scrolling, without a cookie wall eating the viewport. The product photography matches the standard of the clothes. Checkout does not ask for an account before it asks for a size. None of this is glamorous; all of it decides whether the ad money compounds or evaporates.</p>
+
+<h2>Order of operations</h2>
+
+<p>So the sequence we run is fixed: <a href="/services/#identity">identity and site</a> first, measurement second, promotion third. Build the store around the brand rather than around a theme, wire the analytics so decisions have numbers, then — and only then — buy the traffic. Campaigns tuned on a working site get cheaper every month, because the platforms reward pages that people do not immediately leave.</p>
+
+<p>If the ads are running and the growth is not, the diagnosis is usually one audit away. <a href="/contact/">Send us the link</a> — we will tell you whether it is the traffic, the page, or the position underneath both. The rebuilds in <a href="/work/">the work</a> show what changes when the order is right.</p>]]></content:encoded>
+		<excerpt:encoded><![CDATA[Every pound of promotion lands on a page. If that page is slow, confusing or generic, promotion does not build the brand — it just buys a faster exit.]]></excerpt:encoded>
 		<wp:post_id>1016</wp:post_id>
 		<wp:post_date><![CDATA[2026-08-03 12:00:00]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2026-08-03 12:00:00]]></wp:post_date_gmt>
@@ -829,7 +867,7 @@
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_mail]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:9:{s:6:"active";b:1;s:7:"subject";s:41:"[AK Studio] Project brief — [your-name]";s:6:"sender";s:40:"[_site_title] <wordpress@[_site_domain]>";s:9:"recipient";s:20:"hello@akbrand.studio";s:4:"body";s:172:"From: [your-name] <[your-email]>
+			<wp:meta_value><![CDATA[a:9:{s:6:"active";b:1;s:7:"subject";s:41:"[AK Studio] Project brief — [your-name]";s:6:"sender";s:40:"[_site_title] <wordpress@[_site_domain]>";s:9:"recipient";s:17:"ak@akbrand.studio";s:4:"body";s:172:"From: [your-name] <[your-email]>
 Brand: [your-brand]
 Link: [your-link]
 
@@ -849,11 +887,11 @@ We reply within two working days with an honest read: which movements your proje
 
 AK Brand Development Studio
 Fashion & Brand Advisory — London
-[_site_url]";s:18:"additional_headers";s:30:"Reply-To: hello@akbrand.studio";s:11:"attachments";s:0:"";s:8:"use_html";b:0;s:13:"exclude_blank";b:0;}]]></wp:meta_value>
+[_site_url]";s:18:"additional_headers";s:27:"Reply-To: ak@akbrand.studio";s:11:"attachments";s:0:"";s:8:"use_html";b:0;s:13:"exclude_blank";b:0;}]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_messages]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:22:{s:12:"mail_sent_ok";s:39:"Sent. We reply within two working days.";s:12:"mail_sent_ng";s:66:"Something failed on our side. Email hello@akbrand.studio directly.";s:16:"validation_error";s:37:"A field or two needs attention below.";s:4:"spam";s:42:"The form could not verify this submission.";s:12:"accept_terms";s:36:"Please accept the terms to continue.";s:16:"invalid_required";s:23:"This field is required.";s:16:"invalid_too_long";s:23:"This field is too long.";s:17:"invalid_too_short";s:24:"This field is too short.";s:13:"upload_failed";s:14:"Upload failed.";s:24:"upload_file_type_invalid";s:30:"This file type is not allowed.";s:21:"upload_file_too_large";s:23:"This file is too large.";s:23:"upload_failed_php_error";s:14:"Upload failed.";s:12:"invalid_date";s:26:"Date format seems invalid.";s:14:"date_too_early";s:23:"This date is too early.";s:13:"date_too_late";s:22:"This date is too late.";s:14:"invalid_number";s:28:"Number format seems invalid.";s:16:"number_too_small";s:25:"This number is too small.";s:16:"number_too_large";s:25:"This number is too large.";s:23:"quiz_answer_not_correct";s:36:"The answer to the quiz is incorrect.";s:13:"invalid_email";s:33:"This email address seems invalid.";s:11:"invalid_url";s:23:"This URL seems invalid.";s:11:"invalid_tel";s:36:"This telephone number seems invalid.";}]]></wp:meta_value>
+			<wp:meta_value><![CDATA[a:22:{s:12:"mail_sent_ok";s:39:"Sent. We reply within two working days.";s:12:"mail_sent_ng";s:63:"Something failed on our side. Email ak@akbrand.studio directly.";s:16:"validation_error";s:37:"A field or two needs attention below.";s:4:"spam";s:42:"The form could not verify this submission.";s:12:"accept_terms";s:36:"Please accept the terms to continue.";s:16:"invalid_required";s:23:"This field is required.";s:16:"invalid_too_long";s:23:"This field is too long.";s:17:"invalid_too_short";s:24:"This field is too short.";s:13:"upload_failed";s:14:"Upload failed.";s:24:"upload_file_type_invalid";s:30:"This file type is not allowed.";s:21:"upload_file_too_large";s:23:"This file is too large.";s:23:"upload_failed_php_error";s:14:"Upload failed.";s:12:"invalid_date";s:26:"Date format seems invalid.";s:14:"date_too_early";s:23:"This date is too early.";s:13:"date_too_late";s:22:"This date is too late.";s:14:"invalid_number";s:28:"Number format seems invalid.";s:16:"number_too_small";s:25:"This number is too small.";s:16:"number_too_large";s:25:"This number is too large.";s:23:"quiz_answer_not_correct";s:36:"The answer to the quiz is incorrect.";s:13:"invalid_email";s:33:"This email address seems invalid.";s:11:"invalid_url";s:23:"This URL seems invalid.";s:11:"invalid_tel";s:36:"This telephone number seems invalid.";}]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_additional_settings]]></wp:meta_key>

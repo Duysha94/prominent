@@ -8,7 +8,7 @@ for (const theme of ['dark', 'light']) {
     const c = await b.newContext({ viewport: { width: w, height: 940 } })
     const p = await c.newPage()
     p.on('pageerror', (e) => issues.push(`[${theme}/${w}] PAGEERROR ${e.message}`))
-    p.on('console', (m) => { if (m.type() === 'error' && !/favicon/.test(m.text())) issues.push(`[${theme}/${w}] ${m.text().slice(0, 110)}`) })
+    p.on('console', (m) => { if (m.type() === 'error' && !/favicon|ERR_TUNNEL_CONNECTION_FAILED/.test(m.text())) issues.push(`[${theme}/${w}] ${m.text().slice(0, 110)}`) })
     await p.addInitScript((t) => { try { localStorage.setItem('ak-theme', t) } catch {} }, theme)
     for (const t of PAGES) {
       await p.goto(`http://127.0.0.1:4180/index-${t}.html`, { waitUntil: 'networkidle' })

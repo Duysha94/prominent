@@ -38,7 +38,26 @@ if ( ! function_exists( 'get_field' ) ) {
  * in the database — change that one in the form's Mail tab.
  */
 function ak_studio_email() {
-	return apply_filters( 'ak_studio_email', 'hello@akbrand.studio' );
+	return apply_filters( 'ak_studio_email', 'ak@akbrand.studio' );
+}
+
+/**
+ * A live preview of an external site's front page, as an image.
+ *
+ * Uses WordPress.com's mShots service: it screenshots the URL, caches the
+ * capture on their CDN and re-captures periodically — so these cards always
+ * show the platform's CURRENT front page and update themselves when the
+ * site changes, at zero cost to this site's own performance (one lazy
+ * image per card, no scripts).
+ */
+function ak_live_preview( $url, $title ) {
+	$shot = 'https://s0.wp.com/mshots/v1/' . rawurlencode( $url ) . '?w=760';
+	printf(
+		'<img loading="lazy" decoding="async" width="760" height="570" src="%s" alt="%s" />',
+		esc_url( $shot ),
+		/* translators: %s: platform name */
+		esc_attr( sprintf( __( '%s — live front page', 'ak-zeyna-child' ), $title ) )
+	);
 }
 
 require_once get_stylesheet_directory() . '/inc/enqueue.php';

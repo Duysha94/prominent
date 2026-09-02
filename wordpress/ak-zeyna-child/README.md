@@ -64,15 +64,17 @@ overwrites a choice you made manually.
 |---|---|---|
 | **Logo** | Customizer → Site Identity → Logo | SVG preferred. Until then the header shows the site title set in Fraunces italic. |
 | **Photos** | Each case study → Featured image; founders' portraits on the About page slots | Every image slot is labelled "replace via featured image" on the page itself. |
-| **Showreel video** | Customizer → **AK Studio** | Two uploads — AV1 `.mp4` preferred + H.264 `.mp4` fallback — and a poster frame. 8–12 s, silent, loopable. The hero slot stays a labelled placeholder until you do. |
+| **Showreel video** | Customizer → **AK Studio** | Already wired to the showreel in the media library (`OFD29COMP…mp4`); swap or add an AV1 version + poster frame there any time. |
 
 And before launch:
 
-- Replace `hello@akbrand.studio` with the real address in **two** places:
-  the `ak_studio_email()` helper at the top of `functions.php` (every
-  template and the JSON-LD read it from there), and the Contact Form 7
-  form — its **Mail** tab recipient plus the "failed to send" line under
-  **Messages**.
+- The studio address is **ak@akbrand.studio** everywhere (templates,
+  JSON-LD, the form's Mail recipient and failure message). To change it
+  later: the `ak_studio_email()` helper in `functions.php` + the Contact
+  Form 7 **Mail** tab.
+- Social links render in the footer with empty targets — paste the real
+  profile URLs into the `$ak_socials` array in `footer.php` (the spot is
+  marked `EDIT ME`).
 - The six case studies and four journal entries are labelled placeholders —
   rewrite them with real projects at your pace; the layouts hold.
 - The footer is a template file: edit columns/links in `footer.php`. If you
@@ -118,6 +120,17 @@ and rewritten.
 | The name, explained | The A–K monogram on About and "The name" section on Home: A is Andrey, K is Konstantin |
 | Contact Form 7 form + styling | Imported with the content; found by slug at render time |
 | A bespoke-page template | `AK — Bespoke page`, the pattern all the others follow |
+
+---
+
+## The platform cards are live
+
+The "What we built" grid does not use photos: each card renders the
+platform's **current front page** as an image (via WordPress.com's mShots
+capture service — cached on their CDN, re-captured periodically). When one
+of the sites changes its homepage, the card updates itself. One lazy image
+per card, no scripts, no cost to this site's PageSpeed. The list of sites
+lives in `front-page.php`.
 
 ---
 
