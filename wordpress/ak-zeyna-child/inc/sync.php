@@ -171,11 +171,53 @@ function ak_sync_content() {
 }
 
 /**
+ * The canonical target a menu item points at.
+ *
+ * Two items that resolve to the same key are the same link to a visitor,
+ * however they were built — a page item added by a WXR import and a custom
+ * link added by hand both come out as the same destination.
+ *
+ * @param object $item Set-up nav menu item.
+ * @return string Target key, or '' when the item points nowhere useful.
+ */
+function ak_menu_item_key( $item ) {
+	if ( 'post_type' === $item->type || 'taxonomy' === $item->type ) {
+		return $item->type . ':' . (int) $item->object_id;
+	}
+	if ( 'post_type_archive' === $item->type ) {
+		return 'archive:' . $item->object;
+	}
+	$url = untrailingslashit( (string) $item->url );
+	if ( '' === $url || '#' === $url ) {
+		return '';
+	}
+	// Host and scheme drift (a site moved to https, or www added) must not
+	// make the same destination look like two.
+	$path = wp_parse_url( $url, PHP_URL_PATH );
+	return 'url:' . untrailingslashit( (string) $path );
+}
+
+/**
  * The primary menu, built and hung on Zeyna's `menu-1` location.
  *
- * Items are reconciled every run, so adding a page to the manifest also
- * adds it to the navigation. An existing menu the founders have rearranged
- * keeps its order — only missing items are appended.
+ * This is a reconcile, not an append. The previous version only added the
+ * items it could not find, which meant that any comparison that failed —
+ * a page recreated under a new ID, an archive link stored against the old
+ * hostname, a menu the demo import had already populated — appended a
+ * second copy of an entry that was already there, and appended it again on
+ * every subsequent theme update. That is the duplicate-looking navigation.
+ *
+ * Now every run:
+ *
+ *   1. collapses items that point at the same destination, keeping the
+ *      first in menu order (this clears duplicates already in the database);
+ *   2. drops items this theme created — they carry `_ak_menu` — whose entry
+ *      has left the manifest, or whose target page is gone;
+ *   3. creates only what is genuinely missing.
+ *
+ * Items the founders added themselves are never removed: without the
+ * `_ak_menu` marker an item is theirs, and only an exact duplicate of
+ * another item is touched.
  *
  * @param array $report Sync report, by reference.
  */
@@ -186,59 +228,112 @@ function ak_sync_menu( &$report ) {
 		if ( is_wp_error( $menu_id ) ) {
 			return;
 		}
-		$menu             = wp_get_nav_menu_object( $menu_id );
+		$menu                = wp_get_nav_menu_object( $menu_id );
 		$report['created'][] = __( 'Primary menu', 'ak-zeyna-child' );
 	}
 
-	$existing  = wp_get_nav_menu_items( $menu->term_id );
-	$have_ids  = array();
-	$have_urls = array();
-	foreach ( (array) $existing as $item ) {
-		$have_ids[]  = (int) $item->object_id;
-		$have_urls[] = untrailingslashit( $item->url );
+	$existing = wp_get_nav_menu_items( $menu->term_id, array( 'post_status' => 'any' ) );
+	$existing = is_array( $existing ) ? $existing : array();
+
+	// ── 1. Collapse duplicates ──────────────────────────────────────────
+	$by_key  = array();
+	$removed = 0;
+	foreach ( $existing as $item ) {
+		$key = ak_menu_item_key( $item );
+		if ( '' === $key ) {
+			continue;
+		}
+		if ( isset( $by_key[ $key ] ) ) {
+			wp_delete_post( $item->ID, true );
+			$removed++;
+			continue;
+		}
+		$by_key[ $key ] = $item;
 	}
 
-	$order = 0;
+	// ── 2. Drop our own stale items ─────────────────────────────────────
+	$wanted = array();
 	foreach ( ak_content_menu() as $entry ) {
-		$order++;
-
-		// The Work entry is a link to the portfolio archive, not a page —
-		// giving it a page would put a second claimant on the /work/ route.
 		if ( 'archive' === $entry['type'] ) {
 			$url = get_post_type_archive_link( 'portfolio' );
-			if ( ! $url || in_array( untrailingslashit( $url ), $have_urls, true ) ) {
-				continue;
+			if ( $url ) {
+				$wanted[ 'url:' . untrailingslashit( (string) wp_parse_url( $url, PHP_URL_PATH ) ) ] = $entry;
 			}
-			wp_update_nav_menu_item(
+			continue;
+		}
+		$page = get_page_by_path( $entry['slug'] );
+		if ( $page && 'publish' === $page->post_status ) {
+			$wanted[ 'post_type:' . (int) $page->ID ] = $entry;
+		}
+	}
+
+	foreach ( $by_key as $key => $item ) {
+		if ( ! get_post_meta( $item->ID, '_ak_menu', true ) ) {
+			continue; // Theirs. Not ours to retire.
+		}
+		$orphan = isset( $wanted[ $key ] ) ? false : true;
+		if ( ! $orphan && 'post_type' === $item->type ) {
+			$target = get_post( (int) $item->object_id );
+			$orphan = ! $target || 'publish' !== $target->post_status;
+		}
+		if ( $orphan ) {
+			wp_delete_post( $item->ID, true );
+			unset( $by_key[ $key ] );
+			$removed++;
+		}
+	}
+
+	if ( $removed ) {
+		/* translators: %d: number of duplicate or stale menu items removed. */
+		$report['retired'][] = sprintf( _n( '%d menu item', '%d menu items', $removed, 'ak-zeyna-child' ), $removed );
+	}
+
+	// ── 3. Create what is missing ───────────────────────────────────────
+	$order = 0;
+	foreach ( $wanted as $key => $entry ) {
+		$order++;
+		if ( isset( $by_key[ $key ] ) ) {
+			// Adopt it. Items created before this reconcile existed carry no
+			// marker, so without this the theme could never retire them and
+			// every later run would have to guess again.
+			if ( ! get_post_meta( $by_key[ $key ]->ID, '_ak_menu', true ) ) {
+				update_post_meta( $by_key[ $key ]->ID, '_ak_menu', $entry['slug'] );
+			}
+			continue;
+		}
+
+		if ( 0 === strpos( $key, 'url:' ) ) {
+			$id = wp_update_nav_menu_item(
 				$menu->term_id,
 				0,
 				array(
 					'menu-item-title'    => $entry['label'],
-					'menu-item-url'      => $url,
+					'menu-item-url'      => get_post_type_archive_link( 'portfolio' ),
 					'menu-item-type'     => 'custom',
 					'menu-item-status'   => 'publish',
 					'menu-item-position' => $order,
 				)
 			);
-			continue;
+		} else {
+			$id = wp_update_nav_menu_item(
+				$menu->term_id,
+				0,
+				array(
+					'menu-item-title'     => $entry['label'],
+					'menu-item-object'    => 'page',
+					'menu-item-object-id' => (int) substr( $key, strlen( 'post_type:' ) ),
+					'menu-item-type'      => 'post_type',
+					'menu-item-status'    => 'publish',
+					'menu-item-position'  => $order,
+				)
+			);
 		}
 
-		$page = get_page_by_path( $entry['slug'] );
-		if ( ! $page || in_array( (int) $page->ID, $have_ids, true ) ) {
-			continue;
+		if ( $id && ! is_wp_error( $id ) ) {
+			// The marker is what makes the next run able to tell our items
+			// from theirs, and so what makes retiring safe.
+			update_post_meta( $id, '_ak_menu', $entry['slug'] );
 		}
-		wp_update_nav_menu_item(
-			$menu->term_id,
-			0,
-			array(
-				'menu-item-title'     => $entry['label'],
-				'menu-item-object'    => 'page',
-				'menu-item-object-id' => $page->ID,
-				'menu-item-type'      => 'post_type',
-				'menu-item-status'    => 'publish',
-				'menu-item-position'  => $order,
-			)
-		);
 	}
 
 	$locations = get_theme_mod( 'nav_menu_locations', array() );

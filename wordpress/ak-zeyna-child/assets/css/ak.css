@@ -1543,6 +1543,30 @@ body.layout--switched,
   --customLinesColor: var(--rule-strong);
 }
 
+/* ── The page transition, in the studio's own colour ─────────────────────
+   Zeyna paints `.page--transitions` with `var(--secondaryBackground)`, and
+   Redux prints that variable from Theme Options in a <style> block that
+   lands after this file — so redefining the variable in the bridge above is
+   not enough on a configured site, and every navigation wiped the screen
+   with the parent's dark panel even in ATELIER.
+
+   Two class-level selectors out-specify anything Redux writes, whatever the
+   order, so the sheet is always the mode the visitor is actually in. The
+   contents of the overlay — the parent's logo and caption — are switched
+   off in inc/setup.php, leaving a single clean sheet.
+   -------------------------------------------------------------------- */
+.site .page--transitions,
+html .page--transitions {
+  background: var(--bg);
+  color: var(--text);
+}
+.site .page--transitions .pt--wrapper { background: transparent; }
+
+/* Nothing of the parent's transition furniture survives the switch-off, but
+   a demo import can leave an Elementor template behind in the markup. */
+.page--transitions .pt--element,
+.page--transitions div[data-elementor-type="pe-loader-transitions"] { display: none; }
+
 /* ── Header (Zeyna's default header, restyled deterministically) ─────── */
 /* Zeyna keeps the header at opacity:0 under html.first--load and relies on
    its intro script to reveal it — if that script is late, blocked, or its
@@ -1679,10 +1703,57 @@ body.layout--switched,
     box-shadow: -24px 0 60px oklch(0.162 0.008 58 / 0.22);
     z-index: 310;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    animation: ak-panel-in 320ms var(--ease-cut) both;
+  }
+  @keyframes ak-panel-in {
+    from { transform: translate3d(100%, 0, 0); }
+    to   { transform: translate3d(0, 0, 0); }
+  }
+  /* The links arrive a beat behind the panel, in reading order. Six is the
+     menu's length; beyond that they simply land with the last one. */
+  .main-navigation.toggled ul#primary-menu > li {
+    animation: ak-panel-item 380ms var(--ease-cut) both;
+    animation-delay: 180ms;
+  }
+  .main-navigation.toggled ul#primary-menu > li:nth-child(1) { animation-delay: 150ms; }
+  .main-navigation.toggled ul#primary-menu > li:nth-child(2) { animation-delay: 195ms; }
+  .main-navigation.toggled ul#primary-menu > li:nth-child(3) { animation-delay: 240ms; }
+  .main-navigation.toggled ul#primary-menu > li:nth-child(4) { animation-delay: 285ms; }
+  .main-navigation.toggled ul#primary-menu > li:nth-child(5) { animation-delay: 330ms; }
+  @keyframes ak-panel-item {
+    from { opacity: 0; transform: translate3d(1.25rem, 0, 0); }
+    to   { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .main-navigation.toggled ul#primary-menu,
+    .main-navigation.toggled ul#primary-menu > li { animation: none; }
   }
   .main-navigation.toggled ul#primary-menu a { font-size: 0.8125rem; }
   .main-navigation.toggled .ak-menu-mode { margin-top: 1.25rem; }
 }
+
+/* The scrim ak.js inserts while the panel is open. It is what makes the
+   panel read as a layer over the page rather than a box glued to the edge,
+   and it is the outside-click target. */
+.ak-nav-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 305;
+  background: oklch(0.162 0.008 58 / 0.5);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: ak-scrim-in 220ms var(--ease-cut) both;
+}
+@keyframes ak-scrim-in { from { opacity: 0 } to { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) {
+  .ak-nav-scrim { animation: none; }
+}
+
+/* Scroll lock. Lenis is stopped in JS as well — this stops the native
+   scroll that remains underneath it. */
+:root.ak-nav-open,
+:root.ak-nav-open body { overflow: hidden; }
 
 /* The insurance toggle ak.js floats in when no header rendered one. */
 .ak-mode--floating {
@@ -1780,15 +1851,17 @@ html.first--load body { overflow: hidden; animation: ak-scroll-failsafe 1ms line
 /* ── The logotype, one artwork per mode ──────────────────────────────── */
 .ak-logo { display: inline-flex; align-items: center; text-decoration: none; }
 .ak-logo__img { display: block; height: clamp(1.9rem, 3.6vw, 2.6rem); width: auto; }
+
+/* The swap is class-driven, and the classes are only ever printed when two
+   distinct files exist (see ak_logo()). A single logo is printed with no
+   modifier at all, so it can never be hidden by either rule below — which
+   is what used to blank the header when only one of the two was set.
+
+   data-theme is always present: inc/theme-mode.php resolves it inline in
+   <head>, ahead of first paint, so there is no unstyled state to cover. */
 .ak-logo__img--dark { display: none; }
 :root[data-theme="dark"] .ak-logo__img--light { display: none; }
 :root[data-theme="dark"] .ak-logo__img--dark  { display: block; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="dark"]) .ak-logo__img--light { display: none; }
-  :root:not([data-theme="light"]):not([data-theme="dark"]) .ak-logo__img--dark  { display: block; }
-}
-/* Only one artwork uploaded: show it in both modes rather than nothing. */
-.ak-logo__img--dark:only-child { display: block; }
 
 /* ── The mode switch, in the header bar at every width ───────────────── */
 .ak-mode--header { margin-right: 1.25rem; flex: none; min-height: 24px; padding: 0.3rem 0; }

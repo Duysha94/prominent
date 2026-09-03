@@ -40,52 +40,109 @@ function ak_page_loader() {
 }
 
 /**
- * The logotype, in both modes.
+ * Resolve a logo setting to a printable image.
  *
- * WordPress's own custom-logo control carries a single image, so the studio's
- * two-artwork logotype (dark type for the light room, light type for the
- * dark one) is served from two Customizer settings. Both are printed; CSS
- * shows the one matching `data-theme`, which means the swap happens in the
- * same frame as the mode change with no flash and no JavaScript.
+ * The Customizer stores a URL. Turning it back into an attachment buys the
+ * intrinsic width and height, which is what keeps the header from jumping
+ * while the image loads — a logo is above the fold on every single page, so
+ * this is the theme's most visible layout shift if it is skipped.
  *
- * Falls back to the WordPress custom logo, then to the site title.
+ * @param string $url Stored image URL.
+ * @return array{url:string,w:int,h:int}|null
+ */
+function ak_logo_image( $url ) {
+	if ( ! $url ) {
+		return null;
+	}
+	$out = array(
+		'url' => $url,
+		'w'   => 0,
+		'h'   => 0,
+	);
+	$id = attachment_url_to_postid( $url );
+	if ( $id ) {
+		$meta = wp_get_attachment_metadata( $id );
+		if ( ! empty( $meta['width'] ) && ! empty( $meta['height'] ) ) {
+			$out['w'] = (int) $meta['width'];
+			$out['h'] = (int) $meta['height'];
+		}
+	}
+	return $out;
+}
+
+/**
+ * The studio wordmark, in whichever artwork the current mode calls for.
+ *
+ * The studio holds two files: dark artwork that reads on paper, light
+ * artwork that reads on ink. WordPress's custom-logo control holds one, so
+ * both are printed and CSS shows whichever matches `data-theme` — no
+ * flash, no JavaScript, and correct on a soft Barba navigation where a
+ * script-swapped `src` would have been lost.
+ *
+ * Falling back matters as much as switching. The most common way to arrive
+ * here is with only the standard WordPress logo set — the theme's own two
+ * fields are one screen further in and easy to miss. In that case the one
+ * image is used for BOTH modes rather than the header going blank in one of
+ * them, which is what the previous version did whenever only one of the
+ * two AK fields was filled.
  */
 function ak_logo() {
-	$light = get_theme_mod( 'ak_logo_light', '' );
-	$dark  = get_theme_mod( 'ak_logo_dark', '' );
-	$home  = home_url( '/' );
-	$name  = get_bloginfo( 'name', 'display' );
+	$home = home_url( '/' );
+	$name = get_bloginfo( 'name', 'display' );
 
-	if ( $light || $dark ) {
-		printf( '<a class="ak-logo" href="%s" rel="home" aria-label="%s">', esc_url( $home ), esc_attr( $name ) );
-		if ( $light ) {
-			printf(
-				'<img class="ak-logo__img ak-logo__img--light" src="%s" alt="%s" decoding="async" />',
-				esc_url( $light ),
-				esc_attr( $name )
-			);
-		}
-		if ( $dark ) {
-			printf(
-				'<img class="ak-logo__img ak-logo__img--dark" src="%s" alt="%s" decoding="async" %s />',
-				esc_url( $dark ),
-				esc_attr( $light ? '' : $name ),
-				$light ? 'aria-hidden="true"' : ''
-			);
-		}
-		echo '</a>';
-		return;
-	}
-
+	// The WordPress custom logo is the floor both modes stand on.
+	$core = '';
 	if ( function_exists( 'has_custom_logo' ) && has_custom_logo() ) {
-		the_custom_logo();
+		$core_id = get_theme_mod( 'custom_logo' );
+		$src     = $core_id ? wp_get_attachment_image_src( $core_id, 'full' ) : false;
+		$core    = $src ? $src[0] : '';
+	}
+
+	$light = ak_logo_image( get_theme_mod( 'ak_logo_light', '' ) ?: $core );
+	$dark  = ak_logo_image( get_theme_mod( 'ak_logo_dark', '' ) ?: $core );
+
+	if ( ! $light && ! $dark ) {
+		printf(
+			'<h5 class="site-title"><a href="%s" rel="home">%s</a></h5>',
+			esc_url( $home ),
+			esc_html( $name )
+		);
 		return;
 	}
 
+	// One file for both modes: print it once, with no swap classes, so no
+	// rule can hide it. Two files: print both and let CSS choose.
+	$single = ! $light || ! $dark || $light['url'] === $dark['url'];
+
+	printf( '<a class="ak-logo" href="%s" rel="home" aria-label="%s">', esc_url( $home ), esc_attr( $name ) );
+
+	if ( $single ) {
+		ak_logo_img( $light ? $light : $dark, '', $name );
+	} else {
+		ak_logo_img( $light, ' ak-logo__img--light', $name );
+		ak_logo_img( $dark, ' ak-logo__img--dark', '' );
+	}
+
+	echo '</a>';
+}
+
+/**
+ * Print one logo image.
+ *
+ * @param array  $img   Image array from ak_logo_image().
+ * @param string $class Extra class, with its leading space.
+ * @param string $alt   Alt text; empty marks the image decorative, which is
+ *                      correct for the second copy of the same wordmark.
+ */
+function ak_logo_img( $img, $class, $alt ) {
 	printf(
-		'<h5 class="site-title"><a href="%s" rel="home">%s</a></h5>',
-		esc_url( $home ),
-		esc_html( $name )
+		'<img class="ak-logo__img%1$s" src="%2$s" alt="%3$s"%4$s%5$s decoding="async" fetchpriority="high"%6$s />',
+		esc_attr( $class ),
+		esc_url( $img['url'] ),
+		esc_attr( $alt ),
+		$img['w'] ? ' width="' . (int) $img['w'] . '"' : '',
+		$img['h'] ? ' height="' . (int) $img['h'] . '"' : '',
+		'' === $alt ? ' aria-hidden="true"' : ''
 	);
 }
 

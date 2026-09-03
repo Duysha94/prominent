@@ -158,6 +158,108 @@
     applyMode(root.getAttribute('data-theme') || 'light')
   }
 
+  /* ── The mobile menu ─────────────────────────────────────────────────────
+   * Zeyna ships js/navigation.js but NEVER enqueues it (see inc/static.php —
+   * the handles registered there are wishlist, compare, dotlottie, barba,
+   * three, gsap, lenis, gsap-plugins, plugins and scripts; navigation is not
+   * among them). So nothing in the parent has ever added the `.toggled`
+   * class the panel opens on, and on a phone the Menu button did nothing at
+   * all. The panel is this theme's, so the behaviour is this theme's too.
+   *
+   * What the parent's dead script would have given us is a class flip. What a
+   * side panel actually needs, and gets here: a scrim, a focus trap, Escape,
+   * outside-click, close-on-navigate, a scroll lock that also stops Lenis,
+   * and a reset when the viewport grows past the breakpoint.
+   * -------------------------------------------------------------------- */
+  ;(function nav() {
+    var navEl = doc.getElementById('site-navigation')
+    if (!navEl) return
+    var toggle = navEl.querySelector('.menu-toggle')
+    var panel = navEl.querySelector('#primary-menu')
+    if (!toggle || !panel) return
+
+    // The width at which the panel takes over — kept in step with the
+    // @media (max-width: 56.25em) block in ak.css.
+    var panelMode = window.matchMedia('(max-width: 56.25em)')
+    var open = false
+    var scrim = null
+
+    function focusables() {
+      return Array.prototype.filter.call(
+        panel.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+        function (el) { return el.offsetParent !== null || el === doc.activeElement }
+      )
+    }
+
+    function setOpen(next, restoreFocus) {
+      if (next === open) return
+      open = next
+      navEl.classList.toggle('toggled', open)
+      root.classList.toggle('ak-nav-open', open)
+      toggle.setAttribute('aria-expanded', String(open))
+
+      // Lenis owns the scroll on this theme, so `overflow: hidden` on the
+      // document alone would not stop the page moving under the panel.
+      if (window.zeynaLenis) {
+        try { open ? zeynaLenis.stop() : zeynaLenis.start() } catch (e) { /* older build */ }
+      }
+
+      if (open) {
+        if (!scrim) {
+          scrim = doc.createElement('div')
+          scrim.className = 'ak-nav-scrim'
+          scrim.setAttribute('aria-hidden', 'true')
+          scrim.addEventListener('click', function () { setOpen(false, true) })
+          doc.body.appendChild(scrim)
+        }
+        var first = focusables()[0]
+        if (first) first.focus({ preventScroll: true })
+      } else {
+        if (scrim && scrim.parentNode) { scrim.parentNode.removeChild(scrim); scrim = null }
+        if (restoreFocus) toggle.focus({ preventScroll: true })
+      }
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.preventDefault()
+      setOpen(!open, true)
+    })
+
+    // A tap on a menu link starts a navigation — soft under Barba, so the
+    // panel would otherwise still be sitting open over the new page.
+    panel.addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('a[href]')) setOpen(false, false)
+    })
+
+    doc.addEventListener('keydown', function (e) {
+      if (!open) return
+      if (e.key === 'Escape') { setOpen(false, true); return }
+      if (e.key !== 'Tab') return
+
+      // Focus trap: the panel is a modal surface, and the rest of the
+      // document is inert behind the scrim.
+      var items = focusables()
+      if (!items.length) return
+      var first = items[0]
+      var last = items[items.length - 1]
+      var active = doc.activeElement
+      if (e.shiftKey && (active === first || !panel.contains(active))) {
+        e.preventDefault(); last.focus()
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault(); first.focus()
+      }
+    })
+
+    // Grow past the breakpoint with the panel open and the links return to
+    // the header bar — leaving the scrim and the scroll lock behind.
+    function widthChange(ev) { if (!ev.matches) setOpen(false, false) }
+    if (panelMode.addEventListener) panelMode.addEventListener('change', widthChange)
+    else if (panelMode.addListener) panelMode.addListener(widthChange)
+
+    // Barba swaps the container, not the header — so close it by hand.
+    AK.closeMenu = function () { setOpen(false, false) }
+  })()
+
   /* ── Cut text ────────────────────────────────────────────────────────────
    * The house headline reveal: each line split along its midline into two
    * halves that start displaced in opposite directions and close.
@@ -631,6 +733,8 @@
 
     barba.hooks.beforeLeave(function (data) {
       runPhase('cleanup', (data && data.current && data.current.container) || currentContainer())
+      // A soft navigation leaves the header standing, panel and all.
+      if (AK.closeMenu) AK.closeMenu()
     })
 
     barba.hooks.afterEnter(function (data) {

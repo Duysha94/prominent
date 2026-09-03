@@ -184,17 +184,51 @@ add_action( 'import_end', 'ak_adopt_imported_content', 9 );
  * Zeyna's demo import sets `header_type` and `footer_template` to Elementor
  * templates, which silently replaces the studio's header and footer with
  * demo content (the ZEYNA CREATIVE footer, demo contact block, demo email).
- * Force both keys back to the default chrome the child styles; every other
- * Redux option — transitions, loader, smooth scroll — passes through
- * untouched.
+ * Force both keys back to the default chrome the child styles.
+ *
+ * The same filter settles the page transition, for the same reason. Zeyna's
+ * transition overlay is built entirely from Redux: type, direction, curve,
+ * and — the visible part — a logo and a caption pulled from `transition_logo`
+ * and `transition_caption`. Left alone, a demo import fills those in, and
+ * every navigation flashes the parent theme's own loader panel, on the
+ * parent's dark `--secondaryBackground`, regardless of which mode the
+ * visitor is in.
+ *
+ * The element itself must stay: Zeyna calls `barba.init()` only when
+ * `.page--transitions` is in the document (js/scripts.js), so removing it
+ * turns every soft navigation into a full page load. So it stays, and is
+ * reduced to one plain overlay with no elements inside it — a sheet of the
+ * studio's own paper or ink, coloured from `data-theme` in ak.css.
+ *
+ * The loader is a separate matter: the child prints its own and never calls
+ * `zeyna_page_loader()`, so `page_loader` is turned off here too rather than
+ * left to run a second, invisible boot sequence.
  */
 add_filter(
 	'option_pe-redux',
 	function ( $option ) {
-		if ( is_array( $option ) ) {
-			$option['header_type']     = 'default';
-			$option['footer_template'] = 'default';
+		if ( ! is_array( $option ) ) {
+			return $option;
 		}
+
+		$option['header_type']     = 'default';
+		$option['footer_template'] = 'default';
+
+		// Keep transitions running, but as ours.
+		$option['page_transitions']        = true;
+		$option['transition_type']         = 'overlay';
+		// One of up/down/left/right — Zeyna's CSS has a rule per direction and
+		// any other value leaves the overlay parked at its 70vh resting size,
+		// a permanent dark band across the foot of every page.
+		$option['transition_direction']    = 'up';
+		$option['transitions_curved']      = false;
+		$option['transitions_fade_simple'] = false;
+		$option['transition_elements_type'] = 'default';
+		$option['transition_elements']     = array();
+		$option['page_transition_template'] = '';
+
+		$option['page_loader'] = false;
+
 		return $option;
 	}
 );
@@ -212,8 +246,9 @@ add_action(
 		$wp_customize->add_section(
 			'ak_studio',
 			array(
-				'title'    => __( 'AK Studio', 'ak-zeyna-child' ),
-				'priority' => 30,
+				'title'       => __( 'AK Studio', 'ak-zeyna-child' ),
+				'priority'    => 30,
+				'description' => __( 'Two logotypes, one per mode. Leave either empty and the site logo set under Site Identity is used for both — which is why a single dark wordmark otherwise appears in dark mode too.', 'ak-zeyna-child' ),
 			)
 		);
 
