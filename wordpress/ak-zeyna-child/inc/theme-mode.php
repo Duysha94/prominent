@@ -55,9 +55,9 @@ add_action(
  * Drop `<?php ak_mode_toggle(); ?>` into the header, or use the
  * [ak_mode_toggle] shortcode from a builder.
  */
-function ak_mode_toggle() {
+function ak_mode_toggle( $extra_class = '' ) {
 	?>
-	<button type="button" class="ak-mode" data-ak-mode aria-pressed="false">
+	<button type="button" class="ak-mode <?php echo esc_attr( $extra_class ); ?>" data-ak-mode aria-pressed="false">
 		<span class="ak-mode__label">Atelier</span>
 		<span class="ak-mode__track" aria-hidden="true">
 			<span class="ak-mode__knob"></span>

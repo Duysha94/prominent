@@ -540,6 +540,51 @@
     }
   })
 
+  /* ── The loader ──────────────────────────────────────────────────────────
+   * Dismiss the boot panel and release the document. This is the ONLY code
+   * that removes `first--load` now: Zeyna's own remover lives inside its
+   * loader script, which is gated on its markup, and this theme prints its
+   * own panel instead. So the class is cleared here on window load, and
+   * again on a hard 3.5s timeout — a stalled font or image must never leave
+   * a visitor staring at the panel.
+   * -------------------------------------------------------------------- */
+  ;(function () {
+    var panel = doc.querySelector('[data-ak-loader]')
+    var released = false
+
+    function release() {
+      if (released) return
+      released = true
+      root.classList.remove('first--load')
+      if (panel) {
+        panel.classList.add('is-done')
+        // Take it out of the tree once the fade has finished.
+        window.setTimeout(function () {
+          if (panel && panel.parentNode) panel.parentNode.removeChild(panel)
+        }, 700)
+      }
+      if (window.ScrollTrigger) {
+        window.setTimeout(function () { ScrollTrigger.refresh() }, 60)
+      }
+    }
+
+    if (!panel) { release(); return }
+
+    // Hold the panel for at least one beat so the monogram is seen, but
+    // never longer than the timeout below.
+    var MIN = reduced.matches ? 0 : 900
+    var started = performance.now()
+    function releaseAfterMinimum() {
+      var waited = performance.now() - started
+      window.setTimeout(release, Math.max(0, MIN - waited))
+    }
+
+    if (doc.readyState === 'complete') releaseAfterMinimum()
+    else window.addEventListener('load', releaseAfterMinimum, { once: true })
+
+    window.setTimeout(release, 3500)   // hard ceiling
+  })()
+
   /* ── The Seam ────────────────────────────────────────────────────────────
    * One orange thread down the page, bowing against scroll velocity on an
    * underdamped spring. It lives in the footer, outside Barba's container, so

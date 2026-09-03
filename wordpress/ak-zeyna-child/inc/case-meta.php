@@ -85,12 +85,17 @@ function ak_measure_hud( $measures, $label = '' ) {
 			}
 			$side = ( 0 === $i % 2 ) ? 'right' : 'left';
 			$top  = 28 + ( intdiv( $i, 2 ) * 26 ) + ( ( 0 === $i % 2 ) ? 0 : 13 );
+			// A figure that is purely a number counts up as it arrives — the
+			// one place a counter earns its keep, because here the number
+			// IS the claim being made.
+			$count = ctype_digit( (string) $m['value'] ) ? sprintf( ' data-ak-count="%d"', (int) $m['value'] ) : '';
 			printf(
-				'<span class="ak-callout ak-callout--%1$s" style="top:%2$d%%"><i class="ak-callout__leader"></i><b class="ak-callout__key">%3$s</b><b class="ak-callout__value">%4$s</b></span>',
+				'<span class="ak-callout ak-callout--%1$s" style="top:%2$d%%"><i class="ak-callout__leader"></i><b class="ak-callout__key">%3$s</b><b class="ak-callout__value"%5$s>%4$s</b></span>',
 				esc_attr( $side ),
 				(int) $top,
 				esc_html( $m['key'] ),
-				esc_html( $m['value'] )
+				esc_html( $m['value'] ),
+				$count // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from an int above.
 			);
 			$i++;
 		}

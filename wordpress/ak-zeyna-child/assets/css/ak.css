@@ -142,6 +142,7 @@
   --accent-glow:   oklch(0.6924 0.1812 46.21 / 0.16);
 
   --grain-opacity: 0.030;
+  --on-plate-muted: oklch(0.975 0.006 70 / 0.62);  /* type on the dark halftone plate, both modes */
 }
 
 :root[data-theme="dark"] {
@@ -386,7 +387,7 @@ html.lenis, html.lenis body { height: auto; }
      the edge it annotates. */
   .ak-callout__leader { display: none; }
   .ak-callout {
-    font-size: 0.5rem;
+    font-size: 0.5625rem;
     /* A long value ("LDN · PAR · DXB") held on one line pushes past the frame
        it annotates and takes the document with it. Let it wrap instead of
        truncating — the number is the point of the callout. */
@@ -1158,7 +1159,7 @@ body { font-weight: 400; }
   left: 0.75rem;
   bottom: 0.6rem;
   font-family: var(--font-mono);
-  font-size: 0.5rem;
+  font-size: 0.5625rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-brand-300);
@@ -1212,7 +1213,7 @@ body { font-weight: 400; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-.ak-band__key { opacity: 0.55; font-size: 0.5rem; letter-spacing: 0.18em; }
+.ak-band__key { opacity: 0.55; font-size: 0.5625rem; letter-spacing: 0.18em; }
 
 .ak-band__pause { position: absolute; opacity: 0; pointer-events: none; }
 .ak-band__toggle {
@@ -1227,7 +1228,7 @@ body { font-weight: 400; }
   color: var(--text-faint);
   padding: 0.2rem 0.5rem;
   font-family: var(--font-mono);
-  font-size: 0.5rem;
+  font-size: 0.5625rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -1391,7 +1392,7 @@ body { font-weight: 400; }
   border: 1px solid var(--rule-strong);
   padding: 0.15rem 0.4rem;
   font-family: var(--font-mono);
-  font-size: 0.5rem;
+  font-size: 0.5625rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -1413,7 +1414,7 @@ body { font-weight: 400; }
 .ak-chapter__body { margin-top: 1rem; max-width: 56ch; font-size: 0.9375rem; line-height: 1.65; color: var(--text-muted); }
 .ak-chapter__measure { align-self: start; border: 1px solid var(--rule-strong); padding: 1rem 1.1rem; }
 .ak-chapter__measure b { display: block; font-family: var(--font-mono); font-weight: 700; font-size: 1.35rem; color: var(--accent-text); }
-.ak-chapter__measure span { font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint); }
+.ak-chapter__measure span { font-family: var(--font-mono); font-size: 0.5625rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint); }
 
 /* Founder spread. */
 .ak-founder { display: grid; gap: 2rem; border-top: 1px solid var(--rule); padding-top: 2.5rem; }
@@ -1426,7 +1427,7 @@ body { font-weight: 400; }
 .ak-notes { list-style: none; margin: 3rem 0 0; padding: 0; border-top: 1px solid var(--rule); }
 .ak-note { display: grid; gap: 1rem; padding: 2.25rem 0; border-bottom: 1px solid var(--rule); }
 @media (min-width: 900px) { .ak-note { grid-template-columns: 4rem 1fr 9rem; gap: 2rem; } }
-.ak-note__meta { display: flex; gap: 0.75rem; font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); }
+.ak-note__meta { display: flex; gap: 0.75rem; font-family: var(--font-mono); font-size: 0.5625rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); }
 @media (min-width: 900px) { .ak-note__meta { flex-direction: column; text-align: right; } }
 .ak-note__meta .cat { color: var(--accent-text); }
 .ak-note__title { margin: 0; max-width: 30ch; font-family: var(--font-display); font-style: italic; font-size: clamp(1.375rem, 3.4vw, 2.5rem); line-height: 1.08; }
@@ -1491,6 +1492,25 @@ body { font-weight: 400; }
 /* Print (and print-shaped renderers) get the finished page: a scroll reveal
    that never scrolls would otherwise print as blank rectangles. */
 /* ═══════════════════════════════════════════════════════════════════════════
+   TYPE SCALE REBASE  (finding F-02 / change D-1)
+   ═══════════════════════════════════════════════════════════════════════════
+   Zeyna hard-codes `html { font-size: 14px }` (its style.css, line 766).
+   Every size in this design system is written in `rem` and was drawn
+   against the 16px default, so the whole scale was rendering 12.5% small —
+   the smallest labels landed at 7.0px, under the legibility floor.
+
+   `rem` resolves against the root and nothing else, so the only correct fix
+   is at the root. Using a PERCENTAGE rather than another pixel value is the
+   point: 100% means "whatever the reader has chosen in their browser",
+   which restores the scale to its designed size for the default reader and
+   — unlike a hard 14px — finally honours anyone who has set a larger
+   default for legibility. Zeyna's own rem-based type grows with it; every
+   place that matters on these pages is already set by this file, which
+   loads last.
+   ------------------------------------------------------------------------ */
+html { font-size: 100%; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
    ZEYNA BRIDGE — the parent chrome, taught the house language.
    ═══════════════════════════════════════════════════════════════════════════
    Zeyna's own CSS is driven by Redux-printed variables (--mainColor,
@@ -1553,7 +1573,19 @@ body.layout--switched,
   background: var(--bg);
   border-bottom: 1px solid var(--rule);
 }
-.header--default .site-header .pe-col-6 { width: auto; flex: none; }
+/* Zeyna's column helper is `flex-direction: column` with a 30px bottom
+   margin — meant for page sections, not for a header bar. Inside the
+   header it stacked the controls and padded the bar to 136px tall. */
+.header--default .site-header .pe-col-6 {
+  width: auto;
+  flex: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
 
 .site-branding { display: flex; align-items: center; gap: 0.9rem; }
 .site-branding .custom-logo-link img,
@@ -1568,6 +1600,9 @@ body.layout--switched,
 .main-navigation ul { margin: 0; padding: 0; list-style: none; align-items: center; gap: 2rem; }
 .main-navigation li { position: relative; }
 .main-navigation a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;                 /* WCAG 2.2 SC 2.5.8 target size */
   font-family: var(--font-mono);
   font-size: 0.625rem;
   letter-spacing: 0.16em;
@@ -1616,11 +1651,18 @@ body.layout--switched,
 .main-navigation.toggled .menu-toggle::before { content: 'Close'; }
 .menu-toggle:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 3px; }
 
-@media (max-width: 37.49em) {
+@media (max-width: 56.25em) {
   .header--default .site-header { gap: 1rem; }
-  .header--default .site-header .pe-col-6:first-child { min-width: 0; flex: 1 1 auto; }
-  .site-branding .site-title { font-size: 1rem; line-height: 1.25; white-space: normal; }
-  .menu-toggle { display: inline-block; position: relative; z-index: 320; }
+  .header--default .site-header .pe-col-6:first-child { min-width: 0; flex: 1 1 auto; width: auto; overflow: hidden; }
+  /* The switch and the Menu button sit on one line, vertically centred —
+     the parent's column helper would otherwise stack them. */
+  .header--default .site-header .pe-col-6.pe-items-right {
+    gap: 0.75rem;
+    min-width: max-content;   /* the controls set the width; branding takes the rest */
+  }
+  .site-branding .site-title { font-size: 0.9375rem; line-height: 1.2; white-space: normal; }
+  .site-branding .ak-logo__img { height: 1.9rem; }
+  .menu-toggle { display: inline-flex; align-items: center; min-height: 24px; position: relative; z-index: 320; }
   .main-navigation ul#primary-menu { display: none; }
   .main-navigation.toggled ul#primary-menu {
     display: flex;
@@ -1651,6 +1693,97 @@ body.layout--switched,
   background: var(--bg-raised);
   border: 1px solid var(--rule-strong);
   padding: 0.55rem 0.8rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE LOADER — the studio's boot sequence, not Zeyna's.
+   ═══════════════════════════════════════════════════════════════════════════
+   One thread drawing down the screen while the monogram sets. It is opaque
+   from the first painted frame (no flash of unstyled page), and `ak.js`
+   dismisses it on window load with a hard timeout, so a slow asset can
+   never trap a visitor behind it.
+   ------------------------------------------------------------------------ */
+.ak-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  gap: 1.25rem;
+  background: var(--bg);
+  grid-auto-rows: min-content;
+  transition: opacity 520ms var(--ease-cut), visibility 520ms;
+}
+.ak-loader.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
+/* The page underneath must not scroll while the panel is up. */
+html.first--load body { overflow: hidden; }
+
+.ak-loader__thread {
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  width: 1px;
+  background: var(--accent-line);
+  transform: scaleY(0);
+  transform-origin: top center;
+  animation: ak-loader-thread 1100ms var(--ease-cut) forwards;
+}
+@keyframes ak-loader-thread { to { transform: scaleY(1); } }
+
+.ak-loader__mark {
+  position: relative;
+  display: flex;
+  gap: 0.1em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(3rem, 9vw, 5.5rem);
+  line-height: 1;
+  color: var(--text);
+}
+.ak-loader__a, .ak-loader__k {
+  display: block;
+  font-weight: 400;
+  opacity: 0;
+  animation: ak-loader-letter 700ms var(--ease-cut) forwards;
+}
+.ak-loader__a { animation-delay: 120ms; transform: translateX(-0.18em); }
+.ak-loader__k { animation-delay: 260ms; transform: translateX(0.18em); }
+@keyframes ak-loader-letter { to { opacity: 1; transform: translateX(0); } }
+
+.ak-loader__caption {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0;
+  animation: ak-loader-letter 600ms var(--ease-cut) 520ms forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ak-loader__thread { animation: none; transform: scaleY(1); }
+  .ak-loader__a, .ak-loader__k, .ak-loader__caption { animation: none; opacity: 1; transform: none; }
+  .ak-loader { transition: none; }
+}
+
+/* ── The logotype, one artwork per mode ──────────────────────────────── */
+.ak-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.ak-logo__img { display: block; height: clamp(1.9rem, 3.6vw, 2.6rem); width: auto; }
+.ak-logo__img--dark { display: none; }
+:root[data-theme="dark"] .ak-logo__img--light { display: none; }
+:root[data-theme="dark"] .ak-logo__img--dark  { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .ak-logo__img--light { display: none; }
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .ak-logo__img--dark  { display: block; }
+}
+/* Only one artwork uploaded: show it in both modes rather than nothing. */
+.ak-logo__img--dark:only-child { display: block; }
+
+/* ── The mode switch, in the header bar at every width ───────────────── */
+.ak-mode--header { margin-right: 1.25rem; flex: none; min-height: 24px; padding: 0.3rem 0; }
+@media (max-width: 56.25em) {
+  .ak-mode--header { margin-right: 0.75rem; }
+  .ak-mode--header .ak-mode__label { display: none; }   /* the track alone reads fine */
 }
 
 /* ── The AK footer (template override in footer.php) ─────────────────── */
@@ -1687,6 +1820,9 @@ body.layout--switched,
 .ak-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
 .ak-footer ul a,
 .ak-footer address a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;                 /* WCAG 2.2 SC 2.5.8 target size */
   font-size: 0.8125rem;
   color: var(--text);
   text-decoration: none;
@@ -1701,6 +1837,9 @@ body.layout--switched,
   margin-top: 1.25rem !important;
 }
 .ak-footer__social a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;                 /* WCAG 2.2 SC 2.5.8 target size */
   font-family: var(--font-mono);
   font-size: 0.5625rem;
   letter-spacing: 0.14em;
@@ -1824,10 +1963,10 @@ main.site-main { overflow: visible; }
 }
 .ak-video-slot__note {
   font-family: var(--font-mono);
-  font-size: 0.5rem;
+  font-size: 0.5625rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: oklch(0.975 0.006 70 / 0.55);
+  color: var(--on-plate-muted);
 }
 
 /* ── Site cards — the founded platforms, live ────────────────────────── */
@@ -1867,7 +2006,7 @@ main.site-main { overflow: visible; }
 .ak-site-card:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 4px; }
 .ak-site-card__domain {
   font-family: var(--font-mono);
-  font-size: 0.5rem;
+  font-size: 0.5625rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-faint);
@@ -1877,7 +2016,94 @@ main.site-main { overflow: visible; }
   display: block;
   margin-top: 0.55rem;
   font-family: var(--font-mono);
-  font-size: 0.5rem;
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.ak-site-card__desc {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 44ch;
+}
+.ak-site-card--small .ak-site-card__name { font-size: 1rem; }
+
+/* The eyebrow is a single measured line; on a phone it stacks rather than
+   wrapping around its own separators. */
+@media (max-width: 32em) {
+  .ak-eyebrow { flex-wrap: wrap; row-gap: 0.25rem; }
+  .ak-eyebrow > span[aria-hidden="true"]:not(.ak-eyebrow__rule) { display: none; }
+  .ak-eyebrow__rule { flex: 0 0 1.5rem; }
+}
+
+/* ── The claim line (replaces the counter tiles, change D-3) ─────────── */
+.ak-claim {
+  margin: 3.25rem 0 0;
+  max-width: 52ch;
+  font-size: clamp(1.0625rem, 2vw, 1.375rem);
+  line-height: 1.55;
+  color: var(--text);
+  border-top: 1px solid var(--rule-strong);
+  padding-top: 1.4rem;
+}
+.ak-claim em {
+  font-style: normal;
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--accent-text);
+}
+
+/* ── Site cards — the founded platforms, live ────────────────────────── */
+.ak-site-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.ak-site-card .ak-plate { display: block; }
+.ak-site-card .ak-plate > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: saturate(0.92);
+  transition: filter 400ms var(--ease-cut);
+}
+.ak-site-card:hover .ak-plate > img { filter: saturate(1); }
+.ak-site-card__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.9rem;
+}
+.ak-site-card__name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+  color: var(--text);
+  transition: color 250ms var(--ease-cut);
+}
+.ak-site-card:hover .ak-site-card__name,
+.ak-site-card:focus-visible .ak-site-card__name { color: var(--accent-text); }
+.ak-site-card:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 4px; }
+.ak-site-card__domain {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+.ak-site-card__by {
+  display: block;
+  margin-top: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent-text);
@@ -1893,33 +2119,6 @@ main.site-main { overflow: visible; }
 .ak-site-card--small .ak-site-card__name { font-size: 1rem; }
 
 /* ── Stats strip — the count-up numbers of a motion site ─────────────── */
-.ak-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  margin-top: 3.75rem;
-}
-@media (max-width: 700px) { .ak-stats { grid-template-columns: 1fr 1fr; } }
-.ak-stat { border-top: 1px solid var(--rule-strong); padding-top: 1.1rem; }
-.ak-stat__value {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: clamp(2.25rem, 5vw, 3.5rem);
-  line-height: 1;
-  color: var(--text);
-  font-variant-numeric: tabular-nums;
-}
-.ak-stat__value sup { font-size: 0.45em; color: var(--accent-text); }
-.ak-stat__key {
-  display: block;
-  margin-top: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.5625rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
 @media print {
   .ak-rise, .ak-vf, .ak-draw, .ak-band__track,
   .ak-plate, .ak-plate > img, .ak-plate > video { animation: none !important; scale: none; translate: none; }

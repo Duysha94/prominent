@@ -32,7 +32,6 @@ $ak_journal    = get_page_by_path( 'journal' );
 	<section class="ak-section">
 		<div class="ak-wrap">
 			<p class="ak-eyebrow">
-				<span class="ak-eyebrow__folio">01</span>
 				<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
 				<span style="color:var(--accent-text)"><?php esc_html_e( 'Fashion & Brand Advisory', 'ak-zeyna-child' ); ?></span>
 				<span aria-hidden="true">—</span>
@@ -89,13 +88,18 @@ $ak_journal    = get_page_by_path( 'journal' );
 	<!-- ── The figures and the four movements ───────────────────────────── -->
 	<section class="ak-section">
 		<div class="ak-wrap">
-			<!-- The figures, counted up as they enter. All checkable facts. -->
-			<div class="ak-stats">
-				<div class="ak-stat ak-rise"><span class="ak-stat__value" data-ak-count="2">02</span><span class="ak-stat__key"><?php esc_html_e( 'Platforms founded', 'ak-zeyna-child' ); ?></span></div>
-				<div class="ak-stat ak-rise"><span class="ak-stat__value" data-ak-count="4">04</span><span class="ak-stat__key"><?php esc_html_e( 'Movements', 'ak-zeyna-child' ); ?></span></div>
-				<div class="ak-stat ak-rise"><span class="ak-stat__value" data-ak-count="9">09</span><span class="ak-stat__key"><?php esc_html_e( 'Services', 'ak-zeyna-child' ); ?></span></div>
-				<div class="ak-stat ak-rise"><span class="ak-stat__value" data-ak-count="3">03</span><span class="ak-stat__key"><?php esc_html_e( 'Cities', 'ak-zeyna-child' ); ?></span></div>
-			</div>
+			<!-- The claim, stated once. The counting animation stays where a
+			     figure IS the claim — the tech-pack readouts inside case
+			     studies — rather than on a row of tiles that restate the
+			     sections around them. -->
+			<p class="ak-claim ak-rise">
+				<?php
+				echo wp_kses(
+					__( 'Two international fashion platforms <em>founded, not hired</em>. Nine services across four movements, run by <em>the two owners</em> — the same two who answer your email.', 'ak-zeyna-child' ),
+					array( 'em' => array() )
+				);
+				?>
+			</p>
 
 			<!-- The four movements, stated immediately. -->
 			<ol class="ak-grid ak-grid--2 ak-grid--4" style="list-style:none;padding:0;margin:3.5rem 0 0">
@@ -146,7 +150,6 @@ $ak_journal    = get_page_by_path( 'journal' );
 		<section class="ak-section ak-section--rule">
 			<div class="ak-wrap">
 				<p class="ak-eyebrow">
-					<span class="ak-eyebrow__folio">02</span>
 					<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
 					<?php esc_html_e( 'Selected work', 'ak-zeyna-child' ); ?>
 				</p>
@@ -186,7 +189,6 @@ $ak_journal    = get_page_by_path( 'journal' );
 	<section class="ak-section ak-section--rule">
 		<div class="ak-wrap">
 			<p class="ak-eyebrow">
-				<span class="ak-eyebrow__folio">03</span>
 				<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
 				<?php esc_html_e( 'What we built', 'ak-zeyna-child' ); ?>
 			</p>
@@ -250,7 +252,6 @@ $ak_journal    = get_page_by_path( 'journal' );
 	<section class="ak-section ak-section--rule">
 		<div class="ak-wrap">
 			<p class="ak-eyebrow">
-				<span class="ak-eyebrow__folio">04</span>
 				<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
 				<?php esc_html_e( 'The name', 'ak-zeyna-child' ); ?>
 			</p>
@@ -279,7 +280,6 @@ $ak_journal    = get_page_by_path( 'journal' );
 		<section class="ak-section">
 			<div class="ak-wrap">
 				<p class="ak-eyebrow">
-					<span class="ak-eyebrow__folio">05</span>
 					<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
 					<?php esc_html_e( 'Journal', 'ak-zeyna-child' ); ?>
 				</p>

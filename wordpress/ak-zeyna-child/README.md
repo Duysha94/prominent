@@ -10,7 +10,40 @@ menu, contact form, placeholder case studies — arrives ready.
 
 ---
 
-## Install — in this exact order
+## Install — three steps, no import
+
+1. **Zeyna** (parent theme): **Appearance → Themes → Add New → Upload
+   Theme** → upload the Zeyna zip. Install only; it need not be active.
+2. **Contact Form 7**: **Plugins → Add New** → install and activate.
+3. **This theme**: upload `ak-zeyna-child.zip` → **Activate**.
+
+That is the whole install. On activation the theme creates its own pages,
+case studies, journal entries, the navigation menu and the contact form,
+sets the front page and the posts page, and hangs the menu in the header.
+There is nothing to import.
+
+`import/ak-content.xml` still ships for anyone who prefers the classic
+route, but it is no longer required and can be ignored.
+
+### Updates
+
+Every later version arrives through **Appearance → Themes** as a normal
+one-click WordPress update. When it installs, the theme reconciles the site
+with the content the new version ships:
+
+| | |
+|---|---|
+| A page the new version adds | created |
+| A page you have not edited | refreshed |
+| A page you *have* edited | left exactly as you left it |
+| A project or entry the new version drops | moved to the Trash |
+
+It then tells you what it did in an admin notice. Nothing is ever deleted
+outright — the Trash holds it for 30 days.
+
+---
+
+## Install — the long version
 
 1. **Zeyna** (parent theme): admin → **Appearance → Themes → Add New →
    Upload Theme** → upload the Zeyna zip from your ThemeForest purchase.

@@ -53,16 +53,19 @@ function ak_studio_email() {
 function ak_live_preview( $url, $title ) {
 	$shot = 'https://s0.wp.com/mshots/v1/' . rawurlencode( $url ) . '?w=760';
 	printf(
-		'<img loading="lazy" decoding="async" width="760" height="570" src="%s" alt="%s" />',
+		'<img loading="lazy" decoding="async" referrerpolicy="no-referrer" width="760" height="570" src="%s" alt="%s" />',
 		esc_url( $shot ),
 		/* translators: %s: platform name */
 		esc_attr( sprintf( __( '%s — live front page', 'ak-zeyna-child' ), $title ) )
 	);
 }
 
+require_once get_stylesheet_directory() . '/inc/chrome.php';
 require_once get_stylesheet_directory() . '/inc/enqueue.php';
 require_once get_stylesheet_directory() . '/inc/seo.php';
 require_once get_stylesheet_directory() . '/inc/updates.php';
+require_once get_stylesheet_directory() . '/inc/content.php';
+require_once get_stylesheet_directory() . '/inc/sync.php';
 require_once get_stylesheet_directory() . '/inc/theme-mode.php';
 require_once get_stylesheet_directory() . '/inc/schema.php';
 require_once get_stylesheet_directory() . '/inc/setup.php';
@@ -72,6 +75,22 @@ require_once get_stylesheet_directory() . '/inc/case-meta.php';
  * Mark the document so the design system can scope itself without competing
  * with Zeyna on specificity.
  */
+/**
+ * Translations.
+ *
+ * Registered on `after_setup_theme`, which is before `init` and therefore
+ * before any translation call runs — so WordPress 6.7's
+ * `_load_textdomain_just_in_time` notice cannot fire. The site ships
+ * English only; this exists so adding a language is a translation job
+ * rather than a development job.
+ */
+add_action(
+	'after_setup_theme',
+	function () {
+		load_child_theme_textdomain( 'ak-zeyna-child', get_stylesheet_directory() . '/languages' );
+	}
+);
+
 add_filter(
 	'body_class',
 	function ( $classes ) {

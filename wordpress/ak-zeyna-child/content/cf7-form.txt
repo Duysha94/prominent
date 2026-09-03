@@ -1,0 +1,26 @@
+<div class="ak-grid-2">
+<label class="ak-field"><span class="ak-field__label">Your name *</span>
+    [text* your-name autocomplete:name] </label>
+
+<label class="ak-field"><span class="ak-field__label">Email *</span>
+    [email* your-email autocomplete:email] </label>
+</div>
+
+<div class="ak-grid-2">
+<label class="ak-field"><span class="ak-field__label">Brand or company</span>
+    [text your-brand autocomplete:organization] </label>
+
+<label class="ak-field"><span class="ak-field__label">Website or Instagram</span>
+    [text your-link] </label>
+</div>
+
+<label class="ak-field"><span class="ak-field__label">Where is the brand now? *</span>
+    [select* brand-stage "Just an idea" "Launching — first collection or first product" "Trading — selling, but growth is flat" "Scaling — growing, and the seams are showing"] </label>
+
+<label class="ak-field"><span class="ak-field__label">What do you think you need? *</span>
+    [select* project-need "Brand strategy and positioning" "Personal brand" "Identity and creative direction" "Marketing and communication" "Photo / video campaign" "Event or fashion show production" "Website or online store" "Digital promotion" "Not sure — tell me what I need"] </label>
+
+<label class="ak-field"><span class="ak-field__label">Tell us about the project *</span>
+    [textarea* your-message] </label>
+
+[submit "Send the brief"]

@@ -219,34 +219,6 @@ add_filter(
 );
 
 /**
- * The ATELIER / RUNWAY switch, appended to the primary menu.
- *
- * Appending through wp_nav_menu_items means Zeyna's header.php stays
- * untouched — the brief was to keep the theme's header — and the control
- * still lands where a visitor looks for it.
- */
-add_filter(
-	'wp_nav_menu_items',
-	function ( $items, $args ) {
-		if ( ! isset( $args->theme_location ) || 'menu-1' !== $args->theme_location ) {
-			return $items;
-		}
-		ob_start();
-		?>
-		<li class="menu-item ak-menu-mode">
-			<button type="button" class="ak-mode" data-ak-mode aria-pressed="false">
-				<span class="ak-mode__label">Atelier</span>
-				<span class="ak-mode__track" aria-hidden="true"><span class="ak-mode__knob"></span></span>
-			</button>
-		</li>
-		<?php
-		return $items . ob_get_clean();
-	},
-	10,
-	2
-);
-
-/**
  * Customizer: the two things the founders swap themselves.
  *
  * The logo goes through WordPress's own custom-logo control (Zeyna renders
@@ -265,6 +237,8 @@ add_action(
 		);
 
 		foreach ( array(
+			'ak_logo_light'      => __( 'Logotype for ATELIER (light mode) — dark artwork', 'ak-zeyna-child' ),
+			'ak_logo_dark'       => __( 'Logotype for RUNWAY (dark mode) — light artwork', 'ak-zeyna-child' ),
 			'ak_hero_video_av1'  => __( 'Hero video — AV1 .mp4 (preferred)', 'ak-zeyna-child' ),
 			'ak_hero_video_h264' => __( 'Hero video — H.264 .mp4 (fallback)', 'ak-zeyna-child' ),
 			'ak_hero_poster'     => __( 'Hero poster image (shown before playback)', 'ak-zeyna-child' ),
