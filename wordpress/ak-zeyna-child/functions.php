@@ -12,7 +12,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'AK_CHILD_VERSION', '1.0.0' );
+/**
+ * One source of truth for the version.
+ *
+ * It was a hard-coded second copy, and it drifted: the stylesheet said 1.2.0
+ * while this said 1.0.0. That silently broke the two things keyed to it —
+ * asset cache-busting, and the content sync that fires when the installed
+ * version changes. Read it from the stylesheet header so it cannot drift again.
+ */
+define( 'AK_CHILD_VERSION', wp_get_theme( 'ak-zeyna-child' )->get( 'Version' ) ?: '1.0.0' );
 
 /**
  * ACF shim.

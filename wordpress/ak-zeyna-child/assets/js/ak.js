@@ -570,19 +570,21 @@
 
     if (!panel) { release(); return }
 
-    // Hold the panel for at least one beat so the monogram is seen, but
-    // never longer than the timeout below.
-    var MIN = reduced.matches ? 0 : 900
+    // Release on DOMContentLoaded, not on `load`. `load` waits for every
+    // subresource — including the hero showreel and each platform preview —
+    // so on a real connection the panel was holding the page for seconds
+    // and taking Largest Contentful Paint down with it. The markup and the
+    // stylesheet are all the page needs to be worth showing.
+    var MIN = reduced.matches ? 0 : 700
     var started = performance.now()
     function releaseAfterMinimum() {
-      var waited = performance.now() - started
-      window.setTimeout(release, Math.max(0, MIN - waited))
+      window.setTimeout(release, Math.max(0, MIN - (performance.now() - started)))
     }
 
-    if (doc.readyState === 'complete') releaseAfterMinimum()
-    else window.addEventListener('load', releaseAfterMinimum, { once: true })
+    if (doc.readyState !== 'loading') releaseAfterMinimum()
+    else doc.addEventListener('DOMContentLoaded', releaseAfterMinimum, { once: true })
 
-    window.setTimeout(release, 3500)   // hard ceiling
+    window.setTimeout(release, 2500)   // hard ceiling
   })()
 
   /* ── The Seam ────────────────────────────────────────────────────────────

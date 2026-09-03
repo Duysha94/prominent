@@ -143,6 +143,19 @@ function ak_sync_content() {
 		}
 	}
 
+	// WordPress ships a starter post and page. They are not ours, so the
+	// retire pass above leaves them — but on a studio site they are noise.
+	// Removed once, on the first sync only, and never touched again.
+	if ( ! get_option( 'ak_synced_version' ) ) {
+		foreach ( array( array( 'hello-world', 'post' ), array( 'sample-page', 'page' ) ) as $starter ) {
+			$post = get_page_by_path( $starter[0], OBJECT, $starter[1] );
+			if ( $post && 'publish' === $post->post_status && ! get_post_meta( $post->ID, '_ak_import', true ) ) {
+				wp_trash_post( $post->ID );
+				$report['retired'][] = $starter[0];
+			}
+		}
+	}
+
 	ak_sync_menu( $report );
 	ak_sync_form( $report );
 
@@ -177,24 +190,48 @@ function ak_sync_menu( &$report ) {
 		$report['created'][] = __( 'Primary menu', 'ak-zeyna-child' );
 	}
 
-	$existing = wp_get_nav_menu_items( $menu->term_id );
-	$have     = array();
+	$existing  = wp_get_nav_menu_items( $menu->term_id );
+	$have_ids  = array();
+	$have_urls = array();
 	foreach ( (array) $existing as $item ) {
-		$have[] = (int) $item->object_id;
+		$have_ids[]  = (int) $item->object_id;
+		$have_urls[] = untrailingslashit( $item->url );
 	}
 
 	$order = 0;
-	foreach ( ak_content_menu() as $slug => $label ) {
+	foreach ( ak_content_menu() as $entry ) {
 		$order++;
-		$page = get_page_by_path( $slug );
-		if ( ! $page || in_array( (int) $page->ID, $have, true ) ) {
+
+		// The Work entry is a link to the portfolio archive, not a page —
+		// giving it a page would put a second claimant on the /work/ route.
+		if ( 'archive' === $entry['type'] ) {
+			$url = get_post_type_archive_link( 'portfolio' );
+			if ( ! $url || in_array( untrailingslashit( $url ), $have_urls, true ) ) {
+				continue;
+			}
+			wp_update_nav_menu_item(
+				$menu->term_id,
+				0,
+				array(
+					'menu-item-title'    => $entry['label'],
+					'menu-item-url'      => $url,
+					'menu-item-type'     => 'custom',
+					'menu-item-status'   => 'publish',
+					'menu-item-position' => $order,
+				)
+			);
+			continue;
+		}
+
+		$page = get_page_by_path( $entry['slug'] );
+		if ( ! $page || in_array( (int) $page->ID, $have_ids, true ) ) {
 			continue;
 		}
 		wp_update_nav_menu_item(
 			$menu->term_id,
 			0,
 			array(
-				'menu-item-title'     => $label,
+				'menu-item-title'     => $entry['label'],
 				'menu-item-object'    => 'page',
 				'menu-item-object-id' => $page->ID,
 				'menu-item-type'      => 'post_type',

@@ -37,14 +37,11 @@ function ak_content_manifest() {
 			'title' => __( 'Home', 'ak-zeyna-child' ),
 			'order' => 1,
 		),
-		array(
-			'type'     => 'page',
-			'slug'     => 'work',
-			'title'    => __( 'Work', 'ak-zeyna-child' ),
-			'order'    => 2,
-			'template' => 'page-templates/template-ak-page.php',
-			'content'  => '<!-- Fallback: /work/ is rendered by the portfolio archive. -->',
-		),
+		// NOTE: there is deliberately no 'work' PAGE. /work/ belongs to the
+		// portfolio archive. A page sharing that slug wins the route (pages
+		// outrank post-type archives), which hid the archive, 404'd every
+		// case study, and sent the old redirect into an infinite loop. The
+		// menu links to the archive directly instead — see ak_content_menu().
 		array(
 			'type'     => 'page',
 			'slug'     => 'services',
@@ -260,12 +257,12 @@ function ak_content_journal() {
  */
 function ak_content_menu() {
 	return array(
-		'home'     => __( 'Home', 'ak-zeyna-child' ),
-		'work'     => __( 'Work', 'ak-zeyna-child' ),
-		'services' => __( 'Services', 'ak-zeyna-child' ),
-		'journal'  => __( 'Journal', 'ak-zeyna-child' ),
-		'about'    => __( 'About', 'ak-zeyna-child' ),
-		'contact'  => __( 'Contact', 'ak-zeyna-child' ),
+		array( 'type' => 'page',    'slug' => 'home',     'label' => __( 'Home', 'ak-zeyna-child' ) ),
+		array( 'type' => 'archive', 'slug' => 'work',     'label' => __( 'Work', 'ak-zeyna-child' ) ),
+		array( 'type' => 'page',    'slug' => 'services', 'label' => __( 'Services', 'ak-zeyna-child' ) ),
+		array( 'type' => 'page',    'slug' => 'journal',  'label' => __( 'Journal', 'ak-zeyna-child' ) ),
+		array( 'type' => 'page',    'slug' => 'about',    'label' => __( 'About', 'ak-zeyna-child' ) ),
+		array( 'type' => 'page',    'slug' => 'contact',  'label' => __( 'Contact', 'ak-zeyna-child' ) ),
 	);
 }
 

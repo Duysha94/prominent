@@ -60,7 +60,9 @@ function set_theme_mod( $k, $v ) { $GLOBALS['mods'][ $k ] = $v; }
 function wp_get_nav_menu_object( $n ) { return $GLOBALS['menu'] ?? false; }
 function wp_create_nav_menu( $n ) { $GLOBALS['menu'] = (object) array( 'term_id' => 99 ); return 99; }
 function wp_get_nav_menu_items( $id ) { return $GLOBALS['menu_items'] ?? array(); }
-function wp_update_nav_menu_item( $m, $i, $a ) { $GLOBALS['menu_items'][] = (object) array( 'object_id' => $a['menu-item-object-id'] ); }
+function get_post_type_archive_link( $t ) { return 'https://akbrand.studio/work/'; }
+function untrailingslashit( $s ) { return rtrim( $s, '/\\' ); }
+function wp_update_nav_menu_item( $m, $i, $a ) { $GLOBALS['menu_items'][] = (object) array( 'object_id' => $a['menu-item-object-id'] ?? 0, 'url' => $a['menu-item-url'] ?? '' ); }
 function ak_wire_imported_content() { $GLOBALS['wired'] = true; }
 
 function get_page_by_path( $slug, $out = OBJECT, $type = 'page' ) {
@@ -125,8 +127,9 @@ echo "SYNC DECISION TABLE\n";
 check( 'retires an AK case dropped from the manifest', in_array( 'old-retired-project', $GLOBALS['trash'], true ) );
 check( 'retires an AK news post dropped from the manifest', in_array( 'old-news-item', $GLOBALS['trash'], true ) );
 check( "NEVER touches a page the theme did not create", ! in_array( 'our-own-page', $GLOBALS['trash'], true ) );
-check( 'creates every manifest page', count( array_intersect( array( 'home', 'services', 'about', 'contact', 'journal', 'work' ), $report['created'] ) ) === 6 );
-check( 'creates the six journal + case entries', count( $report['created'] ) >= 15 );
+check( 'creates every manifest page', count( array_intersect( array( 'home', 'services', 'about', 'contact', 'journal' ), $report['created'] ) ) === 5 );
+check( 'creates NO page on the /work/ route (archive owns it)', ! in_array( 'work', $report['created'], true ) );
+check( 'creates the case studies and journal entries', count( $report['created'] ) >= 14 );
 check( 'leaves a hand-edited case alone', in_array( 'placeholder-brand-identity', $report['skipped'], true ) );
 $e = get_page_by_path( 'placeholder-brand-identity', OBJECT, 'portfolio' );
 check( "  ...and its words survive verbatim", $e && 'REAL CLIENT' === $e->post_title && str_contains( $e->post_content, 'Their real story' ) );

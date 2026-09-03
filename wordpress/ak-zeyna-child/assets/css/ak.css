@@ -1715,8 +1715,19 @@ body.layout--switched,
   transition: opacity 520ms var(--ease-cut), visibility 520ms;
 }
 .ak-loader.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
-/* The page underneath must not scroll while the panel is up. */
-html.first--load body { overflow: hidden; }
+
+/* Backstop, deliberately in CSS: a full-screen panel dismissed only by
+   JavaScript is a single point of failure for the whole site — one script
+   error and nobody sees anything. This animation clears the panel on its
+   own at 3s whether or not ak.js ever runs. JS still dismisses it far
+   earlier in the normal case; this only ever catches the failure. */
+.ak-loader { animation: ak-loader-failsafe 1ms linear 3s forwards; }
+@keyframes ak-loader-failsafe { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+
+/* The page underneath must not scroll while the panel is up — with the same
+   failsafe, so a stuck panel can never leave the document unscrollable. */
+html.first--load body { overflow: hidden; animation: ak-scroll-failsafe 1ms linear 3s forwards; }
+@keyframes ak-scroll-failsafe { to { overflow: visible; } }
 
 .ak-loader__thread {
   position: absolute;

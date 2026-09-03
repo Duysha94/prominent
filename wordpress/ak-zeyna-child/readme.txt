@@ -4,7 +4,7 @@ Contributors: akstudio
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 Template: zeyna
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -51,6 +51,18 @@ theme no longer ships are moved to the Trash, and anything edited by hand is
 left exactly as it is. What it did is reported in the admin as a notice.
 
 == Changelog ==
+
+= 1.2.1 =
+* Fixed an infinite redirect on /work/ and 404s on every case study: the
+  Work page and the portfolio archive claimed the same URL. The archive
+  owns it now and the menu links straight to it.
+* The version is read from the stylesheet header instead of a second
+  hard-coded copy that had drifted — content sync and asset cache-busting
+  both key off it.
+* The loader releases on DOMContentLoaded rather than waiting for the
+  showreel and every image, and clears itself in CSS if scripts fail.
+* WordPress's starter "Hello world!" post and "Sample Page" are retired on
+  the first sync.
 
 = 1.2.0 =
 * Own header, footer and page loader; the boot sequence no longer depends on
