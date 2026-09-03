@@ -624,6 +624,22 @@ a.ak-chip:focus-visible { outline: 2px solid var(--accent-line); outline-offset:
   transition: border-color 300ms var(--ease-cut), background-color 300ms var(--ease-cut);
 }
 .ak-card:hover { border-color: var(--rule-strong); background-color: var(--bg-raised); }
+/* The movement card's own two roles. These were inline on the element and
+   so out of reach of every media query — which is why the phone layer below
+   could not touch them. */
+.ak-card__title {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+.ak-card__body {
+  margin: 0.6rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
 .ak-card:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 3px; }
 
 /* ---------------------------------------------------------------------------
@@ -1602,13 +1618,31 @@ html .page--transitions {
    header it stacked the controls and padded the bar to 136px tall. */
 .header--default .site-header .pe-col-6 {
   width: auto;
-  flex: none;
   flex-direction: row;
   align-items: center;
   gap: 1.25rem;
   margin-bottom: 0;
   padding-left: 0;
   padding-right: 0;
+  /* min-width:0 is what lets a flex child shrink below its content. Without
+     it the branding column and the menu column both size to their content
+     and simply run past the bar: at 1024px, with the horizontal menu still
+     showing, the header overflowed the document by 61px and every page
+     scrolled sideways. */
+  min-width: 0;
+}
+.header--default .site-header .pe-col-6:first-child { flex: 0 1 auto; }
+.header--default .site-header .pe-col-6.pe-items-right { flex: 0 0 auto; }
+
+/* Between the panel breakpoint and a comfortable desktop the horizontal
+   menu, the mode switch and the wordmark are competing for one line. Close
+   the menu's gaps and bring the wordmark down a step rather than letting
+   the bar break. */
+@media (min-width: 56.26em) and (max-width: 75em) {
+  .header--default .site-header { gap: 1.25rem; }
+  .main-navigation ul { gap: 1.15rem; }
+  .site-branding .site-title { font-size: 1.0625rem; }
+  .ak-mode--header { margin-right: 0.5rem; }
 }
 
 .site-branding { display: flex; align-items: center; gap: 0.9rem; }
@@ -1754,6 +1788,15 @@ html .page--transitions {
    scroll that remains underneath it. */
 :root.ak-nav-open,
 :root.ak-nav-open body { overflow: hidden; }
+
+/* The panel lives inside .header--default, which carries z-index:120 and so
+   opens a stacking context of its own. Inside that context the panel's
+   z-index:310 is measured against its siblings, not against the scrim — so
+   the scrim, a direct child of <body> at 305, painted OVER the whole header:
+   the menu came up dimmed and blurred behind its own overlay, and its links
+   were not clickable. Lifting the header itself above the scrim for as long
+   as the panel is open puts the panel back on top, where it belongs. */
+:root.ak-nav-open .header--default { z-index: 320; }
 
 /* The insurance toggle ak.js floats in when no header rendered one. */
 .ak-mode--floating {
@@ -2201,6 +2244,210 @@ main.site-main { overflow: visible; }
   max-width: 44ch;
 }
 .ak-site-card--small .ak-site-card__name { font-size: 1rem; }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE PHONE — one scale, one boundary, one rhythm
+   ═══════════════════════════════════════════════════════════════════════════
+   Everything above is written for a page with columns. A phone has one
+   column, and the desktop layout's job of separating a section lead from a
+   card body from a caption falls entirely to type — which, measured at
+   390px, it was not doing:
+
+     · eleven distinct roles (eyebrow, folio, client, tag, year, domain,
+       founder line, band key, band value, button, menu link) all rendered
+       at 9px Martian Mono with 0.16–0.22em tracking. Below the legibility
+       floor on a phone, and identical to each other, so nothing read as
+       more or less important than anything else.
+     · the section lead at 15px and body copy at 15px — the same size, the
+       same family, the same weight. A lead that does not lead.
+     · card body at 13px against that 15px: a 2px near-miss, which reads as
+       an accident rather than a step.
+     · display type set at 0.90 and 0.94 leading. That is a poster setting;
+       at 32–40px on a phone, Fraunces italic descenders run into the line
+       below.
+     · three boundary systems around the same content — the grid's own
+       border, its 1px hairline gaps, and each card's border inside that.
+
+   This block sets a real scale for the phone and gives each role exactly
+   one place on it. It is last in the file so it needs no !important.
+   ------------------------------------------------------------------------ */
+@media (max-width: 56.25em) {
+
+  /* ── 1. Labels ──────────────────────────────────────────────────────────
+     11px, and tracking cut roughly in half. Wide letterspacing is what
+     makes small mono type readable across a wide desktop column and what
+     makes it hard work in a narrow one. The quietest tier — folios, years,
+     the dimension label — stays a step below at 10px so the hierarchy
+     survives inside the label scale itself. */
+  .ak-eyebrow,
+  .ak-index__client,
+  .ak-index__tag,
+  .ak-site-card__domain,
+  .ak-site-card__by,
+  .ak-note__meta,
+  .ak-founder__role,
+  .ak-chapter__measure span,
+  .ak-band__key,
+  .ak-band__value {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+  }
+  .ak-eyebrow { gap: 0.6rem; }
+  .ak-eyebrow__folio,
+  .ak-index__folio,
+  .ak-index__year,
+  .ak-chapter__no,
+  .ak-dim-label {
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
+  }
+  .main-navigation a { font-size: 0.6875rem; letter-spacing: 0.1em; }
+  /* The wordmark fallback, shown only until a logo is uploaded. Two tight
+     lines rather than two loose ones, so the bar stays a bar. */
+  .site-branding .site-title { font-size: 0.8125rem; line-height: 1.25; }
+  .ak-btn { font-size: 0.6875rem; letter-spacing: 0.1em; }
+
+  /* ── 2. Reading ─────────────────────────────────────────────────────────
+     Three steps, far enough apart to be read as steps: the lead at 17px in
+     full ink, body at 15px muted, and the small body inside a card at 14px.
+     The lead's colour is the load-bearing change — a lead the same size AND
+     the same grey as the paragraph under it is not a lead at all. */
+  .ak-lead {
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--text);
+  }
+  .ak-accent-field .ak-lead { color: inherit; }
+  .ak-note__excerpt,
+  .ak-line {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+  .ak-card__body,
+  .ak-site-card__desc {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  /* ── 3. Display ─────────────────────────────────────────────────────────
+     Leading opened past 1.0 so italic descenders clear the line below, and
+     the two card headings that were 20px and 24px for the same job become
+     one size. */
+  .ak-display     { line-height: 1.06; letter-spacing: -0.015em; }
+  .ak-display--hero { line-height: 1.02; letter-spacing: -0.02em; }
+  .ak-note__title { line-height: 1.12; }
+  .ak-index__title,
+  .ak-card__title { font-size: 1.3125rem; line-height: 1.15; }
+
+  /* ── 5. Rhythm ──────────────────────────────────────────────────────────
+     Three intervals, and only three: 0.6rem inside a unit, 1.5rem between
+     units, 3.5rem between sections — with a hairline at every section
+     start, so a new section is announced rather than merely arrived at. */
+  .ak-section { padding-block: 3.5rem; border-top: 1px solid var(--rule); }
+  .ak-section:first-of-type { border-top: 0; }
+  .ak-accent-field { padding-block: 4rem; }
+  .ak-lead { margin-top: 1.25rem; }
+  .ak-display { margin-top: 1rem; }
+
+  /* ── 6. The work index ──────────────────────────────────────────────────
+     Folio and client belong to each other — they are one line of
+     identification — so they sit on one row instead of at opposite ends of
+     a grid. The tags then wrap across the full column rather than being
+     squeezed into a third grid cell one chip wide. */
+  .ak-index__link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 1.5rem 0;
+  }
+  .ak-index__folio { order: -1; }
+  .ak-index__client { order: -1; }
+  .ak-index__link > .ak-index__folio + .ak-index__client { margin-left: -0.35rem; }
+  .ak-index__tags { width: 100%; }
+
+  /* ── 6b. The journal ────────────────────────────────────────────────────
+     The date sat above the entry and the category below its excerpt, so the
+     category read as the opening of the NEXT entry rather than the closing
+     of this one. Both are the same fact — where and when this piece sits —
+     so on a phone they share one line above the headline, and the entry is
+     then uninterrupted from title to last word. */
+  .ak-note {
+    grid-template-columns: auto 1fr;
+    gap: 0.55rem 0.9rem;
+    align-items: baseline;
+  }
+  .ak-note > .ak-index__folio { grid-column: 1; grid-row: 1; }
+  .ak-note__meta { grid-column: 2; grid-row: 1; }
+  .ak-note > div { grid-column: 1 / -1; grid-row: 2; }
+
+  /* ── 7. Platform cards ──────────────────────────────────────────────────
+     The name and the domain were fighting for one baseline, and the founder
+     credit under them was set in accent orange — which on a card whose
+     domain is also a link made three things look equally clickable. Name
+     takes the line, domain drops beneath it, and the credit joins the label
+     scale in the quiet colour the other captions use. */
+  /* Four facts, in the order a reader wants them: what it is called, who
+     built it, what it does, where it lives. The row wrapper is dissolved
+     with display:contents so the name and the domain can be separated —
+     side by side they were fighting for one baseline, and stacked they were
+     two identical mono lines in a row. The domain goes last, in accent, as
+     the only thing on the card that says "this is a link out". */
+  .ak-site-card__row { display: contents; }
+  .ak-site-card__name  { order: 1; }
+  .ak-site-card__by    { order: 2; margin-top: 0.45rem; color: var(--text-muted); }
+  .ak-site-card__desc  { order: 3; margin-top: 0.7rem; }
+  .ak-site-card__domain {
+    order: 4;
+    margin-top: 0.9rem;
+    font-size: 0.625rem;
+    color: var(--accent-text);
+    white-space: normal;
+  }
+  .ak-site-card { display: flex; flex-direction: column; align-items: flex-start; }
+  .ak-site-card .ak-plate { order: 0; width: 100%; }
+
+  /* ── 8. The showreel ────────────────────────────────────────────────────
+     The floating callouts are annotations on a wide frame; at 390px they
+     land on top of the footage and on top of each other. Both figures are
+     already stated in words on this page — four movements in the claim
+     line, the three cities in the hero eyebrow — so on a phone the frame
+     keeps its ticks and its label, and drops the duplicates. */
+  .ak-reel__frame .ak-callout { display: none; }
+}
+
+/* ── One boundary, and only where the grid is genuinely one column ───────
+   Below 640px every .ak-grid collapses to a single track, and there the
+   grid's frame, its hairline gaps and the card's own border are three lines
+   drawn around one thing. Keep the hairline between rows — the only one
+   carrying information — and drop the other two; the card's side padding
+   goes with them, so its text aligns with the rest of the column instead of
+   sitting in a private inset.
+
+   This stops at 640px on purpose. From 640 to 900 the grids are two
+   columns wide, and a per-child top border with no frame around it draws a
+   staircase of stubs across rows of unequal height.
+   ------------------------------------------------------------------------ */
+@media (max-width: 39.99em) {
+  .ak-grid {
+    border: 0;
+    gap: 0;
+    background: transparent;
+  }
+  .ak-grid > * {
+    padding: 1.75rem 0;
+    background: transparent;
+    border-top: 1px solid var(--rule);
+  }
+  .ak-grid > *:first-child { border-top: 0; padding-top: 0; }
+  .ak-accent-field .ak-grid > * { background: transparent; }
+  .ak-card {
+    border: 0;
+    padding: 1.5rem 0 1.75rem;
+  }
+  .ak-card:hover { background-color: transparent; }
+}
 
 /* ── Stats strip — the count-up numbers of a motion site ─────────────── */
 @media print {

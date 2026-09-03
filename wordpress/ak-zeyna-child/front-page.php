@@ -116,8 +116,8 @@ $ak_journal    = get_page_by_path( 'journal' );
 					<li class="ak-rise">
 						<a class="ak-card" data-ak-tilt href="<?php echo esc_url( $ak_services_url . '#' . $ak_m[0] ); ?>">
 							<span class="ak-eyebrow" style="gap:.5rem"><span class="ak-eyebrow__folio">0<?php echo (int) ( $ak_i + 1 ); ?></span></span>
-							<h2 style="font-family:var(--font-display);font-style:italic;font-size:1.5rem;margin:.75rem 0 0"><?php echo esc_html( $ak_m[1] ); ?></h2>
-							<p style="font-size:.8125rem;line-height:1.6;color:var(--text-muted);margin:.6rem 0 0"><?php echo esc_html( $ak_m[2] ); ?></p>
+							<h2 class="ak-card__title"><?php echo esc_html( $ak_m[1] ); ?></h2>
+							<p class="ak-card__body"><?php echo esc_html( $ak_m[2] ); ?></p>
 						</a>
 					</li>
 				<?php endforeach; ?>
