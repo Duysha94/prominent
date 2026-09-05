@@ -44,7 +44,7 @@ $ak_form = ak_find_brief_form();
 
 	<section class="ak-section">
 		<div class="ak-wrap">
-			<p class="ak-eyebrow"><span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span><?php esc_html_e( 'Start a project — London', 'ak-zeyna-child' ); ?></p>
+			<p class="ak-eyebrow"><span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span><?php printf( esc_html__( 'Start a project — %s', 'ak-zeyna-child' ), esc_html( ak_studio( 'city' ) ) ); ?></p>
 			<h1 class="ak-display ak-display--hero" data-ak-cut><?php esc_html_e( 'Tell us where the brand is. We will tell you what it needs.', 'ak-zeyna-child' ); ?></h1>
 			<p class="ak-lead"><?php esc_html_e( 'A few questions a founder can answer without preparation. We reply within two working days with an honest read: which movements your project actually needs, and which it does not.', 'ak-zeyna-child' ); ?></p>
 		</div>
@@ -67,7 +67,10 @@ $ak_form = ak_find_brief_form();
 				<p class="ak-eyebrow" style="margin:0"><?php esc_html_e( 'Direct', 'ak-zeyna-child' ); ?></p>
 				<p style="margin:.9rem 0 0"><a href="mailto:<?php echo esc_attr( ak_studio_email() ); ?>" style="color:var(--accent-text);text-decoration:none;font-family:var(--font-mono);font-size:.8125rem"><?php echo esc_html( ak_studio_email() ); ?></a></p>
 				<p style="margin:.4rem 0 0;font-family:var(--font-mono);font-size:.625rem;letter-spacing:.1em;color:var(--text-muted)">akbrand.studio</p>
-				<p style="margin:1.25rem 0 0;font-size:.8125rem;line-height:1.6;color:var(--text-muted)"><?php esc_html_e( 'London, United Kingdom. Working across London, Paris and Dubai.', 'ak-zeyna-child' ); ?></p>
+				<p style="margin:1.25rem 0 0;font-size:.8125rem;line-height:1.6;color:var(--text-muted)"><?php
+					/* translators: 1: postal location, 2: the cities line. */
+					printf( esc_html__( '%1$s. Working across %2$s.', 'ak-zeyna-child' ), esc_html( ak_studio_location() ), esc_html( str_replace( ' · ', ', ', ak_studio( 'cities' ) ) ) );
+					?></p>
 			</aside>
 		</div>
 	</section>

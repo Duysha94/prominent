@@ -30,7 +30,7 @@ add_action(
 			'journal'  => 'Notes from the studio floor — short, practical writing on positioning, identity, production and presence in fashion.',
 			'work'     => 'Selected work by AK Brand Development Studio: brand strategy, identity systems, campaign production and runway shows across London, Paris and Dubai.',
 			'services' => 'Four movements — Strategy, Identity, Production, Presence — covering nine services, from brand positioning and identity to campaign production, runway shows and digital promotion.',
-			'about'    => 'Founded by Konstantin Lieontiev and Andrey Karakushan — the producers behind London Fashion Day and Odessa Fashion Day — AK Brand Development Studio works across London, Paris and Dubai.',
+			'about'    => 'Founded by Kostiantyn Lieontiev and Andrii Karakushan — the producers behind London Fashion Day and Odessa Fashion Day — AK Brand Development Studio works across London, Paris and Dubai.',
 			'contact'  => 'Tell us where the brand is. We reply within two working days with an honest read on which movements your project needs. AK Brand Development Studio, London, United Kingdom.',
 		);
 

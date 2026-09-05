@@ -3,7 +3,7 @@
  * Structured data.
  *
  * A linked graph rather than a lone Organization blob, so a search engine can
- * connect Konstantin to London Fashion Day instead of treating them as two
+ * connect Kostiantyn to London Fashion Day instead of treating them as two
  * unrelated strings that happen to share a page.
  *
  * Edit the constants below; everything else follows from them.
@@ -36,28 +36,34 @@ add_action(
 				'alternateName' => 'AK',
 				'slogan'      => 'Fashion & Brand Advisory',
 				'description' => 'An independent creative and strategic practice specialising in brand development, fashion consulting and creative production.',
-				'disambiguatingDescription' => 'Named for its two co-owners: A is Andrey Karakushan, K is Konstantin Lieontiev.',
+				'disambiguatingDescription' => 'Named for its two co-owners: A is Andrii Karakushan, K is Kostiantyn Lieontiev.',
 				'url'         => $site,
 				'email'       => ak_studio_email(),
+				// Read from the studio facts, not typed here: an owner who
+				// changes the city in Customizer must not leave the structured
+				// data claiming somewhere else.
 				'address'     => array(
 					'@type'           => 'PostalAddress',
-					'addressLocality' => 'London',
-					'addressCountry'  => 'GB',
+					'addressLocality' => ak_studio( 'city' ),
+					'addressCountry'  => ak_studio( 'country' ),
 				),
-				'areaServed'  => array(
-					array(
-						'@type' => 'City',
-						'name'  => 'London',
-					),
-					array(
-						'@type' => 'City',
-						'name'  => 'Paris',
-					),
-					array(
-						'@type' => 'City',
-						'name'  => 'Dubai',
-					),
+				'areaServed'  => array_values(
+					array_filter(
+						array_map(
+							function ( $ak_city ) {
+								$ak_city = trim( $ak_city );
+								return $ak_city ? array(
+									'@type' => 'City',
+									'name'  => $ak_city,
+								) : null;
+							},
+							preg_split( '/\s*[·,|]\s*/u', ak_studio( 'cities' ) )
+						)
+					)
 				),
+				// sameAs is omitted entirely when no profile is set — an
+				// empty sameAs array is worse than no claim at all.
+				'sameAs'      => array_values( ak_socials() ),
 				'knowsAbout'  => array(
 					'Brand development',
 					'Brand positioning',
@@ -80,7 +86,7 @@ add_action(
 			array(
 				'@type'    => 'Person',
 				'@id'      => $site . '/about#konstantin-lieontiev',
-				'name'     => 'Konstantin Lieontiev',
+				'name'     => 'Kostiantyn Lieontiev',
 				'jobTitle' => 'Fashion producer, brand strategist',
 				'url'      => $site . '/about/',
 				'worksFor' => array( '@id' => $site . '/#studio' ),
@@ -88,7 +94,7 @@ add_action(
 			array(
 				'@type'    => 'Person',
 				'@id'      => $site . '/about#andrey-karakushan',
-				'name'     => 'Andrey Karakushan',
+				'name'     => 'Andrii Karakushan',
 				'jobTitle' => 'Creative entrepreneur, digital and identity',
 				'url'      => $site . '/about/',
 				'worksFor' => array( '@id' => $site . '/#studio' ),

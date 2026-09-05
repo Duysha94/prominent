@@ -39,17 +39,6 @@ if ( ! function_exists( 'get_field' ) ) {
 }
 
 /**
- * The studio's public email address, in ONE place.
- *
- * Swap the address here and every template, the JSON-LD graph and the
- * contact-page fallback follow. The Contact Form 7 form keeps its own copy
- * in the database — change that one in the form's Mail tab.
- */
-function ak_studio_email() {
-	return apply_filters( 'ak_studio_email', 'ak@akbrand.studio' );
-}
-
-/**
  * A live preview of an external site's front page, as an image.
  *
  * Uses WordPress.com's mShots service: it screenshots the URL, caches the
@@ -68,6 +57,7 @@ function ak_live_preview( $url, $title ) {
 	);
 }
 
+require_once get_stylesheet_directory() . '/inc/studio.php';
 require_once get_stylesheet_directory() . '/inc/chrome.php';
 require_once get_stylesheet_directory() . '/inc/enqueue.php';
 require_once get_stylesheet_directory() . '/inc/seo.php';

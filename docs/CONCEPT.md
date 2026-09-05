@@ -28,7 +28,7 @@ The founders' own sentence gives the better structure:
 That is a sequence, not a list. So the site is built as one.
 
 **And there is a second, larger problem the design has to solve: the studio's
-single strongest asset is buried.** Konstantin Lieontiev founded and produces
+single strongest asset is buried.** Kostiantyn Lieontiev founded and produces
 **London Fashion Day** and **Odessa Fashion Day**. Most studios advising a
 young designer have to *ask someone else* for a runway slot. These founders own
 the platform. That is not a claim a competitor can copy — it is a fact about
@@ -288,7 +288,7 @@ which is also what makes deep links work on static hosting.
   the four movements and every service in them;
 - a `Person` node per founder, referenced by `@id` from the organisation's
   `founder`, each with `founderOf` pointing at London Fashion Day, Odessa
-  Fashion Day, KEKA and Cool'baba — so a search engine can connect Konstantin
+  Fashion Day, KEKA and Cool'baba — so a search engine can connect Kostiantyn
   to the platforms instead of treating them as unrelated strings;
 - `BreadcrumbList` per page, `WebSite` for the site itself.
 

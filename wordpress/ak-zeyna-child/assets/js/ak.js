@@ -293,6 +293,15 @@
                 top.innerHTML = html
                 var bottom = doc.createElement('span')
                 bottom.className = 'ak-cut-half ak-cut-half--bottom'
+                // The bottom half is the SAME words a second time. SplitText's
+                // aria:'auto' already hides the lines and puts the real
+                // sentence on the host's aria-label, so a screen reader is
+                // correct either way — but anything reading textContent
+                // (Googlebot's rendered DOM, reader mode, a social scraper)
+                // sees the heading twice. Hidden from the tree explicitly, and
+                // parked at opacity 0 by CSS so a failed animation cannot
+                // leave the duplicate on screen.
+                bottom.setAttribute('aria-hidden', 'true')
                 bottom.innerHTML = html
                 line.appendChild(top)
                 line.appendChild(bottom)

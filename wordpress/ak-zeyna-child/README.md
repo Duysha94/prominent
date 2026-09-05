@@ -161,7 +161,7 @@ and rewritten.
 | **Demo-proof** | The theme forces its own header/footer even after a Zeyna demo import (which switches both to Elementor demo templates) |
 | **Fullscreen showreel** | The reel starts as a measured swatch and grows to fill the screen as you scroll, then the site continues |
 | **Self-updates** | The theme checks its update channel twice a day; WordPress shows the standard one-click update notice when a new build ships |
-| The name, explained | The A–K monogram on About and "The name" section on Home: A is Andrey, K is Konstantin |
+| The name, explained | The A–K monogram on About and "The name" section on Home: A is Andrii, K is Kostiantyn |
 | Contact Form 7 form + styling | Imported with the content; found by slug at render time |
 | A bespoke-page template | `AK — Bespoke page`, the pattern all the others follow |
 

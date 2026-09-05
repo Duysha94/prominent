@@ -60,7 +60,7 @@ $ak_marquee_id    = 'ak-fmq-' . wp_unique_id();
 
 				<div>
 					<p class="ak-footer__mark"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">AK</a></p>
-					<p class="ak-footer__blurb"><?php esc_html_e( 'AK Brand Development Studio — Fashion & Brand Advisory. A is Andrey, K is Konstantin: strategy, identity, production and presence under one roof in London.', 'ak-zeyna-child' ); ?></p>
+					<p class="ak-footer__blurb"><?php esc_html_e( 'AK Brand Development Studio — Fashion & Brand Advisory. A is Andrii, K is Kostiantyn: strategy, identity, production and presence under one roof in London.', 'ak-zeyna-child' ); ?></p>
 				</div>
 
 				<nav aria-label="<?php esc_attr_e( 'Footer', 'ak-zeyna-child' ); ?>">
@@ -93,34 +93,29 @@ $ak_marquee_id    = 'ak-fmq-' . wp_unique_id();
 				<div>
 					<p class="ak-footer__head"><?php esc_html_e( 'Contact', 'ak-zeyna-child' ); ?></p>
 					<address>
-						<a href="mailto:<?php echo esc_attr( ak_studio_email() ); ?>"><?php echo esc_html( ak_studio_email() ); ?></a><br>
-						<?php esc_html_e( 'London, United Kingdom', 'ak-zeyna-child' ); ?><br>
-						<?php esc_html_e( 'London · Paris · Dubai', 'ak-zeyna-child' ); ?>
+						<a href="mailto:<?php echo esc_attr( ak_studio( 'email' ) ); ?>"><?php echo esc_html( ak_studio( 'email' ) ); ?></a><br>
+						<?php if ( ak_studio( 'phone' ) ) : ?>
+							<a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', ak_studio( 'phone' ) ) ); ?>"><?php echo esc_html( ak_studio( 'phone' ) ); ?></a><br>
+						<?php endif; ?>
+						<?php echo esc_html( ak_studio_location() ); ?><br>
+						<?php echo esc_html( ak_studio( 'cities' ) ); ?>
 					</address>
 
 					<?php
-					// ── EDIT ME: paste the real profile URLs here. ──────────
-					// Networks with an empty URL still render (as inert
-					// links) so the layout is ready the moment you fill them.
-					$ak_socials = array(
-						'Instagram' => '',
-						'Facebook'  => '',
-						'YouTube'   => '',
-						'LinkedIn'  => '',
-						'TikTok'    => '',
-					);
-					?>
-					<ul class="ak-footer__social">
-						<?php foreach ( $ak_socials as $ak_net => $ak_url ) : ?>
-							<li>
-								<?php if ( $ak_url ) : ?>
-									<a href="<?php echo esc_url( $ak_url ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $ak_net ); ?></a>
-								<?php else : ?>
-									<a href="#" class="ak-footer__soc-todo" title="<?php esc_attr_e( 'Add the link in footer.php', 'ak-zeyna-child' ); ?>" onclick="return false"><?php echo esc_html( $ak_net ); ?></a>
-								<?php endif; ?>
-							</li>
-						<?php endforeach; ?>
-					</ul>
+					// Only profiles that exist. An unset network prints
+					// nothing at all — the previous version rendered every
+					// network as an inert href="#", which put five dead links
+					// on every page of the site. Set them in
+					// Customizer → AK Studio — contact & profiles.
+					$ak_socials = ak_socials();
+					if ( $ak_socials ) :
+						?>
+						<ul class="ak-footer__social">
+							<?php foreach ( $ak_socials as $ak_net => $ak_url ) : ?>
+								<li><a href="<?php echo esc_url( $ak_url ); ?>" target="_blank" rel="noopener me"><?php echo esc_html( $ak_net ); ?></a></li>
+							<?php endforeach; ?>
+						</ul>
+					<?php endif; ?>
 				</div>
 
 			</div>

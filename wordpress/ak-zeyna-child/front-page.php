@@ -199,10 +199,10 @@ $ak_journal    = get_page_by_path( 'journal' );
 			// Founded platforms — live: the cards show each site's CURRENT
 			// front page (auto-refreshing capture), not a stale photo.
 			$ak_founded = array(
-				array( 'London Fashion Day', 'https://londonfashionday.co.uk/', __( 'Founded and produced by Konstantin Lieontiev', 'ak-zeyna-child' ), __( 'An international platform created to support emerging designers.', 'ak-zeyna-child' ) ),
-				array( 'Odessa Fashion Day', 'https://ofd.org.ua/', __( 'Founded and produced by Konstantin Lieontiev', 'ak-zeyna-child' ), __( 'Built to develop international creative communities.', 'ak-zeyna-child' ) ),
-				array( 'KEKA', 'https://keka.design/', __( 'Fashion brand founded by Konstantin Lieontiev', 'ak-zeyna-child' ), __( 'Currently being developed for the international market.', 'ak-zeyna-child' ) ),
-				array( "Cool'baba", 'https://coolbaba.in.ua/', __( 'Online magazine founded by Andrey Karakushan', 'ak-zeyna-child' ), __( 'A media platform covering fashion, lifestyle and creative industries.', 'ak-zeyna-child' ) ),
+				array( 'London Fashion Day', 'https://londonfashionday.co.uk/', __( 'Founded and produced by Kostiantyn Lieontiev', 'ak-zeyna-child' ), __( 'An international platform created to support emerging designers.', 'ak-zeyna-child' ) ),
+				array( 'Odessa Fashion Day', 'https://ofd.org.ua/', __( 'Founded and produced by Kostiantyn Lieontiev', 'ak-zeyna-child' ), __( 'Built to develop international creative communities.', 'ak-zeyna-child' ) ),
+				array( 'KEKA', 'https://keka.design/', __( 'Fashion brand founded by Kostiantyn Lieontiev', 'ak-zeyna-child' ), __( 'Currently being developed for the international market.', 'ak-zeyna-child' ) ),
+				array( "Cool'baba", 'https://coolbaba.in.ua/', __( 'Online magazine founded by Andrii Karakushan', 'ak-zeyna-child' ), __( 'A media platform covering fashion, lifestyle and creative industries.', 'ak-zeyna-child' ) ),
 			);
 			?>
 			<ul class="ak-grid ak-grid--2" style="list-style:none;padding:0;margin:3rem 0 0">
@@ -255,8 +255,8 @@ $ak_journal    = get_page_by_path( 'journal' );
 				<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
 				<?php esc_html_e( 'The name', 'ak-zeyna-child' ); ?>
 			</p>
-			<h2 class="ak-display ak-vf" data-ak-cut><?php esc_html_e( 'A is Andrey. K is Konstantin.', 'ak-zeyna-child' ); ?></h2>
-			<p class="ak-lead"><?php esc_html_e( 'AK is the two co-owners, one letter each. Andrey Karakushan runs digital, identity and media; Konstantin Lieontiev runs strategy and fashion production. Every project gets both letters — which is the point of the studio.', 'ak-zeyna-child' ); ?></p>
+			<h2 class="ak-display ak-vf" data-ak-cut><?php esc_html_e( 'A is Andrii. K is Kostiantyn.', 'ak-zeyna-child' ); ?></h2>
+			<p class="ak-lead"><?php esc_html_e( 'AK is the two co-owners, one letter each. Andrii Karakushan runs digital, identity and media; Kostiantyn Lieontiev runs strategy and fashion production. Every project gets both letters — which is the point of the studio.', 'ak-zeyna-child' ); ?></p>
 			<p style="margin-top:2rem">
 				<?php $ak_about_page = get_page_by_path( 'about' ); ?>
 				<a class="ak-btn ak-btn--line" href="<?php echo esc_url( $ak_about_page ? get_permalink( $ak_about_page ) : home_url( '/about/' ) ); ?>"><?php esc_html_e( 'Meet the founders', 'ak-zeyna-child' ); ?></a>

@@ -81,7 +81,7 @@
 					ak_mode_toggle( 'ak-mode--header' );
 					?>
 
-					<nav id="site-navigation" class="main-navigation">
+					<nav id="site-navigation" class="main-navigation" aria-label="<?php esc_attr_e( 'Primary', 'ak-zeyna-child' ); ?>">
 						<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Menu', 'ak-zeyna-child' ); ?></button>
 						<?php
 						wp_nav_menu(

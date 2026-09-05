@@ -17,11 +17,11 @@ get_header();
 $ak_founders = array(
 	array(
 		'id'    => 'andrey-karakushan',
-		'name'  => 'Andrey Karakushan',
+		'name'  => 'Andrii Karakushan',
 		'role'  => __( 'Creative entrepreneur, digital & identity', 'ak-zeyna-child' ),
 		'plate' => 'ak-plate--band',
 		'bio'   => array(
-			__( 'Andrey Karakushan is a creative entrepreneur specialising in brand development, digital presence and visual communication.', 'ak-zeyna-child' ),
+			__( 'Andrii Karakushan is a creative entrepreneur specialising in brand development, digital presence and visual communication.', 'ak-zeyna-child' ),
 			__( 'He has experience managing a multi-brand retail space for emerging designers, supporting young fashion brands through retail presentation and brand promotion.', 'ak-zeyna-child' ),
 			__( "He is the founder of the online magazine Cool'baba, a media platform focused on fashion, lifestyle and creative industries.", 'ak-zeyna-child' ),
 			__( 'His expertise includes website development, brand identity, digital communication and building online ecosystems for businesses and creative projects.', 'ak-zeyna-child' ),
@@ -33,11 +33,11 @@ $ak_founders = array(
 	),
 	array(
 		'id'    => 'konstantin-lieontiev',
-		'name'  => 'Konstantin Lieontiev',
+		'name'  => 'Kostiantyn Lieontiev',
 		'role'  => __( 'Fashion producer, brand strategist', 'ak-zeyna-child' ),
 		'plate' => 'ak-plate--disc',
 		'bio'   => array(
-			__( 'Konstantin Lieontiev is a fashion producer, brand strategist and media professional with extensive experience in brand development and creative industries.', 'ak-zeyna-child' ),
+			__( 'Kostiantyn Lieontiev is a fashion producer, brand strategist and media professional with extensive experience in brand development and creative industries.', 'ak-zeyna-child' ),
 			__( 'Before focusing on international fashion projects, he spent nine years managing a regional branch of a major advertising holding, where he was responsible for business development, advertising campaigns and strategic client development.', 'ak-zeyna-child' ),
 			__( 'He is the founder and producer of the international fashion platforms London Fashion Day and Odessa Fashion Day, created to support emerging designers and develop international creative communities. He is also the founder of the fashion brand KEKA, currently being developed for the international market.', 'ak-zeyna-child' ),
 			__( 'Through his work he has collaborated with designers, brands and creative teams across London, Paris and Dubai.', 'ak-zeyna-child' ),
@@ -67,15 +67,15 @@ $ak_founders = array(
 			<div class="ak-monogram">
 				<a class="ak-monogram__letter" href="#andrey-karakushan">
 					<span class="ak-monogram__glyph ak-vf" aria-hidden="true">A</span>
-					<span class="ak-monogram__who">Andrey<br>Karakushan</span>
+					<span class="ak-monogram__who">Andrii<br>Karakushan</span>
 				</a>
 				<span class="ak-monogram__thread ak-draw" aria-hidden="true"></span>
 				<a class="ak-monogram__letter" href="#konstantin-lieontiev">
 					<span class="ak-monogram__glyph ak-vf" aria-hidden="true">K</span>
-					<span class="ak-monogram__who">Konstantin<br>Lieontiev</span>
+					<span class="ak-monogram__who">Kostiantyn<br>Lieontiev</span>
 				</a>
 			</div>
-			<p class="ak-lead" style="margin-top:2.5rem"><?php esc_html_e( 'AK is not an acronym for anything corporate. A is Andrey, K is Konstantin — two co-owners, one letter each. One side of the studio runs digital, identity and media; the other runs strategy and fashion production. Both letters are load-bearing: every project below carries the two crafts at once.', 'ak-zeyna-child' ); ?></p>
+			<p class="ak-lead" style="margin-top:2.5rem"><?php esc_html_e( 'AK is not an acronym for anything corporate. A is Andrii, K is Kostiantyn — two co-owners, one letter each. One side of the studio runs digital, identity and media; the other runs strategy and fashion production. Both letters are load-bearing: every project below carries the two crafts at once.', 'ak-zeyna-child' ); ?></p>
 		</div>
 	</section>
 
