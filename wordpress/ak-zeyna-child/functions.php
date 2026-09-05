@@ -65,6 +65,7 @@ require_once get_stylesheet_directory() . '/inc/updates.php';
 // The deployment system. Order matters: the registry defines the ownership
 // markers the manifest keys on, and the engine consumes both.
 require_once get_stylesheet_directory() . '/inc/deployment/registry.php';
+require_once get_stylesheet_directory() . '/inc/deployment/scope.php';
 require_once get_stylesheet_directory() . '/inc/deployment/manifest.php';
 require_once get_stylesheet_directory() . '/inc/deployment/migrations.php';
 require_once get_stylesheet_directory() . '/inc/deployment/deploy.php';

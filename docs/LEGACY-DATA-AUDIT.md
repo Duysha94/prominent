@@ -69,11 +69,11 @@ deployment:
 
 | Target | Rule |
 |---|---|
-| `page`, `post`, `portfolio`, `elementor_library`, `e-landing-page` | Every row **not** carrying `_ak_managed` |
-| Navigation menus | Every menu **not** carrying `_ak_managed` |
+| `page`, `post`, `portfolio`, `elementor_library`, `e-landing-page` | Only rows carrying **positive legacy evidence**: a vendor host in the `guid`, a vendor asset URL in the body or in `_elementor_data`, or a template the demo's Redux config names |
+| Navigation menus | Only menus that are not ours **and** contain an item pointing at a vendor host or at an identified legacy post |
 | `pe-redux` demo branding | `404_page_template`, `loader_logo`, `transition_logo`, `transition_caption`, `transition_repeater_captions`, `footer_copyright`, `footer_text`, `contact_address`, `contact_phone`, `contact_email`, `social_links` cleared. **The option itself is kept** — deleting it would reset every legitimate Zeyna setting |
 | OCDI bookkeeping | `ocdi_importer_data`, `pt-ocdi_importer_data`, and the `current_` variants |
-| Widget placements | Every non-empty sidebar emptied. This build renders no widget areas, so an instance is by definition residue |
+| Widget placements | Moved to **Inactive Widgets**, not deleted. This build renders no widget areas, but a widget instance is core-owned data that may hold text nobody has another copy of |
 
 ### Deliberately NOT touched
 
@@ -85,14 +85,25 @@ deployment:
 | **Whole tables** | No `TRUNCATE`, no `DROP`, no bulk `wp_options` deletion |
 | **The privacy policy page** | Spared by the purge, then *adopted* as `ak_privacy` so the build owns it rather than adding a second one |
 
-### The consequence you should be aware of
+### Scope — corrected in v1.4.1
 
-Under these rules **any page, post or project not in the manifest is deleted**.
-That follows directly from "database state should correspond to the currently
-installed release", and it is what you asked for on a managed build. It also
-means content created by hand in wp-admin will not survive the next release
-unless it is added to `inc/deployment/manifest.php`. That is a deliberate
-property of this system, not an oversight.
+An earlier version of this document said "any page, post or project not in the
+manifest is deleted". **That was too broad and has been fixed.** It made the
+engine a database-wide garbage collector: a WooCommerce page, another plugin's
+landing page or a page an editor wrote yesterday would all have been removed,
+purely for not appearing in a manifest that never claimed them.
+
+Deletion now has an explicit namespace — see the *Deletion scope* section of
+`CONTENT-DEPLOYMENT.md`. In short:
+
+- **AK-managed** content is reconciled against the manifest and deleted when
+  its seed key leaves it.
+- **Confirmed legacy** content is purged — where "confirmed" means positive
+  evidence of the demo import, not absence from the manifest.
+- **Everything else** is left alone and reported to the owner.
+
+Hand-made pages therefore survive a release. They are listed in the deployment
+notice so you can remove them yourself if they do not belong.
 
 ## Verification performed
 
@@ -118,5 +129,9 @@ Final state: 6 pages, 4 posts, 1 menu, 6 nav items, every one seed-keyed;
 `pe-redux` demo fields empty with the unrelated key preserved; OCDI option
 gone; sidebars empty.
 
-Full suite: `wordpress/tests/deployment-test.php` — **14 assertions, all
-passing.**
+Full suite: `wordpress/tests/deployment-test.php` — **27 assertions, all
+passing**, including nine that specifically prove the deletion scope: a
+hand-written page, a plugin-referenced page, a plugin-owned post type and a
+hand-built menu all survive, while a page with a vendor GUID, a page with a
+vendor URL in `_elementor_data` and a menu linking to a vendor host are all
+purged.

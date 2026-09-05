@@ -142,7 +142,7 @@ function ak_migration_adopt_legacy_markers( &$report ) {
 }
 
 /**
- * INVARIANT — no unmanaged content in a managed build.
+ * INVARIANT — no confirmed Zeyna / PeThemes / OCDI residue.
  *
  * PROVENANCE, established from the parent theme's own source rather than
  * guessed (zeyna/inc/demo-import.php):
@@ -156,51 +156,55 @@ function ak_migration_adopt_legacy_markers( &$report ) {
  *                       including Elementor's `_elementor_data`
  *     · elementor_library posts — the demo header, footer, 404 and loader
  *                       templates that `pe-redux` then points at
- *     · the `pe-redux` option, overwritten wholesale from the demo JSON.
- *                       This is where a demo's contact block, social links and
- *                       copyright line live — the likeliest home of
- *                       "Main Hub, NYC" and "ZEYNA CREATIVE"
+ *     · the `pe-redux` option, overwritten wholesale from the demo JSON
  *     · `ocdi_after_import_setup()` → nav_menu_locations, show_on_front and
  *                       page_on_front, pointed at demo objects
  *     · OCDI's own bookkeeping options
  *
- * The purge is written against those CLASSES, not against a list of strings.
- * A string list would only remove the phrases someone happened to notice; the
- * class removes the artefact whatever it says. It is also why this cannot be
- * verified against the production database from here — see
- * docs/LEGACY-DATA-AUDIT.md.
+ * SCOPE. This deletes only objects carrying POSITIVE evidence of that import —
+ * a vendor GUID, a vendor asset URL inside the body or Elementor's JSON, or a
+ * template the demo's own Redux config names. See inc/deployment/scope.php.
  *
- * Scope: content objects and theme-owned options. It does not touch users,
- * core settings, or any table wholesale.
+ * The first version of this function had no such test: it deleted every page,
+ * post and project that did not carry `_ak_managed`. That made it a
+ * database-wide garbage collector rather than the owner of a defined scope — a
+ * WooCommerce page, another plugin's landing page or a page an editor wrote
+ * yesterday would all have gone, purely for not being in a manifest that never
+ * claimed them. "Not ours" is not evidence of anything.
  *
- * This runs on EVERY deployment, not once. It was written as a run-once
- * migration first, and testing found the flaw immediately: activate the AK
- * theme, then import a Zeyna demo afterwards, and the migration is already
- * recorded as done — so "Main Hub, NYC", the demo pages and the demo menu all
- * survive untouched. A one-time migration describes a transition. This is an
- * invariant: no unmanaged content exists in a managed build, at every release,
- * whenever the demo happened to arrive.
+ * It runs on EVERY deployment, not once. Written as a run-once migration
+ * first, and testing found the flaw immediately: activate the AK theme, then
+ * import a Zeyna demo afterwards, and the migration is already recorded as
+ * done — so "Main Hub, NYC", the demo pages and the demo menu all survive
+ * untouched. A migration describes a transition; this is an invariant.
+ *
+ * It does not touch users, core settings, attachments, or any table wholesale.
  *
  * @param array $report Report, by reference.
  * @return string
  */
-function ak_purge_unmanaged( &$report ) {
+function ak_purge_legacy( &$report ) {
 	$removed = array(
 		'posts'   => 0,
 		'menus'   => 0,
 		'options' => 0,
 		'widgets' => 0,
 	);
+	$found_evidence = false;
+
+	// Capture the demo's own template pointers BEFORE anything clears them —
+	// they are the only proof that a given elementor_library post is the
+	// demo's header rather than one the owner built.
+	ak_capture_redux_templates();
 
 	// ── Demo content posts ────────────────────────────────────────────────
-	// Everything of a content type that is NOT ours. This build is managed and
-	// the install started clean, so an unmanaged page is by definition demo
-	// residue. Attachments are deliberately excluded: a demo image and an
-	// owner's upload are indistinguishable without provenance markers, and
-	// deleting the owner's media would be unrecoverable.
-	$types = array( 'page', 'post', 'portfolio', 'elementor_library', 'e-landing-page' );
-	foreach ( $types as $type ) {
-		if ( ! post_type_exists( $type ) && 'e-landing-page' !== $type ) {
+	// Only types the purge is allowed to look at, and within those only posts
+	// carrying POSITIVE evidence of the demo import. "Not in the manifest" is
+	// not evidence: a page an editor wrote yesterday, a WooCommerce page and a
+	// plugin's landing page are all absent from the manifest and none of them
+	// is ours to delete.
+	foreach ( ak_purgeable_post_types() as $type ) {
+		if ( ! post_type_exists( $type ) ) {
 			continue;
 		}
 		$posts = get_posts(
@@ -213,55 +217,53 @@ function ak_purge_unmanaged( &$report ) {
 			)
 		);
 		foreach ( $posts as $id ) {
-			if ( ak_is_managed( $id ) ) {
+			if ( 'legacy' !== ak_scope_of( $id ) ) {
 				continue;
 			}
-			// The privacy policy page is a legal artefact; if the owner made
-			// one it stays, and our own is separately managed.
-			if ( (int) get_option( 'wp_page_for_privacy_policy' ) === (int) $id ) {
-				continue;
-			}
-			$report['deleted'][] = 'legacy ' . $type . ' — ' . get_the_title( $id ) . ' (#' . $id . ')';
+			$why                 = ak_legacy_evidence( $id );
+			$found_evidence      = true;
+			$report['deleted'][] = 'legacy ' . $type . ' — ' . get_the_title( $id ) . ' (#' . $id . '; ' . $why . ')';
 			wp_delete_post( $id, true );
 			$removed['posts']++;
 		}
 	}
 
 	// ── Demo menus ────────────────────────────────────────────────────────
-	$menus = wp_get_nav_menus();
-	foreach ( (array) $menus as $menu ) {
-		if ( ak_is_managed( $menu->term_id, 'term' ) ) {
+	foreach ( (array) wp_get_nav_menus() as $menu ) {
+		$why = ak_menu_legacy_evidence( $menu->term_id );
+		if ( ! $why ) {
 			continue;
 		}
-		$report['deleted'][] = 'legacy menu — ' . $menu->name;
+		$found_evidence      = true;
+		$report['deleted'][] = 'legacy menu — ' . $menu->name . ' (' . $why . ')';
 		wp_delete_nav_menu( $menu->term_id );
 		$removed['menus']++;
 	}
 
 	// ── OCDI bookkeeping ──────────────────────────────────────────────────
-	// The importer's own state. Removing it means a future demo import starts
-	// clean rather than believing it has already run.
+	// Unambiguously the importer's own state: nothing else writes these keys.
 	foreach ( array( 'ocdi_importer_data', 'pt-ocdi_importer_data', 'ocdi_current_importer_data', 'pt-ocdi_current_importer_data' ) as $opt ) {
 		if ( false !== get_option( $opt, false ) ) {
 			delete_option( $opt );
+			$found_evidence = true;
 			$removed['options']++;
 		}
 	}
 
 	// ── Demo branding inside pe-redux ─────────────────────────────────────
-	// The option itself is live theme configuration and is NOT deleted —
-	// dropping it would reset every Zeyna setting the site legitimately uses.
-	// Only the fields a demo fills with its own agency's details are cleared.
-	// Read the option RAW. inc/setup.php filters `option_pe-redux` to force the
-	// chrome and transition keys, so a filtered read reports values that are
-	// not in the database — the purge would "clear" them, the filter would
-	// report them set again, and every single deployment would rewrite the
-	// option forever. Testing caught exactly that: `demo branding cleared from
-	// pe-redux` on run after run with nothing actually changing.
+	// Gated on evidence. pe-redux is a plugin-owned option and the child theme
+	// reads none of these fields — the footer, contact details and profiles all
+	// come from inc/studio.php — so clearing them is hygiene, not a
+	// requirement, and hygiene is not a reason to overwrite something an owner
+	// may have typed. Only touched when the site actually shows demo residue.
+	//
+	// Read RAW: inc/setup.php filters `option_pe-redux` to force the chrome
+	// keys, so a filtered read reports values that are not in the database.
+	// Clearing those made every deployment rewrite the option forever.
 	remove_all_filters( 'option_pe-redux' );
 	$redux = get_option( 'pe-redux' );
 
-	if ( is_array( $redux ) ) {
+	if ( $found_evidence && is_array( $redux ) ) {
 		// Only fields a demo fills with its own agency's details. The keys the
 		// child forces at runtime are deliberately absent: the filter already
 		// governs them, and clearing them here would be a second system
@@ -300,26 +302,36 @@ function ak_purge_unmanaged( &$report ) {
 		add_filter( 'option_pe-redux', 'ak_force_redux_chrome' );
 	}
 
-	// ── Demo widgets ──────────────────────────────────────────────────────
-	// The importer fills Zeyna's sidebars. This build renders no widget areas,
-	// so any instance present is demo residue.
+	// ── Widget placements ─────────────────────────────────────────────────
+	// DEACTIVATED, NOT DELETED. This build renders no widget areas, so a
+	// widget sitting in one is unreachable — but "unreachable" is not
+	// "disposable", and a widget instance is core-owned data that may hold
+	// text nobody has a copy of. Moving the placements to wp_inactive_widgets
+	// makes them invisible and fully recoverable from Appearance → Widgets.
 	$sidebars = get_option( 'sidebars_widgets' );
 	if ( is_array( $sidebars ) ) {
+		$inactive = isset( $sidebars['wp_inactive_widgets'] ) && is_array( $sidebars['wp_inactive_widgets'] )
+			? $sidebars['wp_inactive_widgets']
+			: array();
+
 		foreach ( $sidebars as $area => $widgets ) {
-			if ( 'wp_inactive_widgets' === $area || ! is_array( $widgets ) || ! $widgets ) {
+			if ( 'wp_inactive_widgets' === $area || 'array_version' === $area || ! is_array( $widgets ) || ! $widgets ) {
 				continue;
 			}
-			$sidebars[ $area ] = array();
+			$inactive           = array_merge( $inactive, $widgets );
+			$sidebars[ $area ]  = array();
 			$removed['widgets'] += count( $widgets );
 		}
+
 		if ( $removed['widgets'] ) {
+			$sidebars['wp_inactive_widgets'] = array_values( array_unique( $inactive ) );
 			update_option( 'sidebars_widgets', $sidebars );
-			$report['deleted'][] = $removed['widgets'] . ' demo widget placements';
+			$report['deleted'][] = $removed['widgets'] . ' widget placements moved to Inactive Widgets (recoverable)';
 		}
 	}
 
 	return sprintf(
-		'%d posts, %d menus, %d options, %d widgets',
+		'%d posts, %d menus, %d options, %d widgets deactivated',
 		$removed['posts'],
 		$removed['menus'],
 		$removed['options'],
@@ -378,7 +390,7 @@ function ak_drop_placeholders( &$report ) {
  * @param array $report Report, by reference.
  */
 function ak_enforce_invariants( &$report ) {
-	foreach ( array( 'ak_purge_unmanaged', 'ak_drop_placeholders' ) as $rule ) {
+	foreach ( array( 'ak_purge_legacy', 'ak_drop_placeholders' ) as $rule ) {
 		try {
 			$result = call_user_func_array( $rule, array( &$report ) );
 			if ( $result ) {

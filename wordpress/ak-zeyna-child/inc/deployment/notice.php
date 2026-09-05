@@ -68,6 +68,24 @@ add_action(
 					</ul>
 				</details>
 			<?php endif; ?>
+			<?php if ( ! empty( $report['observed'] ) ) : ?>
+				<details>
+					<summary><?php echo esc_html( sprintf( /* translators: %d: number of items. */ __( '%d items outside the AK manifest — left untouched', 'ak-zeyna-child' ), count( $report['observed'] ) ) ); ?></summary>
+					<p><?php esc_html_e( 'These are not managed by the theme and show no sign of being demo content, so the deployment did not remove them. Delete them yourself if they do not belong.', 'ak-zeyna-child' ); ?></p>
+					<ul style="margin:.5rem 0 0 1.5rem;list-style:disc">
+						<?php foreach ( array_slice( $report['observed'], 0, 40 ) as $line ) : ?>
+							<li><code><?php echo esc_html( $line ); ?></code></li>
+						<?php endforeach; ?>
+					</ul>
+				</details>
+			<?php endif; ?>
+			<?php if ( ! empty( $report['skipped'] ) ) : ?>
+				<ul style="margin:.5rem 0 0 1.5rem;list-style:disc">
+					<?php foreach ( $report['skipped'] as $line ) : ?>
+						<li><code><?php echo esc_html( $line ); ?></code></li>
+					<?php endforeach; ?>
+				</ul>
+			<?php endif; ?>
 			<?php if ( $failed ) : ?>
 				<ul style="margin:.5rem 0 0 1.5rem;list-style:disc">
 					<?php foreach ( $report['errors'] as $err ) : ?>

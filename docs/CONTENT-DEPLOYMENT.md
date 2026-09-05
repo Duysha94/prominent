@@ -110,6 +110,85 @@ and `Main Hub, NYC` all survive untouched. A demo can arrive at any time. "No
 unmanaged content" is a property of the site, not an event in its history, so
 it is re-enforced on every release.
 
+## Deletion scope
+
+**The engine may delete only what it can name.** Every object on the site falls
+into exactly one of three namespaces, and only the first two are ever touched.
+
+| Namespace | Identified by | Treatment |
+|---|---|---|
+| **AK** | `_ak_managed` | Reconciled strictly against the manifest. Obsolete AK objects are deleted |
+| **LEGACY** | Positive evidence of the Zeyna / PeThemes / OCDI import | Purged on every deployment, including residue that reappears after one |
+| **SYSTEM** | Everything else | Never deleted. Never even queried for deletion |
+
+### The five rules
+
+1. **AK-managed public content** — reconciled strictly against the manifest;
+   objects whose seed key has left it are deleted.
+2. **Confirmed Zeyna / PeThemes / OCDI legacy** — purged automatically, as an
+   invariant re-checked on every release, because a demo can be imported after
+   a deployment has already run.
+3. **An existing object occupying a canonical AK slug** — adopted and
+   reconciled, never duplicated.
+4. **WordPress, system and plugin-owned objects** — *not* deleted merely for
+   being absent from the AK manifest.
+5. **Unknown objects outside the managed scope** — no blanket global delete
+   query. They are reported to the owner and left alone.
+
+### What counts as evidence
+
+Legacy is proven, not inferred. **"Not in the manifest" is not evidence of
+anything.** `ak_legacy_evidence()` accepts only:
+
+| Signal | Why it is proof |
+|---|---|
+| **Vendor host in the `guid`** — `pethemes.com`, `themes.pethemes.com`, `zeyna.pethemes.com` | WordPress's WXR importer copies `<guid>` verbatim from the source site, so it survives editing, renaming and re-saving |
+| **Vendor asset URL** in `post_content`, `_elementor_data` or `_elementor_page_settings` | Elementor stores absolute URLs; a demo page carries the vendor's domain in its own JSON |
+| **Named by the demo's Redux config** as the header, footer, 404 or transition template | Captured by `ak_capture_redux_templates()` *before* those fields are cleared — otherwise clearing them would destroy the only proof that an `elementor_library` post is the demo's and not the owner's |
+
+Evidence is **sticky**: once found it is written to `_ak_legacy`, because
+Elementor rewrites its stored JSON on save and would otherwise launder it away.
+
+A **menu** carries no provenance of its own, so it is judged by its contents: a
+menu is legacy when it is not ours *and* at least one item points at a vendor
+host or at a post already identified as legacy. A hand-built menu of ordinary
+links is left alone.
+
+### Hard limits
+
+| Never touched | Why |
+|---|---|
+| Post types outside `ak_purgeable_post_types()` | A type not on the list is never queried, so an unknown plugin's content cannot be deleted even by accident |
+| `attachment`, `wpcf7_contact_form`, `product`, `shop_order`, `wp_block`, `wp_template`, `nav_menu_item`, … | Owned by WordPress or another plugin, which manages their lifecycle |
+| Front page, posts page, privacy page, WooCommerce pages | Referenced by a site setting — deleting one breaks the site. Applies **even inside the AK namespace**: an obsolete managed page that has since been wired to a setting is kept and reported, not removed |
+| Attachments / media | A demo image and an owner's upload are indistinguishable. Deleting the owner's media is unrecoverable |
+| Users, core settings, whole tables | No `TRUNCATE`, no `DROP`, no bulk `wp_options` deletion |
+
+### Widgets are deactivated, not deleted
+
+This build renders no widget areas, so a widget sitting in one is unreachable —
+but *unreachable* is not *disposable*, and a widget instance is core-owned data
+that may hold text nobody has another copy of. Placements are moved to
+**Inactive Widgets**, which hides them and leaves them fully recoverable from
+Appearance → Widgets.
+
+### `pe-redux` is gated on evidence
+
+The demo branding fields inside `pe-redux` are cleared **only when the site
+actually shows demo residue elsewhere**. The option belongs to Redux, and the
+child theme reads none of those fields — the footer, contact details and social
+profiles all come from `inc/studio.php` — so clearing them is hygiene, not a
+requirement, and hygiene is not a reason to overwrite something an owner may
+have typed.
+
+### Content outside every namespace is reported
+
+`ak_observe_unclaimed()` lists pages and projects that are neither ours nor
+identifiably legacy. Nothing there is ever deleted; it appears in the admin
+notice as *"items outside the AK manifest — left untouched"*, so the owner
+knows it exists and can decide for themselves. Silence would be its own kind of
+dishonesty on a build that advertises itself as managed.
+
 ## Failure handling
 
 ```php

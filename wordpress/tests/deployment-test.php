@@ -69,16 +69,29 @@ update_post_meta($orphan,'_ak_managed','1'); update_post_meta($orphan,'_ak_seed_
 redeploy();
 ok(!get_post($orphan), 'managed page absent from manifest was deleted');
 
-echo "\n=== T5  unmanaged demo content is purged even after first deploy ===\n";
+echo "\n=== T5  confirmed-legacy content is purged even after a first deploy ===\n";
+// Evidence, not absence: the WXR importer preserves the vendor guid verbatim.
+global $wpdb;
 $demo = wp_insert_post(['post_type'=>'page','post_title'=>'Demo Team','post_name'=>'demo-team','post_status'=>'publish']);
+$wpdb->update($wpdb->posts, ['guid'=>'https://themes.pethemes.com/zeyna/?page_id=42'], ['ID'=>$demo]);
+clean_post_cache($demo);
 $dmenu = wp_create_nav_menu('Demo Menu '.wp_rand(1000,9999));
+wp_update_nav_menu_item($dmenu,0,['menu-item-title'=>'Demo','menu-item-url'=>'https://themes.pethemes.com/zeyna/','menu-item-type'=>'custom','menu-item-status'=>'publish']);
 update_option('pe-redux', array_merge((array)get_option('pe-redux'), ['contact_address'=>'Main Hub, NYC']));
 redeploy();
-ok(!get_post($demo), 'unmanaged demo page purged');
-ok(!wp_get_nav_menu_object($dmenu), 'unmanaged demo menu purged');
+ok(!get_post($demo), 'page carrying a vendor GUID purged');
+ok(!wp_get_nav_menu_object($dmenu), 'menu linking to a vendor host purged');
 remove_all_filters('option_pe-redux');
 $raw = get_option('pe-redux');
 ok(empty($raw['contact_address']), 'demo contact address cleared from pe-redux');
+
+// The mirror of the above: the same clearing must NOT happen on a site with
+// no demo residue at all, because pe-redux is a plugin-owned option.
+update_option('pe-redux', array_merge((array)get_option('pe-redux'), ['contact_address'=>'Typed by the owner']));
+redeploy();
+remove_all_filters('option_pe-redux');
+$raw2 = get_option('pe-redux');
+ok($raw2['contact_address'] === 'Typed by the owner', 'pe-redux left alone when the site shows no demo evidence');
 
 echo "\n=== T6  no pe-redux churn: repeated deploys stop reporting changes ===\n";
 redeploy(); $r1 = get_transient('ak_deploy_report');
@@ -102,6 +115,66 @@ ok(!empty($r['errors']), 'the broken entry produced an error');
 ok(get_option('akbrand_content_version')==='0.0.0', 'version marker did NOT advance after a failed run');
 $log = get_option('akbrand_deploy_log', []);
 ok(!empty($log) && $log[count($log)-1]['ok']===false, 'failure recorded in the deployment log');
+
+echo "\n=== T9  deletion scope: only AK and confirmed-legacy namespaces ===\n";
+remove_all_filters('ak_manifest');
+
+// SYSTEM — a page an editor wrote by hand. No AK marker, no demo evidence.
+$hand = wp_insert_post(['post_type'=>'page','post_title'=>'Editor Wrote This','post_name'=>'editor-page','post_status'=>'publish','post_content'=>'Ordinary content.']);
+// SYSTEM — another plugin's content type, inside a purgeable type name.
+$plugin_page = wp_insert_post(['post_type'=>'page','post_title'=>'Plugin Landing','post_name'=>'plugin-landing','post_status'=>'publish']);
+update_option('woocommerce_shop_page_id', $plugin_page);
+// SYSTEM — a plugin-owned post type.
+if (!post_type_exists('wpcf7_contact_form')) register_post_type('wpcf7_contact_form',['public'=>false,'label'=>'Forms']);
+$form = wp_insert_post(['post_type'=>'wpcf7_contact_form','post_title'=>'Owner Form','post_status'=>'publish']);
+// LEGACY — vendor guid, exactly what the WXR importer preserves.
+$leg_guid = wp_insert_post(['post_type'=>'page','post_title'=>'Demo Agency','post_name'=>'demo-agency','post_status'=>'publish']);
+global $wpdb; $wpdb->update($wpdb->posts, ['guid'=>'https://themes.pethemes.com/zeyna/?page_id=91'], ['ID'=>$leg_guid]); clean_post_cache($leg_guid);
+// LEGACY — vendor asset URL inside Elementor's stored JSON.
+$leg_el = wp_insert_post(['post_type'=>'page','post_title'=>'Demo Built Page','post_name'=>'demo-built','post_status'=>'publish']);
+update_post_meta($leg_el,'_elementor_data','[{"settings":{"image":{"url":"https://themes.pethemes.com/zeyna/wp-content/uploads/x.jpg"}}}]');
+// LEGACY menu — an item pointing at a vendor URL.
+$leg_menu = wp_create_nav_menu('Demo Nav '.wp_rand(1000,9999));
+wp_update_nav_menu_item($leg_menu,0,['menu-item-title'=>'Humana Studio','menu-item-url'=>'https://zeyna.pethemes.com/agency/','menu-item-type'=>'custom','menu-item-status'=>'publish']);
+// SYSTEM menu — hand-built, ordinary links.
+$own_menu = wp_create_nav_menu('Owner Footer Nav '.wp_rand(1000,9999));
+wp_update_nav_menu_item($own_menu,0,['menu-item-title'=>'Stockists','menu-item-url'=>'https://akbrand.studio/stockists/','menu-item-type'=>'custom','menu-item-status'=>'publish']);
+// A widget in a theme sidebar.
+update_option('sidebars_widgets', ['sidebar-1'=>['text-9'], 'wp_inactive_widgets'=>[]]);
+
+$r = redeploy();
+
+ok(get_post($hand) && get_post_status($hand)!=='trash', 'RULE 5 — hand-written page NOT deleted (unknown scope)');
+ok((bool)get_post($plugin_page), 'RULE 4 — plugin-referenced page NOT deleted');
+ok((bool)get_post($form), 'RULE 4 — plugin-owned post type NOT deleted');
+ok(!get_post($leg_guid), 'RULE 2 — page with vendor GUID purged');
+ok(!get_post($leg_el), 'RULE 2 — page with vendor asset URL in _elementor_data purged');
+ok(!wp_get_nav_menu_object($leg_menu), 'RULE 2 — menu linking to a vendor host purged');
+ok((bool)wp_get_nav_menu_object($own_menu), 'RULE 5 — hand-built menu NOT deleted');
+$obs = $r['observed'] ?? [];
+$seen = false; foreach($obs as $o) if (strpos($o,'Editor Wrote This')!==false) $seen = true;
+ok($seen, 'unclaimed content is REPORTED rather than silently ignored');
+$sb = get_option('sidebars_widgets');
+ok(empty($sb['sidebar-1']) && in_array('text-9', $sb['wp_inactive_widgets'] ?? [], true),
+   'widgets DEACTIVATED not deleted (recoverable from Appearance -> Widgets)');
+
+echo "\n=== T10  a managed page referenced by a site setting is kept, not deleted ===\n";
+$mp = wp_insert_post(['post_type'=>'page','post_title'=>'Managed But Wired','post_name'=>'managed-wired','post_status'=>'publish']);
+update_post_meta($mp,'_ak_managed','1'); update_post_meta($mp,'_ak_seed_key','ak_no_longer_shipped');
+update_option('woocommerce_cart_page_id', $mp);
+$r = redeploy();
+ok((bool)get_post($mp), 'obsolete managed page referenced by a setting was kept');
+$kept=false; foreach(($r['skipped']??[]) as $k) if (strpos($k,'Managed But Wired')!==false) $kept=true;
+ok($kept, 'and the reason was reported');
+update_option('woocommerce_cart_page_id', 0);
+delete_post_meta($mp,'_ak_managed'); wp_delete_post($mp,true);
+update_option('woocommerce_shop_page_id', 0);
+
+echo "\n=== T11  legacy purge still fires when a demo lands AFTER a deployment ===\n";
+$late = wp_insert_post(['post_type'=>'page','post_title'=>'Late Demo','post_name'=>'late-demo','post_status'=>'publish']);
+$wpdb->update($wpdb->posts, ['guid'=>'https://themes.pethemes.com/zeyna/?page_id=777'], ['ID'=>$late]); clean_post_cache($late);
+redeploy();
+ok(!get_post($late), 'demo imported after a deployment is still purged on the next one');
 
 echo "\n=== T8  concurrency lock ===\n";
 remove_all_filters('ak_manifest');

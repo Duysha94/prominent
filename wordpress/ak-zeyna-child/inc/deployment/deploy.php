@@ -110,6 +110,8 @@ function ak_deploy() {
 		'healed'     => array(),
 		'migrations' => array(),
 		'invariants' => array(),
+		'skipped'    => array(),
+		'observed'   => array(),
 		'errors'     => array(),
 	);
 
@@ -121,6 +123,7 @@ function ak_deploy() {
 	ak_deploy_menus( $manifest, $ids, $report );
 	ak_retire_obsolete( $manifest, $report );
 	ak_enforce_invariants( $report );
+	ak_observe_unclaimed( $report );
 	ak_deploy_form( $report );
 	ak_deploy_wiring( $manifest, $ids, $report );
 
@@ -425,9 +428,53 @@ function ak_retire_obsolete( $manifest, &$report ) {
 			continue;
 		}
 
+		// Even inside our own namespace, never delete something the site
+		// structurally depends on. A managed page that has since been made the
+		// front page or the shop page is a wiring problem to report, not an
+		// object to remove out from under WordPress.
+		if ( ak_is_protected( $id ) ) {
+			$report['skipped'][] = 'kept — ' . get_the_title( $id ) . ' (#' . $id . ') is referenced by a site setting';
+			continue;
+		}
+
 		$title = get_the_title( $id );
 		wp_delete_post( $id, true );
 		$report['deleted'][] = ( $key ? $key : 'unkeyed' ) . ' — ' . $title . ' (#' . $id . ')';
+	}
+}
+
+/**
+ * Report content the engine deliberately did not touch.
+ *
+ * Pages and projects that are neither ours nor identifiably legacy are left
+ * alone — that is the whole point of having a defined scope. But silence about
+ * them would be its own kind of dishonesty on a build that advertises itself
+ * as managed: the owner should know something exists outside the manifest, and
+ * decide for themselves whether it belongs.
+ *
+ * Observation only. Nothing here is ever deleted.
+ *
+ * @param array $report Report, by reference.
+ */
+function ak_observe_unclaimed( &$report ) {
+	foreach ( array( 'page', 'portfolio' ) as $type ) {
+		if ( ! post_type_exists( $type ) ) {
+			continue;
+		}
+		foreach ( get_posts(
+			array(
+				'post_type'      => $type,
+				'post_status'    => array( 'publish', 'draft', 'private' ),
+				'posts_per_page' => 30,
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+			)
+		) as $id ) {
+			if ( 'system' !== ak_scope_of( $id ) || ak_is_protected( $id ) ) {
+				continue;
+			}
+			$report['observed'][] = $type . ' — ' . get_the_title( $id ) . ' (#' . $id . ')';
+		}
 	}
 }
 
