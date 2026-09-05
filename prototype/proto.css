@@ -110,6 +110,46 @@ a{color:inherit}
   min-height:44px}
 .hdr__menu:hover{border-color:var(--accent-line)}
 
+/* ── Mobile navigation panel ────────────────────────────────────────────── */
+/* The prototype ships its own panel. The shipped child theme has one too, but
+   a proof-of-concept that is reviewed on a phone has to be interaction-complete
+   in itself — a dead Menu button is a defect no screenshot of the desktop
+   layout would ever surface. */
+.navp{position:fixed;inset:0;z-index:200}
+.navp[hidden]{display:none}
+.navp__scrim{position:absolute;inset:0;background:color-mix(in oklab,var(--text) 55%,transparent);
+  opacity:0;transition:opacity 280ms var(--ease-cut)}
+/* 88%, not 100%. A full-bleed panel covers its own scrim, so the strip of page
+   left showing is the only tap-to-dismiss target a phone user has — and it is
+   the one they reach for before hunting for a Close button. */
+.navp__panel{position:absolute;inset:0 0 0 auto;width:min(420px,88%);
+  background:var(--bg);border-left:1px solid var(--rule);
+  display:flex;flex-direction:column;overflow-y:auto;
+  transform:translateX(100%);transition:transform 320ms var(--ease-cut)}
+:root.nav-open .navp__scrim{opacity:1}
+:root.nav-open .navp__panel{transform:none}
+:root.nav-open{overflow:hidden}
+.navp__head{display:flex;align-items:center;justify-content:space-between;
+  padding:1rem clamp(1.25rem,5vw,2rem);border-bottom:1px solid var(--rule)}
+.navp__close{font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.1em;
+  text-transform:uppercase;background:none;border:1px solid var(--rule-strong);
+  color:var(--text);padding:.6rem 1rem;cursor:pointer;min-height:44px}
+.navp__close:hover{border-color:var(--accent-line)}
+.navp__list{list-style:none;margin:0;padding:.5rem clamp(1.25rem,5vw,2rem);flex:1}
+.navp__list a{display:grid;grid-template-columns:2.75rem 1fr;align-items:baseline;
+  gap:.5rem;padding:1.05rem 0;text-decoration:none;
+  border-bottom:1px solid var(--rule);
+  font-family:var(--font-display);font-style:italic;font-size:1.75rem;line-height:1.1}
+.navp__list li:last-child a{border-bottom:0}
+.navp__list a[aria-current]{color:var(--accent-text)}
+.navp__n{font-family:var(--font-mono);font-style:normal;font-size:.5625rem;
+  letter-spacing:.12em;color:var(--text-faint)}
+.navp__foot{padding:1.25rem clamp(1.25rem,5vw,2rem) 2rem;border-top:1px solid var(--rule);
+  display:flex;flex-direction:column;gap:.35rem}
+@media (prefers-reduced-motion:reduce){
+  .navp__scrim,.navp__panel{transition:none}
+}
+
 /* ── Opening: statement over film ───────────────────────────────────────── */
 .open{position:relative;min-height:min(88vh,760px);display:grid;
   grid-template-columns:var(--rail) repeat(12,1fr);gap:0 var(--gutter);
@@ -209,7 +249,8 @@ a{color:inherit}
   gap:.5rem 1.5rem;align-items:baseline;padding:1.6rem 0;text-decoration:none;color:inherit;
   transition:transform 420ms var(--ease-cut)}
 .index__link:hover{transform:translateX(8px)}
-.index__code{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.1em;color:var(--text-faint)}
+.index__code{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.1em;
+  color:var(--text-faint);white-space:nowrap}
 .index__link:hover .index__code{color:var(--accent-text)}
 .index__client{font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.1em;
   text-transform:uppercase;color:var(--text)}
@@ -254,6 +295,10 @@ a{color:inherit}
   text-transform:uppercase;color:var(--text-faint)}
 .credits dd{margin:0;font-size:.875rem}
 
+/* .next carries its own rule, and it lives inside a .section that carries one
+   too — two hairlines about 110px apart, the same defect already fixed on the
+   marquee. The section's border is the one that goes. */
+.section:has(> .next){border-top:0;padding-top:0}
 .next{display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;
   flex-wrap:wrap;text-decoration:none;color:inherit;
   padding-top:2rem;border-top:1px solid var(--rule-strong)}
@@ -318,7 +363,13 @@ a{color:inherit}
   .house__body,.house__item:nth-child(even) .house__body{grid-column:1 / -1;order:0}
   .house__media{aspect-ratio:4/5}
   .house__desc{max-width:none}
-  .index__link{grid-template-columns:1fr;gap:.6rem;padding:1.5rem 0}
+  /* The tablet block places .index__client in column 2 and spans .index__title
+     across the row. Left standing under a single-column grid, `grid-column:2`
+     conjures an implicit second track, and the register came apart into
+     code | FOUNDED over title | tags. Both placements are reset, not
+     re-specified. */
+  .index__link{grid-template-columns:1fr;gap:.5rem;padding:1.5rem 0}
+  .index__client,.index__title{grid-column:auto}
   .index__disc{justify-self:start}
   .index__link:hover{transform:none}
   .steps>li{grid-template-columns:1fr;gap:.5rem;padding:1.75rem 0}
@@ -381,7 +432,6 @@ a{color:inherit}
 .filters a .ct{opacity:.55;margin-left:.4rem}
 /* An empty category is stated, not hidden — it says more about breadth than
    a full shelf of one type would. */
-.filters a.is-empty{opacity:.55}
 
 /* ── Project cards, type-agnostic ───────────────────────────────────────── */
 .cards{display:grid;gap:var(--gutter) var(--gutter);grid-template-columns:repeat(12,1fr);list-style:none;margin:0;padding:0}
@@ -464,9 +514,20 @@ figcaption.cap{margin-top:.5rem;font-family:var(--font-mono);font-size:.5625rem;
 /* The tinted ground pulled accent text down to 3.42:1. The tint goes; the
    dashed accent border already carries the signal, and the text returns to
    the page ground where it measures 5.78:1. */
-.fixture{border:1px dashed var(--accent-line);padding:.75rem .9rem;margin:0 0 1.25rem;
-  font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--accent-text);background:var(--bg)}
+/* The marker earns its meaning from the dashed accent rule and the label, not
+   from setting the whole paragraph in 9px uppercase mono — which was fine for a
+   six-word note and became eleven lines of shouting on a phone. Label stays
+   mono and uppercase; the sentence is set to be read. */
+.fixture{border:1px dashed var(--accent-line);padding:.85rem 1rem;margin:0 0 1.25rem;
+  font-size:.8125rem;line-height:1.6;color:var(--text-muted);background:var(--bg)}
+/* The label says which kind of note this is, and the two kinds are not the
+   same claim: an internal fixture is not published, whereas a module absent
+   from a published record is simply not supplied. One CSS rule, the wording
+   set per instance so neither ever states the other. */
+.fixture[data-label]::before{content:attr(data-label);display:block;margin-bottom:.4rem;
+  font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent-text)}
+.fixture code{font-family:var(--font-mono);font-size:.75em;letter-spacing:.06em}
 
 @media (max-width:1100px){
   .card{grid-column:span 6}

@@ -5,106 +5,116 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="hdr">
   <a class="hdr__mark" href="home.html">AK Brand Development Studio</a>
-  <nav class="hdr__nav">
+  <nav class="hdr__nav" aria-label="Primary">
     <a href="work.html" aria-current="page">Work</a><a href="services.html">Services</a>
     <a href="#">About</a><a href="#">Journal</a><a href="#">Contact</a></nav>
-  <button class="hdr__menu">Menu</button>
+  <button class="hdr__menu" type="button" data-nav-toggle aria-expanded="false" aria-controls="navp">Menu</button>
 </header>
+<div class="navp" id="navp" hidden>
+  <div class="navp__scrim" data-nav-close></div>
+  <nav class="navp__panel" aria-label="Main">
+    <div class="navp__head"><span class="t-data">Menu</span>
+      <button class="navp__close" type="button" data-nav-close>Close</button></div>
+    <ul class="navp__list">
+      <li><a href="work.html" aria-current="page"><span class="navp__n">01</span>Work</a></li>
+      <li><a href="services.html"><span class="navp__n">02</span>Services</a></li>
+      <li><a href="#"><span class="navp__n">03</span>About</a></li>
+      <li><a href="#"><span class="navp__n">04</span>Journal</a></li>
+      <li><a href="#"><span class="navp__n">05</span>Contact</a></li>
+    </ul>
+    <div class="navp__foot"><span class="t-quiet">London &middot; Paris &middot; Dubai</span>
+      <span class="t-quiet">Fashion &amp; Brand Advisory</span></div>
+  </nav>
+</div>
 <main id="main">
 <div class="wrap"><div class="rail"><span class="rail__mark">Index</span></div>
   <div class="col-wide section section--open">
     <p class="t-data">Work</p>
-    <h1 class="t-hero" style="margin-top:1rem">One studio, six kinds of making.</h1>
-    <p class="t-lead" style="margin-top:1.5rem">A website, a runway, a photo campaign, a film, an
-      identity — different outputs of the same practice. Move between them.</p>
+    <h1 class="t-hero" style="margin-top:1rem">Selected records, one practice behind them.</h1>
+    <p class="t-lead" style="margin-top:1.5rem">Platforms the studio founded, media it publishes,
+      brands it owns and engagements it was commissioned for. What the studio <em>can</em> do is on
+      <a href="services.html">Services</a>; this page is what it has published.</p>
   </div>
 </div>
 
 <div class="wrap"><div class="rail"><span class="rail__mark">All</span></div>
   <div class="col-full section">
     <h2 class="sr-only">All projects</h2>
+    <!-- Content-driven. A filter exists because published projects fall under it.
+         The earlier IMAGE (—) / FILM (—) chips are withdrawn: an empty shelf on a
+         portfolio does not read as breadth pending, it reads as work not done.
+         Capabilities states the full scope in words; Work shows what is published. -->
     <ul class="filters">
       <li><a href="#" aria-current="true">All <span class="ct">10</span></a></li>
-      <li><a href="#">Brand <span class="ct">1</span></a></li>
-      <li><a href="#" class="is-empty">Image <span class="ct">—</span></a></li>
-      <li><a href="#" class="is-empty">Film <span class="ct">—</span></a></li>
-      <li><a href="#">Experience <span class="ct">2</span></a></li>
-      <li><a href="#">Digital <span class="ct">7</span></a></li>
-      <li><a href="#" class="is-empty">Integrated <span class="ct">—</span></a></li>
+      <li><a href="#">Platforms <span class="ct">3</span></a></li>
+      <li><a href="#">Media <span class="ct">2</span></a></li>
+      <li><a href="#">Brands <span class="ct">1</span></a></li>
+      <li><a href="#">Retail <span class="ct">1</span></a></li>
     </ul>
-    <p class="t-small" style="margin:-1rem 0 2rem;color:var(--text-faint)">Empty categories are shown
-      rather than hidden. Image, Film and Integrated projects exist in the practice; their records are
-      being prepared.</p>
-    <ul class="cards">
-      <li class="card card--wide card--tall rise"><a href="case-event.html">
-        <div class="card__media"><div class="plate"><span class="plate__code">AK·O·19·001</span>
-          <span class="plate__name">London Fashion Day</span><span class="plate__note">Owner photography pending</span></div></div>
-        <div class="card__meta"><span class="card__type">Fashion Production</span><span class="card__rel">Founded</span></div>
-        <h3 class="card__name">London Fashion Day</h3><p class="card__caps">Founded · Produced · Operated</p></a></li>
-      <li class="card  rise"><a href="#">
-        <div class="card__media"><div class="plate"><span class="plate__code">AK·O·—·002</span>
-          <span class="plate__name">Odessa Fashion Day</span><span class="plate__note">Owner photography pending</span></div></div>
-        <div class="card__meta"><span class="card__type">Fashion Production</span><span class="card__rel">Founded</span></div>
-        <h3 class="card__name">Odessa Fashion Day</h3><p class="card__caps">Founded · Produced · Operated</p></a></li>
-      <li class="card  rise"><a href="#">
-        <div class="card__media"><div class="plate"><span class="plate__code">AK·O·—·003</span>
-          <span class="plate__name">KEKA</span><span class="plate__note">Owner material pending</span></div></div>
-        <div class="card__meta"><span class="card__type">Branding</span><span class="card__rel">Founded</span></div>
-        <h3 class="card__name">KEKA</h3><p class="card__caps">keka.design</p></a></li>
-      <li class="card  rise"><a href="case-website.html">
-        <div class="card__media"><div class="plate"><span class="plate__code">AK·O·—·004</span>
-          <span class="plate__name">COOLBABA</span><span class="plate__note">Capture pending</span></div></div>
-        <div class="card__meta"><span class="card__type">Website / Digital</span><span class="card__rel">Founded</span></div>
-        <h3 class="card__name">COOLBABA</h3><p class="card__caps">coolbaba.in.ua</p></a></li>
-      <li class="card  rise"><a href="case-website.html">
-        <div class="card__media"><div class="plate"><span class="plate__code">AK·O·—·005</span>
-          <span class="plate__name">Fashion Frontier</span><span class="plate__note">Capture pending</span></div></div>
-        <div class="card__meta"><span class="card__type">Website / Digital</span><span class="card__rel">Founded</span></div>
-        <h3 class="card__name">Fashion Frontier</h3><p class="card__caps">fashionfrontier.uk</p></a></li>
-      <li class="card  rise"><a href="#">
-        <div class="card__media"><div class="plate"><span class="plate__code">AK·O·—·006</span>
-          <span class="plate__name">Prominent Magazine</span><span class="plate__note">Capture pending</span></div></div>
-        <div class="card__meta"><span class="card__type">Website / Digital</span><span class="card__rel">Founded</span></div>
-        <h3 class="card__name">Prominent Magazine</h3><p class="card__caps">prominentmagazine.co.uk</p></a></li>
-      <li class="card  rise"><a href="#">
-        <div class="card__media"><div class="plate"><span class="plate__code">AK·O·—·007</span>
-          <span class="plate__name">Utrend Store</span><span class="plate__note">Capture pending</span></div></div>
-        <div class="card__meta"><span class="card__type">Website / Digital</span><span class="card__rel">Founded</span></div>
-        <h3 class="card__name">Utrend Store</h3><p class="card__caps">utrendstore.co.uk</p></a></li>
-      <li class="card  rise"><a href="#">
-        <div class="card__media"><div class="plate"><span class="plate__code">AK·C·—·001</span>
-          <span class="plate__name">Wolax</span><span class="plate__note">Capture pending</span></div></div>
-        <div class="card__meta"><span class="card__type">Website / Digital</span><span class="card__rel">Commissioned</span></div>
-        <h3 class="card__name">Wolax</h3><p class="card__caps">wolax.co.uk</p></a></li>
-      <li class="card  rise"><a href="#">
-        <div class="card__media"><div class="plate"><span class="plate__code">AK·C·—·002</span>
-          <span class="plate__name">Lenie Boya</span><span class="plate__note">Capture pending</span></div></div>
-        <div class="card__meta"><span class="card__type">Website / Digital</span><span class="card__rel">Commissioned</span></div>
-        <h3 class="card__name">Lenie Boya</h3><p class="card__caps">lenieboya.com</p></a></li>
-      <li class="card  rise"><a href="#">
-        <div class="card__media"><div class="plate"><span class="plate__code">AK·C·—·003</span>
-          <span class="plate__name">Show Me Your Nails</span><span class="plate__note">Capture pending</span></div></div>
-        <div class="card__meta"><span class="card__type">Website / Digital</span><span class="card__rel">Commissioned</span></div>
-        <h3 class="card__name">Show Me Your Nails</h3><p class="card__caps">showmeyournails.com</p></a></li>
+    <ul class="index">
+      <li class="index__row"><a class="index__link" href="case-event.html">
+        <span class="index__code">AK·O·19·001</span>
+        <span class="index__client">Founded</span>
+        <span class="index__title">London Fashion Day</span>
+        <span class="index__disc"><span class="index__tag">Platform</span><span class="index__tag">londonfashionday.co.uk</span></span></a></li>
+      <li class="index__row"><a class="index__link" href="#">
+        <span class="index__code">AK·O·—·004</span>
+        <span class="index__client">Founded</span>
+        <span class="index__title">COOLBABA</span>
+        <span class="index__disc"><span class="index__tag">Media / Editorial</span><span class="index__tag">coolbaba.in.ua</span></span></a></li>
+      <li class="index__row"><a class="index__link" href="#">
+        <span class="index__code">AK·O·—·003</span>
+        <span class="index__client">Founded</span>
+        <span class="index__title">KEKA</span>
+        <span class="index__disc"><span class="index__tag">Fashion Brand</span><span class="index__tag">keka.design</span></span></a></li>
+      <li class="index__row"><a class="index__link" href="#">
+        <span class="index__code">AK·C·—·001</span>
+        <span class="index__client">Commissioned</span>
+        <span class="index__title">Wolax</span>
+        <span class="index__disc"><span class="index__tag">wolax.co.uk</span></span></a></li>
+      <li class="index__row"><a class="index__link" href="#">
+        <span class="index__code">AK·O·—·002</span>
+        <span class="index__client">Founded</span>
+        <span class="index__title">Odessa Fashion Day</span>
+        <span class="index__disc"><span class="index__tag">Platform</span><span class="index__tag">ofd.org.ua</span></span></a></li>
+      <li class="index__row"><a class="index__link" href="#">
+        <span class="index__code">AK·O·—·006</span>
+        <span class="index__client">Founded</span>
+        <span class="index__title">Prominent Magazine</span>
+        <span class="index__disc"><span class="index__tag">Media / Editorial</span><span class="index__tag">prominentmagazine.co.uk</span></span></a></li>
+      <li class="index__row"><a class="index__link" href="#">
+        <span class="index__code">AK·O·—·007</span>
+        <span class="index__client">Founded</span>
+        <span class="index__title">Utrend Store</span>
+        <span class="index__disc"><span class="index__tag">Retail / E-commerce</span><span class="index__tag">utrendstore.co.uk</span></span></a></li>
+      <li class="index__row"><a class="index__link" href="#">
+        <span class="index__code">AK·C·—·002</span>
+        <span class="index__client">Commissioned</span>
+        <span class="index__title">Lenie Boya</span>
+        <span class="index__disc"><span class="index__tag">lenieboya.com</span></span></a></li>
+      <li class="index__row"><a class="index__link" href="case-platform.html">
+        <span class="index__code">AK·O·—·005</span>
+        <span class="index__client">Founded</span>
+        <span class="index__title">Fashion Frontier</span>
+        <span class="index__disc"><span class="index__tag">Platform</span><span class="index__tag">fashionfrontier.uk</span></span></a></li>
+      <li class="index__row"><a class="index__link" href="#">
+        <span class="index__code">AK·C·—·003</span>
+        <span class="index__client">Commissioned</span>
+        <span class="index__title">Show Me Your Nails</span>
+        <span class="index__disc"><span class="index__tag">showmeyournails.com</span></span></a></li>
     </ul>
-    <div class="fixture" style="margin-top:2rem">Structural fixtures — not portfolio claims:
-      the Photography and Film modes below exist to prove the layout, and carry no project.</div>
-    <h2 class="sr-only">Presentation-mode fixtures</h2>
-    <ul class="cards">
-      <li class="card rise"><a href="case-photo.html">
-        <div class="card__media"><div class="plate"><span class="plate__code">FIXTURE</span>
-          <span class="plate__name">Photography mode</span><span class="plate__note">Structure only</span></div></div>
-        <div class="card__meta"><span class="card__type">Photography</span><span class="card__rel">Fixture</span></div>
-        <h3 class="card__name">Image-led presentation</h3><p class="card__caps">Sequence · pair · full bleed</p></a></li>
-      <li class="card rise"><a href="case-film.html">
-        <div class="card__media"><div class="plate"><span class="plate__code">FIXTURE</span>
-          <span class="plate__name">Film mode</span><span class="plate__note">Structure only</span></div></div>
-        <div class="card__meta"><span class="card__type">Film</span><span class="card__rel">Fixture</span></div>
-        <h3 class="card__name">Motion-led presentation</h3><p class="card__caps">Poster · cuts · credits</p></a></li>
-    </ul>
+    <p class="t-small" style="margin-top:2rem;color:var(--text-faint)">Ten records, ordered so that
+      types alternate rather than cluster. Three carry no type: a live address and a client
+      relationship establish that an engagement happened, not what it was, and the studio does not
+      publish a classification it cannot stand behind.</p>
+    <p class="t-small" style="margin-top:.75rem;color:var(--text-faint)">The index renders as a
+      register because no record has a cover yet. It becomes a card grid the moment covers exist —
+      the same content-driven rule as the filters. Ten identical <em>capture pending</em> plates would
+      be a wall of nothing pretending to be a portfolio.</p>
   </div>
 </div>
 </main>
 <footer class="ftr"><div class="ftr__bar"><span class="t-quiet">© 2026 AK Brand Development Studio</span>
-  <span class="t-quiet">Prototype — v1.6.0-poc</span></div></footer>
+  <span class="t-quiet">Prototype — v1.7.0-poc</span></div></footer>
+<script src="proto.js"></script>
 </body></html>

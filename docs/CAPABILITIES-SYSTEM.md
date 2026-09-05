@@ -122,12 +122,36 @@ neither.
 
 ### `ak_project_type` — what the project *is*
 
-Branding · Personal Branding · Photography · Film · Event · Fashion Production ·
-Campaign · Website / Digital · Advertising · Integrated
+Platform · Media / Editorial · Fashion Brand · Retail / E-commerce · Branding ·
+Personal Branding · Photography · Film · Event · Fashion Production · Campaign ·
+Advertising · Integrated
 
-**One term per project.** The type decides the presentation mode and which
-admin panel opens. A project that genuinely spans disciplines is **Integrated**
-— not seven separate entries.
+**One term per project.** It describes the **nature of the entity**, not the
+outputs AK produced for it — those are capabilities and modules.
+
+**Website / Digital is not on this list.** It was, and that was the error:
+having a website is a *component* of a project, not a kind of project. See the
+rule below.
+
+A project that genuinely spans disciplines is **Integrated** — not seven
+separate entries.
+
+### The rule: a URL is not a project type
+
+> **A supplied URL identifies a project and gives us real digital material to
+> preview. It says nothing about what the project is.**
+
+Inferring `URL exists → Website / Digital` collapses an owned fashion platform
+into a web build. London Fashion Day is a platform involving fashion
+production, events, industry activity, PR, media *and* digital presence; its
+website is one surface of it. Classifying it by the one artefact that happens
+to have an address would be the single most damaging misstatement the site
+could make about the practice.
+
+Type comes from established fact about the entity. Where the full work is not
+yet established, the type is **left unset** and the project publishes as a
+minimal record — title, relationship, address, preview — until it can be
+classified truthfully.
 
 ### `ak_capability` — what AK actually delivered
 
@@ -143,16 +167,29 @@ exposed.
 | Filter | Includes |
 |---|---|
 | **All** | everything |
-| **Brand** | Branding, Personal Branding |
+| **Platforms** | Platform |
+| **Media** | Media / Editorial |
+| **Brands** | Fashion Brand, Branding, Personal Branding |
+| **Retail** | Retail / E-commerce |
 | **Image** | Photography, Campaign |
 | **Film** | Film |
 | **Experience** | Event, Fashion Production |
-| **Digital** | Website / Digital, Advertising |
+| **Promotion** | Advertising |
 | **Integrated** | Integrated |
 
-Six filters plus All. The point is that a visitor moves naturally from a
-website to a fashion show to a photo campaign to an identity and still feels
-one studio behind all of it.
+**The table is the mapping, not the menu.** A filter renders only when at least
+one published project falls under it. On the confirmed register that is *All 10
+· Platforms 3 · Media 2 · Brands 1 · Retail 1* — five chips, not ten. The other
+five rows exist so that the first Photography or Event project brings its filter
+with it, without a code change and without ever having shown an empty one.
+
+The counts do not sum to All, and that is correct: the three client records
+carry no type and appear only under All. A count is a fact about published
+content, never a target to fill.
+
+There is no **Digital** filter. It used to collect `Website / Digital`, which is
+no longer a type — a website is a module, and grouping projects by "has a
+website" was the mechanism that made the whole practice look like a web shop.
 
 ## Presentation modes
 
@@ -161,13 +198,17 @@ different design system** — the grid, type, colour and motion are constant.
 
 | Type | Mode | Leads with |
 |---|---|---|
-| Website / Digital | **Preview** | An interactive capture of the live site — see `WEBSITE-PREVIEW-SYSTEM.md` |
+| Platform, Media / Editorial, Fashion Brand, Retail / E-commerce | **Assembled** | Whatever the platform actually has. These are large entities; the layout follows the material |
 | Photography, Campaign | **Image** | Full-bleed stills, sequences, portrait/landscape pairs. Can be almost wordless |
 | Film | **Motion** | Hero film, poster, cuts. Motion before text |
 | Event, Fashion Production | **Document** | Date, city, venue, role, programme, gallery, event film |
 | Branding, Personal Branding | **Narrative** | Context, positioning, strategy, identity, applications |
 | Advertising | **Campaign** | Channels, creative assets, period. **No Results module unless verified figures are supplied** |
 | Integrated | **Assembled** | The owner enables the modules the project actually has |
+| *unset* | **Record** | Title, relationship, address, preview. Nothing claimed beyond what is known |
+
+**No mode is selected by the presence of a URL.** The website preview is a
+module (below), available to every mode.
 
 ### Photography is not Film
 
@@ -195,6 +236,39 @@ brand launch might run Strategy → Identity → Campaign → Photography → Fi
 Digital → Launch → Promotion → Outcome. Another project runs Creative Direction
 → Photography and stops. **Nothing is forced through a fixed sequence**, and a
 missing module is absent rather than empty.
+
+## Website Preview is a module, not a project type
+
+Any project may carry a **Website / Digital module**. It holds the live URL,
+the desktop and mobile captures, the live-preview toggle, launch information
+and a short digital narrative.
+
+```
+Project
+├── relationship          AK Owned · Client · Collaboration
+├── project type          the nature of the entity (may be unset)
+├── capabilities          what AK actually delivered (may be unset)
+└── modules
+    ├── Website / Digital   ← url, captures, live toggle, launch, narrative
+    ├── Photography
+    ├── Film
+    ├── Event Information
+    ├── Strategy · Identity · Campaign · Credits · Results · …
+    └── …
+```
+
+Consequences, and they are the point:
+
+- An **Integrated** project can contain Strategy, Identity, Photography, Film,
+  Website, Event and Promotion **without becoming a Website project**.
+- An **owned platform** can display its current website while remaining a
+  Platform. The preview is one section of the case study, not its subject.
+- A **website-focused client engagement** can make the module dominant — that
+  is an editorial decision from the material, not a consequence of a URL
+  existing.
+
+The module's weight is set per project by where the owner places it in the
+module order. First position makes it the lead; last makes it a footnote.
 
 ## Modular case-study builder
 
@@ -237,7 +311,7 @@ that type's panel and hides the rest:
 | Photography | Hero image, gallery, sequence, photographer, styling, hair/make-up, talent, location, BTS, related film |
 | Film | Hero film, poster, trailer, cuts, director, cinematography, editing, stills, BTS |
 | Event / Fashion Production | Date, city, venue, event type, AK role, concept, programme, gallery, event film, collaborators, partners |
-| Website / Digital | Live URL, capture settings, viewport mode, scroll behaviour, live-site toggle |
+| *(any type)* | The Website module is available to every type: live URL, capture settings, viewport mode, scroll behaviour, live-site toggle |
 | Branding / Personal Branding | Context, challenge, positioning, strategy, concept, naming, philosophy, identity, logo, typography, colour, guidelines, applications, launch |
 | Advertising | Campaign, channels, audience, creative assets, strategy, period, results |
 | Integrated | Module enable list, then the modules themselves |
@@ -255,18 +329,26 @@ plugin requirement it does not need.
 Registers now established. **These are facts supplied by the owner** — nothing
 is assumed.
 
-| Project | Relationship | Type | URL |
-|---|---|---|---|
-| London Fashion Day | AK Owned | Fashion Production | londonfashionday.co.uk |
-| Odessa Fashion Day | AK Owned | Fashion Production | ofd.org.ua |
-| COOLBABA | AK Owned | Website / Digital | coolbaba.in.ua |
-| Prominent Magazine | AK Owned | Website / Digital | prominentmagazine.co.uk |
-| Fashion Frontier | AK Owned | Website / Digital | fashionfrontier.uk |
-| Utrend Store | AK Owned | Website / Digital | utrendstore.co.uk |
-| KEKA | AK Owned | Branding | keka.design |
-| Wolax | Client | Website / Digital | wolax.co.uk |
-| Lenie Boya | Client | Website / Digital | lenieboya.com |
-| Show Me Your Nails | Client | Website / Digital | showmeyournails.com |
+Type below is the **owner's own characterisation of the entity**, supplied
+directly. Capabilities are unset everywhere: what AK delivered on each project
+has not been established, and inventing it is out of the question.
+
+| Project | Relationship | Type | Capabilities | URL |
+|---|---|---|---|---|
+| London Fashion Day | AK Owned | Platform | *unset* | londonfashionday.co.uk |
+| Odessa Fashion Day | AK Owned | Platform | *unset* | ofd.org.ua |
+| Fashion Frontier | AK Owned | Platform | *unset* | fashionfrontier.uk |
+| COOLBABA | AK Owned | Media / Editorial | *unset* | coolbaba.in.ua |
+| Prominent Magazine | AK Owned | Media / Editorial | *unset* | prominentmagazine.co.uk |
+| KEKA | AK Owned | Fashion Brand | *unset* | keka.design |
+| Utrend Store | AK Owned | Retail / E-commerce | *unset* | utrendstore.co.uk |
+| Wolax | Client | *unset* | *unset* | wolax.co.uk |
+| Lenie Boya | Client | *unset* | *unset* | lenieboya.com |
+| Show Me Your Nails | Client | *unset* | *unset* | showmeyournails.com |
+
+The three client projects carry **no type at all**. A URL and a client
+relationship do not establish what the engagement was, and guessing would put a
+claim on the site the studio cannot stand behind.
 
 This resolves the KEKA conflict flagged in the previous checkpoint: **KEKA is
 AK Owned.**
@@ -276,19 +358,57 @@ deliverables, results, KPIs. Only existence and relationship are confirmed, so
 only existence and relationship are published. Each entry seeds as a card with
 its live preview and no invented narrative.
 
-### The bias this seed data creates, and the fix
+### Capabilities and Work do different jobs
 
-Seven of ten confirmed projects are websites. Seeded as-is, the Work index
-would once again read as a web studio — the exact problem this correction
-exists to solve.
+This is the correction that makes the seed data safe.
 
-Three structural responses:
+| | Answers | Source |
+|---|---|---|
+| **Capabilities** | *What can AK do?* | The full confirmed practice. Complete from day one, independent of what has been published |
+| **Work** | *What has AK chosen to publish?* | Real published projects only |
+
+Work is not required to visually match Capabilities, and **must not be padded
+to make it look as though it does.**
+
+**Public Work filters are generated from published content.** A filter appears
+when at least one real published project would fall under it, and not before.
+No `IMAGE (0)`, no `FILM (—)`, no empty shelves.
+
+An earlier version of this document argued the opposite — that showing empty
+categories communicated breadth. **That was wrong and is withdrawn.** An empty
+shelf on a portfolio does not read as *breadth pending*; it reads as a studio
+that has not done the work. Capabilities already states the scope, in words,
+without needing the portfolio to carry that argument.
+
+The seed data is still website-heavy in its *material*, so three responses
+remain:
 
 1. **Work does not default to a website-first order.** The index opens on
-   `All`, ordered so that types alternate rather than clustering.
-2. **The homepage leads with the platforms**, not the sites. London Fashion Day
-   and Odessa Fashion Day are Fashion Production and they come first.
-3. **The empty categories are shown, not hidden.** Image, Film and Experience
-   filters exist and state that projects are being prepared. An honest empty
-   shelf communicates breadth better than a full shelf of one thing —
-   and it is the owner's cue about which material to supply next.
+   `All`, ordered so types alternate rather than cluster.
+2. **The homepage leads with the platforms.** London Fashion Day and Odessa
+   Fashion Day are owned platforms and they come first — not because they have
+   the best websites, but because they are the largest things the studio has.
+3. **The index renders as a register until covers exist.** Same content-driven
+   rule as the filters, applied to layout: with no cover on any record, a card
+   grid is ten identical *capture pending* plates, which is a wall of nothing
+   pretending to be a portfolio. The register — code, relationship, name, type,
+   address — is dense, honest and reads as a studio that keeps records. The
+   index switches to the card grid once covers exist, per record: a record with
+   a cover shows it, a record without stays a row.
+
+## Fixtures are internal
+
+The Photography, Film and Event presentation modes are proven with **structural
+fixtures**. They exist to demonstrate that the layout works before real
+material arrives.
+
+They are **never public portfolio material**:
+
+- Fixture projects carry `ak_fixture = 1` and are excluded from every public
+  query — the Work index, filters, related work, the homepage, sitemaps and
+  feeds.
+- They are reachable only by direct URL while logged in, and carry a visible
+  internal marker.
+- They contribute nothing to filter counts, so they cannot cause an empty
+  category to appear populated.
+- They are deleted, not published, once the real project exists.

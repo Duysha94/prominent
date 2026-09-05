@@ -5,14 +5,30 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="hdr">
   <a class="hdr__mark" href="home.html">AK Brand Development Studio</a>
-  <nav class="hdr__nav"><a href="work.html" aria-current="page">Work</a><a href="services.html">Services</a>
+  <nav class="hdr__nav" aria-label="Primary"><a href="work.html" aria-current="page">Work</a><a href="services.html">Services</a>
     <a href="#">About</a><a href="#">Journal</a><a href="#">Contact</a></nav>
-  <button class="hdr__menu">Menu</button>
+  <button class="hdr__menu" type="button" data-nav-toggle aria-expanded="false" aria-controls="navp">Menu</button>
 </header>
+<div class="navp" id="navp" hidden>
+  <div class="navp__scrim" data-nav-close></div>
+  <nav class="navp__panel" aria-label="Main">
+    <div class="navp__head"><span class="t-data">Menu</span>
+      <button class="navp__close" type="button" data-nav-close>Close</button></div>
+    <ul class="navp__list">
+      <li><a href="work.html" aria-current="page"><span class="navp__n">01</span>Work</a></li>
+      <li><a href="services.html"><span class="navp__n">02</span>Services</a></li>
+      <li><a href="#"><span class="navp__n">03</span>About</a></li>
+      <li><a href="#"><span class="navp__n">04</span>Journal</a></li>
+      <li><a href="#"><span class="navp__n">05</span>Contact</a></li>
+    </ul>
+    <div class="navp__foot"><span class="t-quiet">London &middot; Paris &middot; Dubai</span>
+      <span class="t-quiet">Fashion &amp; Brand Advisory</span></div>
+  </nav>
+</div>
 <main id="main">
 <div class="wrap"><div class="rail"><span class="rail__mark">AK·O·19·001</span></div>
   <div class="col-wide section section--open">
-    <p class="t-data"><a href="work.html" style="text-decoration:none">Work</a> · Fashion Production · Founded</p>
+    <p class="t-data"><a href="work.html" style="text-decoration:none">Work</a> · Platform · Founded</p>
     <h1 class="t-hero" style="margin-top:1rem">London Fashion Day</h1>
     <p class="t-lead" style="margin-top:1.5rem">An international platform created to support emerging
       designers — founded, produced and operated by the studio.</p>
@@ -21,7 +37,7 @@
     <div class="spec">
       <div class="spec__cell"><span class="spec__k">Founder</span><span class="spec__v">Kostiantyn Lieontiev</span></div>
       <div class="spec__cell"><span class="spec__k">Relationship</span><span class="spec__v">Founded</span></div>
-      <div class="spec__cell"><span class="spec__k">Type</span><span class="spec__v">Fashion Production</span></div>
+      <div class="spec__cell"><span class="spec__k">Type</span><span class="spec__v">Platform</span></div>
       <div class="spec__cell"><span class="spec__k">City</span><span class="spec__v">London</span></div>
     </div>
   </div>
@@ -36,7 +52,7 @@
       <li><div><h2 class="step-h">Studio role</h2><p>Founded, produced and operated by the studio. Not a commission —
         an ongoing platform the practice owns.</p></div></li>
     </ol>
-    <div class="fixture" style="margin-top:2rem">Programme, venue, participating designers, runway
+    <div class="fixture" data-label="Not supplied" style="margin-top:2rem">Programme, venue, participating designers, runway
       film, gallery, partners and credits are all defined in the model and deliberately absent: none
       has been supplied. On the live site they would not render at all.</div>
     <p class="t-small" style="color:var(--text-faint)">An owned platform is not shaped like a one-night
@@ -46,10 +62,11 @@
 </div>
 
 <div class="wrap"><div class="rail"></div><div class="col-full section">
-  <a class="next" href="case-website.html"><div><span class="t-quiet">Next · Founded</span>
+  <a class="next" href="case-platform.html"><div><span class="t-quiet">Next · Founded</span>
     <h2 class="next__name">Fashion Frontier</h2></div><span class="t-data">AK·O·—·005 →</span></a>
 </div></div>
 </main>
 <footer class="ftr"><div class="ftr__bar"><span class="t-quiet">© 2026 AK Brand Development Studio</span>
-  <span class="t-quiet">Prototype — v1.6.0-poc</span></div></footer>
+  <span class="t-quiet">Prototype — v1.7.0-poc</span></div></footer>
+<script src="proto.js"></script>
 </body></html>

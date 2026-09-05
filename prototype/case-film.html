@@ -1,18 +1,35 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
 <title>Film mode — AK Brand Development Studio</title><link rel="stylesheet" href="proto.css">
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="hdr">
   <a class="hdr__mark" href="home.html">AK Brand Development Studio</a>
-  <nav class="hdr__nav"><a href="work.html" aria-current="page">Work</a><a href="services.html">Services</a>
+  <nav class="hdr__nav" aria-label="Primary"><a href="work.html" aria-current="page">Work</a><a href="services.html">Services</a>
     <a href="#">About</a><a href="#">Journal</a><a href="#">Contact</a></nav>
-  <button class="hdr__menu">Menu</button>
+  <button class="hdr__menu" type="button" data-nav-toggle aria-expanded="false" aria-controls="navp">Menu</button>
 </header>
+<div class="navp" id="navp" hidden>
+  <div class="navp__scrim" data-nav-close></div>
+  <nav class="navp__panel" aria-label="Main">
+    <div class="navp__head"><span class="t-data">Menu</span>
+      <button class="navp__close" type="button" data-nav-close>Close</button></div>
+    <ul class="navp__list">
+      <li><a href="work.html" aria-current="page"><span class="navp__n">01</span>Work</a></li>
+      <li><a href="services.html"><span class="navp__n">02</span>Services</a></li>
+      <li><a href="#"><span class="navp__n">03</span>About</a></li>
+      <li><a href="#"><span class="navp__n">04</span>Journal</a></li>
+      <li><a href="#"><span class="navp__n">05</span>Contact</a></li>
+    </ul>
+    <div class="navp__foot"><span class="t-quiet">London &middot; Paris &middot; Dubai</span>
+      <span class="t-quiet">Fashion &amp; Brand Advisory</span></div>
+  </nav>
+</div>
 <main id="main">
 <div class="wrap"><div class="rail"><span class="rail__mark">Film</span></div>
   <div class="col-full section section--open">
-    <div class="fixture">Structural fixture · Film presentation mode · not a portfolio claim</div>
+    <div class="fixture" data-label="Internal · not published">A structural fixture for the Film presentation mode. It carries <code>ak_fixture = 1</code>, is excluded from Work, filters, counts, sitemap and feeds, and is deleted rather than published once a real project exists. <a href="internal.html">Back to the fixture index</a>.</div>
   </div>
 </div>
 <div class="wrap"><div class="rail"><span class="rail__mark">Poster</span></div>
@@ -48,5 +65,6 @@
 </div>
 </main>
 <footer class="ftr"><div class="ftr__bar"><span class="t-quiet">© 2026 AK Brand Development Studio</span>
-  <span class="t-quiet">Prototype — v1.6.0-poc</span></div></footer>
+  <span class="t-quiet">Prototype — v1.7.0-poc</span></div></footer>
+<script src="proto.js"></script>
 </body></html>

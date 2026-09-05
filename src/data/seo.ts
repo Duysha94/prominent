@@ -54,9 +54,9 @@ export const PAGES: PageSeo[] = [
   },
   {
     path: '/studio',
-    title: 'About the Studio — Founded by Konstantin Lieontiev & Andrey Karakushan',
+    title: 'About the Studio — Founded by Kostiantyn Lieontiev & Andrii Karakushan',
     description:
-      'An independent creative and strategic practice in London. Founded by Konstantin Lieontiev, producer of London Fashion Day and Odessa Fashion Day, and Andrey Karakushan.',
+      'An independent creative and strategic practice in London. Founded by Kostiantyn Lieontiev, producer of London Fashion Day and Odessa Fashion Day, and Andrii Karakushan.',
     breadcrumb: 'About',
   },
   {
@@ -89,7 +89,7 @@ export const seoFor = (path: string) => PAGES.find((p) => p.path === path)
  * ProfessionalService rather than a bare Organization, because that is what
  * this is and it carries address, area served and the service catalogue.
  * The founders are separate Person nodes referenced by @id, so a search engine
- * can connect Konstantin to London Fashion Day rather than treating the two as
+ * can connect Kostiantyn to London Fashion Day rather than treating the two as
  * unrelated strings on one page.
  */
 export function siteGraph() {
@@ -154,7 +154,7 @@ export function siteGraph() {
         jobTitle: f.role,
         description: f.bio[0],
         worksFor: { '@id': `${SITE}/#studio` },
-        ...(f.id === 'konstantin-lieontiev'
+        ...(f.id === 'kostiantyn-lieontiev'
           ? {
               founderOf: [
                 { '@type': 'Event', name: 'London Fashion Day' },

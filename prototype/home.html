@@ -5,11 +5,27 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="hdr">
   <a class="hdr__mark" href="home.html">AK Brand Development Studio</a>
-  <nav class="hdr__nav">
+  <nav class="hdr__nav" aria-label="Primary">
     <a href="work.html">Work</a><a href="services.html">Services</a>
     <a href="#">About</a><a href="#">Journal</a><a href="#">Contact</a></nav>
-  <button class="hdr__menu">Menu</button>
+  <button class="hdr__menu" type="button" data-nav-toggle aria-expanded="false" aria-controls="navp">Menu</button>
 </header>
+<div class="navp" id="navp" hidden>
+  <div class="navp__scrim" data-nav-close></div>
+  <nav class="navp__panel" aria-label="Main">
+    <div class="navp__head"><span class="t-data">Menu</span>
+      <button class="navp__close" type="button" data-nav-close>Close</button></div>
+    <ul class="navp__list">
+      <li><a href="work.html"><span class="navp__n">01</span>Work</a></li>
+      <li><a href="services.html"><span class="navp__n">02</span>Services</a></li>
+      <li><a href="#"><span class="navp__n">03</span>About</a></li>
+      <li><a href="#"><span class="navp__n">04</span>Journal</a></li>
+      <li><a href="#"><span class="navp__n">05</span>Contact</a></li>
+    </ul>
+    <div class="navp__foot"><span class="t-quiet">London &middot; Paris &middot; Dubai</span>
+      <span class="t-quiet">Fashion &amp; Brand Advisory</span></div>
+  </nav>
+</div>
 <main id="main">
 
 <!-- ── 01 · Opening ────────────────────────────────────────────────────── -->
@@ -58,7 +74,7 @@
       <article class="house__item rise">
         <div class="house__media"><div class="plate"><span class="plate__code">AK·O·19·001</span>
           <span class="plate__name">London Fashion Day</span><span class="plate__note">Owner photography pending</span></div></div>
-        <div class="house__body"><span class="house__code">AK·O·19·001 · Fashion Production</span>
+        <div class="house__body"><span class="house__code">AK·O·19·001 · Platform</span>
           <h3 class="house__name">London Fashion Day</h3>
           <p class="house__role">Founded &amp; produced by Kostiantyn Lieontiev</p>
           <p class="house__desc">An international platform created to support emerging designers.</p>
@@ -67,7 +83,7 @@
       <article class="house__item rise">
         <div class="house__media"><div class="plate"><span class="plate__code">AK·O·—·002</span>
           <span class="plate__name">Odessa Fashion Day</span><span class="plate__note">Owner photography pending</span></div></div>
-        <div class="house__body"><span class="house__code">AK·O·—·002 · Fashion Production</span>
+        <div class="house__body"><span class="house__code">AK·O·—·002 · Platform</span>
           <h3 class="house__name">Odessa Fashion Day</h3>
           <p class="house__role">Founded &amp; produced by Kostiantyn Lieontiev</p>
           <p class="house__desc">Built to develop international creative communities.</p>
@@ -78,37 +94,41 @@
   </div>
 </div>
 
-<!-- ── 04 · Selected work across types ─────────────────────────────────── -->
+<!-- ── 04 · Selected work — published records only, no fixtures ────────── -->
 <div class="wrap"><div class="rail"><span class="rail__mark">Selected</span></div>
   <div class="col-full section">
     <div class="reg"><h2 class="reg__name">Selected work</h2>
-      <span class="reg__note">Across every discipline, owned and commissioned.</span></div>
+      <span class="reg__note">Published records, owned and commissioned.</span></div>
     <ul class="cards">
-      <li class="card rise"><a href="case-photo.html">
-        <div class="card__media"><div class="plate"><span class="plate__code">FIXTURE</span>
-          <span class="plate__name">Photography</span><span class="plate__note">Structure only</span></div></div>
-        <div class="card__meta"><span class="card__type">Photography</span><span class="card__rel">Structural fixture</span></div>
-        <h3 class="card__name">Image-led project mode</h3>
-        <p class="card__caps">Creative direction · Photo campaign · Styling</p></a></li>
-      <li class="card rise"><a href="case-film.html">
-        <div class="card__media"><div class="plate"><span class="plate__code">FIXTURE</span>
-          <span class="plate__name">Film</span><span class="plate__note">Structure only</span></div></div>
-        <div class="card__meta"><span class="card__type">Film</span><span class="card__rel">Structural fixture</span></div>
-        <h3 class="card__name">Motion-led project mode</h3>
-        <p class="card__caps">Direction · Cinematography · Editing</p></a></li>
-      <li class="card rise"><a href="case-website.html">
-        <div class="card__media"><div class="plate"><span class="plate__code">AK·O·—·005</span>
-          <span class="plate__name">Fashion Frontier</span><span class="plate__note">Capture pending</span></div></div>
-        <div class="card__meta"><span class="card__type">Website / Digital</span><span class="card__rel">Founded</span></div>
-        <h3 class="card__name">Fashion Frontier</h3>
-        <p class="card__caps">fashionfrontier.uk</p></a></li>
       <li class="card rise"><a href="case-event.html">
         <div class="card__media"><div class="plate"><span class="plate__code">AK·O·19·001</span>
           <span class="plate__name">London Fashion Day</span><span class="plate__note">Owner photography pending</span></div></div>
-        <div class="card__meta"><span class="card__type">Fashion Production</span><span class="card__rel">Founded</span></div>
+        <div class="card__meta"><span class="card__type">Platform</span><span class="card__rel">Founded</span></div>
         <h3 class="card__name">London Fashion Day</h3>
-        <p class="card__caps">Founded · Produced · Operated</p></a></li>
+        <p class="card__caps">londonfashionday.co.uk</p></a></li>
+      <li class="card rise"><a href="#">
+        <div class="card__media"><div class="plate"><span class="plate__code">AK·O·—·004</span>
+          <span class="plate__name">COOLBABA</span><span class="plate__note">Capture pending</span></div></div>
+        <div class="card__meta"><span class="card__type">Media / Editorial</span><span class="card__rel">Founded</span></div>
+        <h3 class="card__name">COOLBABA</h3>
+        <p class="card__caps">coolbaba.in.ua</p></a></li>
+      <li class="card rise"><a href="#">
+        <div class="card__media"><div class="plate"><span class="plate__code">AK·O·—·003</span>
+          <span class="plate__name">KEKA</span><span class="plate__note">Owner material pending</span></div></div>
+        <div class="card__meta"><span class="card__type">Fashion Brand</span><span class="card__rel">Founded</span></div>
+        <h3 class="card__name">KEKA</h3>
+        <p class="card__caps">keka.design</p></a></li>
+      <li class="card rise"><a href="case-platform.html">
+        <div class="card__media"><div class="plate"><span class="plate__code">AK·O·—·005</span>
+          <span class="plate__name">Fashion Frontier</span><span class="plate__note">Capture pending</span></div></div>
+        <div class="card__meta"><span class="card__type">Platform</span><span class="card__rel">Founded</span></div>
+        <h3 class="card__name">Fashion Frontier</h3>
+        <p class="card__caps">fashionfrontier.uk</p></a></li>
     </ul>
+    <p class="t-small" style="margin-top:2rem;color:var(--text-faint)">Photo campaigns, film and
+      fashion productions are in the practice and named under
+      <a href="services.html">Services</a>. They appear here when a real project is supplied — not as
+      placeholders standing in for one.</p>
   </div>
 </div>
 
@@ -124,5 +144,6 @@
 </div>
 </main>
 <footer class="ftr"><div class="ftr__bar"><span class="t-quiet">© 2026 AK Brand Development Studio</span>
-  <span class="t-quiet">Prototype — v1.6.0-poc</span></div></footer>
+  <span class="t-quiet">Prototype — v1.7.0-poc</span></div></footer>
+<script src="proto.js"></script>
 </body></html>

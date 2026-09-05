@@ -5,10 +5,29 @@ importantly, where that presentation is not allowed to go.
 
 ## The rule that comes first
 
-**The preview is one rendering mode for one project type.** It must not
-influence how Photography, Film, Event, Fashion Production or Branding projects
-look. The studio is not a web studio, and a preview mechanism that leaked into
-every project page would say otherwise louder than any copy could.
+**The preview is an optional module, available to any project. It is not a
+project type, and a URL does not create one.**
+
+An earlier version of this document described it as "one rendering mode for one
+project type". That framing was wrong in a way that mattered: it made *having a
+website* into *being a website project*, which would have reclassified an owned
+fashion platform as a web build on the strength of its address.
+
+What replaces it:
+
+- Any project may carry a Website / Digital module — a platform, a fashion
+  brand, an event, an integrated engagement.
+- The module's prominence is set by where the owner places it in the module
+  order, not by the project's type.
+- For an owned platform the preview may be one section among many. For a
+  website-focused client engagement it may be the dominant section. **The
+  editorial data decides, never the existence of a URL.**
+
+The original concern still stands and is now handled differently: seven of the
+ten confirmed projects have websites, so if the preview *led* every one of them
+the site would read as a web studio through repetition. The answer is not to
+restrict the module — it is that the module is never the reason a project is
+classified, ordered or led with.
 
 ## What it replaces
 
@@ -57,7 +76,8 @@ capture where unsupported.
 
 ## Fields
 
-Held under `ak_site_*`, shown only when Project Type is Website / Digital.
+Held under `ak_site_*` on the **module**, shown whenever the Website / Digital
+module is enabled — on a project of any type, or of no type.
 
 | Field | Type | Notes |
 |---|---|---|
@@ -86,10 +106,32 @@ was taken, and the domain shown is the real one. The preview never implies AK
 built something it did not: the **relationship** taxonomy sits in the same spec
 block, so an `AK Owned` platform and a `Client` commission are never confusable.
 
+## Capture is currently blocked in this environment
+
+The supplied URLs cannot be captured from here. The egress proxy denies all ten
+hosts:
+
+```
+$ curl -o /dev/null -w '%{http_code}' https://londonfashionday.co.uk/   000  (blocked)
+$ curl -o /dev/null -w '%{http_code}' https://keka.design/              000  (blocked)
+$ curl -o /dev/null -w '%{http_code}' https://wolax.co.uk/              000  (blocked)
+```
+
+So the capture pipeline is built and specified, but **no real capture exists
+yet**. Every preview in the prototype shows the typographic fallback plate,
+which states plainly that the capture is pending. Nothing pretends to be a
+screenshot of a site nobody has photographed.
+
+Two ways to unblock, either is enough:
+
+1. Allow those hosts for this environment, and captures generate here.
+2. Run the capture on the production host — where the sites are reachable —
+   through the scheduled job the system already defines. This is the normal
+   path in any case: production is where the refresh runs.
+
 ## What this does not do
 
-It does not add a "web design" flavour to the site. It appears on Website /
-Digital projects and nowhere else — not on the homepage, not in the About page,
-not as a decorative motif. Seven of the ten confirmed projects are websites,
-which is exactly why the preview has to stay in its lane: if the mechanism
-spread, the site would read as a web studio again through pure repetition.
+It does not add a "web design" flavour to the site. The module never decides a
+project's type, never sets its position in the index, and never leads a page
+unless the owner has ordered it first. A project with a website and a project
+without one are classified by the same rule: what the project *is*.

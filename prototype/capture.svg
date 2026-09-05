@@ -5,6 +5,14 @@
   <g fill="none" stroke="#F37021" stroke-width="1.4" opacity=".7">
     <path d="M36 36h44M36 36v44M1404 36h-44M1404 36v44M36 3164h44M36 3164v-44M1404 3164h-44M1404 3164v-44"/>
   </g>
+  <text x="720" y="300" text-anchor="middle" font-family="'Martian Mono',monospace" font-size="15" letter-spacing="6" fill="#FAF8F6" opacity=".82">FIXTURE</text>
+  <text x="720" y="326" text-anchor="middle" font-family="'Martian Mono',monospace" font-size="10" letter-spacing="3" fill="#F37021">CAPTURE PENDING</text>
+  <text x="720" y="900" text-anchor="middle" font-family="'Martian Mono',monospace" font-size="15" letter-spacing="6" fill="#FAF8F6" opacity=".82">FIXTURE</text>
+  <text x="720" y="926" text-anchor="middle" font-family="'Martian Mono',monospace" font-size="10" letter-spacing="3" fill="#F37021">CAPTURE PENDING</text>
   <text x="720" y="1600" text-anchor="middle" font-family="'Martian Mono',monospace" font-size="15" letter-spacing="6" fill="#FAF8F6" opacity=".82">FIXTURE</text>
   <text x="720" y="1626" text-anchor="middle" font-family="'Martian Mono',monospace" font-size="10" letter-spacing="3" fill="#F37021">CAPTURE PENDING</text>
+  <text x="720" y="2300" text-anchor="middle" font-family="'Martian Mono',monospace" font-size="15" letter-spacing="6" fill="#FAF8F6" opacity=".82">FIXTURE</text>
+  <text x="720" y="2326" text-anchor="middle" font-family="'Martian Mono',monospace" font-size="10" letter-spacing="3" fill="#F37021">CAPTURE PENDING</text>
+  <text x="720" y="2900" text-anchor="middle" font-family="'Martian Mono',monospace" font-size="15" letter-spacing="6" fill="#FAF8F6" opacity=".82">FIXTURE</text>
+  <text x="720" y="2926" text-anchor="middle" font-family="'Martian Mono',monospace" font-size="10" letter-spacing="3" fill="#F37021">CAPTURE PENDING</text>
 </svg>

@@ -11,9 +11,9 @@ import { usePageMeta } from '../lib/usePageMeta'
  *
  * This is the highest-value page on the site and it is the one most agencies
  * waste. A studio's credibility is not its adjectives; it is who is actually
- * going to do the work and what they have already done. Konstantin founded
+ * going to do the work and what they have already done. Kostiantyn founded
  * two international fashion platforms and ran a regional branch of an
- * advertising holding for nine years; Andrey has run retail for emerging
+ * advertising holding for nine years; Andrii has run retail for emerging
  * designers and founded a media title. Those are checkable facts and they
  * answer a client's real question, which is "why you".
  *
@@ -23,7 +23,7 @@ import { usePageMeta } from '../lib/usePageMeta'
 export function Studio() {
   usePageMeta(
     'About the studio — AK Brand Development Studio',
-    'An independent creative and strategic practice in London, founded by Konstantin Lieontiev and Andrey Karakushan. Brand development, fashion consulting and creative production.',
+    'An independent creative and strategic practice in London, founded by Kostiantyn Lieontiev and Andrii Karakushan. Brand development, fashion consulting and creative production.',
   )
 
   return (

@@ -178,7 +178,35 @@ full section boundary and their own heading — never interleaved.
 - **Phone (≤900 px):** a right-hand panel over a dimmed scrim, focus trapped,
   Escape and outside-click close, body scroll locked including Lenis. The panel
   sits above the header's stacking context.
+- **The panel is at most 88% of the viewport, never full-bleed.** A full-width
+  panel covers its own scrim, and the strip of page left showing is the
+  tap-to-dismiss target a phone user reaches for before hunting for a Close
+  button.
+- **Resizing past the breakpoint with the panel open closes it.** Otherwise the
+  scroll lock and the scrim survive onto a desktop layout whose toggle is
+  `display:none`, and there is no control left to release them.
 - No mega-menu, no dropdowns. A five-item nav does not need them.
+
+The panel is verified by behaviour, not by paint: `wordpress/tests/nav-panel-test.mjs`
+asserts open, focus entry, focus-ring visibility under real keyboard modality,
+backwards trap wrap, Escape, focus return, scroll lock and release, scrim
+dismissal and the resize case, on every page. A Menu button with no script
+behind it renders perfectly in a screenshot and does nothing — which is exactly
+how the prototype shipped one, and why this file is a test rather than a
+screenshot.
+
+## Work index: register or grid
+
+The index has two renderings and the **material** chooses between them, not a
+setting:
+
+- **Register** — code · relationship · name · type · address, one hairline per
+  row. Used while records carry no cover.
+- **Card grid** — cover, meta, name. Used for records that have a cover.
+
+They coexist: a record with a cover becomes a card, a record without stays a
+row. Ten identical *capture pending* plates is not a portfolio, and rendering
+one would make the same claim the empty filter chips did.
 
 ## Footer
 

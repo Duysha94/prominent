@@ -17,7 +17,7 @@
  */
 import { chromium } from 'playwright'
 const B='http://127.0.0.1:9500/prototype/'
-const PAGES=['home.html','services.html','work.html','case-website.html','case-photo.html','case-film.html','case-event.html']
+const PAGES=['home.html','services.html','work.html','case-platform.html','case-photo.html','case-film.html','case-event.html','internal.html']
 const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium-1194/chrome-linux/chrome'})
 const findings=[]
 
@@ -87,7 +87,12 @@ const ctx=await b.newContext({viewport:{width:1440,height:1000}})
 const p=await ctx.newPage()
 await p.goto(B+'case-film.html',{waitUntil:'networkidle'})
 const focus = await p.evaluate(()=>{
+  /* Only elements that are actually rendered at this viewport. A control that
+     is display:none, or sits inside a [hidden] panel, reports no outline
+     because it has no box — that is the second documented false-positive
+     class, and filtering it here is better than re-triaging it every run. */
   const els=[...document.querySelectorAll('a[href],button')]
+    .filter(e=>e.getClientRects().length>0)
   const bad=[]
   els.forEach(e=>{ e.focus()
     const cs=getComputedStyle(e)

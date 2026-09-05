@@ -70,7 +70,7 @@ Legend: **R** required · **O** optional · **T** taxonomy · **RPT** repeater �
 | Slug | `post_name` | slug | **R** | Core | |
 | Project code | `ak_code` | text | **D** | Core | `AK·F·19·001` — register initial, year, sequence. Generated, overridable. This is the tech-pack spine of the whole system |
 | Relationship | `ak_relationship` | **T** | **R** | Core | AK Owned \| Client \| Collaboration |
-| Project type | `ak_project_type` | **T** | **R** | Core | Branding · Personal Branding · Photography · Film · Event · Fashion Production · Campaign · Website / Digital · Advertising · Integrated. **One per project** — it selects the presentation mode and the admin panel |
+| Project type | `ak_project_type` | **T** | O | Core | Platform · Media / Editorial · Fashion Brand · Retail / E-commerce · Branding · Personal Branding · Photography · Film · Event · Fashion Production · Campaign · Advertising · Integrated. Describes the **nature of the entity**, not its outputs. **Optional** — left unset until the work is established, and the project then publishes as a minimal record. There is deliberately no `Website / Digital` term: a website is a module, not a kind of project |
 | Capabilities | `ak_capability` | **T** | O | Core | Many-to-many. What AK actually delivered. Filterable without changing the type |
 | Client / owner | `ak_client` | text | O | Core | For FOUNDED this is the studio or a founder |
 | Location | `ak_location` | text | O | Core | |

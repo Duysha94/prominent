@@ -9,7 +9,7 @@ page?" is no.
 | Route | Exists? | Why |
 |---|---|---|
 | `/` | **Yes** | The one page most visitors see |
-| `/work/` | **Yes** | The index. Two registers, one page |
+| `/work/` | **Yes** | The index. Two registers, one page. Renders as a list or a card grid depending on the material |
 | `/work/{slug}/` | **Yes** | The case study. The thing the studio is judged on |
 | `/services/` | **Yes** | One page. Not four |
 | `/about/` | **Yes** | Studio and founders |
@@ -79,7 +79,8 @@ removed rather than allowed to go stale.
 | **Purpose** | Show a multidisciplinary body of work with the relationship distinction intact — websites, shows, campaigns, films and identities as one system |
 | **Audience** | Someone already interested, assessing range and seriousness |
 | **Primary action** | Open a case study |
-| **Required** | Editorial filters (All · Brand · Image · Film · Experience · Digital · Integrated) · three relationships, visually distinct · project code, client, year, capabilities per row. **Empty categories are shown, not hidden** — see CAPABILITIES-SYSTEM.md |
+| **Required** | Editorial filters **generated from published content** — a filter exists only when a real published project falls under it · three relationships, visually distinct · project code, relationship, name, type and address per record. No empty categories, ever: Capabilities states the scope, Work shows the evidence |
+| **Layout** | **Register while records carry no cover; card grid once they do**, per record. The same content-driven rule as the filters, applied to layout — a grid of identical *capture pending* plates claims a portfolio the studio has not published |
 | **Relationships** | Parent of every case study; links to `/services/` anchors |
 | **SEO intent** | "fashion brand identity portfolio", "fashion show production London" |
 

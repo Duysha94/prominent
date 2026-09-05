@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Internal — presentation-mode fixtures</title><link rel="stylesheet" href="proto.css">
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="hdr">
+  <a class="hdr__mark" href="home.html">AK Brand Development Studio</a>
+  <nav class="hdr__nav" aria-label="Primary">
+    <a href="work.html">Work</a><a href="services.html">Services</a>
+    <a href="#">About</a><a href="#">Journal</a><a href="#">Contact</a></nav>
+  <button class="hdr__menu" type="button" data-nav-toggle aria-expanded="false" aria-controls="navp">Menu</button>
+</header>
+<div class="navp" id="navp" hidden>
+  <div class="navp__scrim" data-nav-close></div>
+  <nav class="navp__panel" aria-label="Main">
+    <div class="navp__head"><span class="t-data">Menu</span>
+      <button class="navp__close" type="button" data-nav-close>Close</button></div>
+    <ul class="navp__list">
+      <li><a href="work.html"><span class="navp__n">01</span>Work</a></li>
+      <li><a href="services.html"><span class="navp__n">02</span>Services</a></li>
+      <li><a href="#"><span class="navp__n">03</span>About</a></li>
+      <li><a href="#"><span class="navp__n">04</span>Journal</a></li>
+      <li><a href="#"><span class="navp__n">05</span>Contact</a></li>
+    </ul>
+    <div class="navp__foot"><span class="t-quiet">London &middot; Paris &middot; Dubai</span>
+      <span class="t-quiet">Fashion &amp; Brand Advisory</span></div>
+  </nav>
+</div>
+<main id="main">
+<div class="wrap"><div class="rail"><span class="rail__mark">Internal</span></div>
+  <div class="col-wide section section--open">
+    <p class="t-data">Not published</p>
+    <h1 class="t-hero" style="margin-top:1rem">Presentation-mode fixtures.</h1>
+    <p class="t-lead" style="margin-top:1.5rem">Structural proofs that the Image and Motion modes
+      render correctly before real material exists. They are not portfolio entries and never become
+      any.</p>
+  </div>
+</div>
+
+<div class="wrap"><div class="rail"><span class="rail__mark">Rules</span></div>
+  <div class="col-wide section">
+    <div class="fixture" data-label="Internal · not published">On the live site these carry <code>ak_fixture = 1</code> and are excluded
+      from every public query: the Work index, the filters, filter counts, related work, the homepage,
+      the sitemap and the feeds. They are reachable only by direct URL while logged in. When the real
+      project arrives they are deleted, not published.</div>
+    <p class="t-small" style="color:var(--text-faint)">This page is the prototype's equivalent of that
+      rule: nothing links to it from the public pages, and it carries
+      <code>noindex,nofollow</code>. If a fixture ever appears in Work, the rule has been broken.</p>
+  </div>
+</div>
+
+<div class="wrap"><div class="rail"><span class="rail__mark">Fixtures</span></div>
+  <div class="col-full section">
+    <h2 class="sr-only">Fixture records</h2>
+    <ul class="cards">
+      <li class="card rise"><a href="case-photo.html">
+        <div class="card__media"><div class="plate"><span class="plate__code">FIXTURE</span>
+          <span class="plate__name">Photography mode</span><span class="plate__note">Structure only</span></div></div>
+        <div class="card__meta"><span class="card__type">Image mode</span><span class="card__rel">Internal</span></div>
+        <h3 class="card__name">Image-led presentation</h3><p class="card__caps">Sequence · pair · full bleed</p></a></li>
+      <li class="card rise"><a href="case-film.html">
+        <div class="card__media"><div class="plate"><span class="plate__code">FIXTURE</span>
+          <span class="plate__name">Film mode</span><span class="plate__note">Structure only</span></div></div>
+        <div class="card__meta"><span class="card__type">Motion mode</span><span class="card__rel">Internal</span></div>
+        <h3 class="card__name">Motion-led presentation</h3><p class="card__caps">Poster · cuts · credits</p></a></li>
+    </ul>
+  </div>
+</div>
+</main>
+<footer class="ftr"><div class="ftr__bar"><span class="t-quiet">© 2026 AK Brand Development Studio</span>
+  <span class="t-quiet">Prototype — v1.7.0-poc · internal</span></div></footer>
+<script src="proto.js"></script>
+</body></html>
