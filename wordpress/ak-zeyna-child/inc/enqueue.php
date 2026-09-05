@@ -45,6 +45,16 @@ add_action(
 			AK_CHILD_VERSION
 		);
 
+		// The approved v1.7 visual system, ported from the prototype. Loaded
+		// after ak.css and namespaced `aks-`, so the two coexist while the
+		// remaining routes are migrated across rather than all at once.
+		wp_enqueue_style(
+			'ak-system',
+			get_stylesheet_directory_uri() . '/assets/css/ak-system.css',
+			array( 'ak-design-system' ),
+			AK_CHILD_VERSION
+		);
+
 		// Depend only on parent handles that actually exist: if a Zeyna
 		// update renames one, WordPress would otherwise drop the script
 		// silently. This way ak.js still loads and its own feature guards

@@ -102,8 +102,19 @@ function ak_logo() {
 	$dark  = ak_logo_image( get_theme_mod( 'ak_logo_dark', '' ) ?: $core );
 
 	if ( ! $light && ! $dark ) {
+		/*
+		 * A <p>, not a heading.
+		 *
+		 * This was an <h5>, inherited from Zeyna's own header. It made the
+		 * FIRST heading on every page of the site an h5, so the document
+		 * outline opened at level five and then jumped to the page's h1 — a
+		 * heading-order failure on every route at once, and the thing a
+		 * screen-reader user hits before anything else. The wordmark is a
+		 * link to the front page, not a section heading; only the page's own
+		 * title is.
+		 */
 		printf(
-			'<h5 class="site-title"><a href="%s" rel="home">%s</a></h5>',
+			'<p class="site-title"><a href="%s" rel="home">%s</a></p>',
 			esc_url( $home ),
 			esc_html( $name )
 		);
@@ -164,7 +175,7 @@ function ak_menu_fallback() {
 	echo '<ul id="primary-menu" class="menu">';
 	foreach ( $pages as $slug => $label ) {
 		if ( 'work' === $slug ) {
-			$url = get_post_type_archive_link( 'portfolio' );
+			$url = get_post_type_archive_link( AK_PROJECT_CPT );
 			$url = $url ? $url : home_url( '/work/' );
 		} else {
 			$page = get_page_by_path( $slug );

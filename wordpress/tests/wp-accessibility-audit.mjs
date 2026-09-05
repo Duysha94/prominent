@@ -13,11 +13,16 @@
  *   · elements that are `display:none` at the tested viewport
  * Verify anything in those classes against painted pixels before "fixing" it.
  *
- * Usage:  node accessibility-audit.mjs        (expects a server on :9500)
+ * Usage:  node wp-accessibility-audit.mjs     (expects WordPress on :9410)
+ *
+ * The same audit as accessibility-audit.mjs, run against the real WordPress
+ * render rather than the prototype. Both are kept: the prototype proves the
+ * design, this proves the build, and a pass on one says nothing about the
+ * other — the ported stylesheet meets different markup here.
  */
 import { chromium } from 'playwright'
-const B='http://127.0.0.1:9500/prototype/'
-const PAGES=['home.html','services.html','work.html','case-platform.html','case-photo.html','case-film.html','case-event.html','internal.html']
+const B='http://127.0.0.1:9410'
+const PAGES=['/','/work/','/services/','/work/london-fashion-day/','/about/','/contact/','/journal/']
 const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium-1194/chrome-linux/chrome'})
 const findings=[]
 
@@ -141,7 +146,7 @@ for (const page of PAGES){
 // for real sets the modality, which is also what an actual keyboard user does.
 const ctx=await b.newContext({viewport:{width:1440,height:1000}})
 const p=await ctx.newPage()
-await p.goto(B+'work.html',{waitUntil:'networkidle'})
+await p.goto(B+'/work/',{waitUntil:'networkidle'})
 await p.evaluate(()=>document.body.focus())
 const bad=new Set()
 for (let i=0;i<60;i++){

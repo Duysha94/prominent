@@ -18,10 +18,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header();
 
-$ak_work = get_post_type_archive_link( 'portfolio' );
+$ak_work = get_post_type_archive_link( AK_PROJECT_CPT );
 $ak_dest = array(
-	array( __( 'Work', 'ak-zeyna-child' ), $ak_work ? $ak_work : home_url( '/work/' ), __( 'Projects, and the movement each came through', 'ak-zeyna-child' ) ),
-	array( __( 'Services', 'ak-zeyna-child' ), home_url( '/services/' ), __( 'Strategy, Identity, Production, Presence', 'ak-zeyna-child' ) ),
+	array( __( 'Work', 'ak-zeyna-child' ), $ak_work ? $ak_work : home_url( '/work/' ), __( 'Platforms, brands and commissioned engagements', 'ak-zeyna-child' ) ),
+	array( __( 'Services', 'ak-zeyna-child' ), home_url( '/services/' ), __( 'Strategy, Identity, Image, Experience, Digital, Visibility', 'ak-zeyna-child' ) ),
 	array( __( 'Journal', 'ak-zeyna-child' ), home_url( '/journal/' ), __( 'Notes on brand, fashion and presence', 'ak-zeyna-child' ) ),
 	array( __( 'Contact', 'ak-zeyna-child' ), home_url( '/contact/' ), __( 'Tell us where the brand is', 'ak-zeyna-child' ) ),
 );

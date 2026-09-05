@@ -20,12 +20,17 @@ $ak_footer_pages = array(
 	'contact'  => __( 'Contact', 'ak-zeyna-child' ),
 );
 
-$ak_movements_nav = array(
-	'strategy'   => __( 'Strategy', 'ak-zeyna-child' ),
-	'identity'   => __( 'Identity', 'ak-zeyna-child' ),
-	'production' => __( 'Production', 'ak-zeyna-child' ),
-	'presence'   => __( 'Presence', 'ak-zeyna-child' ),
-);
+/*
+ * The six movements, read from the factual layer rather than listed here.
+ * This was a hard-coded four — Strategy, Identity, Production, Presence — so
+ * every page on the site closed with a footer stating a practice two thirds
+ * the size of the real one, with photography, film, shows and PR nowhere in
+ * it. One source now: inc/projects/capabilities.php.
+ */
+$ak_movements_nav = array();
+foreach ( ak_movements() as $ak_mv_slug => $ak_mv ) {
+	$ak_movements_nav[ $ak_mv_slug ] = $ak_mv['name'];
+}
 
 $ak_services_page = get_page_by_path( 'services' );
 $ak_services_base = $ak_services_page ? get_permalink( $ak_services_page ) : home_url( '/services/' );
@@ -60,7 +65,7 @@ $ak_marquee_id    = 'ak-fmq-' . wp_unique_id();
 
 				<div>
 					<p class="ak-footer__mark"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">AK</a></p>
-					<p class="ak-footer__blurb"><?php esc_html_e( 'AK Brand Development Studio — Fashion & Brand Advisory. A is Andrii, K is Kostiantyn: strategy, identity, production and presence under one roof in London.', 'ak-zeyna-child' ); ?></p>
+					<p class="ak-footer__blurb"><?php esc_html_e( 'AK Brand Development Studio — Fashion & Brand Advisory. A is Andrii, K is Kostiantyn: strategy, identity, image, experience, digital and visibility under one roof in London.', 'ak-zeyna-child' ); ?></p>
 				</div>
 
 				<nav aria-label="<?php esc_attr_e( 'Footer', 'ak-zeyna-child' ); ?>">
@@ -69,7 +74,7 @@ $ak_marquee_id    = 'ak-fmq-' . wp_unique_id();
 						<?php foreach ( $ak_footer_pages as $ak_slug => $ak_label ) : ?>
 							<?php
 							if ( 'work' === $ak_slug ) {
-								$ak_href = get_post_type_archive_link( 'portfolio' );
+								$ak_href = get_post_type_archive_link( AK_PROJECT_CPT );
 								$ak_href = $ak_href ? $ak_href : home_url( '/work/' );
 							} else {
 								$ak_page = get_page_by_path( $ak_slug );

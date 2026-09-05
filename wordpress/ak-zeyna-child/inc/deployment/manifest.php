@@ -222,7 +222,7 @@ function ak_manifest_menus() {
 				array(
 					'key'      => 'ak_nav_work',
 					'type'     => 'archive',
-					'archive'  => 'portfolio',
+					'archive'  => AK_PROJECT_CPT,
 					'label'    => __( 'Work', 'ak-zeyna-child' ),
 				),
 				array(

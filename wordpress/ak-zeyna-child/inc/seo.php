@@ -25,13 +25,23 @@ add_action(
 			return;
 		}
 
+		/*
+		 * These describe the practice, not one corner of it. An earlier set
+		 * named four movements and nine services, and read — accurately, at
+		 * the time — as a studio that builds websites and buys ads. The
+		 * practice covers brand and personal brand strategy, identity and
+		 * creative direction, photo and film production, events and fashion
+		 * production, digital presence, and communication, PR and paid media.
+		 * A description that names only the last two misstates the studio in
+		 * exactly the place search results quote it.
+		 */
 		$descriptions = array(
-			'front'    => 'AK Brand Development Studio is a fashion and brand advisory in London — brand strategy, identity, campaign and runway production, and digital presence, from an idea to an international presence.',
-			'journal'  => 'Notes from the studio floor — short, practical writing on positioning, identity, production and presence in fashion.',
-			'work'     => 'Selected work by AK Brand Development Studio: brand strategy, identity systems, campaign production and runway shows across London, Paris and Dubai.',
-			'services' => 'Four movements — Strategy, Identity, Production, Presence — covering nine services, from brand positioning and identity to campaign production, runway shows and digital promotion.',
-			'about'    => 'Founded by Kostiantyn Lieontiev and Andrii Karakushan — the producers behind London Fashion Day and Odessa Fashion Day — AK Brand Development Studio works across London, Paris and Dubai.',
-			'contact'  => 'Tell us where the brand is. We reply within two working days with an honest read on which movements your project needs. AK Brand Development Studio, London, United Kingdom.',
+			'front'    => 'AK Brand Development Studio is a fashion and brand advisory in London working across the whole development cycle — brand and personal brand strategy, identity and creative direction, photo and film production, fashion shows and events, digital presence, and communication, PR and paid media.',
+			'journal'  => 'Notes from the studio floor — short, practical writing on positioning, identity, image, production and visibility in fashion.',
+			'work'     => 'Selected work by AK Brand Development Studio: fashion platforms, media and editorial titles, brands and commissioned engagements, founded or produced by the studio.',
+			'services' => 'Six movements — Strategy, Identity, Image, Experience, Digital and Visibility — covering the studio\'s full practice, from brand positioning and creative direction to photo campaigns, fashion film, fashion show production, websites, PR and paid media.',
+			'about'    => 'AK Brand Development Studio was founded by Andrii Karakushan and Kostiantyn Lieontiev, the producers behind London Fashion Day and Odessa Fashion Day. A fashion and brand advisory based in London.',
+			'contact'  => 'Tell us where the brand is. AK Brand Development Studio, London, United Kingdom — fashion and brand advisory across strategy, identity, image, experience, digital and visibility.',
 		);
 
 		$desc = '';
@@ -40,7 +50,7 @@ add_action(
 			$desc = $descriptions['front'];
 		} elseif ( is_home() ) {
 			$desc = $descriptions['journal'];
-		} elseif ( is_post_type_archive( 'portfolio' ) ) {
+		} elseif ( is_post_type_archive( AK_PROJECT_CPT ) ) {
 			$desc = $descriptions['work'];
 		} elseif ( is_singular() ) {
 			$id = get_queried_object_id();
@@ -81,10 +91,10 @@ add_action(
 			array( __( 'Home', 'ak-zeyna-child' ), home_url( '/' ) ),
 		);
 
-		if ( is_post_type_archive( 'portfolio' ) ) {
-			$crumbs[] = array( __( 'Work', 'ak-zeyna-child' ), get_post_type_archive_link( 'portfolio' ) );
-		} elseif ( is_singular( 'portfolio' ) ) {
-			$crumbs[] = array( __( 'Work', 'ak-zeyna-child' ), get_post_type_archive_link( 'portfolio' ) );
+		if ( is_post_type_archive( AK_PROJECT_CPT ) ) {
+			$crumbs[] = array( __( 'Work', 'ak-zeyna-child' ), get_post_type_archive_link( AK_PROJECT_CPT ) );
+		} elseif ( is_singular( AK_PROJECT_CPT ) ) {
+			$crumbs[] = array( __( 'Work', 'ak-zeyna-child' ), get_post_type_archive_link( AK_PROJECT_CPT ) );
 			$crumbs[] = array( get_the_title(), get_permalink() );
 		} elseif ( is_home() ) {
 			$blog = (int) get_option( 'page_for_posts' );

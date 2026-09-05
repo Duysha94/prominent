@@ -10,47 +10,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Portfolio CPT + taxonomy, as a FALLBACK only.
+ * The portfolio fallback used to live here.
  *
- * On a full Zeyna install these come from the Pe Core companion plugin, and
- * this block steps aside (post_type_exists guards). Registering them here as
- * well means the import works on a site where Pe Core is not active — the
- * case studies land somewhere real either way.
+ * It registered a `portfolio` post type on /work/ so that a WXR import landed
+ * somewhere real on a site without Pe Core. The deployment engine replaced the
+ * import, and the AK Core Project model (inc/projects/model.php) now owns
+ * /work/ properly — with the three taxonomies the work actually needs rather
+ * than one flat `project-categories`.
+ *
+ * Registering both meant two post types called Work fighting over one archive
+ * slug, and two Work entries in the admin menu. On a full Zeyna install Pe Core
+ * still registers its own `portfolio`; that is a foreign post type, the
+ * deployment scope protects it, and it no longer collides because it keeps its
+ * own archive.
  */
-add_action(
-	'init',
-	function () {
-		if ( ! post_type_exists( 'portfolio' ) ) {
-			register_post_type(
-				'portfolio',
-				array(
-					'label'        => __( 'Work', 'ak-zeyna-child' ),
-					'public'       => true,
-					'menu_icon'    => 'dashicons-portfolio',
-					'menu_position' => 5,
-					'supports'     => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields' ),
-					'has_archive'  => true,
-					'rewrite'      => array( 'slug' => 'work' ),
-					'show_in_rest' => true,
-				)
-			);
-		}
-
-		if ( ! taxonomy_exists( 'project-categories' ) ) {
-			register_taxonomy(
-				'project-categories',
-				'portfolio',
-				array(
-					'label'        => __( 'Project categories', 'ak-zeyna-child' ),
-					'hierarchical' => true,
-					'show_in_rest' => true,
-					'rewrite'      => array( 'slug' => 'work-category' ),
-				)
-			);
-		}
-	},
-	5
-);
 
 /**
  * Content wiring used to live here.

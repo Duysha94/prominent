@@ -39,23 +39,20 @@ if ( ! function_exists( 'get_field' ) ) {
 }
 
 /**
- * A live preview of an external site's front page, as an image.
+ * ak_live_preview() used to live here.
  *
- * Uses WordPress.com's mShots service: it screenshots the URL, caches the
- * capture on their CDN and re-captures periodically — so these cards always
- * show the platform's CURRENT front page and update themselves when the
- * site changes, at zero cost to this site's own performance (one lazy
- * image per card, no scripts).
+ * It printed the capture service's URL straight into the page. When the
+ * service has not yet produced a capture it answers with a grey placeholder,
+ * at HTTP 200 with an image content type — so the homepage rendered a row of
+ * grey plates, which is capture failure displayed as portfolio work.
+ *
+ * Captures now go through inc/projects/preview.php, which verifies that a
+ * real capture exists before anything is shown, and through
+ * ak_project_cover(), which returns media only when there is verified media.
+ * A project with none renders as a typographic entry rather than a broken
+ * frame. The automated capture is an enhancement; it is never a dependency
+ * that stops a project being published.
  */
-function ak_live_preview( $url, $title ) {
-	$shot = 'https://s0.wp.com/mshots/v1/' . rawurlencode( $url ) . '?w=760';
-	printf(
-		'<img loading="lazy" decoding="async" referrerpolicy="no-referrer" width="760" height="570" src="%s" alt="%s" />',
-		esc_url( $shot ),
-		/* translators: %s: platform name */
-		esc_attr( sprintf( __( '%s — live front page', 'ak-zeyna-child' ), $title ) )
-	);
-}
 
 require_once get_stylesheet_directory() . '/inc/studio.php';
 require_once get_stylesheet_directory() . '/inc/chrome.php';
@@ -75,6 +72,21 @@ require_once get_stylesheet_directory() . '/inc/theme-mode.php';
 require_once get_stylesheet_directory() . '/inc/schema.php';
 require_once get_stylesheet_directory() . '/inc/setup.php';
 require_once get_stylesheet_directory() . '/inc/case-meta.php';
+/*
+ * The AK Core Project model. Order is the dependency order: the factual
+ * capability layer, then the post type and taxonomies that carry it, then the
+ * meta, then the things that read all three.
+ */
+require_once get_stylesheet_directory() . '/inc/projects/capabilities.php';
+require_once get_stylesheet_directory() . '/inc/projects/model.php';
+require_once get_stylesheet_directory() . '/inc/projects/meta.php';
+require_once get_stylesheet_directory() . '/inc/projects/preview.php';
+require_once get_stylesheet_directory() . '/inc/projects/query.php';
+require_once get_stylesheet_directory() . '/inc/projects/modules.php';
+require_once get_stylesheet_directory() . '/inc/projects/seed.php';
+if ( is_admin() ) {
+	require_once get_stylesheet_directory() . '/inc/projects/admin.php';
+}
 
 /**
  * Mark the document so the design system can scope itself without competing

@@ -1,5 +1,15 @@
 # Website preview system
 
+> **Implemented.** See `wordpress/ak-zeyna-child/inc/projects/preview.php` and
+> the state table in [PROJECT-MODEL.md](PROJECT-MODEL.md). The four states are
+> AUTO · MANUAL · LIVE · UNAVAILABLE, and UNAVAILABLE renders **nothing** —
+> "capture pending", "capture failed" and "preview unavailable" are
+> administrative status, never public design. Manual owner-supplied media
+> (desktop, mobile, screen recording) outranks anything automatic and can be
+> uploaded from WordPress at any time; automatic capture can be disabled per
+> project and re-enabled later. The automated capture is an enhancement, never
+> a dependency that stops a project being published.
+
 How a Website / Digital project presents the live site — and, just as
 importantly, where that presentation is not allowed to go.
 

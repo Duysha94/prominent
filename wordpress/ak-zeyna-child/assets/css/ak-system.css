@@ -1,0 +1,466 @@
+/* ============================================================================
+   AK SYSTEM — the approved v1.7 visual system, ported into the theme
+   ----------------------------------------------------------------------------
+   Generated from prototype/proto.css, which is the artefact the direction was
+   approved against. Three deliberate differences, and no others:
+
+     1. Colour tokens are the THEME's. The prototype carried hand-picked hex
+        approximations of them; the theme's are measured against its own paper
+        and ink, in both modes, and are the ones that must win.
+     2. Every class is namespaced `aks-`. The theme already owns `.ak-card`,
+        `.ak-index` and `.ak-wrap` with different meanings, and porting on top
+        of those names would have silently restyled the existing homepage.
+     3. Element resets are dropped. The theme sets body, img and link
+        behaviour, including the dark-mode bridge, and a second set here would
+        fight it.
+
+   Layout tokens the prototype owns (rail, wrap, gutter, section rhythm) are
+   declared below because nothing else in the theme defines them.
+   ==========================================================================*/
+
+:root {
+  --rail: 5rem;
+  --wrap: 1440px;
+  --gutter: 24px;
+  --gap-unit: .6rem;
+  --gap-block: 1.5rem;
+  --gap-section: clamp(4rem, 9vw, 7rem);
+  --ease-cut: cubic-bezier(.16, 1, .3, 1);
+}
+
+
+/* ── Type roles ─────────────────────────────────────────────────────────── */
+.aks-t-display{font-family:var(--font-display);font-style:italic;font-weight:400;
+  font-size:clamp(2rem,5.5vw,4.25rem);line-height:1.04;letter-spacing:-.02em;
+  margin:0;text-wrap:balance}
+.aks-t-hero{font-family:var(--font-display);font-style:italic;font-weight:400;
+  font-size:clamp(2.375rem,7.4vw,5.75rem);line-height:1.02;letter-spacing:-.03em;
+  margin:0;text-wrap:balance}
+.aks-t-lead{font-size:clamp(1.0625rem,1.5vw,1.25rem);line-height:1.55;color:var(--text);
+  max-width:52ch;margin:0}
+.aks-t-body{font-size:1rem;line-height:1.65;color:var(--text-muted);max-width:66ch}
+.aks-t-small{font-size:.875rem;line-height:1.6;color:var(--text-muted)}
+.aks-t-data{font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-muted)}
+.aks-t-quiet{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-faint)}
+.aks-accent{color:var(--accent-text)}
+
+/* ── Grid: rail + 12 columns ────────────────────────────────────────────── */
+.aks-wrap{max-width:var(--wrap);margin:0 auto;padding-inline:clamp(1.25rem,4vw,3rem);
+  display:grid;grid-template-columns:var(--rail) repeat(12,1fr);gap:0 var(--gutter)}
+.aks-rail{grid-column:1;position:relative}
+.aks-rail__mark{position:sticky;top:6rem;writing-mode:vertical-rl;
+  font-family:var(--font-mono);font-size:.625rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--text-faint);white-space:nowrap}
+.aks-col-text{grid-column:2 / span 7}
+.aks-col-wide{grid-column:2 / span 9}
+.aks-col-full{grid-column:2 / -1}
+.aks-col-right{grid-column:8 / -1}
+
+.aks-section{padding-block:var(--gap-section);border-top:1px solid var(--rule)}
+/* A page header carries a full gap below it AND the next section carries a
+   full gap above: 224px of nothing at 1440. The header keeps a third. */
+.aks-section--open{border-top:0;padding-bottom:calc(var(--gap-section) * .35)}
+
+/* The prototype's header rules are deliberately not ported: the theme owns that markup already. */
+/* The prototype's mobile rules are deliberately not ported: the theme owns that markup already. */
+/* The prototype's opening: rules are deliberately not ported: the theme owns that markup already. */
+/* ── The claim ──────────────────────────────────────────────────────────── */
+.aks-claim{font-size:clamp(1.25rem,2.6vw,2rem);line-height:1.4;color:var(--text);
+  max-width:24ch;margin:0}
+.aks-claim em{font-family:var(--font-display);font-style:italic;color:var(--accent-text)}
+
+/* ── Register heading ───────────────────────────────────────────────────── */
+.aks-reg{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;
+  padding-bottom:1rem;border-bottom:1px solid var(--rule-strong);margin-bottom:2rem}
+.aks-reg__name{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--text)}
+.aks-reg__note{font-size:.875rem;color:var(--text-muted);max-width:44ch}
+.aks-reg__count{margin-left:auto;font-family:var(--font-mono);font-size:.625rem;
+  letter-spacing:.12em;color:var(--text-faint)}
+
+/* ── FOUNDED: full-scale editorial entries ──────────────────────────────── */
+.aks-house{display:grid;gap:var(--gap-section)}
+.aks-house__item{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter);
+  align-items:end}
+.aks-house__media{grid-column:1 / span 7;position:relative;aspect-ratio:4/5;
+  background:var(--bg-raised);overflow:hidden}
+.aks-house__item:nth-child(even) .aks-house__media{grid-column:6 / -1;order:2}
+.aks-house__item:nth-child(even) .aks-house__body{grid-column:1 / span 4;order:1}
+.aks-house__body{grid-column:9 / -1;padding-bottom:1rem}
+.aks-house__media img{width:100%;height:100%;object-fit:cover}
+.aks-house__code{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.14em;
+  color:var(--text-faint);display:block;margin-bottom:.6rem}
+.aks-house__name{font-family:var(--font-display);font-style:italic;
+  font-size:clamp(1.75rem,3.4vw,2.75rem);line-height:1.06;margin:0}
+.aks-house__role{margin-top:.6rem;font-family:var(--font-mono);font-size:.6875rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--accent-text)}
+.aks-house__desc{margin-top:.9rem;font-size:.9375rem;line-height:1.6;color:var(--text-muted);max-width:38ch}
+.aks-house__link{margin-top:1.1rem;display:inline-block;font-family:var(--font-mono);
+  font-size:.625rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text);text-decoration:none;border-bottom:1px solid var(--accent-line);padding-bottom:.2rem}
+
+/* Typographic fallback plate — never a broken image, never a grey box. */
+.aks-plate{display:grid;place-content:center;text-align:center;gap:.5rem;
+  background:var(--bg-raised);height:100%;padding:2rem;
+  background-image:repeating-linear-gradient(45deg,
+    transparent 0 10px, color-mix(in oklab,var(--rule) 55%,transparent) 10px 11px)}
+.aks-plate__code{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.16em;
+  color:var(--text-faint)}
+.aks-plate__name{font-family:var(--font-display);font-style:italic;
+  font-size:clamp(1.5rem,3vw,2.25rem);line-height:1.05;color:var(--text)}
+.aks-plate__note{font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-faint)}
+
+/* ── COMMISSIONED: the spec index ───────────────────────────────────────── */
+.aks-index{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.aks-index__row{border-bottom:1px solid var(--rule)}
+.aks-index__link{display:grid;grid-template-columns:6.5rem 10rem 1fr auto;
+  gap:.5rem 1.5rem;align-items:baseline;padding:1.6rem 0;text-decoration:none;color:inherit;
+  transition:transform 420ms var(--ease-cut)}
+.aks-index__link:hover{transform:translateX(8px)}
+.aks-index__code{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.1em;
+  color:var(--text-faint);white-space:nowrap}
+.aks-index__link:hover .aks-index__code{color:var(--accent-text)}
+.aks-index__client{font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text)}
+.aks-index__title{font-family:var(--font-display);font-style:italic;
+  font-size:clamp(1.25rem,2.2vw,1.75rem);line-height:1.15}
+.aks-index__disc{display:flex;gap:.375rem;flex-wrap:wrap;justify-self:end}
+.aks-index__tag{border:1px solid var(--rule-strong);padding:.2rem .45rem;
+  font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-muted)}
+
+/* ── Spec block — the tech-pack signature ───────────────────────────────── */
+.aks-spec{border:1px solid var(--rule-strong);display:grid;
+  grid-template-columns:repeat(4,1fr)}
+/* The spec block belongs to the header above it, not to the hero below. */
+/* The prototype pulled the spec block up by 2.5rem to close a gap left by a
+   hero it always knew the size of. In the theme the hero is a template with a
+   variable number of lines above it, and the negative margin printed the spec
+   block across the project title. It sits below its header now, with a real
+   gap. */
+.aks-spec-wrap{margin-top:1.25rem;margin-bottom:1.5rem}
+.aks-spec__cell{padding:1rem 1.1rem;border-right:1px solid var(--rule)}
+.aks-spec__cell:last-child{border-right:0}
+.aks-spec__k{display:block;font-family:var(--font-mono);font-size:.5625rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
+.aks-spec__v{display:block;margin-top:.35rem;font-size:.9375rem;font-weight:600;line-height:1.3}
+
+/* ── Case study ─────────────────────────────────────────────────────────── */
+.aks-case__hero{position:relative;aspect-ratio:16/9;background:var(--bg-raised);overflow:hidden;margin-top:2rem}
+.aks-case__hero img,.aks-case__hero video{width:100%;height:100%;object-fit:cover}
+.aks-steps{list-style:none;margin:0;padding:0;counter-reset:step}
+.aks-steps>li{counter-increment:step;display:grid;
+  grid-template-columns:4rem 1fr;gap:1.5rem;
+  padding:2.25rem 0;border-bottom:1px solid var(--rule)}
+.aks-steps>li::before{content:counter(step,decimal-leading-zero);
+  font-family:var(--font-mono);font-size:.625rem;letter-spacing:.12em;
+  color:var(--text-faint);padding-top:.4rem}
+.aks-steps h2,.aks-steps h3,.aks-steps .aks-step-h{margin:0 0 .6rem;font-family:var(--font-mono);font-size:.6875rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--text);font-weight:400}
+.aks-steps p{margin:0;max-width:62ch;color:var(--text-muted)}
+/* The last step's rule and the next section's rule would otherwise stack into
+   a double hairline with a gap between them. */
+.aks-steps>li:last-child{border-bottom:0}
+.aks-credits{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem 2rem;margin:0;padding:0}
+.aks-credits div{display:flex;justify-content:space-between;gap:1rem;
+  border-bottom:1px solid var(--rule);padding-bottom:.5rem}
+.aks-credits dt{font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-faint)}
+.aks-credits dd{margin:0;font-size:.875rem}
+
+/* .aks-next carries its own rule, and it lives inside a .aks-section that carries one
+   too — two hairlines about 110px apart, the same defect already fixed on the
+   marquee. The section's border is the one that goes. */
+.aks-section:has(> .aks-next){border-top:0;padding-top:var(--gap-section)}
+.aks-next{display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;
+  flex-wrap:wrap;text-decoration:none;color:inherit;
+  padding-top:2rem;border-top:1px solid var(--rule-strong)}
+.aks-next__name{font-family:var(--font-display);font-style:italic;
+  font-size:clamp(1.5rem,3.4vw,2.5rem);line-height:1.1;margin:0}
+.aks-next:hover .aks-next__name{color:var(--accent-text)}
+
+/* The prototype's footer rules are deliberately not ported: the theme owns that markup already. */
+/* ── Motion: reveals only, and only where they mean something ───────────── */
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline:view()){
+    /* Range ends inside `entry`, not at `cover`. With a cover-range end an
+       element only finishes revealing once it is well up the viewport, which
+       leaves anything below the fold parked at opacity 0 — the exact thing
+       MOTION-SYSTEM.aks-md bans. Ending at `entry 92%` means an element is fully
+       visible as soon as it has entered, and anything already on screen at
+       load is past its range and therefore simply visible. */
+    .ak-rise{animation:rise linear both;animation-timeline:view();
+      animation-range:entry 0% entry 92%}
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:1ms!important;transition-duration:1ms!important}
+  .aks-index__link:hover{transform:none}
+}
+
+/* ═══ TABLET ════════════════════════════════════════════════════════════ */
+@media (max-width:1100px){
+  :root{--rail:3rem}
+  .aks-house__media,.aks-house__item:nth-child(even) .aks-house__media{grid-column:1 / span 6;order:1}
+  .aks-house__body,.aks-house__item:nth-child(even) .aks-house__body{grid-column:8 / -1;order:2}
+  .aks-index__link{grid-template-columns:5.5rem 1fr auto}
+  .aks-index__client{grid-column:2}
+  .aks-index__title{grid-column:1 / -1}
+}
+
+/* ═══ PHONE ═════════════════════════════════════════════════════════════ */
+@media (max-width:900px){
+  .aks-wrap{grid-template-columns:1px repeat(12,1fr)}
+  .aks-rail{border-left:1px solid var(--rule)}
+  .aks-rail__mark{display:none}
+  .aks-col-text,.aks-col-wide,.aks-col-full,.aks-col-right{grid-column:2 / -1}
+  .aks-spec{grid-template-columns:repeat(2,1fr)}
+  .aks-spec__cell{border-bottom:1px solid var(--rule)}
+  .aks-spec__cell:nth-child(2n){border-right:0}
+  .aks-spec__cell:nth-last-child(-n+2){border-bottom:0}
+  .aks-house__item{grid-template-columns:1fr;gap:1.25rem}
+  .aks-house__media,.aks-house__item:nth-child(even) .aks-house__media,
+  .aks-house__body,.aks-house__item:nth-child(even) .aks-house__body{grid-column:1 / -1;order:0}
+  .aks-house__media{aspect-ratio:4/5}
+  .aks-house__desc{max-width:none}
+  /* The tablet block places .aks-index__client in column 2 and spans .aks-index__title
+     across the row. Left standing under a single-column grid, `grid-column:2`
+     conjures an implicit second track, and the register came apart into
+     code | FOUNDED over title | tags. Both placements are reset, not
+     re-specified. */
+  .aks-index__link{grid-template-columns:1fr;gap:.5rem;padding:1.5rem 0}
+  .aks-index__client,.aks-index__title{grid-column:auto}
+  .aks-index__disc{justify-self:start}
+  .aks-index__link:hover{transform:none}
+  .aks-steps>li{grid-template-columns:1fr;gap:.5rem;padding:1.75rem 0}
+  .aks-steps>li::before{padding-top:0}
+  .aks-credits{grid-template-columns:1fr}
+  /* Below the film now, on the page's own ground — back to theme colours. */
+  /* Phone type scale — labels at 11px, lead at 17px, body 15px */
+  .aks-t-data{font-size:.6875rem;letter-spacing:.1em}
+  .aks-t-quiet{font-size:.625rem}
+  .aks-t-body{font-size:.9375rem}
+  .aks-section{padding-block:3.5rem}
+}
+
+
+/* ===========================================================================
+   SCOPE CORRECTION — six movements, project modes, work filters
+   ======================================================================== */
+
+/* ── Movements: the capabilities system, editorially ──────────────────────
+   The prototype expressed a movement as a two-column row (number | name) and
+   carried its number inside the block. The template puts the number in the
+   margin rail instead, where every other section keeps its marker, so these
+   rules are written against the markup the template actually emits.
+
+   The ported grid was `4rem 1fr` with the heading auto-placed into the first
+   track: on the real Services page the movement name rendered inside a 4rem
+   column with its summary printed across it, and each practice area stacked
+   one word per line. This is the corrected version.
+
+   Nothing here truncates or abbreviates. A movement is a heading over a
+   complete list of what it contains — the editorial layer must never hide a
+   service the studio actually offers. */
+.aks-mv__head{margin:0 0 1.75rem}
+.aks-mv__summary{margin:.75rem 0 0;font-size:clamp(1rem,1.4vw,1.1875rem);
+  line-height:1.5;color:var(--text-muted);max-width:46ch}
+.aks-mv__areas{margin:.85rem 0 0;font-family:var(--font-mono);font-size:.5625rem;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text)}
+
+/* Every service, named. Multi-column so a full list reads as a specification
+   rather than a scroll. */
+.aks-services{list-style:none;margin:0;padding:0;
+  display:grid;gap:.15rem 2rem;grid-template-columns:1fr}
+@media (min-width:640px){ .aks-services{grid-template-columns:repeat(2,1fr)} }
+@media (min-width:1100px){ .aks-services{grid-template-columns:repeat(3,1fr)} }
+.aks-services li{padding:.6rem 0;border-bottom:1px solid var(--rule);font-size:.9375rem;line-height:1.45}
+
+/* VISIBILITY's two clusters, side by side and equally weighted. PR must not
+   be swallowed by advertising, and advertising must not be hidden — so
+   neither column is allowed to be the wide one. */
+.aks-mv__clusters{display:grid;gap:2.5rem;grid-template-columns:1fr}
+@media (min-width:900px){ .aks-mv__clusters{grid-template-columns:1fr 1fr} }
+.aks-mv__clusters .aks-services{grid-template-columns:1fr}
+.aks-mv__cluster-name{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--text);margin:0 0 .75rem;font-weight:400}
+.aks-mv__evidence{margin:1.75rem 0 0;font-size:.875rem;color:var(--text-muted);
+  display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}
+.aks-mv__evidence a{color:var(--accent-text)}
+
+/* ── The breadth strip: what the studio does, stated early ──────────────── */
+.aks-breadth{display:flex;flex-wrap:wrap;gap:.5rem 0;list-style:none;margin:1.5rem 0 0;padding:0;
+  border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule-strong)}
+.aks-breadth li{flex:1 1 auto;min-width:8.5rem;padding:1rem 1.1rem 1.1rem;border-right:1px solid var(--rule)}
+.aks-breadth li:last-child{border-right:0}
+.aks-breadth b{display:block;font-family:var(--font-mono);font-size:.625rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent-text)}
+.aks-breadth span{display:block;margin-top:.4rem;font-size:.8125rem;line-height:1.45;color:var(--text-muted)}
+
+/* ── Work filters ───────────────────────────────────────────────────────── */
+.aks-filters{display:flex;flex-wrap:wrap;gap:.4rem;list-style:none;margin:0 0 2rem;padding:0}
+.aks-filters a{display:inline-block;font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.12em;
+  text-transform:uppercase;text-decoration:none;color:var(--text-muted);
+  border:1px solid var(--rule-strong);padding:.4rem .7rem;transition:border-color 250ms var(--ease-cut)}
+.aks-filters a:hover{border-color:var(--accent-line)}
+.aks-filters a[aria-current]{color:var(--accent-on);background:var(--accent-line);border-color:var(--accent-line)}
+.aks-filters a .aks-ct{opacity:.55;margin-left:.4rem}
+/* An empty category is stated, not hidden — it says more about breadth than
+   a full shelf of one type would. */
+
+/* ── Project cards, type-agnostic ───────────────────────────────────────── */
+.aks-cards{display:grid;gap:var(--gutter) var(--gutter);grid-template-columns:repeat(12,1fr);list-style:none;margin:0;padding:0}
+.aks-card{grid-column:span 6;display:flex;flex-direction:column}
+.aks-card--wide{grid-column:span 12}
+.aks-card__media{position:relative;aspect-ratio:16/10;background:var(--bg-raised);overflow:hidden}
+.aks-card--tall .aks-card__media{aspect-ratio:4/5}
+.aks-card__media img{width:100%;height:100%;object-fit:cover}
+.aks-card__meta{display:flex;gap:.6rem;align-items:baseline;margin-top:.9rem;flex-wrap:wrap}
+.aks-card__type{font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent-text);border:1px solid var(--accent-line);padding:.18rem .42rem}
+.aks-card__rel{font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint)}
+.aks-card__name{font-family:var(--font-display);font-style:italic;font-size:clamp(1.25rem,2.2vw,1.75rem);
+  line-height:1.1;margin:.5rem 0 0}
+.aks-card__caps{margin:.5rem 0 0;font-size:.8125rem;color:var(--text-muted)}
+.aks-card a{text-decoration:none;color:inherit;display:block}
+.aks-card a:hover .aks-card__name{color:var(--accent-text)}
+
+/* ── Website preview: a capture that pans, not an iframe ────────────────── */
+.aks-wp{border:1px solid var(--rule-strong);background:var(--bg-raised)}
+.aks-wp__bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.6rem .9rem;border-bottom:1px solid var(--rule)}
+.aks-wp__dom{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.08em;color:var(--text-muted)}
+.aks-wp__ctrl{display:flex;gap:.35rem}
+.aks-wp__ctrl button{font-family:var(--font-mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;
+  background:none;border:1px solid var(--rule-strong);color:var(--text-muted);padding:.3rem .55rem;cursor:pointer}
+.aks-wp__ctrl button[aria-pressed="true"]{color:var(--accent-on);background:var(--accent-line);border-color:var(--accent-line)}
+.aks-wp__frame{position:relative;overflow:hidden;aspect-ratio:16/10;background:var(--bg)}
+.aks-wp--mobile .aks-wp__frame{aspect-ratio:9/16;max-width:22rem;margin:0 auto}
+.aks-wp__shot{width:100%;height:auto;display:block}
+/* Scroll-driven pan: the capture is taller than the frame and moves through it
+   as the page scrolls. No listener, no JS on the critical path. */
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline:view()){
+    .aks-wp__shot{animation:wp-pan linear both;animation-timeline:view();animation-range:entry 60% exit 40%}
+    @keyframes wp-pan{from{transform:translateY(0)}to{transform:translateY(calc(-100% + 100cqh))}}
+  }
+}
+.aks-wp__frame{container-type:size}
+.aks-wp__note{padding:.6rem .9rem;border-top:1px solid var(--rule);
+  font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+
+/* ── Image mode: photography leads with the picture ─────────────────────── */
+.aks-img-full{margin:0;position:relative}
+.aks-img-full img{width:100%;height:auto;display:block}
+.aks-img-pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--gutter);margin:0}
+.aks-img-pair figure{margin:0}
+.aks-img-seq{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gutter);margin:0}
+.aks-img-seq figure{margin:0}
+figcaption.aks-cap{margin-top:.5rem;font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-faint)}
+
+/* ── Motion mode: film leads with the poster, then playback ─────────────── */
+.aks-film{position:relative;aspect-ratio:16/9;background:var(--bg-raised);overflow:hidden}
+.aks-film img,.aks-film video{width:100%;height:100%;object-fit:cover}
+/* The label is centred, and the old bottom-anchored scrim left it sitting on
+   whatever the poster happened to be — measured at 1.09:1 over a light frame.
+   A centred radial scrim follows the control instead of the frame. */
+.aks-film__play{position:absolute;inset:0;display:grid;place-content:center;gap:.6rem;justify-items:center;
+  background:radial-gradient(ellipse 42% 38% at 50% 50%, rgb(0 0 0 / .72) 0%, rgb(0 0 0 / .55) 55%, rgb(0 0 0 / .12) 100%);
+  border:0;cursor:pointer;color:#FAF8F6}
+.aks-film__label{text-shadow:0 1px 10px rgb(0 0 0 / .9)}
+.aks-film__disc{width:4.5rem;height:4.5rem;border:1px solid currentColor;border-radius:50%;
+  display:grid;place-content:center;background:rgb(0 0 0 / .55);
+  transition:background-color 250ms var(--ease-cut)}
+/* A solid plate behind the label, so its contrast never depends on the poster. */
+.aks-film__label{background:rgb(0 0 0 / .72);padding:.35rem .7rem}
+.aks-film__play:hover .aks-film__disc{background:var(--accent-line);border-color:var(--accent-line);color:var(--accent-on)}
+.aks-film__label{font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.16em;text-transform:uppercase}
+.aks-cuts{display:flex;gap:.4rem;flex-wrap:wrap;list-style:none;margin:1rem 0 0;padding:0}
+.aks-cuts li{font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--rule-strong);padding:.28rem .5rem;color:var(--text-muted)}
+
+/* ── Document mode: events lead with the facts ──────────────────────────── */
+.aks-prog{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.aks-prog li{display:grid;grid-template-columns:6rem 1fr;gap:1.25rem;padding:.9rem 0;border-bottom:1px solid var(--rule)}
+.aks-prog time{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.1em;color:var(--text-faint)}
+
+/* ── Structural fixture marker — never a public portfolio claim ─────────── */
+/* The tinted ground pulled accent text down to 3.42:1. The tint goes; the
+   dashed accent border already carries the signal, and the text returns to
+   the page ground where it measures 5.78:1. */
+/* The marker earns its meaning from the dashed accent rule and the label, not
+   from setting the whole paragraph in 9px uppercase mono — which was fine for a
+   six-word note and became eleven lines of shouting on a phone. Label stays
+   mono and uppercase; the sentence is set to be read. */
+.aks-fixture{border:1px dashed var(--accent-line);padding:.85rem 1rem;margin:0 0 1.25rem;
+  font-size:.8125rem;line-height:1.6;color:var(--text-muted);background:var(--bg)}
+/* The label says which kind of note this is, and the two kinds are not the
+   same claim: an internal fixture is not published, whereas a module absent
+   from a published record is simply not supplied. One CSS rule, the wording
+   set per instance so neither ever states the other. */
+.aks-fixture[data-label]::before{content:attr(data-label);display:block;margin-bottom:.4rem;
+  font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent-text)}
+.aks-fixture code{font-family:var(--font-mono);font-size:.75em;letter-spacing:.06em}
+
+@media (max-width:1100px){
+  .aks-card{grid-column:span 6}
+  .aks-breadth li{min-width:7rem}
+}
+@media (max-width:900px){
+  .aks-mv__head{grid-template-columns:2.75rem 1fr;gap:1rem;padding-top:1.6rem}
+  .aks-mv__what,.aks-mv__caps,.aks-mv__cluster{grid-column:1 / -1}
+  .aks-cards{grid-template-columns:1fr}
+  .aks-card,.aks-card--wide{grid-column:1 / -1}
+  .aks-breadth{display:grid;grid-template-columns:1fr 1fr}
+  .aks-breadth li{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+  .aks-breadth li:nth-child(2n){border-right:0}
+  .aks-img-pair,.aks-img-seq{grid-template-columns:1fr}
+  .aks-prog li{grid-template-columns:1fr;gap:.3rem}
+  .aks-wp--mobile .aks-wp__frame{max-width:none}
+  /* The three controls plus the domain do not fit on one line below ~400px;
+     unwrapped they pushed the document 78px wide at 320. */
+  .aks-wp__bar{flex-direction:column;align-items:flex-start;gap:.55rem}
+  .aks-wp__ctrl{flex-wrap:wrap}
+  .aks-wp__dom{word-break:break-all}
+}
+
+/* The prototype's focus, rules are deliberately not ported: the theme owns that markup already. */
+/* ── Bridges into the existing homepage components ───────────────────────
+   Three classes the front page needs that the prototype had no equivalent
+   for, kept here rather than in ak.css so the whole ported system stays in
+   one file. */
+.ak-card__areas{font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-faint);margin:.75rem 0 0;line-height:1.6}
+/* A project with no verified media is a typographic entry, not an empty
+   frame. The card keeps its rule and its type and simply has no plate. */
+.ak-site-card--plain{border-top:1px solid var(--rule-strong);padding-top:1rem}
+.aks-card--plain{border-top:1px solid var(--rule-strong);padding-top:1rem}
+.aks-card--plain .aks-card__meta{margin-top:0}
+
+/* ── Vertical rhythm between type roles ──────────────────────────────────
+   The prototype carried these as inline style="margin-top:…" on individual
+   elements, which is fine for a static page and wrong for a template that
+   renders unknown combinations. Every type role sets margin:0, so without
+   this the hero and the lead paragraph printed on top of each other on the
+   real Work index — the first thing the WordPress render showed. Stated once,
+   as flow, so any order of roles composes. */
+.aks-t-data + .aks-t-hero,
+.aks-t-data + .aks-t-display { margin-top: 1rem; }
+.aks-t-hero + .aks-t-lead,
+.aks-t-display + .aks-t-lead { margin-top: 1.5rem; }
+.aks-t-hero + .aks-t-body,
+.aks-t-display + .aks-t-body,
+.aks-t-lead + .aks-t-body { margin-top: 1.25rem; }
+.aks-t-body + .aks-t-body,
+.aks-t-small + .aks-t-small { margin-top: .9rem; }
+.aks-t-lead + .aks-filters,
+.aks-t-body + .aks-filters { margin-top: 2.5rem; }
+.aks-index + .aks-t-small,
+.aks-cards + .aks-t-small { margin-top: 2rem; }
+.aks-quiet { color: var(--text-faint); }

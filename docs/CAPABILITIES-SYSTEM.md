@@ -101,6 +101,18 @@ Digital advertising campaigns · Google promotion · YouTube promotion ·
 Meta / Facebook / Instagram advertising · Audience growth strategies · Digital
 visibility · Engagement
 
+## Implemented
+
+The factual layer above is now `ak_movements()` in
+`wordpress/ak-zeyna-child/inc/projects/capabilities.php` — one source that
+builds the Services page, seeds the `ak_capability` taxonomy, and fills the
+homepage and footer. Every one of the 49 services exists as a **child term
+beneath its movement**, which is the mechanism that stops the editorial layer
+hiding the factual one, and `project-model-test.php` fails if any service is
+missing or misparented.
+
+See [PROJECT-MODEL.md](PROJECT-MODEL.md) for the implementation.
+
 ## Taxonomies
 
 Three, deliberately separate. Collapsing any two of them is what produced a

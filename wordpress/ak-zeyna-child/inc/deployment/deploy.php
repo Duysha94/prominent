@@ -119,6 +119,25 @@ function ak_deploy() {
 
 	ak_run_migrations( $report );
 	ak_deploy_terms( $manifest, $report );
+	/*
+	 * Project taxonomies and the confirmed register, before pages: the Work
+	 * page and the homepage both read projects, and a page deployed against an
+	 * empty register would cache an empty Work index into its own markup.
+	 *
+	 * Terms are enforced every deployment (a canonical term someone deleted
+	 * should come back); projects are created once and then belong to the
+	 * owner, so their editorial content is never rewritten.
+	 */
+	foreach ( ak_seed_terms() as $term_name ) {
+		$report['created'][] = 'term ' . $term_name;
+	}
+	$projects = ak_seed_projects();
+	foreach ( $projects['created'] as $title ) {
+		$report['created'][] = 'project ' . $title;
+	}
+	foreach ( $projects['healed'] as $note ) {
+		$report['healed'][] = 'project ' . $note;
+	}
 	$ids = ak_deploy_posts( $manifest, $report );
 	ak_deploy_menus( $manifest, $ids, $report );
 	ak_retire_obsolete( $manifest, $report );
@@ -421,6 +440,23 @@ function ak_retire_obsolete( $manifest, &$report ) {
 		// Menu items are managed too, but ak_deploy_menus() owns their
 		// lifecycle — it has the menu context this pass does not.
 		if ( 'nav_menu_item' === get_post_type( $id ) ) {
+			continue;
+		}
+
+		/*
+		 * Projects are seeded, not reconciled.
+		 *
+		 * They carry the managed marker so the engine can find and repair them
+		 * — relationship terms, the fixture flag — but they are NOT in
+		 * $manifest['posts'], and without this guard every deployment created
+		 * the confirmed register and then deleted it again three lines later.
+		 * That is not merely a bug: reconciling projects would mean a
+		 * deployment silently removing the owner's own editorial work, which
+		 * is precisely the database-wide-garbage-collector behaviour this
+		 * engine was rebuilt to avoid. A project is created once and then
+		 * belongs to the owner; deleting one is their decision, in the admin.
+		 */
+		if ( AK_PROJECT_CPT === get_post_type( $id ) ) {
 			continue;
 		}
 

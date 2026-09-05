@@ -80,7 +80,7 @@ removed rather than allowed to go stale.
 | **Audience** | Someone already interested, assessing range and seriousness |
 | **Primary action** | Open a case study |
 | **Required** | Editorial filters **generated from published content** — a filter exists only when a real published project falls under it · three relationships, visually distinct · project code, relationship, name, type and address per record. No empty categories, ever: Capabilities states the scope, Work shows the evidence |
-| **Layout** | **Register while records carry no cover; card grid once they do**, per record. The same content-driven rule as the filters, applied to layout — a grid of identical *capture pending* plates claims a portfolio the studio has not published |
+| **Layout** | **Register while records carry no cover; card grid once they do**, per record. The register is a **fallback state, not the intended final portfolio** — Work must become progressively media-led as real project material arrives. No fake cover is invented to force a grid, and no wall of *capture pending* plates is published to fake one; missing technical assets degrade to typographic entries |
 | **Relationships** | Parent of every case study; links to `/services/` anchors |
 | **SEO intent** | "fashion brand identity portfolio", "fashion show production London" |
 

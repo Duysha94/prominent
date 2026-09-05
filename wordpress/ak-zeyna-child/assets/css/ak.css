@@ -1032,16 +1032,26 @@ body { font-weight: 400; }
    on orange is 2.94:1 and fails three thresholds, so never use white here. */
 .ak-accent-field { padding-block: clamp(5rem, 11vw, 8rem); }
 
+/* The hairlines are drawn by the CHILDREN, not by a background showing
+   through the gaps.
+   The container used to paint `background: var(--rule)` and let 1px gaps
+   reveal it. That works only when the last row is full: seven owned projects
+   in a three-column grid left two empty cells, and those cells rendered as a
+   solid grey block two thirds the width of the section — on the homepage,
+   under "We do not rent the platform. Our founders built it." An outward 1px
+   ring on each child draws exactly the same rules and leaves an empty cell
+   empty, whatever the item count. */
 .ak-grid {
   display: grid;
   gap: 1px;
-  background: var(--rule);
+  background: transparent;
   border: 1px solid var(--rule);
 }
 @media (min-width: 640px)  { .ak-grid--2 { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 900px)  { .ak-grid--4 { grid-template-columns: repeat(4, 1fr); } }
 @media (min-width: 900px)  { .ak-grid--3 { grid-template-columns: repeat(3, 1fr); } }
-.ak-grid > * { background: var(--bg); padding: clamp(1.25rem, 2.5vw, 1.75rem); }
+.ak-grid > * { background: var(--bg); padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  box-shadow: 0 0 0 1px var(--rule); }
 .ak-accent-field .ak-grid > * { background: var(--color-brand-500); }
 
 .ak-btn {
@@ -2458,3 +2468,10 @@ main.site-main { overflow: visible; }
   .ak-cut-half--top { clip-path: none !important; opacity: 1 !important; transform: none !important; }
   .ak-cut-half--bottom, .ak-cut-blade { display: none !important; }
 }
+
+/* A grid track of `1fr` still has `min-width: auto`, so a long word in the
+   title column cannot shrink and pushes the row — and with it the document —
+   wider than the viewport. Cheap insurance on a list whose content is
+   editorial and unbounded. */
+.ak-index__link > .ak-index__title { min-width: 0; overflow-wrap: anywhere; }
+.ak-index__link > .ak-index__year { min-width: 0; white-space: nowrap; }

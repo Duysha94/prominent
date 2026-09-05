@@ -1,0 +1,16 @@
+/* The project editor. Enough styling to make the conditional panels legible;
+   deliberately not a redesign of wp-admin. */
+.ak-radio-tax { display: grid; gap: .35rem; }
+.ak-radio { display: flex; align-items: baseline; gap: .5rem; }
+.ak-radio input { margin: 0; }
+
+.ak-status { border-left: 4px solid #c3c4c7; background: #fff; padding: .75rem 1rem; margin: 0 0 1rem; }
+.ak-status--auto { border-left-color: #00a32a; }
+.ak-status--manual { border-left-color: #f37021; }
+.ak-status--live { border-left-color: #2271b1; }
+/* Unavailable is a normal, expected state — not an error. It is styled as
+   information because a project in it publishes perfectly well. */
+.ak-status--unavailable { border-left-color: #8c8f94; }
+.ak-status p { margin: .35rem 0; }
+
+.ak-media-name { color: #646970; font-style: italic; }
