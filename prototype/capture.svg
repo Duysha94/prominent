@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 3200" width="1440" height="3200" role="img" aria-label="CAPTURE PENDING">
+  <defs><pattern id="pd" width="20" height="20" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1.1" fill="#F37021" opacity=".42"/></pattern></defs>
+  <rect width="1440" height="3200" fill="#17130F"/><rect width="1440" height="3200" fill="url(#pd)"/>
+  <g fill="none" stroke="#F37021" stroke-width="1.4" opacity=".7">
+    <path d="M36 36h44M36 36v44M1404 36h-44M1404 36v44M36 3164h44M36 3164v-44M1404 3164h-44M1404 3164v-44"/>
+  </g>
+  <text x="720" y="1600" text-anchor="middle" font-family="'Martian Mono',monospace" font-size="15" letter-spacing="6" fill="#FAF8F6" opacity=".82">FIXTURE</text>
+  <text x="720" y="1626" text-anchor="middle" font-family="'Martian Mono',monospace" font-size="10" letter-spacing="3" fill="#F37021">CAPTURE PENDING</text>
+</svg>

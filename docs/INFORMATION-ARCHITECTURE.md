@@ -19,6 +19,13 @@ page?" is no.
 
 Eight routes plus two archives. That is the whole site.
 
+### Still one Services page, now carrying six movements
+
+The reversal below stands. The corrected scope makes the page longer, not
+plural: six movements with real depth on one page still beats eight thin
+pages, and the anchor targets (`/services/#image`) give case studies precise
+landing points.
+
 ### Reversal: no service detail pages
 
 An earlier plan proposed `/services/strategy/`, `/services/identity/`,
@@ -61,18 +68,18 @@ removed rather than allowed to go stale.
 | **Purpose** | Make one argument: this studio produces what it advises, and owns the platforms it puts clients on |
 | **Audience** | A founder or brand owner deciding within ~20 seconds whether this is a real practice |
 | **Primary action** | Enter the work |
-| **Required** | Opening statement over film · the *founded, not hired* claim · FOUNDED register · COMMISSIONED register · capabilities in context · the two founders · closing contact |
+| **Required** | Opening statement over film · the *founded, not hired* claim · **the six movements, early enough that nobody leaves thinking this is a web studio** · the platforms (Fashion Production) before the sites · selected work across types · the two founders · closing contact |
 | **Relationships** | Feeds `/work/`, `/services/`, `/about/`, `/contact/` |
-| **SEO intent** | Brand + category: "fashion brand consultancy London", "fashion brand development studio" |
+| **SEO intent** | Brand + category: "fashion brand consultancy London", "fashion brand development studio", "fashion show production London", "fashion campaign photography". **Not** "web design London" |
 
 ### `/work/` — Work
 
 | | |
 |---|---|
-| **Purpose** | Show the whole body of work with the ownership distinction intact |
+| **Purpose** | Show a multidisciplinary body of work with the relationship distinction intact — websites, shows, campaigns, films and identities as one system |
 | **Audience** | Someone already interested, assessing range and seriousness |
 | **Primary action** | Open a case study |
-| **Required** | Two registers, visually distinct · project code, client, year, disciplines per row · filter by discipline |
+| **Required** | Editorial filters (All · Brand · Image · Film · Experience · Digital · Integrated) · three relationships, visually distinct · project code, client, year, capabilities per row. **Empty categories are shown, not hidden** — see CAPABILITIES-SYSTEM.md |
 | **Relationships** | Parent of every case study; links to `/services/` anchors |
 | **SEO intent** | "fashion brand identity portfolio", "fashion show production London" |
 
@@ -91,12 +98,12 @@ removed rather than allowed to go stale.
 
 | | |
 |---|---|
-| **Purpose** | Answer "can you do this?" without becoming a menu |
+| **Purpose** | State the full practice — six movements across eight confirmed areas — without becoming a menu |
 | **Audience** | Someone with a specific need, checking coverage |
 | **Primary action** | See the work that proves it |
-| **Required** | Four movements, disciplines grouped under them by weight, each linking to real work |
+| **Required** | Six movements. Per area: what it is · what AK does · who it is for · related capabilities · related projects when they exist. Personal branding named explicitly, never hidden under Marketing. PR and paid media weighted equally inside VISIBILITY |
 | **Relationships** | Every discipline links to the case studies that used it |
-| **SEO intent** | The service long tail — the site's widest keyword surface |
+| **SEO intent** | The service long tail across all six movements — the site's widest keyword surface, and the place the web-and-ads misreading is most easily created or corrected |
 
 ### `/about/` — Studio
 

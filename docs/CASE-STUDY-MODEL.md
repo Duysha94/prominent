@@ -4,14 +4,25 @@ A structured record, not a long page. The point of a model is that a
 three-sentence project and a full editorial case study come out of the **same
 fields** and both look deliberate.
 
-## The two registers
+> **Superseded in part by `CAPABILITIES-SYSTEM.md`.** That document is now
+> canonical for the taxonomies, the presentation modes, the conditional admin
+> model and the modular builder. This file remains the field-level reference.
+> Two registers became three; one flat field set became seven type-specific
+> panels.
+
+## The three relationships
 
 Backend names are administrative; front-end names are editorial.
 
 | Backend | Front end | Meaning |
 |---|---|---|
-| **Studio Projects** | **FOUNDED** | Created, owned, developed or operated by the studio |
-| **Client Work** | **COMMISSIONED** | Work performed for an external client |
+| **AK Owned** | **FOUNDED** | Created, owned, developed or operated by the studio |
+| **Client** | **COMMISSIONED** | Work performed for an external client |
+| **Collaboration** | **IN COLLABORATION** | Developed jointly; authorship shared |
+
+Three, not two. An event AK creative-directed with a partner is honestly
+neither founded nor commissioned, and forcing it into either would misstate
+the authorship.
 
 **Why FOUNDED / COMMISSIONED rather than "The House / Selected Work".** "The
 House" is a metaphor the reader has to decode; "Founded" is the fact itself,
@@ -30,10 +41,16 @@ one project is one project; only its relationship differs.
 | London Fashion Day | FOUNDED | Founded and produced by Kostiantyn Lieontiev — stated in the brief |
 | Odessa Fashion Day | FOUNDED | Same |
 | Cool'baba | FOUNDED | Founded by Andrii Karakushan — stated in the brief |
-| KEKA | **CONFLICT — needs your answer** | The original brief says "fashion brand founded by Kostiantyn Lieontiev", which is FOUNDED. This phase lists KEKA under *Client Work*. Both cannot be true |
-| Fashion Frontier | **NEEDS OWNER FACT** | Listed for evaluation under The House, but ownership was never established |
-| Wolax | **NEEDS OWNER FACT** | Listed as client work; not confirmed |
-| Prominent Magazine, Utrend Store, Lenie Boya, Show Me Your Nails | **NEEDS OWNER FACT** | Register unknown |
+| KEKA | **AK Owned** | ✅ Confirmed in the scope correction. The earlier conflict is resolved |
+| Fashion Frontier | **AK Owned** | ✅ Confirmed |
+| Prominent Magazine | **AK Owned** | ✅ Confirmed |
+| Utrend Store | **AK Owned** | ✅ Confirmed |
+| Wolax | **Client** | ✅ Confirmed |
+| Lenie Boya | **Client** | ✅ Confirmed |
+| Show Me Your Nails | **Client** | ✅ Confirmed |
+
+All ten relationships are now established. What remains absent — descriptions,
+dates, deliverables, results — stays absent until supplied.
 
 Nothing is assigned on assumption. An unassigned project simply does not
 publish.
@@ -52,8 +69,9 @@ Legend: **R** required · **O** optional · **T** taxonomy · **RPT** repeater �
 | Short title | `ak_short_title` | text | O | Core | For the index and nav when the full name is long. Falls back to the title |
 | Slug | `post_name` | slug | **R** | Core | |
 | Project code | `ak_code` | text | **D** | Core | `AK·F·19·001` — register initial, year, sequence. Generated, overridable. This is the tech-pack spine of the whole system |
-| Register | `ak_register` | **T** | **R** | Core | founded \| commissioned |
-| Project type | `ak_type` | **T** | O | Core | platform · event · brand · campaign · website · e-commerce · editorial |
+| Relationship | `ak_relationship` | **T** | **R** | Core | AK Owned \| Client \| Collaboration |
+| Project type | `ak_project_type` | **T** | **R** | Core | Branding · Personal Branding · Photography · Film · Event · Fashion Production · Campaign · Website / Digital · Advertising · Integrated. **One per project** — it selects the presentation mode and the admin panel |
+| Capabilities | `ak_capability` | **T** | O | Core | Many-to-many. What AK actually delivered. Filterable without changing the type |
 | Client / owner | `ak_client` | text | O | Core | For FOUNDED this is the studio or a founder |
 | Location | `ak_location` | text | O | Core | |
 | Year | `ak_year` | text | **R** | Core | `2019` or `2019 →` for something ongoing |

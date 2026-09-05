@@ -112,6 +112,25 @@ navigation cannot reset it.
 | Fallback | No image → a typographic plate: the project code and name set large on the raised surface. **Never a broken-image icon, never a grey box** |
 | Treatment | `filter: saturate(0.92)` at rest, 1.0 on hover. A whole-site duotone would fight the client's own art direction |
 
+## Presentation modes
+
+The visual system is constant; only what a page **leads with** changes. Grid,
+type, colour, spacing and motion never vary by project type — a mode is a
+rendering strategy, not a second design system.
+
+| Mode | Types | Leads with |
+|---|---|---|
+| Preview | Website / Digital | Interactive capture of the live site |
+| Image | Photography, Campaign | Full-bleed stills, sequences, pairs |
+| Motion | Film | Poster, then playback |
+| Document | Event, Fashion Production | Date, city, venue, role, programme |
+| Narrative | Branding, Personal Branding | Context, positioning, identity |
+| Assembled | Integrated | Whichever modules the project has |
+
+**The website preview never leaks.** It appears on Website / Digital projects
+and nowhere else. Seven of ten confirmed projects are websites, so a mechanism
+that spread would make the site read as a web studio through repetition alone.
+
 ## Video
 
 Video is composition, not an embed.
