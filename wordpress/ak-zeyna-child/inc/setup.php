@@ -53,130 +53,16 @@ add_action(
 );
 
 /**
- * One-time wiring: point WordPress at the imported content.
+ * Content wiring used to live here.
  *
- * Registered for BOTH `after_switch_theme` and `import_end`, because the
- * recommended order is activate-then-import — at activation the imported
- * pages and menu do not exist yet, and the importer firing `import_end`
- * is the first moment they all do. Every step is guarded: running early
- * is harmless, and re-running never overwrites a manual choice.
+ * `ak_wire_imported_content()` and `ak_adopt_imported_content()` pointed the
+ * front page, posts page and menu location at content that arrived through a
+ * WXR import, and reclaimed slugs the importer had suffixed. Both are gone:
+ * the deployment engine does that work from the manifest, keyed on seed keys
+ * rather than on slugs and titles, and it runs on every release rather than
+ * once at import. Leaving them would have meant two systems writing
+ * `page_on_front` from different sources.
  */
-function ak_wire_imported_content() {
-	$front = get_page_by_path( 'home' );
-	if ( $front && 'page' !== get_option( 'show_on_front' ) ) {
-		update_option( 'show_on_front', 'page' );
-		update_option( 'page_on_front', $front->ID );
-	}
-
-	$blog = get_page_by_path( 'journal' );
-	if ( $blog && ! get_option( 'page_for_posts' ) ) {
-		update_option( 'page_for_posts', $blog->ID );
-	}
-
-	$locations = get_theme_mod( 'nav_menu_locations', array() );
-	if ( empty( $locations['menu-1'] ) ) {
-		$menu = get_term_by( 'name', 'Primary', 'nav_menu' );
-		if ( $menu ) {
-			$locations['menu-1'] = (int) $menu->term_id;
-			set_theme_mod( 'nav_menu_locations', $locations );
-		}
-	}
-
-	flush_rewrite_rules();
-}
-add_action( 'after_switch_theme', 'ak_wire_imported_content' );
-add_action( 'import_end', 'ak_wire_imported_content' );
-
-/**
- * Adopt the site when the import lands on an installation that already has
- * content. Runs on `import_end` only — old content is never touched unless
- * OUR content has demonstrably arrived — and BEFORE the gentle wiring above.
- *
- *  1. Reclaim canonical slugs: if an old page held `home`, the importer
- *     created ours as `home-2`. The old page goes to the Trash and the slug
- *     comes back to us.
- *  2. Point the front page, posts page and Zeyna's `menu-1` location at the
- *     imported content, replacing whatever the old site had.
- *  3. Move every published page that is NOT part of this import to the
- *     Trash (recoverable from Pages → Trash), plus the default
- *     "Hello world!" post. The privacy policy page is left alone.
- */
-function ak_adopt_imported_content() {
-	// 1. Reclaim slugs.
-	$ours = get_posts(
-		array(
-			'post_type'   => array( 'page', 'post', 'portfolio' ),
-			'post_status' => 'any',
-			'numberposts' => -1,
-			'meta_key'    => '_ak_slug',
-			'fields'      => 'ids',
-		)
-	);
-	foreach ( $ours as $ak_id ) {
-		$want = get_post_meta( $ak_id, '_ak_slug', true );
-		$post = get_post( $ak_id );
-		if ( ! $want || ! $post || $post->post_name === $want ) {
-			continue;
-		}
-		$holder = get_page_by_path( $want, OBJECT, $post->post_type );
-		if ( $holder && (int) $holder->ID !== (int) $ak_id && ! get_post_meta( $holder->ID, '_ak_import', true ) ) {
-			wp_trash_post( $holder->ID );
-		}
-		wp_update_post(
-			array(
-				'ID'        => $ak_id,
-				'post_name' => $want,
-			)
-		);
-	}
-
-	// 2. This import IS the site now: front page, posts page, menu.
-	$front = get_page_by_path( 'home' );
-	if ( $front && get_post_meta( $front->ID, '_ak_import', true ) ) {
-		update_option( 'show_on_front', 'page' );
-		update_option( 'page_on_front', $front->ID );
-	}
-	$blog = get_page_by_path( 'journal' );
-	if ( $blog && get_post_meta( $blog->ID, '_ak_import', true ) ) {
-		update_option( 'page_for_posts', $blog->ID );
-	}
-	$menu = get_term_by( 'name', 'Primary', 'nav_menu' );
-	if ( $menu ) {
-		$locations           = get_theme_mod( 'nav_menu_locations', array() );
-		$locations['menu-1'] = (int) $menu->term_id;
-		set_theme_mod( 'nav_menu_locations', $locations );
-	}
-
-	// 3. The old pages step aside — Trash, never hard deletion.
-	$privacy = (int) get_option( 'wp_page_for_privacy_policy' );
-	$old     = get_posts(
-		array(
-			'post_type'   => 'page',
-			'post_status' => 'publish',
-			'numberposts' => -1,
-			'fields'      => 'ids',
-			'meta_query'  => array(
-				array(
-					'key'     => '_ak_import',
-					'compare' => 'NOT EXISTS',
-				),
-			),
-		)
-	);
-	foreach ( $old as $ak_id ) {
-		if ( $ak_id !== $privacy ) {
-			wp_trash_post( $ak_id );
-		}
-	}
-
-	$hello = get_page_by_path( 'hello-world', OBJECT, 'post' );
-	if ( $hello && ! get_post_meta( $hello->ID, '_ak_import', true ) ) {
-		wp_trash_post( $hello->ID );
-	}
-
-	flush_rewrite_rules();
-}
-add_action( 'import_end', 'ak_adopt_imported_content', 9 );
 
 /**
  * The AK chrome is not optional.
@@ -204,9 +90,18 @@ add_action( 'import_end', 'ak_adopt_imported_content', 9 );
  * `zeyna_page_loader()`, so `page_loader` is turned off here too rather than
  * left to run a second, invisible boot sequence.
  */
-add_filter(
-	'option_pe-redux',
-	function ( $option ) {
+add_filter( 'option_pe-redux', 'ak_force_redux_chrome' );
+
+/**
+ * Force the chrome and transition keys, whatever Redux has stored.
+ *
+ * A named function rather than a closure so the deployment engine can detach
+ * it for one raw read and put it straight back — see ak_purge_unmanaged().
+ *
+ * @param mixed $option The stored pe-redux option.
+ * @return mixed
+ */
+function ak_force_redux_chrome( $option ) {
 		if ( ! is_array( $option ) ) {
 			return $option;
 		}
@@ -230,8 +125,7 @@ add_filter(
 		$option['page_loader'] = false;
 
 		return $option;
-	}
-);
+}
 
 /**
  * Customizer: the two things the founders swap themselves.

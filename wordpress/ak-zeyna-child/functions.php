@@ -62,8 +62,14 @@ require_once get_stylesheet_directory() . '/inc/chrome.php';
 require_once get_stylesheet_directory() . '/inc/enqueue.php';
 require_once get_stylesheet_directory() . '/inc/seo.php';
 require_once get_stylesheet_directory() . '/inc/updates.php';
+// The deployment system. Order matters: the registry defines the ownership
+// markers the manifest keys on, and the engine consumes both.
+require_once get_stylesheet_directory() . '/inc/deployment/registry.php';
+require_once get_stylesheet_directory() . '/inc/deployment/manifest.php';
+require_once get_stylesheet_directory() . '/inc/deployment/migrations.php';
+require_once get_stylesheet_directory() . '/inc/deployment/deploy.php';
+require_once get_stylesheet_directory() . '/inc/deployment/notice.php';
 require_once get_stylesheet_directory() . '/inc/content.php';
-require_once get_stylesheet_directory() . '/inc/sync.php';
 require_once get_stylesheet_directory() . '/inc/theme-mode.php';
 require_once get_stylesheet_directory() . '/inc/schema.php';
 require_once get_stylesheet_directory() . '/inc/setup.php';
