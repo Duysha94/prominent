@@ -1,0 +1,317 @@
+/* ===========================================================================
+   AK BRAND STUDIO — proof-of-concept stylesheet
+   Implements docs/VISUAL-SYSTEM.md. Standalone: nothing here depends on
+   Zeyna, and nothing here ships until the direction is approved.
+   ======================================================================== */
+
+@font-face{font-family:'Fraunces';font-style:italic;font-weight:100 900;font-display:swap;
+  src:url('../wordpress/ak-zeyna-child/assets/fonts/fraunces-italic.woff2') format('woff2')}
+@font-face{font-family:'Bricolage Grotesque';font-style:normal;font-weight:200 800;font-display:swap;
+  src:url('../wordpress/ak-zeyna-child/assets/fonts/bricolage.woff2') format('woff2')}
+@font-face{font-family:'Martian Mono';font-style:normal;font-weight:100 800;font-display:swap;
+  src:url('../wordpress/ak-zeyna-child/assets/fonts/martian-mono.woff2') format('woff2')}
+
+:root{
+  /* ATELIER */
+  --bg:#FAF8F6; --bg-raised:#F2EEE9; --text:#1A1613; --text-muted:#6B645D;
+  --text-faint:#948C84; --rule:#E2DBD3; --rule-strong:#CFC6BC;
+  --accent-line:#F37021; --accent-text:#C4531A; --on-accent:#1A1613;
+
+  --font-display:'Fraunces',Georgia,serif;
+  --font-body:'Bricolage Grotesque',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-mono:'Martian Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --rail:5rem; --wrap:1440px; --gutter:24px;
+  --gap-unit:.6rem; --gap-block:1.5rem; --gap-section:clamp(4rem,9vw,7rem);
+  --ease-cut:cubic-bezier(.16,1,.3,1);
+  --dur:700ms;
+  color-scheme:light dark;
+}
+:root[data-theme="dark"]{
+  --bg:#141210; --bg-raised:#1D1A17; --text:#EDE9E4; --text-muted:#A79E95;
+  --text-faint:#7C736A; --rule:#2C2723; --rule-strong:#3D372F;
+  --accent-line:#F37021; --accent-text:#F58A45; --on-accent:#1A1613;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141210; --bg-raised:#1D1A17; --text:#EDE9E4; --text-muted:#A79E95;
+  --text-faint:#7C736A; --rule:#2C2723; --rule-strong:#3D372F;
+  --accent-line:#F37021; --accent-text:#F58A45; --on-accent:#1A1613;
+}}
+
+*{box-sizing:border-box}
+html{font-size:100%}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:var(--font-body);font-size:1rem;line-height:1.65;
+  -webkit-font-smoothing:antialiased}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+
+/* ── Type roles ─────────────────────────────────────────────────────────── */
+.t-display{font-family:var(--font-display);font-style:italic;font-weight:400;
+  font-size:clamp(2rem,5.5vw,4.25rem);line-height:1.04;letter-spacing:-.02em;
+  margin:0;text-wrap:balance}
+.t-hero{font-family:var(--font-display);font-style:italic;font-weight:400;
+  font-size:clamp(2.375rem,7.4vw,5.75rem);line-height:1.02;letter-spacing:-.03em;
+  margin:0;text-wrap:balance}
+.t-lead{font-size:clamp(1.0625rem,1.5vw,1.25rem);line-height:1.55;color:var(--text);
+  max-width:52ch;margin:0}
+.t-body{font-size:1rem;line-height:1.65;color:var(--text-muted);max-width:66ch}
+.t-small{font-size:.875rem;line-height:1.6;color:var(--text-muted)}
+.t-data{font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-muted)}
+.t-quiet{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-faint)}
+.accent{color:var(--accent-text)}
+
+/* ── Grid: rail + 12 columns ────────────────────────────────────────────── */
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:clamp(1.25rem,4vw,3rem);
+  display:grid;grid-template-columns:var(--rail) repeat(12,1fr);gap:0 var(--gutter)}
+.rail{grid-column:1;position:relative}
+.rail__mark{position:sticky;top:6rem;writing-mode:vertical-rl;
+  font-family:var(--font-mono);font-size:.625rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--text-faint);white-space:nowrap}
+.col-text{grid-column:2 / span 7}
+.col-wide{grid-column:2 / span 9}
+.col-full{grid-column:2 / -1}
+.col-right{grid-column:8 / -1}
+
+.section{padding-block:var(--gap-section);border-top:1px solid var(--rule)}
+.section--open{border-top:0}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.hdr{position:sticky;top:0;z-index:50;background:var(--bg);
+  border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+  padding:1rem clamp(1.25rem,4vw,3rem)}
+.hdr__mark{font-family:var(--font-display);font-style:italic;font-size:1.25rem;
+  text-decoration:none;letter-spacing:-.01em}
+.hdr__nav{display:flex;gap:1.5rem;align-items:center}
+.hdr__nav a{font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.1em;
+  text-transform:uppercase;text-decoration:none;color:var(--text);padding:.4rem 0}
+.hdr__nav a[aria-current]{box-shadow:0 1px 0 0 var(--accent-line);color:var(--accent-text)}
+
+/* ── Opening: statement over film ───────────────────────────────────────── */
+.open{position:relative;min-height:min(88vh,760px);display:grid;
+  grid-template-columns:var(--rail) repeat(12,1fr);gap:0 var(--gutter);
+  max-width:var(--wrap);margin:0 auto;padding:clamp(2rem,6vw,5rem) clamp(1.25rem,4vw,3rem) var(--gap-section);
+  align-items:end}
+.open__film{position:absolute;inset:0;overflow:hidden;z-index:0}
+.open__film video,.open__film img{width:100%;height:100%;object-fit:cover;filter:saturate(.92)}
+/* The scrim is what makes text on film legible without a box around it. */
+/* The scrim buys legibility for the left half only, where the statement sits.
+   A full-width wash flattens the film to grey and there is then no reason to
+   have used film at all. */
+.open__film::after{content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(100deg,
+      color-mix(in oklab,var(--bg) 88%,transparent) 0%,
+      color-mix(in oklab,var(--bg) 72%,transparent) 38%,
+      color-mix(in oklab,var(--bg) 14%,transparent) 68%,
+      color-mix(in oklab,var(--bg) 6%,transparent) 100%),
+    linear-gradient(180deg, transparent 62%, color-mix(in oklab,var(--bg) 82%,transparent) 100%)}
+.open__body{grid-column:2 / span 8;position:relative;z-index:1}
+/* Always over the film's dark side, in both modes — so it takes a light
+   colour of its own rather than the theme's body colour, which would be ink
+   on ink in ATELIER. */
+.open__meta{grid-column:11 / -1;position:relative;z-index:1;align-self:end;
+  display:flex;flex-direction:column;gap:.35rem;text-align:right}
+.open__meta .t-quiet{color:#D8D2CB;text-shadow:0 1px 12px rgb(0 0 0 / .55)}
+.open__eyebrow{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+.open__eyebrow::before{content:"";width:2.5rem;height:1px;background:var(--accent-line)}
+.open__lead{margin-top:1.5rem}
+.open__cta{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:2rem}
+
+.btn{display:inline-block;font-family:var(--font-mono);font-size:.6875rem;
+  letter-spacing:.1em;text-transform:uppercase;text-decoration:none;
+  padding:.85rem 1.5rem;border:1px solid var(--rule-strong);color:var(--text);
+  transition:border-color 250ms var(--ease-cut),background-color 250ms var(--ease-cut)}
+.btn:hover{border-color:var(--accent-line)}
+.btn--fill{background:var(--accent-line);border-color:var(--accent-line);color:var(--on-accent)}
+.btn--fill:hover{background:var(--accent-text);border-color:var(--accent-text)}
+
+/* ── The claim ──────────────────────────────────────────────────────────── */
+.claim{font-size:clamp(1.25rem,2.6vw,2rem);line-height:1.4;color:var(--text);
+  max-width:24ch;margin:0}
+.claim em{font-family:var(--font-display);font-style:italic;color:var(--accent-text)}
+
+/* ── Register heading ───────────────────────────────────────────────────── */
+.reg{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;
+  padding-bottom:1rem;border-bottom:1px solid var(--rule-strong);margin-bottom:2rem}
+.reg__name{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--text)}
+.reg__note{font-size:.875rem;color:var(--text-muted);max-width:44ch}
+.reg__count{margin-left:auto;font-family:var(--font-mono);font-size:.625rem;
+  letter-spacing:.12em;color:var(--text-faint)}
+
+/* ── FOUNDED: full-scale editorial entries ──────────────────────────────── */
+.house{display:grid;gap:var(--gap-section)}
+.house__item{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter);
+  align-items:end}
+.house__media{grid-column:1 / span 7;position:relative;aspect-ratio:4/5;
+  background:var(--bg-raised);overflow:hidden}
+.house__item:nth-child(even) .house__media{grid-column:6 / -1;order:2}
+.house__item:nth-child(even) .house__body{grid-column:1 / span 4;order:1}
+.house__body{grid-column:9 / -1;padding-bottom:1rem}
+.house__media img{width:100%;height:100%;object-fit:cover}
+.house__code{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.14em;
+  color:var(--text-faint);display:block;margin-bottom:.6rem}
+.house__name{font-family:var(--font-display);font-style:italic;
+  font-size:clamp(1.75rem,3.4vw,2.75rem);line-height:1.06;margin:0}
+.house__role{margin-top:.6rem;font-family:var(--font-mono);font-size:.6875rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--accent-text)}
+.house__desc{margin-top:.9rem;font-size:.9375rem;line-height:1.6;color:var(--text-muted);max-width:38ch}
+.house__link{margin-top:1.1rem;display:inline-block;font-family:var(--font-mono);
+  font-size:.625rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text);text-decoration:none;border-bottom:1px solid var(--accent-line);padding-bottom:.2rem}
+
+/* Typographic fallback plate — never a broken image, never a grey box. */
+.plate{display:grid;place-content:center;text-align:center;gap:.5rem;
+  background:var(--bg-raised);height:100%;padding:2rem;
+  background-image:repeating-linear-gradient(45deg,
+    transparent 0 10px, color-mix(in oklab,var(--rule) 55%,transparent) 10px 11px)}
+.plate__code{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.16em;
+  color:var(--text-faint)}
+.plate__name{font-family:var(--font-display);font-style:italic;
+  font-size:clamp(1.5rem,3vw,2.25rem);line-height:1.05;color:var(--text)}
+.plate__note{font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-faint)}
+
+/* ── COMMISSIONED: the spec index ───────────────────────────────────────── */
+.index{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.index__row{border-bottom:1px solid var(--rule)}
+.index__link{display:grid;grid-template-columns:6.5rem 10rem 1fr auto;
+  gap:.5rem 1.5rem;align-items:baseline;padding:1.6rem 0;text-decoration:none;color:inherit;
+  transition:transform 420ms var(--ease-cut)}
+.index__link:hover{transform:translateX(8px)}
+.index__code{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.1em;color:var(--text-faint)}
+.index__link:hover .index__code{color:var(--accent-text)}
+.index__client{font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text)}
+.index__title{font-family:var(--font-display);font-style:italic;
+  font-size:clamp(1.25rem,2.2vw,1.75rem);line-height:1.15}
+.index__disc{display:flex;gap:.375rem;flex-wrap:wrap;justify-self:end}
+.index__tag{border:1px solid var(--rule-strong);padding:.2rem .45rem;
+  font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-muted)}
+
+/* ── Spec block — the tech-pack signature ───────────────────────────────── */
+.spec{border:1px solid var(--rule-strong);display:grid;
+  grid-template-columns:repeat(4,1fr)}
+/* The spec block belongs to the header above it, not to the hero below. */
+.section + .spec-wrap,.spec-wrap{margin-top:-2.5rem}
+.spec__cell{padding:1rem 1.1rem;border-right:1px solid var(--rule)}
+.spec__cell:last-child{border-right:0}
+.spec__k{display:block;font-family:var(--font-mono);font-size:.5625rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
+.spec__v{display:block;margin-top:.35rem;font-size:.9375rem;font-weight:600;line-height:1.3}
+
+/* ── Case study ─────────────────────────────────────────────────────────── */
+.case__hero{position:relative;aspect-ratio:16/9;background:var(--bg-raised);overflow:hidden;margin-top:2rem}
+.case__hero img,.case__hero video{width:100%;height:100%;object-fit:cover}
+.steps{list-style:none;margin:0;padding:0;counter-reset:step}
+.steps>li{counter-increment:step;display:grid;
+  grid-template-columns:4rem 1fr;gap:1.5rem;
+  padding:2.25rem 0;border-bottom:1px solid var(--rule)}
+.steps>li::before{content:counter(step,decimal-leading-zero);
+  font-family:var(--font-mono);font-size:.625rem;letter-spacing:.12em;
+  color:var(--text-faint);padding-top:.4rem}
+.steps h3{margin:0 0 .6rem;font-family:var(--font-mono);font-size:.6875rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--text);font-weight:400}
+.steps p{margin:0;max-width:62ch;color:var(--text-muted)}
+/* The last step's rule and the next section's rule would otherwise stack into
+   a double hairline with a gap between them. */
+.steps>li:last-child{border-bottom:0}
+.credits{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem 2rem;margin:0;padding:0}
+.credits div{display:flex;justify-content:space-between;gap:1rem;
+  border-bottom:1px solid var(--rule);padding-bottom:.5rem}
+.credits dt{font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-faint)}
+.credits dd{margin:0;font-size:.875rem}
+
+.next{display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;
+  flex-wrap:wrap;text-decoration:none;color:inherit;
+  padding-top:2rem;border-top:1px solid var(--rule-strong)}
+.next__name{font-family:var(--font-display);font-style:italic;
+  font-size:clamp(1.5rem,3.4vw,2.5rem);line-height:1.1;margin:0}
+.next:hover .next__name{color:var(--accent-text)}
+
+/* ── Footer ─────────────────────────────────────────────────────────────── */
+.ftr{border-top:1px solid var(--rule-strong);margin-top:var(--gap-section);
+  padding:var(--gap-section) clamp(1.25rem,4vw,3rem) 2rem}
+.ftr__grid{max-width:var(--wrap);margin:0 auto;display:grid;
+  grid-template-columns:repeat(3,1fr);gap:2rem}
+.ftr__bar{max-width:var(--wrap);margin:2.5rem auto 0;padding-top:1.25rem;
+  border-top:1px solid var(--rule);display:flex;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap}
+
+/* ── Motion: reveals only, and only where they mean something ───────────── */
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline:view()){
+    /* Range ends inside `entry`, not at `cover`. With a cover-range end an
+       element only finishes revealing once it is well up the viewport, which
+       leaves anything below the fold parked at opacity 0 — the exact thing
+       MOTION-SYSTEM.md bans. Ending at `entry 92%` means an element is fully
+       visible as soon as it has entered, and anything already on screen at
+       load is past its range and therefore simply visible. */
+    .rise{animation:rise linear both;animation-timeline:view();
+      animation-range:entry 0% entry 92%}
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:1ms!important;transition-duration:1ms!important}
+  .index__link:hover{transform:none}
+}
+
+/* ═══ TABLET ════════════════════════════════════════════════════════════ */
+@media (max-width:1100px){
+  :root{--rail:3rem}
+  .open__body{grid-column:2 / -1}
+  .open__meta{grid-column:2 / -1;text-align:left;flex-direction:row;gap:1.25rem;margin-top:1.5rem}
+  .house__media,.house__item:nth-child(even) .house__media{grid-column:1 / span 6;order:1}
+  .house__body,.house__item:nth-child(even) .house__body{grid-column:8 / -1;order:2}
+  .index__link{grid-template-columns:5.5rem 1fr auto}
+  .index__client{grid-column:2}
+  .index__title{grid-column:1 / -1}
+}
+
+/* ═══ PHONE ═════════════════════════════════════════════════════════════ */
+@media (max-width:900px){
+  .wrap,.open{grid-template-columns:1px repeat(12,1fr)}
+  .rail{border-left:1px solid var(--rule)}
+  .rail__mark{display:none}
+  .hdr__nav{display:none}
+  .hdr__menu{display:inline-flex}
+  .col-text,.col-wide,.col-full,.col-right,.open__body,.open__meta{grid-column:2 / -1}
+  .spec{grid-template-columns:repeat(2,1fr)}
+  .spec__cell{border-bottom:1px solid var(--rule)}
+  .spec__cell:nth-child(2n){border-right:0}
+  .spec__cell:nth-last-child(-n+2){border-bottom:0}
+  .house__item{grid-template-columns:1fr;gap:1.25rem}
+  .house__media,.house__item:nth-child(even) .house__media,
+  .house__body,.house__item:nth-child(even) .house__body{grid-column:1 / -1;order:0}
+  .house__media{aspect-ratio:4/5}
+  .house__desc{max-width:none}
+  .index__link{grid-template-columns:1fr;gap:.6rem;padding:1.5rem 0}
+  .index__disc{justify-self:start}
+  .index__link:hover{transform:none}
+  .steps>li{grid-template-columns:1fr;gap:.5rem;padding:1.75rem 0}
+  .steps>li::before{padding-top:0}
+  .credits{grid-template-columns:1fr}
+  .ftr__grid{grid-template-columns:1fr;gap:2rem}
+  .open{min-height:auto;padding-bottom:3.5rem}
+  .open__film{position:relative;grid-column:1 / -1;aspect-ratio:4/5;inset:auto;
+    margin-bottom:1.75rem;order:-1}
+  .open__film::after{background:linear-gradient(180deg,transparent 40%,
+    color-mix(in oklab,var(--bg) 88%,transparent) 100%)}
+  /* Below the film now, on the page's own ground — back to theme colours. */
+  .open__meta .t-quiet{color:var(--text-faint);text-shadow:none}
+  /* Phone type scale — labels at 11px, lead at 17px, body 15px */
+  .t-data{font-size:.6875rem;letter-spacing:.1em}
+  .t-quiet{font-size:.625rem}
+  .t-body{font-size:.9375rem}
+  .section{padding-block:3.5rem}
+}
+.hdr__menu{display:none;font-family:var(--font-mono);font-size:.6875rem;
+  letter-spacing:.1em;text-transform:uppercase;background:none;
+  border:1px solid var(--rule-strong);color:var(--text);padding:.6rem 1rem;cursor:pointer}
