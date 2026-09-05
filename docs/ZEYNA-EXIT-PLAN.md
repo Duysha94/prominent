@@ -78,16 +78,45 @@ Ordered so nothing breaks. Each step is shippable alone.
 
 | Step | Do | Unblocks | Risk |
 |---|---|---|---|
-| **1** | Dequeue what is provably unused: `plugins.min.js`, `plugins.css`, `fonts.css`, `three`, `dotlottie` | ~2.5 MB of potential payload, 278 KB actual | **Low** — verify Barba and GSAP still initialise |
-| **2** | Remove the four dead calls: `zeyna_popups`, `zeyna_mouse_cursor`, `zeyna_grid_layout_bg`, `zeyna_header_classes` | Header/footer stop referencing parent behaviour | **Low** — all render nothing today |
+| **1** | ✅ **DONE in 1.4.2.** Dequeue `plugins.min.js`, `plugins.css`, `fonts.css`, `three`, `dotlottie` | 278 KB actual, ~2.5 MB potential | Low — **but see the two traps below** |
+| **2** | ✅ **DONE in 1.4.2.** Remove the dead calls: `zeyna_popups`, `zeyna_mouse_cursor`, `zeyna_grid_layout_bg`, `zeyna_header_classes` | Header stops referencing parent behaviour | Low — all rendered nothing |
 | **3** | Child prints its own `.page--transitions` and initialises Barba itself | Drops `scripts.js` (132 KB) and `zeyna_page_transitions()` | **Medium** — the transition timeline must be reimplemented. The motion system already specifies it |
 | **4** | Own the loader end-to-end; drop `.first--load` coupling | Removes the last parent class from the boot path | Low |
 | **5** | Stop enqueuing `zeyna/style.css`; delete the variable bridge | 97 KB, and the last visual coupling | **Medium** — needs a full-width sweep to confirm nothing depended on a parent rule |
 | **6** | AK Brand Core registers the CPT and taxonomies | Pe Core no longer required | Medium — see `THEME-PLUGIN-ARCHITECTURE.md` |
 | **7** | Convert to a standalone theme: `Template:` header removed, `get_template_directory()` replaced | Zeyna uninstalled | **High** — do last, behind a full regression pass |
 
-**Steps 1 and 2 can ship immediately.** They are pure deletion of things that
-already do nothing, and they are the largest performance win per unit of risk.
+### Two traps found while doing steps 1 and 2
+
+This plan originally called step 1 "pure deletion of things that already do
+nothing". That was too confident, and checking rather than assuming found two
+reasons it is not:
+
+1. **`scripts.js` does reference a library from `plugins.min.js`.** Exactly
+   once — `new Swiper(...)` — reached only through
+   `if (mainQuery.querySelector('.product--archive--gallery'))`, a WooCommerce
+   product archive. So `plugins` is dequeued **only when WooCommerce is
+   inactive**. With WooCommerce present the branch can fire and the file stays.
+   A blanket dequeue would have thrown a ReferenceError on a shop archive.
+
+2. **A dequeued handle comes back if anything still depends on it.** The
+   child's `zeyna-parent` stylesheet declared `array( 'plugins' )` as its
+   dependency, and WordPress re-adds a dequeued style when a queued style
+   depends on it — so the dequeue would have silently done nothing. The
+   dependency had to be dropped first.
+
+**Result, measured on WordPress 7.1.0:** the front page now loads
+`gsap`, `gsap-plugins`, `lenis` and `scripts` and nothing else from the
+parent — `plugins.min.js`, `plugins.css` and the parent's font CSS are gone.
+GSAP, SplitText and the child's own runtime all still initialise; the loader
+still releases; no JS errors; no overflow.
+
+*(Unrelated observation recorded so it is not mistaken for a regression:
+`window.zeynaLenis` is undefined on a site without Redux, because the parent
+initialises Lenis only behind a Redux-driven `body.smooth-scroll` class. That
+was true before this change too.)*
+
+**Steps 3 onward still need their replacements built first.**
 
 ## Why anything is retained
 

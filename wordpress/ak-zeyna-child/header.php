@@ -39,25 +39,23 @@
 	<?php wp_body_open(); ?>
 	<span hidden class="layout--colors"></span>
 
-	<?php
-	if ( function_exists( 'zeyna_popups' ) ) {
-		zeyna_popups();
-	}
-	?>
-
 	<div id="page" class="site">
 
 		<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'ak-zeyna-child' ); ?></a>
 
 		<?php
-		if ( function_exists( 'zeyna_mouse_cursor' ) ) {
-			zeyna_mouse_cursor();
-		}
+		// Step 2 of docs/ZEYNA-EXIT-PLAN.md: the dead calls are gone.
+		// zeyna_mouse_cursor() drew a custom cursor the motion system bans,
+		// zeyna_grid_layout_bg() a decorative grid from a demo option, and
+		// zeyna_popups() renders nothing at all unless Redux popups are
+		// configured. None contributed anything to this build.
+		//
+		// zeyna_page_transitions() STAYS. The parent calls barba.init() only
+		// when `.page--transitions` is in the document, so removing it turns
+		// every soft navigation into a full page load. It goes at step 3,
+		// once the child prints its own transition element.
 		if ( function_exists( 'zeyna_page_transitions' ) ) {
 			zeyna_page_transitions();
-		}
-		if ( function_exists( 'zeyna_grid_layout_bg' ) ) {
-			zeyna_grid_layout_bg();
 		}
 
 		ak_page_loader();
@@ -65,7 +63,7 @@
 
 		<div class="pe-section header--default">
 
-			<header id="masthead" class="site-header pe-wrapper pe-items-center <?php echo function_exists( 'zeyna_header_classes' ) ? esc_attr( zeyna_header_classes() ) : ''; ?>">
+			<header id="masthead" class="site-header pe-wrapper pe-items-center">
 
 				<div class="pe-col-6">
 					<div class="site-branding">
