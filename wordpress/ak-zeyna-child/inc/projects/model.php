@@ -229,13 +229,21 @@ function ak_project_type_terms() {
  * @return string[] slug => label
  */
 function ak_work_filter_labels() {
+	/*
+	 * Order matters as much as membership. With only Digital and Fashion
+	 * populated, an alphabetical-ish order put DIGITAL first — so the most
+	 * prominent categorisation on the Work page opened on the studio's digital
+	 * layer, which is the exact misreading the whole architecture exists to
+	 * prevent. Digital is last: it is the surface a brand lives on, not the
+	 * practice.
+	 */
 	return array(
 		'brand'      => __( 'Brand', 'ak-zeyna-child' ),
 		'image'      => __( 'Image', 'ak-zeyna-child' ),
 		'film'       => __( 'Film', 'ak-zeyna-child' ),
-		'digital'    => __( 'Digital', 'ak-zeyna-child' ),
 		'experience' => __( 'Experience', 'ak-zeyna-child' ),
 		'fashion'    => __( 'Fashion', 'ak-zeyna-child' ),
+		'digital'    => __( 'Digital', 'ak-zeyna-child' ),
 	);
 }
 

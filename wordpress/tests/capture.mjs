@@ -31,7 +31,11 @@ export const CAPTURE_CSS = `
 .ak-vf{opacity:1!important}
 [data-ak-cut]{opacity:1!important}
 [data-ak-cut] .ak-cut-half--bottom{display:none!important}
-[data-ak-cut] .ak-cut-half--top{opacity:1!important;transform:none!important}
+/* The surviving half is clipped to the TOP of its glyphs by design; without
+   removing the clip the capture shows headings with their lower halves sliced
+   off, which reads as a rendering bug. */
+[data-ak-cut] .ak-cut-half--top{opacity:1!important;transform:none!important;
+  clip-path:none!important;-webkit-clip-path:none!important;clip:auto!important}
 `
 
 /** Neutralise the reveals, trigger the observers, and settle. */

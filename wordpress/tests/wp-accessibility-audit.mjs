@@ -22,7 +22,7 @@
  */
 import { chromium } from 'playwright'
 const B='http://127.0.0.1:9410'
-const PAGES=['/','/work/','/services/','/work/london-fashion-day/','/about/','/contact/','/journal/']
+const PAGES=['/','/work/','/services/','/work/london-fashion-day/','/about/','/contact/','/journal/','/journal/what-it-costs-to-show-at-a-fashion-week/','/privacy/','/?s=fashion','/?s=zzzznothing']
 const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium-1194/chrome-linux/chrome'})
 const findings=[]
 

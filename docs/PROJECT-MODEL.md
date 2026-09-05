@@ -10,7 +10,7 @@ the studio has established.**
 
 | File | Owns |
 |---|---|
-| `capabilities.php` | The factual layer — six movements, eight practice areas, 49 services |
+| `capabilities.php` | The factual layer — six movements, eight practice areas, 46 services |
 | `model.php` | The `ak_project` post type and the three taxonomies |
 | `meta.php` | Every field, through `register_post_meta` |
 | `preview.php` | The Website module's four states and the capture verification |
@@ -24,7 +24,7 @@ the studio has established.**
 ```
 PRESENTATION   Strategy · Identity · Image · Experience · Digital · Visibility
                       │ every movement is a PARENT TERM
-FACTUAL        49 services, each a CHILD TERM beneath the movement that carries it
+FACTUAL        46 services, each a CHILD TERM beneath the movement that carries it
 ```
 
 **Creative naming must never hide what the agency does.** The mechanism is the
@@ -159,10 +159,10 @@ This distinction is load-bearing.
 
 | | Size | Where it lives |
 |---|---|---|
-| **Service vocabulary** | 49 named services under six movements | The `ak_capability` taxonomy, Services, and **inside** each project |
+| **Service vocabulary** | 46 named services under six movements | The `ak_capability` taxonomy, Services, and **inside** each project |
 | **Public Work navigation** | Six editorial filters plus All | The Work index |
 
-Turning 49 services into 49 portfolio filters would be unusable, and would make
+Turning 46 services into 46 portfolio filters would be unusable, and would make
 Work read as a capability list rather than a body of work. So the filters are:
 
 **All · Brand · Image · Film · Digital · Experience · Fashion**
@@ -172,13 +172,19 @@ Work read as a capability list rather than a body of work. So the filters are:
 | **Brand** | Branding, Personal Branding |
 | **Image** | Photography, Campaign |
 | **Film** | Film |
-| **Digital** | Website / Digital, Retail / E-commerce, Media / Editorial, Advertising |
 | **Experience** | Event |
 | **Fashion** | Platform, Fashion Brand, Fashion Production |
+| **Digital** | Website / Digital, Retail / E-commerce, Media / Editorial, Advertising |
+
+Order matters as much as membership. With only Digital and Fashion populated,
+an earlier order put **Digital first** — so the most prominent categorisation on
+the Work page opened on the studio's digital layer, which is the exact
+misreading the architecture exists to prevent. Digital is last: it is the
+surface a brand lives on, not the practice.
 
 `ak_work_filters()` returns `all` plus one entry per filter that has at least one
-published project. On the confirmed register that is **All 10 · Digital 3 ·
-Fashion 4**. The mapping keeps the other rows so the first Photography or Event
+published project. On the confirmed register that is **All 10 · Fashion 4 ·
+Digital 3**. The mapping keeps the other rows so the first Photography or Event
 project brings its filter with it, without a code change and without ever having
 shown an empty one.
 
@@ -188,7 +194,7 @@ under one would misdescribe it. A count is a fact about published content, never
 a target to fill.
 
 **`ak_capability` is not publicly queryable.** A public taxonomy would have given
-the site 49 capability archives at `/work/capability/<service>/` — a second,
+the site 46 capability archives at `/work/capability/<service>/` — a second,
 accidental portfolio navigation an order of magnitude larger than the real one,
 mostly empty, and indexable. Capabilities are recorded per project and displayed
 inside it, grouped by movement, where they describe one piece of work rather than
@@ -302,7 +308,7 @@ expressible today:
 
 - pick the **project type** → it selects the presentation mode and the editor
   panels
-- tag the **capabilities delivered** → from the 49 already seeded
+- tag the **capabilities delivered** → from the 46 already seeded
 - add **modules** in the order the project actually needs
 
 Adding a service to `ak_movements()` makes it a taxonomy term, a Services entry

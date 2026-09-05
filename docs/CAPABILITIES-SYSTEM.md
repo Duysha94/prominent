@@ -3,8 +3,14 @@
 The canonical description of what AK Brand Development Studio does, and how
 that maps onto taxonomies, the project editor and the front end.
 
-**Source:** the confirmed practice areas supplied in the scope correction.
+**Source:** the AK Brand Development Studio source document, supplied in full
+by the owner. Every practice area and every service below appears there.
 Nothing here is invented; nothing confirmed is dropped.
+
+Three plausible-sounding services that were *not* in the document — *editorial
+photography*, *fashion film* and *event curation* — were removed once it
+arrived. A service list is a claim about what the studio sells, and inventing a
+line item is inventing a claim however reasonable it sounds. The count is 46.
 
 ## The correction this document makes
 
@@ -106,7 +112,7 @@ visibility · Engagement
 The factual layer above is now `ak_movements()` in
 `wordpress/ak-zeyna-child/inc/projects/capabilities.php` — one source that
 builds the Services page, seeds the `ak_capability` taxonomy, and fills the
-homepage and footer. Every one of the 49 services exists as a **child term
+homepage and footer. Every one of the 46 services exists as a **child term
 beneath its movement**, which is the mechanism that stops the editorial layer
 hiding the factual one, and `project-model-test.php` fails if any service is
 missing or misparented.
@@ -183,7 +189,7 @@ Editorial labels, derived from project type. Raw taxonomy names are never
 exposed.
 
 The service taxonomy and the public portfolio navigation are **not the same
-thing**. 49 services is the right size for a factual record of the practice and
+thing**. 46 services is the right size for a factual record of the practice and
 the wrong size for a portfolio menu, so the public filters stay concise and the
 detail is shown inside each project.
 
@@ -193,13 +199,13 @@ detail is shown inside each project.
 | **Brand** | Branding, Personal Branding |
 | **Image** | Photography, Campaign |
 | **Film** | Film |
-| **Digital** | Website / Digital, Retail / E-commerce, Media / Editorial, Advertising |
 | **Experience** | Event |
 | **Fashion** | Platform, Fashion Brand, Fashion Production |
+| **Digital** | Website / Digital, Retail / E-commerce, Media / Editorial, Advertising |
 
 **The table is the mapping, not the menu.** A filter renders only when at least
 one published project falls under it. On the confirmed register that is *All 10
-· Digital 3 · Fashion 4* — three chips, not seven. The other rows exist so that
+· Fashion 4 · Digital 3* — three chips, not seven. The other rows exist so that
 the first Photography or Event project brings its filter with it, without a code
 change and without ever having shown an empty one.
 
@@ -209,7 +215,7 @@ under All alone. A count is a fact about published content, never a target to
 fill.
 
 **Capabilities are not a public taxonomy.** `ak_capability` is registered
-`publicly_queryable => false` with no rewrite, so the site does not grow 49
+`publicly_queryable => false` with no rewrite, so the site does not grow 46
 capability archives at `/work/capability/<service>/` — a second, accidental
 portfolio navigation an order of magnitude larger than the real one, mostly
 empty, and indexable. The detailed capabilities delivered on a project are shown

@@ -21,6 +21,16 @@
  * looking for "fashion show production" finds that exact phrase, under
  * EXPERIENCE, and can filter Work by it.
  *
+ * SOURCE OF TRUTH: the practice areas and services supplied by the owner in
+ * the AK Brand Development Studio source document. Every entry below appears
+ * there. Three plausible-sounding services that did NOT — "editorial
+ * photography", "fashion film" and "event curation" — were removed once the
+ * document arrived: a service list is a claim about what the studio sells, and
+ * inventing a line item is inventing a claim, however reasonable it sounds.
+ *
+ * Adding a service here makes it a taxonomy term, a Services entry and a
+ * filterable capability. Only add one the owner has confirmed.
+ *
  * @package ak-zeyna-child
  */
 
@@ -84,9 +94,7 @@ function ak_movements() {
 			'areas'   => array( __( 'Photo & Video Production', 'ak-zeyna-child' ) ),
 			'services' => array(
 				'photo-campaigns'             => __( 'Photo campaigns', 'ak-zeyna-child' ),
-				'editorial-photography'       => __( 'Editorial photography', 'ak-zeyna-child' ),
 				'promotional-video'           => __( 'Promotional video production', 'ak-zeyna-child' ),
-				'fashion-film'                => __( 'Fashion film', 'ak-zeyna-child' ),
 				'campaign-production'         => __( 'Campaign production', 'ak-zeyna-child' ),
 				'image-visual-storytelling'   => __( 'Visual storytelling', 'ak-zeyna-child' ),
 			),
@@ -100,7 +108,6 @@ function ak_movements() {
 				'brand-presentations'      => __( 'Brand presentations', 'ak-zeyna-child' ),
 				'product-launches'         => __( 'Product launches', 'ak-zeyna-child' ),
 				'creative-events'          => __( 'Creative events', 'ak-zeyna-child' ),
-				'event-curation'           => __( 'Event curation', 'ak-zeyna-child' ),
 				'independent-fashion-shows' => __( 'Independent fashion shows', 'ak-zeyna-child' ),
 				'fashion-show-production'  => __( 'Fashion show production', 'ak-zeyna-child' ),
 				'fashion-week-production'  => __( 'Fashion-week-related production', 'ak-zeyna-child' ),

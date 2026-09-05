@@ -64,78 +64,105 @@ add_action(
 				// sameAs is omitted entirely when no profile is set — an
 				// empty sameAs array is worse than no claim at all.
 				'sameAs'      => array_values( ak_socials() ),
+				/*
+				 * The full breadth, in the order the practice reads — not
+				 * website development and advertising with the rest as an
+				 * afterthought. This is one of the places a search engine
+				 * quotes the studio back to itself, so a list that opened on
+				 * web and ads would be the misstatement repeated widest.
+				 */
 				'knowsAbout'  => array(
-					'Brand development',
+					'Brand strategy and development',
 					'Brand positioning',
-					'Personal brand strategy',
-					'Brand identity',
-					'Creative direction',
-					'Fashion consulting',
+					'Brand relaunch and repositioning',
+					'Personal brand development',
+					'Brand identity and creative direction',
+					'Visual storytelling',
+					'Photo campaign production',
+					'Promotional video production',
 					'Fashion show production',
-					'Photo and video campaign production',
-					'Event production',
+					'Fashion week production',
+					'Brand presentations and product launches',
+					'Creative events',
+					'Marketing and communication strategy',
 					'Public relations',
-					'Website development',
-					'Digital promotion',
+					'Campaign development',
+					'Website creation and development',
+					'Digital presence and online brand positioning',
+					'Digital promotion and advertising',
 				),
 				'founder'     => array(
-					array( '@id' => $site . '/about#konstantin-lieontiev' ),
-					array( '@id' => $site . '/about#andrey-karakushan' ),
+					array( '@id' => $site . '/about#kostiantyn-lieontiev' ),
+					array( '@id' => $site . '/about#andrii-karakushan' ),
 				),
 			),
 			array(
 				'@type'    => 'Person',
-				'@id'      => $site . '/about#konstantin-lieontiev',
+				'@id'      => $site . '/about#kostiantyn-lieontiev',
 				'name'     => 'Kostiantyn Lieontiev',
-				'jobTitle' => 'Fashion producer, brand strategist',
+				'jobTitle' => 'Fashion producer, brand strategist, media professional',
 				'url'      => $site . '/about/',
 				'worksFor' => array( '@id' => $site . '/#studio' ),
 			),
 			array(
 				'@type'    => 'Person',
-				'@id'      => $site . '/about#andrey-karakushan',
+				'@id'      => $site . '/about#andrii-karakushan',
 				'name'     => 'Andrii Karakushan',
-				'jobTitle' => 'Creative entrepreneur, digital and identity',
+				'jobTitle' => 'Creative entrepreneur — brand development, digital presence, visual communication',
 				'url'      => $site . '/about/',
 				'worksFor' => array( '@id' => $site . '/#studio' ),
 			),
-			// The platforms as first-class nodes. schema.org's `founder`
-			// property belongs to Organization (Person has no `founderOf`
-			// in the released vocabulary), so the relationship is asserted
-			// from the platform's side, where validators accept it.
-			array(
-				'@type'       => 'Organization',
-				'@id'         => $site . '/#london-fashion-day',
-				'name'        => 'London Fashion Day',
-				'url'         => 'https://londonfashionday.co.uk/',
-				'description' => 'International fashion platform supporting emerging designers.',
-				'founder'     => array( '@id' => $site . '/about#konstantin-lieontiev' ),
-			),
-			array(
-				'@type'       => 'Organization',
-				'@id'         => $site . '/#odessa-fashion-day',
-				'name'        => 'Odessa Fashion Day',
-				'url'         => 'https://ofd.org.ua/',
-				'description' => 'International fashion platform supporting emerging designers.',
-				'founder'     => array( '@id' => $site . '/about#konstantin-lieontiev' ),
-			),
-			array(
-				'@type'       => array( 'Organization', 'Brand' ),
-				'@id'         => $site . '/#keka',
-				'name'        => 'KEKA',
-				'url'         => 'https://keka.design/',
-				'description' => 'Fashion brand in development for the international market.',
-				'founder'     => array( '@id' => $site . '/about#konstantin-lieontiev' ),
-			),
-			array(
-				'@type'       => 'Organization',
-				'@id'         => $site . '/#coolbaba',
-				'name'        => "Cool'baba",
-				'url'         => 'https://coolbaba.in.ua/',
-				'description' => 'Online magazine covering fashion, lifestyle and creative industries.',
-				'founder'     => array( '@id' => $site . '/about#andrey-karakushan' ),
-			),
+			/*
+			 * The owned platforms, generated from the project model.
+			 *
+			 * These were four hard-coded blocks — and three of the seven
+			 * AK-owned projects were simply missing from the graph, while the
+			 * two founder @ids still pointed at the old name spellings and
+			 * therefore matched nothing on the About page. Reading the
+			 * register means the structured data cannot drift from the site
+			 * again, and a project added in WordPress appears here on its own.
+			 *
+			 * A `description` is emitted only when the project has an excerpt,
+			 * and a `founder` only where the source document actually names
+			 * one. Ownership by the studio is asserted for all of them, which
+			 * is the fact that IS established.
+			 */
 		);
+
+		$ak_founder_of = array(
+			'london-fashion-day' => $site . '/about#kostiantyn-lieontiev',
+			'odessa-fashion-day' => $site . '/about#kostiantyn-lieontiev',
+			'keka'               => $site . '/about#kostiantyn-lieontiev',
+			'coolbaba'           => $site . '/about#andrii-karakushan',
+		);
+
+		foreach ( ak_published_projects() as $ak_project ) {
+			$ak_rel = ak_project_relationship( $ak_project->ID );
+			if ( ! $ak_rel || 'ak-owned' !== $ak_rel->slug ) {
+				continue;
+			}
+			$ak_url  = (string) ak_project_meta( 'ak_url', '', $ak_project->ID );
+			$ak_type = ak_project_type( $ak_project->ID );
+			$ak_node = array(
+				'@type'  => ( $ak_type && 'fashion-brand' === $ak_type->slug )
+					? array( 'Organization', 'Brand' )
+					: 'Organization',
+				'@id'    => $site . '/#' . $ak_project->post_name,
+				'name'   => get_the_title( $ak_project ),
+				'parentOrganization' => array( '@id' => $site . '/#studio' ),
+			);
+			if ( $ak_url ) {
+				$ak_node['url'] = $ak_url;
+			}
+			if ( has_excerpt( $ak_project ) ) {
+				$ak_node['description'] = wp_strip_all_tags( get_the_excerpt( $ak_project ) );
+			}
+			if ( isset( $ak_founder_of[ $ak_project->post_name ] ) ) {
+				$ak_node['founder'] = array( '@id' => $ak_founder_of[ $ak_project->post_name ] );
+			}
+			$graph[] = $ak_node;
+		}
+
 
 		$json = wp_json_encode(
 			array(

@@ -39,7 +39,7 @@ add_action(
 			'front'    => 'AK Brand Development Studio is a fashion and brand advisory in London working across the whole development cycle — brand and personal brand strategy, identity and creative direction, photo and film production, fashion shows and events, digital presence, and communication, PR and paid media.',
 			'journal'  => 'Notes from the studio floor — short, practical writing on positioning, identity, image, production and visibility in fashion.',
 			'work'     => 'Selected work by AK Brand Development Studio: fashion platforms, media and editorial titles, brands and commissioned engagements, founded or produced by the studio.',
-			'services' => 'Six movements — Strategy, Identity, Image, Experience, Digital and Visibility — covering the studio\'s full practice, from brand positioning and creative direction to photo campaigns, fashion film, fashion show production, websites, PR and paid media.',
+			'services' => 'Six movements — Strategy, Identity, Image, Experience, Digital and Visibility — covering the studio\'s full practice, from brand positioning and creative direction to photo campaigns, promotional video, fashion show production, websites, PR and paid media.',
 			'about'    => 'AK Brand Development Studio was founded by Andrii Karakushan and Kostiantyn Lieontiev, the producers behind London Fashion Day and Odessa Fashion Day. A fashion and brand advisory based in London.',
 			'contact'  => 'Tell us where the brand is. AK Brand Development Studio, London, United Kingdom — fashion and brand advisory across strategy, identity, image, experience, digital and visibility.',
 		);
@@ -133,4 +133,32 @@ add_action(
 		echo '<script type="application/ld+json">' . $json . '</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_json_encode output.
 	},
 	6
+);
+
+/**
+ * Journal posts moved from the site root to /journal/.
+ *
+ * The permalink structure changed with a deployment, so anything that ever
+ * linked to a post at `/some-post/` would otherwise hit a 404 — and a 404 on
+ * an old link is the kind of damage a site carries silently for years.
+ *
+ * A single lookup on a request that is already going to 404 costs nothing, and
+ * only ever redirects to a post that genuinely exists.
+ */
+add_action(
+	'template_redirect',
+	function () {
+		if ( ! is_404() ) {
+			return;
+		}
+		$path = trim( (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '', PHP_URL_PATH ), '/' );
+		if ( '' === $path || false !== strpos( $path, '/' ) ) {
+			return;
+		}
+		$post = get_page_by_path( $path, OBJECT, 'post' );
+		if ( $post && 'publish' === $post->post_status ) {
+			wp_safe_redirect( get_permalink( $post ), 301 );
+			exit;
+		}
+	}
 );

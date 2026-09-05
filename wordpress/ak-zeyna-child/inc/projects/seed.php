@@ -68,6 +68,37 @@ function ak_seed_terms() {
 		}
 	}
 
+	/*
+	 * Retire capability terms the model no longer carries.
+	 *
+	 * Capability terms are release-managed: the factual service list is the
+	 * build's to state, so a term dropped from it should not linger in the
+	 * admin inviting someone to tag work with a service the studio does not
+	 * advertise. Three were removed when the source document arrived.
+	 *
+	 * Strictly scoped, as everything in this engine is: only terms the engine
+	 * itself seeded (they carry the seed key), only terms absent from the
+	 * current model, and only terms no project is using. A term someone
+	 * created by hand, or one that is actually assigned to work, is left
+	 * exactly where it is and reported instead.
+	 */
+	$wanted = array_keys( ak_movements() );
+	foreach ( ak_movements() as $movement ) {
+		$wanted = array_merge( $wanted, array_keys( ak_movement_services( $movement ) ) );
+	}
+	foreach ( get_terms( array( 'taxonomy' => 'ak_capability', 'hide_empty' => false ) ) as $term ) {
+		if ( in_array( $term->slug, $wanted, true ) ) {
+			continue;
+		}
+		if ( ! ak_is_managed( $term->term_id, 'term' ) ) {
+			continue;
+		}
+		if ( $term->count > 0 ) {
+			continue;
+		}
+		wp_delete_term( $term->term_id, 'ak_capability' );
+	}
+
 	return $created;
 }
 

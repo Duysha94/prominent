@@ -146,6 +146,31 @@ function ak_deploy() {
 	ak_deploy_form( $report );
 	ak_deploy_wiring( $manifest, $ids, $report );
 
+	/*
+	 * Journal posts live under /journal/, as the information architecture
+	 * says. WordPress's default `/%postname%/` put them at the site root, so
+	 * /journal/ listed articles whose own URLs were siblings of /about/ and
+	 * /work/ — the section existed in the navigation and nowhere in the URLs.
+	 *
+	 * Set only when the structure is still WordPress's own default or empty:
+	 * an owner who has deliberately chosen a different permalink scheme keeps
+	 * it, and the redirect below covers the old links either way.
+	 */
+	$ak_permalinks = (string) get_option( 'permalink_structure' );
+	if ( '' === $ak_permalinks || '/%postname%/' === $ak_permalinks ) {
+		/*
+		 * set_permalink_structure(), not update_option().
+		 *
+		 * $wp_rewrite reads the structure once, at init. Writing the option
+		 * directly leaves the in-memory object holding the old one, so the
+		 * flush two lines below regenerated the OLD rules and every journal
+		 * post 404ed at its new address while still answering at the root.
+		 */
+		global $wp_rewrite;
+		$wp_rewrite->set_permalink_structure( '/journal/%postname%/' );
+		$report['updated'][] = 'permalink structure — journal posts moved under /journal/';
+	}
+
 	flush_rewrite_rules();
 
 	return $report;

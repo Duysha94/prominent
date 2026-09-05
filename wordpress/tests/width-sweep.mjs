@@ -19,7 +19,8 @@ const B = proto ? 'http://127.0.0.1:9500/prototype/' : 'http://127.0.0.1:9410'
 const PAGES = proto
   ? ['home.html', 'services.html', 'work.html', 'case-platform.html',
      'case-photo.html', 'case-film.html', 'case-event.html', 'internal.html']
-  : ['/', '/work/', '/services/', '/work/london-fashion-day/', '/about/', '/contact/', '/journal/']
+  : ['/', '/work/', '/services/', '/work/london-fashion-day/', '/about/', '/contact/', '/journal/',
+     '/journal/what-it-costs-to-show-at-a-fashion-week/', '/privacy/', '/?s=fashion', '/?s=zzzznothing']
 const W = [320, 360, 390, 414, 480, 600, 768, 834, 900, 1024, 1180, 1280, 1440, 1728]
 
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' })

@@ -13,11 +13,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * Checkable facts only, and the practice line is read from the factual layer.
+ *
+ * It was hard-coded as "Strategy · Identity · Production · Presence" — the old
+ * four — so a band that scrolls across About and other routes was still
+ * announcing a practice two thirds the real size, with photography, film,
+ * shows and PR nowhere in it. Sixth place for a stale string to hide.
+ */
 $ak_facts = array(
 	array( 'Platform', 'London Fashion Day' ),
 	array( 'Platform', 'Odessa Fashion Day' ),
-	array( 'Working across', 'London · Paris · Dubai' ),
-	array( 'Practice', 'Strategy · Identity · Production · Presence' ),
+	array( 'Working across', ak_studio( 'cities' ) ),
+	array( 'Practice', implode( ' · ', wp_list_pluck( ak_movements(), 'name' ) ) ),
 );
 $ak_band_id = 'ak-band-' . wp_unique_id();
 ?>

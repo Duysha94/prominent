@@ -12,7 +12,8 @@
  */
 import { chromium } from 'playwright'
 const B = 'http://127.0.0.1:9410'
-const PAGES = ['/', '/work/', '/services/', '/work/london-fashion-day/', '/about/', '/contact/']
+const PAGES = ['/', '/work/', '/services/', '/work/london-fashion-day/', '/about/', '/contact/',
+               '/journal/', '/?s=fashion']
 const CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
 const b = await chromium.launch({ executablePath: CHROME })
 let pass = 0, fail = 0
