@@ -95,20 +95,58 @@ while ( have_posts() ) :
 	 * Grouped by movement so the editorial layer is visible without hiding a
 	 * single service name beneath it.
 	 */
+	/*
+	 * The DETAILED capabilities, grouped by movement.
+	 *
+	 * This is where the rich service vocabulary belongs — describing one piece
+	 * of work, not navigating all of it. The public Work filters stay at six
+	 * concise editorial terms; 49 services would be an unusable portfolio
+	 * navigation and would make Work read as a capability list.
+	 */
 	$ak_caps = get_the_terms( $ak_id, 'ak_capability' );
-	if ( $ak_caps && ! is_wp_error( $ak_caps ) ) :
+	$ak_by_movement = array();
+	if ( $ak_caps && ! is_wp_error( $ak_caps ) ) {
+		$ak_movement_names = array();
+		foreach ( ak_movements() as $ak_mv_slug => $ak_mv ) {
+			$ak_movement_names[ $ak_mv_slug ] = $ak_mv;
+		}
+		foreach ( $ak_caps as $ak_cap ) {
+			if ( ! $ak_cap->parent ) {
+				continue;
+			}
+			$ak_parent = get_term( $ak_cap->parent, 'ak_capability' );
+			$ak_key    = ( $ak_parent && ! is_wp_error( $ak_parent ) ) ? $ak_parent->slug : 'other';
+			if ( ! isset( $ak_by_movement[ $ak_key ] ) ) {
+				$ak_by_movement[ $ak_key ] = array(
+					'name'  => isset( $ak_movement_names[ $ak_key ] ) ? $ak_movement_names[ $ak_key ]['name'] : __( 'Other', 'ak-zeyna-child' ),
+					'no'    => isset( $ak_movement_names[ $ak_key ] ) ? $ak_movement_names[ $ak_key ]['number'] : '',
+					'items' => array(),
+				);
+			}
+			$ak_by_movement[ $ak_key ]['items'][] = $ak_cap->name;
+		}
+	}
+	if ( $ak_by_movement ) :
 		?>
 		<div class="aks-wrap">
 			<div class="aks-rail"><span class="aks-rail__mark"><?php esc_html_e( 'Delivered', 'ak-zeyna-child' ); ?></span></div>
-			<div class="aks-col-wide aks-section">
+			<div class="aks-col-full aks-section">
 				<h2 class="aks-t-display"><?php esc_html_e( 'What we delivered', 'ak-zeyna-child' ); ?></h2>
-				<ul class="aks-caps">
-					<?php foreach ( $ak_caps as $ak_cap ) : ?>
-						<?php if ( $ak_cap->parent ) : ?>
-							<li><?php echo esc_html( $ak_cap->name ); ?></li>
-						<?php endif; ?>
+				<div class="aks-delivered">
+					<?php foreach ( $ak_by_movement as $ak_group ) : ?>
+						<div class="aks-delivered__group">
+							<h3 class="aks-delivered__movement">
+								<?php if ( $ak_group['no'] ) : ?><span class="aks-delivered__no"><?php echo esc_html( $ak_group['no'] ); ?></span><?php endif; ?>
+								<?php echo esc_html( $ak_group['name'] ); ?>
+							</h3>
+							<ul class="aks-caps">
+								<?php foreach ( $ak_group['items'] as $ak_item ) : ?>
+									<li><?php echo esc_html( $ak_item ); ?></li>
+								<?php endforeach; ?>
+							</ul>
+						</div>
 					<?php endforeach; ?>
-				</ul>
+				</div>
 			</div>
 		</div>
 	<?php endif; ?>

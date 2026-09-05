@@ -29,7 +29,7 @@ function ak_project_meta_fields() {
 	return array(
 		// Always visible.
 		'ak_short_title'   => array( 'type' => 'string', 'panel' => 'always', 'label' => __( 'Short title', 'ak-zeyna-child' ), 'sanitize' => 'sanitize_text_field' ),
-		'ak_code'          => array( 'type' => 'string', 'panel' => 'always', 'label' => __( 'Project code', 'ak-zeyna-child' ), 'sanitize' => 'sanitize_text_field', 'help' => __( 'Left blank, one is generated from the relationship and a sequence.', 'ak-zeyna-child' ) ),
+		'ak_code'          => array( 'type' => 'string', 'panel' => 'always', 'label' => __( 'Project code', 'ak-zeyna-child' ), 'sanitize' => 'sanitize_text_field', 'help' => __( 'Generated once from the title (AK-LFD, AK-KEKA) and then stored. Yours to change — nothing regenerates it, and no deployment overwrites it.', 'ak-zeyna-child' ) ),
 		'ak_owner'         => array( 'type' => 'string', 'panel' => 'always', 'label' => __( 'Owner or client', 'ak-zeyna-child' ), 'sanitize' => 'sanitize_text_field' ),
 		'ak_year'          => array( 'type' => 'string', 'panel' => 'always', 'label' => __( 'Year', 'ak-zeyna-child' ), 'sanitize' => 'sanitize_text_field' ),
 		'ak_location'      => array( 'type' => 'string', 'panel' => 'always', 'label' => __( 'Location', 'ak-zeyna-child' ), 'sanitize' => 'sanitize_text_field' ),

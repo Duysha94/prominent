@@ -97,15 +97,27 @@ add_action(
 		 * that carries it, so naming something IMAGE never hides
 		 * "editorial photography" from a visitor or from a filter.
 		 */
+		/*
+		 * Not publicly queryable. A public taxonomy would have given the site
+		 * 49 capability archives at /work/capability/<service>/ — a second,
+		 * accidental portfolio navigation an order of magnitude larger than
+		 * the real one, mostly empty, and indexable. Capabilities are recorded
+		 * per project and displayed inside it; the public navigation is the
+		 * six editorial filters above.
+		 */
 		register_taxonomy(
 			'ak_capability',
 			AK_PROJECT_CPT,
 			array(
-				'label'             => __( 'Capabilities delivered', 'ak-zeyna-child' ),
-				'hierarchical'      => true,
-				'show_in_rest'      => true,
-				'show_admin_column' => false,
-				'rewrite'           => array( 'slug' => 'work/capability', 'with_front' => false ),
+				'label'              => __( 'Capabilities delivered', 'ak-zeyna-child' ),
+				'hierarchical'       => true,
+				'public'             => false,
+				'publicly_queryable' => false,
+				'show_ui'            => true,
+				'show_in_menu'       => true,
+				'show_in_rest'       => true,
+				'show_admin_column'  => false,
+				'rewrite'            => false,
 			)
 		);
 	},
@@ -158,51 +170,72 @@ function ak_relationship_terms() {
  * The canonical project types.
  *
  * `mode` is the presentation strategy the type selects. `filter` is the
- * editorial Work filter it falls under — and a filter renders only when a
- * published project actually carries it.
+ * concise editorial Work filter it falls under — and a filter renders only
+ * when a published project actually carries it.
  *
- * Website / Digital is deliberately absent. Having a website is a component
- * of a project, not a kind of project.
+ * WEBSITE / DIGITAL IS A REAL TYPE, and a manually selectable one. Some
+ * engagements genuinely ARE primarily website design, website development,
+ * e-commerce or a digital ecosystem, and the model has to be able to say so.
+ * Its mode leads with the Website module.
+ *
+ * What remains forbidden is INFERENCE. A URL never selects this type, or any
+ * type. A Platform, a Fashion Brand, a Media project or an Integrated project
+ * may all carry the Website module — showing their live site — without
+ * becoming Website projects. The module and the type are separate concepts and
+ * neither implies the other:
+ *
+ *     Website / Digital  a kind of project        chosen by a person
+ *     Website module     a section of a record    available to every type
  *
  * @return array[] slug => array( name, mode, filter )
  */
 function ak_project_type_terms() {
 	return array(
-		'platform'           => array( 'name' => __( 'Platform', 'ak-zeyna-child' ), 'mode' => 'assembled', 'filter' => 'platforms' ),
-		'media-editorial'    => array( 'name' => __( 'Media / Editorial', 'ak-zeyna-child' ), 'mode' => 'assembled', 'filter' => 'media' ),
-		'fashion-brand'      => array( 'name' => __( 'Fashion Brand', 'ak-zeyna-child' ), 'mode' => 'assembled', 'filter' => 'brands' ),
-		'retail-ecommerce'   => array( 'name' => __( 'Retail / E-commerce', 'ak-zeyna-child' ), 'mode' => 'assembled', 'filter' => 'retail' ),
-		'branding'           => array( 'name' => __( 'Branding', 'ak-zeyna-child' ), 'mode' => 'narrative', 'filter' => 'brands' ),
-		'personal-branding'  => array( 'name' => __( 'Personal Branding', 'ak-zeyna-child' ), 'mode' => 'narrative', 'filter' => 'brands' ),
+		'platform'           => array( 'name' => __( 'Platform', 'ak-zeyna-child' ), 'mode' => 'assembled', 'filter' => 'fashion' ),
+		'media-editorial'    => array( 'name' => __( 'Media / Editorial', 'ak-zeyna-child' ), 'mode' => 'assembled', 'filter' => 'digital' ),
+		'fashion-brand'      => array( 'name' => __( 'Fashion Brand', 'ak-zeyna-child' ), 'mode' => 'assembled', 'filter' => 'fashion' ),
+		'fashion-production' => array( 'name' => __( 'Fashion Production', 'ak-zeyna-child' ), 'mode' => 'document', 'filter' => 'fashion' ),
+		'website-digital'    => array( 'name' => __( 'Website / Digital', 'ak-zeyna-child' ), 'mode' => 'digital', 'filter' => 'digital' ),
+		'retail-ecommerce'   => array( 'name' => __( 'Retail / E-commerce', 'ak-zeyna-child' ), 'mode' => 'digital', 'filter' => 'digital' ),
+		'branding'           => array( 'name' => __( 'Branding', 'ak-zeyna-child' ), 'mode' => 'narrative', 'filter' => 'brand' ),
+		'personal-branding'  => array( 'name' => __( 'Personal Branding', 'ak-zeyna-child' ), 'mode' => 'narrative', 'filter' => 'brand' ),
 		'photography'        => array( 'name' => __( 'Photography', 'ak-zeyna-child' ), 'mode' => 'image', 'filter' => 'image' ),
 		'campaign'           => array( 'name' => __( 'Campaign', 'ak-zeyna-child' ), 'mode' => 'image', 'filter' => 'image' ),
 		'film'               => array( 'name' => __( 'Film', 'ak-zeyna-child' ), 'mode' => 'motion', 'filter' => 'film' ),
 		'event'              => array( 'name' => __( 'Event', 'ak-zeyna-child' ), 'mode' => 'document', 'filter' => 'experience' ),
-		'fashion-production' => array( 'name' => __( 'Fashion Production', 'ak-zeyna-child' ), 'mode' => 'document', 'filter' => 'experience' ),
-		'advertising'        => array( 'name' => __( 'Advertising', 'ak-zeyna-child' ), 'mode' => 'campaign', 'filter' => 'promotion' ),
-		'integrated'         => array( 'name' => __( 'Integrated', 'ak-zeyna-child' ), 'mode' => 'assembled', 'filter' => 'integrated' ),
+		'advertising'        => array( 'name' => __( 'Advertising', 'ak-zeyna-child' ), 'mode' => 'campaign', 'filter' => 'digital' ),
+		'integrated'         => array( 'name' => __( 'Integrated', 'ak-zeyna-child' ), 'mode' => 'assembled', 'filter' => '' ),
 	);
 }
 
 /**
- * The editorial Work filters, in display order.
+ * The concise public Work filters, in display order.
  *
- * This is the mapping, not the menu: `ak_work_filters()` in query.php renders
- * only those with published content behind them.
+ * THE SERVICE TAXONOMY AND THE PUBLIC PORTFOLIO NAVIGATION ARE NOT THE SAME
+ * THING. `ak_capability` carries 49 named services because the factual record
+ * of what the studio does has to be complete. Turning 49 services into 49
+ * portfolio filters would be unusable, and would also make Work look like a
+ * capability list rather than a body of work.
+ *
+ * So: six editorial filters plus All. The detailed capabilities AK actually
+ * delivered are shown inside each project, grouped by movement, where they
+ * describe one piece of work rather than trying to navigate all of it.
+ *
+ * This is the mapping, not the menu — `ak_work_filters()` in query.php renders
+ * only those with published content behind them. Projects typed Integrated,
+ * and projects with no type established, appear under All alone: an integrated
+ * project spans several of these and filing it under one would misdescribe it.
  *
  * @return string[] slug => label
  */
 function ak_work_filter_labels() {
 	return array(
-		'platforms'  => __( 'Platforms', 'ak-zeyna-child' ),
-		'media'      => __( 'Media', 'ak-zeyna-child' ),
-		'brands'     => __( 'Brands', 'ak-zeyna-child' ),
-		'retail'     => __( 'Retail', 'ak-zeyna-child' ),
+		'brand'      => __( 'Brand', 'ak-zeyna-child' ),
 		'image'      => __( 'Image', 'ak-zeyna-child' ),
 		'film'       => __( 'Film', 'ak-zeyna-child' ),
+		'digital'    => __( 'Digital', 'ak-zeyna-child' ),
 		'experience' => __( 'Experience', 'ak-zeyna-child' ),
-		'promotion'  => __( 'Promotion', 'ak-zeyna-child' ),
-		'integrated' => __( 'Integrated', 'ak-zeyna-child' ),
+		'fashion'    => __( 'Fashion', 'ak-zeyna-child' ),
 	);
 }
 

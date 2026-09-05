@@ -45,6 +45,32 @@ whose parent is its movement, or the suite fails.
 Collapsing any two of these is what produced a portfolio biased toward
 websites.
 
+### Website / Digital is a real type — but never an inferred one
+
+Two different statements, and only one of them is a rule:
+
+| | |
+|---|---|
+| **`Website / Digital` is a project type** | True. Some engagements genuinely *are* primarily website design, website development, e-commerce or a digital ecosystem, and the model must be able to say so. A person selects it. |
+| **A URL makes something a Website project** | False, and the thing the model exists to prevent. |
+
+`Website / Digital` and `Retail / E-commerce` render in `digital` mode, which
+places the Website module **first** — the engagement was the site, and burying
+its one substantive section would misrepresent the work. Every other mode places
+it last.
+
+The type and the module stay separate in both directions:
+
+```
+Website / Digital   a kind of project      chosen by a person
+Website module      a section of a record  available to every type
+```
+
+A Platform, a Fashion Brand, a Media / Editorial project or an Integrated
+project may all display their live site through the module **without becoming
+Website projects**. London Fashion Day carries a URL and a website module and
+remains a Platform; the suite asserts exactly that.
+
 ### Type may be unset, and unset is a publishable state
 
 `ak_project_type` is a radio list whose first option is **Not established yet**,
@@ -127,16 +153,73 @@ is ever published to fake one.
 preview → **verified** automatic capture → first gallery image → nothing. An
 unverified capture is not a cover, which is what keeps the index honest.
 
-## Filters are generated from published content
+## The service taxonomy and the public navigation are not the same thing
 
-`ak_work_filters()` returns `all` plus one entry per editorial filter that has
-at least one published project. On the confirmed register that is five chips.
-The mapping table in `model.php` keeps the other rows so the first Photography
-or Event project brings its filter with it, without a code change and without
-ever having shown an empty one.
+This distinction is load-bearing.
 
-The counts do not sum to All: untyped projects appear only under All. A count is
-a fact about published content, never a target to fill.
+| | Size | Where it lives |
+|---|---|---|
+| **Service vocabulary** | 49 named services under six movements | The `ak_capability` taxonomy, Services, and **inside** each project |
+| **Public Work navigation** | Six editorial filters plus All | The Work index |
+
+Turning 49 services into 49 portfolio filters would be unusable, and would make
+Work read as a capability list rather than a body of work. So the filters are:
+
+**All · Brand · Image · Film · Digital · Experience · Fashion**
+
+| Filter | Types mapped to it |
+|---|---|
+| **Brand** | Branding, Personal Branding |
+| **Image** | Photography, Campaign |
+| **Film** | Film |
+| **Digital** | Website / Digital, Retail / E-commerce, Media / Editorial, Advertising |
+| **Experience** | Event |
+| **Fashion** | Platform, Fashion Brand, Fashion Production |
+
+`ak_work_filters()` returns `all` plus one entry per filter that has at least one
+published project. On the confirmed register that is **All 10 · Digital 3 ·
+Fashion 4**. The mapping keeps the other rows so the first Photography or Event
+project brings its filter with it, without a code change and without ever having
+shown an empty one.
+
+The counts do not sum to All. Untyped projects and `Integrated` projects appear
+under All alone — an integrated project spans several of these and filing it
+under one would misdescribe it. A count is a fact about published content, never
+a target to fill.
+
+**`ak_capability` is not publicly queryable.** A public taxonomy would have given
+the site 49 capability archives at `/work/capability/<service>/` — a second,
+accidental portfolio navigation an order of magnitude larger than the real one,
+mostly empty, and indexable. Capabilities are recorded per project and displayed
+inside it, grouped by movement, where they describe one piece of work rather than
+trying to navigate all of it.
+
+## Project codes are stored data
+
+The Tech Pack language leans on these: a code appears in the margin rail, the
+register, the card, the *next project* link and the spec block, and the owner is
+expected to be able to say one out loud. So it is **stored**, in `ak_code`, and
+the render path only ever reads it.
+
+Two earlier versions were wrong the same way:
+
+- `AK-O-YY-{post_id % 1000}` produced `AK-O-—-096`..`105` — a run of numbers
+  saying nothing except how many rows the database held, and changing on any
+  re-import.
+- Deriving it from the project's position in its register is stable only until
+  someone reorders the list or unpublishes a record, at which point every code
+  after it silently shifts.
+
+A code is minted **once** from the title — initials for a multi-word name, the
+first four letters for a single word, with a numeric suffix on collision — and
+kept. The confirmed register ships with explicit ones:
+
+`AK-LFD` · `AK-OFD` · `AK-COOL` · `AK-PROM` · `AK-FF` · `AK-UTR` · `AK-KEKA` ·
+`AK-WLX` · `AK-LB` · `AK-SMYN`
+
+The field is owner-managed: retype it and no deployment will overwrite you. A
+deployment backfills a code for any project that has none, so the front end never
+writes during a GET.
 
 ## Fixtures are internal
 
@@ -148,6 +231,54 @@ thing fixtures must never do.
 
 Three exist, proving the Image, Motion and Document modes. They are deleted, not
 published, once the real project arrives.
+
+## Field ownership
+
+Three classes, and the boundary between them is the contract that makes it safe
+to ship theme updates to a site the owner is actively editing. Declared in
+`inc/projects/ownership.php`.
+
+| Class | Who writes | When |
+|---|---|---|
+| **RELEASE-MANAGED** | The build | Enforced on **every** deployment |
+| **OWNER-MANAGED** | The owner | Build may seed an empty field **once**, then never again |
+| **DERIVED** | Computed | Cache only, never a source of truth |
+
+**Release-managed:** seed key, managed marker, legacy marker, the fixture flag,
+the confirmed relationship of a canonical seeded record, migration and version
+state.
+
+**Owner-managed:** title, excerpt, content, project type, capabilities, cover and
+featured image, hero media, galleries, video, website URL, manual previews,
+case-study depth, modules, credits, ordering, featured state, project code,
+presentation choices — and **anything not listed at all**, because a field the
+build does not name is not a field the build may write.
+
+**Derived:** capture verification state, last-checked time, capture status.
+
+### The rule
+
+> Once an owner-managed value has been edited, a later deployment must not
+> silently restore the seed value.
+
+"Edited" includes **clearing** a field. An owner who deletes a seeded description
+meant to delete it, and a deployment that helpfully puts it back is a bug that
+looks like a haunting.
+
+Enforcement is a recorded set of touched keys per project (`_ak_owner_edited`),
+written on save from the edit screen and consulted by `ak_seed_field()`. It is
+deliberately **not** a value comparison: comparing the current value to the seed
+cannot distinguish *never touched* from *edited back to the same thing*, and gets
+the clearing case wrong.
+
+Presence in the POST is what counts, not a change in value. Opening the editor
+and pressing Update is the owner asserting the current state of the record,
+including the parts they chose to leave alone.
+
+The suite edits nine representative owner-managed fields, runs **two**
+deployments — a bug that survives one often fires on the next — and asserts every
+one survived, including a deliberately cleared URL. It then breaks two
+release-managed values and asserts both were restored.
 
 ## Projects are seeded, never reconciled
 

@@ -452,7 +452,9 @@ figcaption.aks-cap{margin-top:.5rem;font-family:var(--font-mono);font-size:.5625
    as flow, so any order of roles composes. */
 .aks-t-data + .aks-t-hero,
 .aks-t-data + .aks-t-display { margin-top: 1rem; }
-.aks-t-hero + .aks-t-lead,
+/* The hero sets line-height 1.02 and its descenders reach a long way, so a
+   1.5rem gap left the lead paragraph sitting on them. */
+.aks-t-hero + .aks-t-lead { margin-top: 2rem; }
 .aks-t-display + .aks-t-lead { margin-top: 1.5rem; }
 .aks-t-hero + .aks-t-body,
 .aks-t-display + .aks-t-body,
@@ -464,3 +466,18 @@ figcaption.aks-cap{margin-top:.5rem;font-family:var(--font-mono);font-size:.5625
 .aks-index + .aks-t-small,
 .aks-cards + .aks-t-small { margin-top: 2rem; }
 .aks-quiet { color: var(--text-faint); }
+
+/* ── Capabilities delivered, grouped by movement ─────────────────────────
+   The rich service vocabulary, describing ONE project. The public Work
+   filters stay concise; this is where the detail belongs. */
+.aks-delivered{display:grid;gap:2rem 2.5rem;grid-template-columns:1fr;margin-top:2rem}
+@media (min-width:700px){ .aks-delivered{grid-template-columns:repeat(2,1fr)} }
+@media (min-width:1100px){ .aks-delivered{grid-template-columns:repeat(3,1fr)} }
+.aks-delivered__movement{display:flex;align-items:baseline;gap:.6rem;margin:0 0 .75rem;
+  font-family:var(--font-mono);font-size:.625rem;letter-spacing:.14em;
+  text-transform:uppercase;font-weight:400;color:var(--text)}
+.aks-delivered__no{color:var(--accent-text)}
+.aks-caps{list-style:none;margin:0;padding:0}
+.aks-caps li{padding:.45rem 0;border-bottom:1px solid var(--rule);font-size:.875rem;line-height:1.45;
+  color:var(--text-muted)}
+.aks-caps li:last-child{border-bottom:0}

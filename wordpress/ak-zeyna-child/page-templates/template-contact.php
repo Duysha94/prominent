@@ -56,8 +56,12 @@ $ak_form = ak_find_brief_form();
 				<?php if ( $ak_form ) : ?>
 					<?php echo do_shortcode( '[contact-form-7 id="' . (int) $ak_form->ID . '" title="' . esc_attr( $ak_form->post_title ) . '"]' ); ?>
 				<?php else : ?>
-					<!-- Contact Form 7 is not active (or the form is not imported
-					     yet): degrade to a mailto so the page is never a dead end. -->
+					<?php
+					/*
+					 Contact Form 7 is not active (or the form is not imported
+					 yet): degrade to a mailto so the page is never a dead end.
+					 */
+					?>
 					<p class="ak-lead"><?php esc_html_e( 'The project brief form appears here once the Contact Form 7 plugin is active and the studio content has been imported.', 'ak-zeyna-child' ); ?></p>
 					<p style="margin-top:1.5rem"><a class="ak-btn ak-btn--fill" href="mailto:<?php echo esc_attr( ak_studio_email() ); ?>"><?php esc_html_e( 'Email the studio instead', 'ak-zeyna-child' ); ?></a></p>
 				<?php endif; ?>

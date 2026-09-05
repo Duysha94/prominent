@@ -141,9 +141,12 @@ Advertising · Integrated
 **One term per project.** It describes the **nature of the entity**, not the
 outputs AK produced for it — those are capabilities and modules.
 
-**Website / Digital is not on this list.** It was, and that was the error:
-having a website is a *component* of a project, not a kind of project. See the
-rule below.
+**Website / Digital is on this list**, and this document previously said it was
+not. That over-corrected. The instruction was *a URL does not make something a
+website project*; it was never *website projects do not exist*. Some engagements
+genuinely are primarily website design, website development, e-commerce or a
+digital ecosystem, and the model has to be able to say so — a person selects the
+type. What must never happen is a URL selecting it. See the rule below.
 
 A project that genuinely spans disciplines is **Integrated** — not seven
 separate entries.
@@ -152,6 +155,9 @@ separate entries.
 
 > **A supplied URL identifies a project and gives us real digital material to
 > preview. It says nothing about what the project is.**
+
+The rule is about *inference*, not existence. A person may select
+`Website / Digital`. A URL may not select it for them.
 
 Inferring `URL exists → Website / Digital` collapses an owned fashion platform
 into a web build. London Fashion Day is a platform involving fashion
@@ -176,32 +182,38 @@ without becoming a photography project.
 Editorial labels, derived from project type. Raw taxonomy names are never
 exposed.
 
+The service taxonomy and the public portfolio navigation are **not the same
+thing**. 49 services is the right size for a factual record of the practice and
+the wrong size for a portfolio menu, so the public filters stay concise and the
+detail is shown inside each project.
+
 | Filter | Includes |
 |---|---|
 | **All** | everything |
-| **Platforms** | Platform |
-| **Media** | Media / Editorial |
-| **Brands** | Fashion Brand, Branding, Personal Branding |
-| **Retail** | Retail / E-commerce |
+| **Brand** | Branding, Personal Branding |
 | **Image** | Photography, Campaign |
 | **Film** | Film |
-| **Experience** | Event, Fashion Production |
-| **Promotion** | Advertising |
-| **Integrated** | Integrated |
+| **Digital** | Website / Digital, Retail / E-commerce, Media / Editorial, Advertising |
+| **Experience** | Event |
+| **Fashion** | Platform, Fashion Brand, Fashion Production |
 
 **The table is the mapping, not the menu.** A filter renders only when at least
 one published project falls under it. On the confirmed register that is *All 10
-· Platforms 3 · Media 2 · Brands 1 · Retail 1* — five chips, not ten. The other
-five rows exist so that the first Photography or Event project brings its filter
-with it, without a code change and without ever having shown an empty one.
+· Digital 3 · Fashion 4* — three chips, not seven. The other rows exist so that
+the first Photography or Event project brings its filter with it, without a code
+change and without ever having shown an empty one.
 
-The counts do not sum to All, and that is correct: the three client records
-carry no type and appear only under All. A count is a fact about published
-content, never a target to fill.
+The counts do not sum to All, and that is correct: the three client records carry
+no type, and an `Integrated` project spans several filters, so all of them appear
+under All alone. A count is a fact about published content, never a target to
+fill.
 
-There is no **Digital** filter. It used to collect `Website / Digital`, which is
-no longer a type — a website is a module, and grouping projects by "has a
-website" was the mechanism that made the whole practice look like a web shop.
+**Capabilities are not a public taxonomy.** `ak_capability` is registered
+`publicly_queryable => false` with no rewrite, so the site does not grow 49
+capability archives at `/work/capability/<service>/` — a second, accidental
+portfolio navigation an order of magnitude larger than the real one, mostly
+empty, and indexable. The detailed capabilities delivered on a project are shown
+**inside** that project, grouped by movement.
 
 ## Presentation modes
 

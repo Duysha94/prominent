@@ -32,6 +32,9 @@ function ak_mode_panels() {
 		'motion'    => array( 'motion', 'modules' ),
 		'document'  => array( 'event', 'image', 'modules' ),
 		'campaign'  => array( 'narrative', 'modules' ),
+		// Website / Digital and Retail / E-commerce: the engagement really was
+		// the site, so the Website module leads and the narrative supports it.
+		'digital'   => array( 'narrative', 'image', 'modules' ),
 	);
 }
 

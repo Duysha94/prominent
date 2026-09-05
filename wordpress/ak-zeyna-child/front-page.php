@@ -28,7 +28,11 @@ $ak_journal    = get_page_by_path( 'journal' );
 
 <main id="primary" class="site-main ak-scope" <?php echo function_exists( 'zeyna_barba' ) ? zeyna_barba( false ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 
-	<!-- ── Hero ─────────────────────────────────────────────────────────── -->
+	<?php
+	/*
+	 ── Hero ───────────────────────────────────────────────────────────
+	 */
+	?>
 	<section class="ak-section">
 		<div class="ak-wrap">
 			<p class="ak-eyebrow">
@@ -53,12 +57,20 @@ $ak_journal    = get_page_by_path( 'journal' );
 		</div>
 	</section>
 
-	<!-- ── The showreel: a framed swatch that takes the whole screen ────── -->
-	<!-- The section is tall; a sticky child pins the frame while the named
-	     view-timeline (on the section, which DOES move) drives the growth
-	     from a measured swatch to full-bleed. Without scroll-driven support
-	     the reel is simply one full screen of video — it still fills the
-	     screen, it just skips the transition. -->
+	<?php
+	/*
+	 ── The showreel: a framed swatch that takes the whole screen ──────
+	 */
+	?>
+	<?php
+	/*
+	 The section is tall; a sticky child pins the frame while the named
+	 view-timeline (on the section, which DOES move) drives the growth
+	 from a measured swatch to full-bleed. Without scroll-driven support
+	 the reel is simply one full screen of video — it still fills the
+	 screen, it just skips the transition.
+	 */
+	?>
 	<section class="ak-reel" id="showreel" aria-label="<?php esc_attr_e( 'Showreel', 'ak-zeyna-child' ); ?>">
 		<div class="ak-reel__sticky">
 			<div class="ak-reel__frame" data-ak-measure data-always>
@@ -85,13 +97,21 @@ $ak_journal    = get_page_by_path( 'journal' );
 		</div>
 	</section>
 
-	<!-- ── The figures and the four movements ───────────────────────────── -->
+	<?php
+	/*
+	 ── The figures and the four movements ─────────────────────────────
+	 */
+	?>
 	<section class="ak-section">
 		<div class="ak-wrap">
-			<!-- The claim, stated once. The counting animation stays where a
-			     figure IS the claim — the tech-pack readouts inside case
-			     studies — rather than on a row of tiles that restate the
-			     sections around them. -->
+			<?php
+			/*
+			 The claim, stated once. The counting animation stays where a
+			 figure IS the claim — the tech-pack readouts inside case
+			 studies — rather than on a row of tiles that restate the
+			 sections around them.
+			 */
+			?>
 			<p class="ak-claim ak-rise">
 				<?php
 				echo wp_kses(
@@ -105,19 +125,21 @@ $ak_journal    = get_page_by_path( 'journal' );
 				?>
 			</p>
 
-			<!--
-			  The six movements, read from inc/projects/capabilities.php — the
-			  same source that builds Services and seeds the capability
-			  taxonomy. It used to be four, hard-coded here: Production
-			  swallowed photography, film, shows and launches, and Presence
-			  swallowed websites, PR and paid media, so the two largest parts
-			  of the practice were invisible inside other people's headings and
-			  the studio read as a web-and-ads shop.
-
-			  Each card names the confirmed practice areas beneath it, so the
-			  editorial layer never hides the factual one — and links straight
-			  to that movement's full service list.
-			-->
+			<?php
+			/*
+			 The six movements, read from inc/projects/capabilities.php — the
+			 same source that builds Services and seeds the capability
+			 taxonomy. It used to be four, hard-coded here: Production
+			 swallowed photography, film, shows and launches, and Presence
+			 swallowed websites, PR and paid media, so the two largest parts
+			 of the practice were invisible inside other people's headings and
+			 the studio read as a web-and-ads shop.
+			 
+			 Each card names the confirmed practice areas beneath it, so the
+			 editorial layer never hides the factual one — and links straight
+			 to that movement's full service list.
+			 */
+			?>
 			<ol class="ak-grid ak-grid--2 ak-grid--3" style="list-style:none;padding:0;margin:3.5rem 0 0">
 				<?php
 				$ak_services_url = $ak_services ? get_permalink( $ak_services ) : home_url( '/services/' );
@@ -136,7 +158,11 @@ $ak_journal    = get_page_by_path( 'journal' );
 		</div>
 	</section>
 
-	<!-- ── The argument: the one full-bleed accent section ──────────────── -->
+	<?php
+	/*
+	 ── The argument: the one full-bleed accent section ────────────────
+	 */
+	?>
 	<section class="ak-accent-field">
 		<div class="ak-wrap">
 			<p class="ak-eyebrow"><?php esc_html_e( 'Why this studio', 'ak-zeyna-child' ); ?></p>
@@ -147,7 +173,11 @@ $ak_journal    = get_page_by_path( 'journal' );
 		</div>
 	</section>
 
-	<!-- ── Selected work ────────────────────────────────────────────────── -->
+	<?php
+	/*
+	 ── Selected work ──────────────────────────────────────────────────
+	 */
+	?>
 	<?php
 	// Featured first, then the rest. Fixtures are excluded by the public
 	// query filter in inc/projects/query.php, so they can never reach here.
@@ -167,11 +197,13 @@ $ak_journal    = get_page_by_path( 'journal' );
 					<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
 					<?php esc_html_e( 'Selected work', 'ak-zeyna-child' ); ?>
 				</p>
-				<!--
-				  "and what it moved" promised outcomes. No result, metric or
-				  uplift has been supplied for any project, and a heading that
-				  implies otherwise is a claim the studio cannot stand behind.
-				-->
+				<?php
+				/*
+				 "and what it moved" promised outcomes. No result, metric or
+				 uplift has been supplied for any project, and a heading that
+				 implies otherwise is a claim the studio cannot stand behind.
+				 */
+				?>
 				<h2 class="ak-display ak-vf" data-ak-cut><?php esc_html_e( 'Selected work.', 'ak-zeyna-child' ); ?></h2>
 
 				<ul class="ak-index">
@@ -215,23 +247,25 @@ $ak_journal    = get_page_by_path( 'journal' );
 		</section>
 	<?php endif; ?>
 
-	<!--
-	  ── The registers ─────────────────────────────────────────────────────
-	  Two registers, and they are NOT the same claim. This section used to
-	  print one list headed "Built and run by the studio" containing Fashion
-	  Frontier, Prominent Magazine and Utrend Store — which the studio owns —
-	  alongside Lenie Boya, Wolax and Show Me Your Nails, which are client
-	  engagements. That heading asserted ownership of three other people's
-	  businesses. Relationship comes from the taxonomy now, so the two
-	  registers cannot be merged by accident again.
+	<?php
+	/*
+	 ── The registers ─────────────────────────────────────────────────────
+	 Two registers, and they are NOT the same claim. This section used to
+	 print one list headed "Built and run by the studio" containing Fashion
+	 Frontier, Prominent Magazine and Utrend Store — which the studio owns —
+	 alongside Lenie Boya, Wolax and Show Me Your Nails, which are client
+	 engagements. That heading asserted ownership of three other people's
+	 businesses. Relationship comes from the taxonomy now, so the two
+	 registers cannot be merged by accident again.
 
-	  Every card also used to call the capture service directly and print
-	  whatever came back. When the service is not ready it answers with a grey
-	  placeholder, so the homepage showed a row of grey plates — capture
-	  failure rendered as portfolio. Cards now go through ak_project_cover(),
-	  which returns media only when there is verified media, and a project
-	  without any renders as a typographic entry instead.
-	-->
+	 Every card also used to call the capture service directly and print
+	 whatever came back. When the service is not ready it answers with a grey
+	 placeholder, so the homepage showed a row of grey plates — capture
+	 failure rendered as portfolio. Cards now go through ak_project_cover(),
+	 which returns media only when there is verified media, and a project
+	 without any renders as a typographic entry instead.
+	 */
+	?>
 	<?php
 	$ak_registers = array(
 		'ak-owned' => array(
@@ -315,7 +349,11 @@ $ak_journal    = get_page_by_path( 'journal' );
 		</section>
 	<?php endforeach; ?>
 
-	<!-- ── The name ─────────────────────────────────────────────────────── -->
+	<?php
+	/*
+	 ── The name ───────────────────────────────────────────────────────
+	 */
+	?>
 	<section class="ak-section ak-section--rule">
 		<div class="ak-wrap">
 			<p class="ak-eyebrow">
@@ -333,7 +371,11 @@ $ak_journal    = get_page_by_path( 'journal' );
 
 	<?php get_template_part( 'template-parts/ak-band' ); ?>
 
-	<!-- ── Journal preview ──────────────────────────────────────────────── -->
+	<?php
+	/*
+	 ── Journal preview ────────────────────────────────────────────────
+	 */
+	?>
 	<?php
 	$ak_notes = new WP_Query(
 		array(

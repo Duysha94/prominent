@@ -228,47 +228,95 @@ function ak_work_layout() {
 }
 
 /**
- * The project code, generated when none was typed.
+ * The project code — read, never recomputed.
  *
- * AK · O|C|X · year|— · sequence.
+ * The Tech Pack language leans on these: a code is printed in the margin rail,
+ * in the register, on the card, in the "next project" link and in the spec
+ * block, and the owner is expected to be able to say one out loud. So it is
+ * stored project data, not a render-time calculation.
+ *
+ * Two earlier versions were wrong in the same way. `AK-O-YY-{post_id % 1000}`
+ * produced AK-O-—-096..105, a run of numbers that says nothing except how many
+ * rows the database happened to hold, and that changes on any re-import.
+ * Deriving it from the project's position in its register was no better: it is
+ * stable only until someone reorders the list or a record is unpublished, at
+ * which point every code after it silently shifts.
+ *
+ * A code is now generated ONCE, written to `ak_code`, and read from there
+ * forever. It is owner-managed, so the owner may retype it and no deployment
+ * will overwrite them.
  *
  * @param int $post_id Project ID.
  * @return string
  */
 function ak_project_code( $post_id = 0 ) {
 	$post_id = $post_id ? $post_id : get_the_ID();
-	$stored  = (string) ak_project_meta( 'ak_code', '', $post_id );
-	if ( $stored ) {
+	$stored  = (string) get_post_meta( $post_id, 'ak_code', true );
+	if ( '' !== $stored ) {
 		return $stored;
 	}
 
-	$relationship = ak_project_relationship( $post_id );
-	$letters      = array( 'ak-owned' => 'O', 'client' => 'C', 'collaboration' => 'X' );
-	$slug         = $relationship ? $relationship->slug : '';
-	$letter       = isset( $letters[ $slug ] ) ? $letters[ $slug ] : '—';
-	$year         = (string) ak_project_meta( 'ak_year', '', $post_id );
-	$year         = $year ? substr( $year, -2 ) : '—';
+	// Absent only for a project created outside the seeder. Mint one and keep
+	// it — the generation happens at most once per project, ever.
+	$code = ak_mint_project_code( get_the_title( $post_id ), $post_id );
+	update_post_meta( $post_id, 'ak_code', $code );
+	return $code;
+}
 
-	/*
-	 * The sequence is the project's position within its own register, not its
-	 * post ID modulo 1000 — which produced AK·O·—·096 through AK·O·—·105, a
-	 * run of numbers that says nothing except how many rows the database
-	 * happened to hold. A code is a reference the owner can say out loud.
-	 */
-	$peers = get_posts(
+/**
+ * Mint a code from a title: AK-LFD, AK-KEKA, AK-SMYN.
+ *
+ * Initials for a multi-word title, the first four letters for a single word.
+ * Collisions get a numeric suffix, checked against what is actually stored so
+ * two projects can never share a code.
+ *
+ * @param string $title   Project title.
+ * @param int    $post_id Project being minted for, excluded from the collision check.
+ * @return string
+ */
+function ak_mint_project_code( $title, $post_id = 0 ) {
+	$clean = trim( preg_replace( '/[^A-Za-z0-9 ]/', ' ', (string) $title ) );
+	$words = preg_split( '/\s+/', $clean, -1, PREG_SPLIT_NO_EMPTY );
+
+	if ( ! $words ) {
+		$stem = 'PRJ';
+	} elseif ( count( $words ) > 1 ) {
+		$stem = '';
+		foreach ( $words as $word ) {
+			$stem .= strtoupper( substr( $word, 0, 1 ) );
+		}
+		$stem = substr( $stem, 0, 5 );
+	} else {
+		$stem = strtoupper( substr( $words[0], 0, 4 ) );
+	}
+
+	$base  = 'AK-' . $stem;
+	$code  = $base;
+	$n     = 1;
+	while ( ak_code_taken( $code, $post_id ) ) {
+		$n++;
+		$code = $base . '-' . $n;
+	}
+	return $code;
+}
+
+/**
+ * Is a code already in use by another project?
+ *
+ * @param string $code    Candidate code.
+ * @param int    $post_id Project to ignore.
+ * @return bool
+ */
+function ak_code_taken( $code, $post_id = 0 ) {
+	$hits = get_posts(
 		array(
 			'post_type'      => AK_PROJECT_CPT,
-			'post_status'    => array( 'publish', 'draft', 'pending', 'private' ),
-			'posts_per_page' => -1,
+			'post_status'    => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+			'posts_per_page' => 2,
 			'fields'         => 'ids',
-			'orderby'        => array( 'menu_order' => 'ASC', 'ID' => 'ASC' ),
-			'tax_query'      => $slug ? array(
-				array( 'taxonomy' => 'ak_relationship', 'field' => 'slug', 'terms' => $slug ),
-			) : array(),
+			'meta_key'       => 'ak_code',
+			'meta_value'     => $code,
 		)
 	);
-	$position = array_search( (int) $post_id, array_map( 'intval', $peers ), true );
-	$position = false === $position ? 0 : $position;
-
-	return sprintf( 'AK·%s·%s·%03d', $letter, $year, $position + 1 );
+	return (bool) array_diff( array_map( 'intval', $hits ), array( (int) $post_id ) );
 }

@@ -80,6 +80,7 @@ require_once get_stylesheet_directory() . '/inc/case-meta.php';
 require_once get_stylesheet_directory() . '/inc/projects/capabilities.php';
 require_once get_stylesheet_directory() . '/inc/projects/model.php';
 require_once get_stylesheet_directory() . '/inc/projects/meta.php';
+require_once get_stylesheet_directory() . '/inc/projects/ownership.php';
 require_once get_stylesheet_directory() . '/inc/projects/preview.php';
 require_once get_stylesheet_directory() . '/inc/projects/query.php';
 require_once get_stylesheet_directory() . '/inc/projects/modules.php';

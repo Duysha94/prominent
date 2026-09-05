@@ -80,10 +80,26 @@ function ak_default_modules( $post_id, $mode ) {
 		$modules[] = array( 'type' => 'gallery', 'ids' => array_map( 'absint', explode( ',', $gallery ) ) );
 	}
 
-	// The website module is placed last by default: for an owned platform its
-	// site is one surface of a larger ecosystem, and leading with it would
-	// reduce the platform to its web build.
-	$modules[] = array( 'type' => 'website' );
+	/*
+	 * Where the website module sits, by default.
+	 *
+	 * `digital` mode leads with it: the owner has stated that this engagement
+	 * WAS primarily the website, e-commerce build or digital ecosystem, and
+	 * burying its one substantive section at the foot of the page would
+	 * misrepresent the work.
+	 *
+	 * Every other mode places it last. For an owned platform the site is one
+	 * surface of a larger ecosystem, and leading with it would reduce the
+	 * platform to its web build.
+	 *
+	 * Either way this is only the default. The owner sets the real order in
+	 * the Modules field, and that ordering is theirs.
+	 */
+	if ( 'digital' === $mode ) {
+		array_unshift( $modules, array( 'type' => 'website' ) );
+	} else {
+		$modules[] = array( 'type' => 'website' );
+	}
 
 	if ( ak_project_meta( 'ak_credits', '', $post_id ) ) {
 		$modules[] = array( 'type' => 'credits' );
