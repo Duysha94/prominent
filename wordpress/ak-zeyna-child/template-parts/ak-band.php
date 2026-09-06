@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $ak_facts = array(
 	array( 'Platform', 'London Fashion Day' ),
 	array( 'Platform', 'Odessa Fashion Day' ),
-	array( 'Working across', ak_studio( 'cities' ) ),
+	array( 'Based in', ak_studio_location() ),
 	array( 'Practice', implode( ' · ', wp_list_pluck( ak_movements(), 'name' ) ) ),
 );
 $ak_band_id = 'ak-band-' . wp_unique_id();

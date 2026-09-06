@@ -39,7 +39,7 @@ $ak_journal    = get_page_by_path( 'journal' );
 				<span class="ak-eyebrow__rule ak-draw" aria-hidden="true"></span>
 				<span style="color:var(--accent-text)"><?php esc_html_e( 'Fashion & Brand Advisory', 'ak-zeyna-child' ); ?></span>
 				<span aria-hidden="true">—</span>
-				<?php esc_html_e( 'London · Paris · Dubai', 'ak-zeyna-child' ); ?>
+				<?php echo esc_html( ak_studio_location() ); ?>
 			</p>
 
 			<h1 class="ak-display ak-display--hero" data-ak-cut><?php esc_html_e( 'From an idea to an international presence.', 'ak-zeyna-child' ); ?></h1>

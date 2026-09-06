@@ -102,8 +102,7 @@ $ak_marquee_id    = 'ak-fmq-' . wp_unique_id();
 						<?php if ( ak_studio( 'phone' ) ) : ?>
 							<a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', ak_studio( 'phone' ) ) ); ?>"><?php echo esc_html( ak_studio( 'phone' ) ); ?></a><br>
 						<?php endif; ?>
-						<?php echo esc_html( ak_studio_location() ); ?><br>
-						<?php echo esc_html( ak_studio( 'cities' ) ); ?>
+						<?php echo esc_html( ak_studio_location() ); ?>
 					</address>
 
 					<?php

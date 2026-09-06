@@ -47,20 +47,15 @@ add_action(
 					'addressLocality' => ak_studio( 'city' ),
 					'addressCountry'  => ak_studio( 'country' ),
 				),
-				'areaServed'  => array_values(
-					array_filter(
-						array_map(
-							function ( $ak_city ) {
-								$ak_city = trim( $ak_city );
-								return $ak_city ? array(
-									'@type' => 'City',
-									'name'  => $ak_city,
-								) : null;
-							},
-							preg_split( '/\s*[·,|]\s*/u', ak_studio( 'cities' ) )
-						)
-					)
-				),
+				/*
+				 * No `areaServed`.
+				 *
+				 * It listed London, Paris and Dubai, split out of the studio
+				 * facts — a structured, machine-readable assertion that the
+				 * studio operates in three cities, which the source document
+				 * does not establish. `address` states the one location that
+				 * is established, and nothing claims a footprint beyond it.
+				 */
 				// sameAs is omitted entirely when no profile is set — an
 				// empty sameAs array is worse than no claim at all.
 				'sameAs'      => array_values( ak_socials() ),

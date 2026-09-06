@@ -196,7 +196,7 @@ $ak_work_href     = $ak_work_href ? $ak_work_href : home_url( '/work/' );
 					__( 'An independent practice, run by its two owners', 'ak-zeyna-child' ),
 					__( 'Strategy, production and digital under one roof', 'ak-zeyna-child' ),
 					__( 'We produce the show, not just the deck', 'ak-zeyna-child' ),
-					__( 'Working with designers, brands and creative teams across London, Paris and Dubai', 'ak-zeyna-child' ),
+					__( 'Based in London, working on international projects', 'ak-zeyna-child' ),
 				);
 				foreach ( $ak_principles as $ak_line ) :
 					?>

@@ -71,8 +71,26 @@ function ak_studio( $key ) {
 		'phone'   => '',
 		'city'    => 'London',
 		'country' => 'United Kingdom',
-		'cities'  => 'London · Paris · Dubai',
 	);
+
+	/*
+	 * There is no `cities` fact any more.
+	 *
+	 * It held 'London · Paris · Dubai' and was printed as "Working across
+	 * London · Paris · Dubai" in the hero, the footer, the studio-facts band
+	 * and on Contact — and, worst of the five, as schema.org `areaServed`,
+	 * which is a machine-readable claim to operate in three cities.
+	 *
+	 * The source document supports those three cities as places KOSTIANTYN has
+	 * collaborated with designers, brands and creative teams. It establishes
+	 * one studio location: London, United Kingdom. Generalising a founder's
+	 * collaborations into a studio-wide operating footprint is exactly the
+	 * kind of claim that is easy to write, impossible to withdraw, and
+	 * verifiably untrue to anyone who checks.
+	 *
+	 * The band that carried it now carries the six movements instead — the
+	 * studio's identity stated as capability rather than as geography.
+	 */
 
 	$default = isset( $defaults[ $key ] ) ? $defaults[ $key ] : '';
 	$value   = (string) get_theme_mod( 'ak_studio_' . $key, $default );
@@ -130,7 +148,6 @@ add_action(
 			'ak_studio_phone'   => array( __( 'Phone (optional — hidden when empty)', 'ak-zeyna-child' ), '', 'sanitize_text_field' ),
 			'ak_studio_city'    => array( __( 'City', 'ak-zeyna-child' ), 'London', 'sanitize_text_field' ),
 			'ak_studio_country' => array( __( 'Country', 'ak-zeyna-child' ), 'United Kingdom', 'sanitize_text_field' ),
-			'ak_studio_cities'  => array( __( 'Cities line', 'ak-zeyna-child' ), 'London · Paris · Dubai', 'sanitize_text_field' ),
 		);
 
 		foreach ( $fields as $key => $spec ) {

@@ -72,8 +72,7 @@ $ak_form = ak_find_brief_form();
 				<p style="margin:.9rem 0 0"><a href="mailto:<?php echo esc_attr( ak_studio_email() ); ?>" style="color:var(--accent-text);text-decoration:none;font-family:var(--font-mono);font-size:.8125rem"><?php echo esc_html( ak_studio_email() ); ?></a></p>
 				<p style="margin:.4rem 0 0;font-family:var(--font-mono);font-size:.625rem;letter-spacing:.1em;color:var(--text-muted)">akbrand.studio</p>
 				<p style="margin:1.25rem 0 0;font-size:.8125rem;line-height:1.6;color:var(--text-muted)"><?php
-					/* translators: 1: postal location, 2: the cities line. */
-					printf( esc_html__( '%1$s. Working across %2$s.', 'ak-zeyna-child' ), esc_html( ak_studio_location() ), esc_html( str_replace( ' · ', ', ', ak_studio( 'cities' ) ) ) );
+					echo esc_html( ak_studio_location() ) . '.';
 					?></p>
 			</aside>
 		</div>
