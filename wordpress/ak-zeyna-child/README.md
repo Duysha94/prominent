@@ -1,8 +1,13 @@
-# AK Brand Development Studio — child theme for Zeyna
+# AK Brand Development Studio — the studio's theme
 
-A complete, installable website: child theme + content import. It keeps
-Zeyna's header, footer, menu and Barba page transitions, and layers the
-studio's design system, motion and finished page layouts on top.
+A complete, installable website: theme + content, with nothing to import.
+
+It installs as a child of Zeyna and is no longer built on it. The header,
+footer, navigation, page transitions, loader, motion layer, every stylesheet
+and every script are this theme's own; no parent CSS, JavaScript, template or
+setting is used at runtime. Zeyna is still required at install time for one
+reason only — WordPress will not activate a child theme whose declared parent
+is missing. See `docs/ZEYNA-EXIT-PLAN.md`.
 
 After install, only three things are yours to swap: the **logo**, the
 **photography**, and the **showreel video**. Everything else — pages, copy,
@@ -12,8 +17,10 @@ menu, contact form, placeholder case studies — arrives ready.
 
 ## Install — three steps, no import
 
-1. **Zeyna** (parent theme): **Appearance → Themes → Add New → Upload
-   Theme** → upload the Zeyna zip. Install only; it need not be active.
+1. **Zeyna** (declared parent): **Appearance → Themes → Add New → Upload
+   Theme** → upload the Zeyna zip. Install only; do not activate it. Nothing
+   from it is loaded — WordPress simply refuses to activate a child theme
+   whose parent is not installed.
 2. **Contact Form 7**: **Plugins → Add New** → install and activate.
 3. **This theme**: upload `ak-zeyna-child.zip` → **Activate**.
 

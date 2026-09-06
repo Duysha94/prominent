@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * The studio's own loader, not Zeyna's: the seam draws itself down the
  * screen while the monogram sets, and the panel lifts away. It is printed
- * only on a genuine first load — Barba handles every later navigation —
- * and `assets/js/ak.js` dismisses it and clears `first--load` on the
+ * only on a genuine first load — assets/js/ak-nav.js handles every later
+ * navigation — and `assets/js/ak.js` dismisses it and clears `ak-booting` on the
  * window load event, with a hard timeout so a stalled asset can never trap
  * a visitor behind it.
  *
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ak_page_loader() {
 	if ( ! apply_filters( 'ak_page_loader', true ) ) {
 		// Nothing to dismiss, so release the document immediately.
-		echo '<script>document.documentElement.classList.remove("first--load");</script>';
+		echo '<script>document.documentElement.classList.remove("ak-booting");</script>';
 		return;
 	}
 	?>
@@ -76,7 +76,7 @@ function ak_logo_image( $url ) {
  * The studio holds two files: dark artwork that reads on paper, light
  * artwork that reads on ink. WordPress's custom-logo control holds one, so
  * both are printed and CSS shows whichever matches `data-theme` — no
- * flash, no JavaScript, and correct on a soft Barba navigation where a
+ * flash, no JavaScript, and correct on a soft navigation, where a
  * script-swapped `src` would have been lost.
  *
  * Falling back matters as much as switching. The most common way to arrive

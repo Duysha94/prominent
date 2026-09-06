@@ -116,6 +116,46 @@ function ak_legacy_evidence( $post_id ) {
 }
 
 /**
+ * Read `pe-redux` exactly as it sits in the database.
+ *
+ * This is legacy RECOGNITION, not a rendering dependency: nothing on the AK
+ * frontend reads Zeyna's configuration, and the child no longer filters this
+ * option (see the note in inc/setup.php). What is still needed is the ability
+ * to look at a site that once ran the Zeyna demo and tell what the demo left
+ * behind — which template posts it pointed at, and which fields it filled with
+ * another agency's contact details.
+ *
+ * Read from the options table rather than through get_option():
+ *
+ *   · `pe-redux` is a PLUGIN-owned option. Redux Framework and anything else
+ *     on the site may legitimately filter it, and a filtered value is not what
+ *     is stored — writing one back would persist another component's runtime
+ *     output as though the owner had typed it.
+ *   · the previous version of this read called `remove_all_filters()` and then
+ *     restored only the child's own callback. On a site with Redux actually
+ *     active that silently destroyed every OTHER filter on the option for the
+ *     rest of the request. Removing the child's filter would have left that
+ *     hazard in place with nothing to restore at all.
+ *
+ * A direct read has neither problem, and needs no restoration step.
+ *
+ * @return mixed The stored option, unfiltered; false when it does not exist.
+ */
+function ak_redux_raw() {
+	global $wpdb;
+
+	$value = $wpdb->get_var(
+		$wpdb->prepare( "SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1", 'pe-redux' )
+	);
+
+	if ( null === $value ) {
+		return false;
+	}
+
+	return maybe_unserialize( $value );
+}
+
+/**
  * Record which posts the demo's Redux config points at, before it is cleared.
  *
  * Those template IDs are the only proof that a given `elementor_library` post
@@ -123,11 +163,7 @@ function ak_legacy_evidence( $post_id ) {
  * Redux fields first would destroy that proof, so it is captured and kept.
  */
 function ak_capture_redux_templates() {
-	remove_all_filters( 'option_pe-redux' );
-	$redux = get_option( 'pe-redux' );
-	if ( function_exists( 'ak_force_redux_chrome' ) ) {
-		add_filter( 'option_pe-redux', 'ak_force_redux_chrome' );
-	}
+	$redux = ak_redux_raw();
 	if ( ! is_array( $redux ) ) {
 		return;
 	}

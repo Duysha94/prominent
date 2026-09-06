@@ -194,7 +194,9 @@
 *::after { box-sizing: border-box; }
 
 html {
-  /* Lenis drives scrolling; this is the no-JS / reduced-motion fallback. */
+  /* Native smooth scrolling. There is no scroll-hijacking library here —
+     see the note at the Lenis block below for why that is a decision and
+     not an omission. */
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
@@ -232,10 +234,30 @@ body {
   border-radius: 1px;
 }
 
-/* Lenis */
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
-.lenis.lenis-stopped { overflow: hidden; }
+/* THERE IS NO SMOOTH-SCROLL LIBRARY, AND THAT IS A DESIGN DECISION.
+   Three rules used to sit here supporting Zeyna's Lenis instance. They are
+   gone with it, and Lenis was not re-adopted on the way out.
+
+   The reasoning, so it is not silently reversed: this site is read, not
+   flown through. Its long routes are the case study and the Journal post,
+   both of them reading surfaces, and interpolated scrolling on a reading
+   surface fights the reader's own pacing — a trackpad flick overshoots, a
+   find-in-page jump arrives late, and the scrollbar stops matching the
+   viewport. It also has real costs: it takes ownership of the scroll
+   position away from the browser, so anchor links, browser restoration on
+   back/forward and assistive-technology scrolling all have to be
+   re-implemented on top of it, and none of that survives the script failing
+   to load.
+
+   The motion this theme wants — the cut-ins, the rise, the video frames —
+   is scroll-TRIGGERED, not scroll-DRIVEN, so it needs the scroll position,
+   not control of it. `scroll-behavior: smooth` above gives the one thing
+   Lenis was genuinely providing (eased anchor jumps) natively, honours
+   prefers-reduced-motion, and costs nothing when JavaScript is absent.
+
+   If the studio later wants inertial scrolling as a stated design choice,
+   it comes back as an AK decision with these costs answered — not as a
+   Zeyna inheritance. */
 
 /* Screen-reader-only, still focusable */
 .sr-only {
@@ -1520,90 +1542,59 @@ body { font-weight: 400; }
 /* ═══════════════════════════════════════════════════════════════════════════
    TYPE SCALE REBASE  (finding F-02 / change D-1)
    ═══════════════════════════════════════════════════════════════════════════
-   Zeyna hard-codes `html { font-size: 14px }` (its style.css, line 766).
-   Every size in this design system is written in `rem` and was drawn
-   against the 16px default, so the whole scale was rendering 12.5% small —
-   the smallest labels landed at 7.0px, under the legibility floor.
+   This began as a repair: Zeyna hard-coded `html { font-size: 14px }` (its
+   style.css, line 766), and since every size in this design system is
+   written in `rem` and drawn against the 16px default, the whole scale
+   rendered 12.5% small — the smallest labels landed at 7.0px, under the
+   legibility floor.
 
-   `rem` resolves against the root and nothing else, so the only correct fix
-   is at the root. Using a PERCENTAGE rather than another pixel value is the
-   point: 100% means "whatever the reader has chosen in their browser",
-   which restores the scale to its designed size for the default reader and
-   — unlike a hard 14px — finally honours anyone who has set a larger
-   default for legibility. Zeyna's own rem-based type grows with it; every
-   place that matters on these pages is already set by this file, which
-   loads last.
+   That stylesheet is gone, so this is no longer a repair. It stays as a
+   STATEMENT, and the percentage is the reason: 100% means "whatever the
+   reader has chosen in their browser". A theme that never says this is
+   merely inheriting the default; saying it makes the scale's dependence on
+   the reader's own setting explicit, and makes any future absolute value
+   here a visible decision rather than a quiet regression.
    ------------------------------------------------------------------------ */
 html { font-size: 100%; }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   ZEYNA BRIDGE — the parent chrome, taught the house language.
-   ═══════════════════════════════════════════════════════════════════════════
-   Zeyna's own CSS is driven by Redux-printed variables (--mainColor,
-   --secondaryBackground, …). Without a demo import those are UNDEFINED and
-   the menu collapses into an unstyled heap. The child defines every one of
-   them from the AK tokens — in both modes — so the chrome never depends on
-   Redux being configured, and follows ATELIER/RUNWAY automatically.
-   The body.layout--switched selectors out-cascade the parent's own
-   "switched" palette; the PHP bridge (inc/theme-mode.php) turns that
-   per-page Zeyna option into data-theme, so both systems agree.
-   ------------------------------------------------------------------------ */
-:root,
-.e-con,
-.layout--colors,
-.header--switched,
-body.layout--switched,
-:root body.layout--switched,
-:root body.layout--switched .e-con,
-.e-con.layout--switched,
-.e-con.layout--switched .e-con {
-  --mainColor: var(--text);
-  --secondaryColor: var(--text-muted);
-  --mainBackground: var(--bg);
-  --secondaryBackground: var(--bg-raised);
-  --linesColor: var(--rule-strong);
-  --customMainColor: var(--text);
-  --customSecondaryColor: var(--text-muted);
-  --customMainBackground: var(--bg);
-  --customSecondaryBackground: var(--bg-raised);
-  --customLinesColor: var(--rule-strong);
-}
+/* THE ZEYNA VARIABLE BRIDGE IS GONE.
+   Ten custom properties — --mainColor, --secondaryBackground, --linesColor
+   and their --custom* twins — used to be defined here across nine selectors
+   (:root, .e-con, .layout--colors, .header--switched and the
+   body.layout--switched combinations), so that the parent's chrome would
+   still render when Redux had never printed them.
 
-/* ── The page transition, in the studio's own colour ─────────────────────
-   Zeyna paints `.page--transitions` with `var(--secondaryBackground)`, and
-   Redux prints that variable from Theme Options in a <style> block that
-   lands after this file — so redefining the variable in the bridge above is
-   not enough on a configured site, and every navigation wiped the screen
-   with the parent's dark panel even in ATELIER.
+   Nothing reads them. The parent stylesheet is dequeued and deregistered,
+   the header and footer are the child's own markup styled by this file, and
+   a grep of every stylesheet this theme ships returns zero uses of
+   var(--mainColor) or any of the other nine. A block of definitions with no
+   consumer is not free: it is the shape of a dependency, and it invites the
+   next person to write against it. */
 
-   Two class-level selectors out-specify anything Redux writes, whatever the
-   order, so the sheet is always the mode the visitor is actually in. The
-   contents of the overlay — the parent's logo and caption — are switched
-   off in inc/setup.php, leaving a single clean sheet.
-   -------------------------------------------------------------------- */
-.site .page--transitions,
-html .page--transitions {
-  background: var(--bg);
-  color: var(--text);
-}
-.site .page--transitions .pt--wrapper { background: transparent; }
+/* The parent's transition overlay had a defence written here: two
+   class-level selectors repainting `.page--transitions` in the studio's
+   colours, because Zeyna paints it from a Redux-printed variable that lands
+   after this file, and a `display:none` for the Elementor furniture a demo
+   import leaves inside it.
 
-/* Nothing of the parent's transition furniture survives the switch-off, but
-   a demo import can leave an Elementor template behind in the markup. */
-.page--transitions .pt--element,
-.page--transitions div[data-elementor-type="pe-loader-transitions"] { display: none; }
+   All of it is gone. `zeyna_page_transitions()` is never called, the element
+   is never printed, and the transition is `.ak-transition` — the child's
+   own, defined further down this file. Rules defending against markup this
+   theme cannot emit are not harmless: they are a standing claim that the
+   parent still renders here. */
 
-/* ── Header (Zeyna's default header, restyled deterministically) ─────── */
-/* Zeyna keeps the header at opacity:0 under html.first--load and relies on
-   its intro script to reveal it — if that script is late, blocked, or its
-   Redux options absent, the site renders headless. The child's own entrance
-   animation always wins (running animations out-cascade declarations), so
-   the header can never be stranded invisible. */
-.first--load .site-header { opacity: 1; }
-/* fill:backwards, deliberately: a held transform (even identity) would make
+/* ── Header ──────────────────────────────────────────────────────────── */
+/* A `.ak-booting .site-header { opacity: 1 }` rule stood here, forcing the
+   header visible against Zeyna's own `opacity: 0` — the parent held the
+   header hidden during boot and relied on its Redux-configured intro script
+   to reveal it, so a blocked script rendered the site headless. That
+   stylesheet is gone, the declared opacity is the initial 1, and the rule
+   went with the hazard it was written for.
+
+   fill:backwards, deliberately: a held transform (even identity) would make
    the header a containing block and trap the fixed mobile panel inside it.
-   After the entrance ends, transform returns to none and opacity is held by
-   the .first--load rule above. */
+   After the entrance ends the element returns to its declared style, which
+   is fully opaque with no transform. */
 .site-header { animation: ak-header-in 700ms var(--ease-cut) backwards; }
 @keyframes ak-header-in {
   from { opacity: 0; transform: translateY(-8px); }
@@ -1613,8 +1604,8 @@ html .page--transitions {
   .site-header { animation: none; opacity: 1; }
 }
 
-.header--default { position: relative; z-index: 120; }
-.header--default .site-header {
+.ak-chrome { position: relative; z-index: 120; }
+.ak-chrome .site-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1626,7 +1617,7 @@ html .page--transitions {
 /* Zeyna's column helper is `flex-direction: column` with a 30px bottom
    margin — meant for page sections, not for a header bar. Inside the
    header it stacked the controls and padded the bar to 136px tall. */
-.header--default .site-header .pe-col-6 {
+.ak-chrome__bar .ak-chrome__side {
   width: auto;
   flex-direction: row;
   align-items: center;
@@ -1641,15 +1632,15 @@ html .page--transitions {
      scrolled sideways. */
   min-width: 0;
 }
-.header--default .site-header .pe-col-6:first-child { flex: 0 1 auto; }
-.header--default .site-header .pe-col-6.pe-items-right { flex: 0 0 auto; }
+.ak-chrome__bar .ak-chrome__side:first-child { flex: 0 1 auto; }
+.ak-chrome__bar .ak-chrome__side--end { flex: 0 0 auto; }
 
 /* Between the panel breakpoint and a comfortable desktop the horizontal
    menu, the mode switch and the wordmark are competing for one line. Close
    the menu's gaps and bring the wordmark down a step rather than letting
    the bar break. */
 @media (min-width: 56.26em) and (max-width: 75em) {
-  .header--default .site-header { gap: 1.25rem; }
+  .ak-chrome .site-header { gap: 1.25rem; }
   .main-navigation ul { gap: 1.15rem; }
   .site-branding .site-title { font-size: 1.0625rem; }
   .ak-mode--header { margin-right: 0.5rem; }
@@ -1665,7 +1656,17 @@ html .page--transitions {
 .wp-custom-logo .site-branding .site-title { display: none; }
 
 .main-navigation { width: auto; }
-.main-navigation ul { margin: 0; padding: 0; list-style: none; align-items: center; gap: 2rem; }
+/* `display: flex` was the PARENT stylesheet's. This rule set gap and
+   align-items — both meaningless without it — and the menu therefore laid
+   itself out horizontally only because Zeyna's CSS was on the page. Removing
+   that stylesheet stacked the six items vertically and made the header 201px
+   tall. The three properties below are what was being inherited. */
+.main-navigation ul {
+  display: flex;
+  margin: 0; padding: 0; list-style: none;
+  align-items: center; gap: 2rem;
+}
+.main-navigation li { list-style: none; }
 .main-navigation li { position: relative; }
 .main-navigation a {
   display: inline-flex;
@@ -1720,11 +1721,11 @@ html .page--transitions {
 .menu-toggle:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 3px; }
 
 @media (max-width: 56.25em) {
-  .header--default .site-header { gap: 1rem; }
-  .header--default .site-header .pe-col-6:first-child { min-width: 0; flex: 1 1 auto; width: auto; overflow: hidden; }
+  .ak-chrome .site-header { gap: 1rem; }
+  .ak-chrome__bar .ak-chrome__side:first-child { min-width: 0; flex: 1 1 auto; width: auto; overflow: hidden; }
   /* The switch and the Menu button sit on one line, vertically centred —
      the parent's column helper would otherwise stack them. */
-  .header--default .site-header .pe-col-6.pe-items-right {
+  .ak-chrome__bar .ak-chrome__side--end {
     gap: 0.75rem;
     min-width: max-content;   /* the controls set the width; branding takes the rest */
   }
@@ -1794,19 +1795,19 @@ html .page--transitions {
   .ak-nav-scrim { animation: none; }
 }
 
-/* Scroll lock. Lenis is stopped in JS as well — this stops the native
-   scroll that remains underneath it. */
+/* Scroll lock behind the open navigation panel. This is the whole of it —
+   there is no scroll library to stop as well. */
 :root.ak-nav-open,
 :root.ak-nav-open body { overflow: hidden; }
 
-/* The panel lives inside .header--default, which carries z-index:120 and so
+/* The panel lives inside .ak-chrome, which carries z-index:120 and so
    opens a stacking context of its own. Inside that context the panel's
    z-index:310 is measured against its siblings, not against the scrim — so
    the scrim, a direct child of <body> at 305, painted OVER the whole header:
    the menu came up dimmed and blurred behind its own overlay, and its links
    were not clickable. Lifting the header itself above the scrim for as long
    as the panel is open puts the panel back on top, where it belongs. */
-:root.ak-nav-open .header--default { z-index: 320; }
+:root.ak-nav-open .ak-chrome { z-index: 320; }
 
 /* The insurance toggle ak.js floats in when no header rendered one. */
 .ak-mode--floating {
@@ -1850,7 +1851,7 @@ html .page--transitions {
 
 /* The page underneath must not scroll while the panel is up — with the same
    failsafe, so a stuck panel can never leave the document unscrollable. */
-html.first--load body { overflow: hidden; animation: ak-scroll-failsafe 1ms linear 3s forwards; }
+html.ak-booting body { overflow: hidden; animation: ak-scroll-failsafe 1ms linear 3s forwards; }
 @keyframes ak-scroll-failsafe { to { overflow: visible; } }
 
 .ak-loader__thread {
@@ -2475,3 +2476,58 @@ main.site-main { overflow: visible; }
    editorial and unbounded. */
 .ak-index__link > .ak-index__title { min-width: 0; overflow-wrap: anywhere; }
 .ak-index__link > .ak-index__year { min-width: 0; white-space: nowrap; }
+
+/* ── The header bar's own layout ──────────────────────────────────────────
+   This row used to be laid out by the PARENT theme's `.pe-wrapper` and
+   `.pe-col-6` classes — the child emitted parent grid markup and inherited
+   parent CSS to make it work. Removing the parent stylesheet would have
+   collapsed the header on every page, and nothing in the child said so.
+   The three declarations below are what those classes were actually
+   contributing. */
+.ak-chrome__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.ak-chrome__side { display: flex; align-items: center; }
+.ak-chrome__side--end { justify-content: flex-end; }
+
+/* ── The transition overlay, AK's own ─────────────────────────────────────
+   One sheet of the studio's paper or ink, coloured from data-theme like
+   everything else. It replaces the parent's `.page--transitions` element,
+   which was assembled from a dozen Redux keys and could arrive carrying a
+   demo logo and caption on the parent's own dark ground.
+
+   Purely decorative: `pointer-events:none` at rest, aria-hidden always, and
+   nothing about navigation depends on it. With JavaScript absent it never
+   receives a class and is never seen. */
+.ak-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(100%);
+  transition: transform 380ms var(--ease-cut), opacity 200ms linear;
+}
+.ak-transition.is-covering {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;   /* swallow clicks mid-navigation, not before */
+}
+.ak-transition.is-clearing {
+  opacity: 1;
+  transform: translateY(-100%);
+  transition: transform 460ms var(--ease-cut), opacity 240ms linear 220ms;
+}
+/* A navigation in progress should not look like a dead page. */
+:root.ak-navigating { cursor: progress; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* No sheet at all. The swap still happens; it simply happens plainly.
+     ak-nav.js also skips waiting on the transition in this case, so a
+     reduced-motion visitor gets a faster navigation, not a slower one. */
+  .ak-transition { display: none; }
+}

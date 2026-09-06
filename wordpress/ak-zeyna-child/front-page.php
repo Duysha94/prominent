@@ -26,7 +26,7 @@ $ak_services   = get_page_by_path( 'services' );
 $ak_journal    = get_page_by_path( 'journal' );
 ?>
 
-<main id="primary" class="site-main ak-scope" <?php echo function_exists( 'zeyna_barba' ) ? zeyna_barba( false ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<main id="primary" class="site-main ak-scope" data-ak-container>
 
 	<?php
 	/*

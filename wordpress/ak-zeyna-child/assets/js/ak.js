@@ -1,21 +1,22 @@
 /*!
  * AK Brand Development Studio — motion layer for WordPress.
  *
- * Zeyna already loads GSAP (with SplitText, ScrollTrigger, Flip, Observer),
- * Lenis and Barba, so this file loads none of them. It adds the studio's own
- * devices on top and — critically — tears them down and rebuilds them around
- * Barba's container swap, which is what breaks on most bespoke work bolted
- * onto a transition theme.
+ * GSAP and its plugins are enqueued by the child theme itself (see
+ * inc/enqueue.php), as libraries rather than as a parent-theme runtime. This
+ * file adds the studio's own devices on top and — critically — tears them
+ * down and rebuilds them around the container swap in ak-nav.js, which is
+ * what breaks on most bespoke work bolted onto a transition theme.
  *
- * Zeyna puts data-barba="container" on <main id="primary"> and calls
- * get_footer() after it, so the footer lives OUTSIDE the container and
- * persists. The Seam therefore lives in the footer and initialises once.
+ * The AK container is <main id="primary" data-ak-container>, and get_footer()
+ * is called after it, so the footer lives OUTSIDE the container and persists
+ * across soft navigations. The Seam therefore lives in the footer and
+ * initialises once.
  */
 (function () {
   'use strict'
 
   // Run-once guard: a page optimizer inlining the script beside the enqueued
-  // copy would otherwise double-bind every Barba hook and listener.
+  // copy would otherwise double-bind every navigation hook and listener.
   if (window.AK) return
 
   var doc = document
@@ -45,7 +46,7 @@
   })
 
   function currentContainer() {
-    return doc.querySelector('[data-barba="container"]') || doc.body
+    return doc.querySelector('[data-ak-container]') || doc.body
   }
 
   function safely(fn, container) {
@@ -93,10 +94,10 @@
    * Zeyna has no light/dark mode — verified, there is not one selector for it
    * anywhere in the theme. This is ours.
    *
-   * State lives on <html data-theme>, NOT on <body>. That is deliberate: Barba
-   * replaces body classes wholesale on every navigation, so a mode kept on the
-   * body flashes back on every soft navigation. An attribute on the
-   * documentElement survives untouched.
+   * State lives on <html data-theme>, NOT on <body>. That is deliberate: the
+   * navigation runtime adopts the incoming body class on every swap, so a
+   * mode kept on the body would flash back on every soft navigation. An
+   * attribute on the documentElement survives untouched.
    *
    * First paint is handled by a blocking inline script in <head> (see
    * inc/theme-mode.php), so a dark visitor never sees a white flash.
@@ -168,7 +169,7 @@
    *
    * What the parent's dead script would have given us is a class flip. What a
    * side panel actually needs, and gets here: a scrim, a focus trap, Escape,
-   * outside-click, close-on-navigate, a scroll lock that also stops Lenis,
+   * outside-click, close-on-navigate, a scroll lock,
    * and a reset when the viewport grows past the breakpoint.
    * -------------------------------------------------------------------- */
   ;(function nav() {
@@ -198,11 +199,21 @@
       root.classList.toggle('ak-nav-open', open)
       toggle.setAttribute('aria-expanded', String(open))
 
-      // Lenis owns the scroll on this theme, so `overflow: hidden` on the
-      // document alone would not stop the page moving under the panel.
-      if (window.zeynaLenis) {
-        try { open ? zeynaLenis.stop() : zeynaLenis.start() } catch (e) { /* older build */ }
-      }
+      /* Lenis is gone, and with it this hook.
+       *
+       * The parent theme ran a Lenis instance that hijacked the scroll, so
+       * `overflow: hidden` on the document did not stop the page moving under
+       * the open panel and the instance had to be stopped by hand. The AK
+       * theme scrolls natively: the CSS lock is sufficient, and the scroll
+       * position is the browser's, which means anchor links, keyboard
+       * paging, find-in-page, history restoration and touch all behave the
+       * way the visitor's own browser behaves.
+       *
+       * Removing Lenis was a design decision, not a consequence of the exit:
+       * inertial scrolling was Zeyna's house style and adds nothing this
+       * design asked for. The guard is left as a comment rather than deleted
+       * silently so the absence reads as a choice.
+       */
 
       if (open) {
         if (!scrim) {
@@ -225,7 +236,7 @@
       setOpen(!open, true)
     })
 
-    // A tap on a menu link starts a navigation — soft under Barba, so the
+    // A tap on a menu link starts a navigation — soft under ak-nav.js, so the
     // panel would otherwise still be sitting open over the new page.
     panel.addEventListener('click', function (e) {
       if (e.target.closest && e.target.closest('a[href]')) setOpen(false, false)
@@ -256,7 +267,7 @@
     if (panelMode.addEventListener) panelMode.addEventListener('change', widthChange)
     else if (panelMode.addListener) panelMode.addListener(widthChange)
 
-    // Barba swaps the container, not the header — so close it by hand.
+    // ak-nav.js swaps the container, not the header — so close it by hand.
     AK.closeMenu = function () { setOpen(false, false) }
   })()
 
@@ -653,7 +664,7 @@
 
   /* ── The loader ──────────────────────────────────────────────────────────
    * Dismiss the boot panel and release the document. This is the ONLY code
-   * that removes `first--load` now: Zeyna's own remover lives inside its
+   * that removes `ak-booting` now: Zeyna's own remover lives inside its
    * loader script, which is gated on its markup, and this theme prints its
    * own panel instead. So the class is cleared here on window load, and
    * again on a hard 3.5s timeout — a stalled font or image must never leave
@@ -666,7 +677,7 @@
     function release() {
       if (released) return
       released = true
-      root.classList.remove('first--load')
+      root.classList.remove('ak-booting')
       if (panel) {
         panel.classList.add('is-done')
         // Take it out of the tree once the fade has finished.
@@ -700,7 +711,7 @@
 
   /* ── The Seam ────────────────────────────────────────────────────────────
    * One orange thread down the page, bowing against scroll velocity on an
-   * underdamped spring. It lives in the footer, outside Barba's container, so
+   * underdamped spring. It lives in the footer, outside the swap container, so
    * it initialises once and survives every navigation.
    * -------------------------------------------------------------------- */
   ;(function seam() {
@@ -732,33 +743,31 @@
     gsap.ticker.add(draw)
   })()
 
-  /* ── Barba bridge ────────────────────────────────────────────────────────
-   * Without this, every navigation leaks ScrollTriggers and observers, scroll
-   * positions drift, and pinned sections compute against the wrong document
-   * height. Zeyna ships no teardown for third-party work.
+  /* ── Navigation bridge ───────────────────────────────────────────────────
+   * Without teardown, every soft navigation leaks ScrollTriggers and
+   * observers, scroll positions drift, and pinned sections compute against
+   * the wrong document height.
+   *
+   * This used to hook barba.hooks — the parent theme's transition library,
+   * initialised from a Redux option. It now listens to ak-nav.js's own
+   * events, which are plain CustomEvents on the document. If ak-nav.js is
+   * absent or never fires (JS off, a throw before init, a page it declined to
+   * intercept), nothing here runs and nothing needs to: the browser has
+   * navigated normally and this script has re-initialised from scratch on the
+   * new document.
+   *
+   * Focus and the live-region announcement are ak-nav's job, not this file's:
+   * they must happen even if every module here throws.
    * -------------------------------------------------------------------- */
-  function bindBarba() {
-    if (!window.barba || !barba.hooks) return
+  doc.addEventListener('ak:navigate:before-swap', function (e) {
+    runPhase('cleanup', (e.detail && e.detail.container) || currentContainer())
+    // A soft navigation leaves the header standing, panel and all.
+    if (AK.closeMenu) AK.closeMenu()
+  })
 
-    barba.hooks.beforeLeave(function (data) {
-      runPhase('cleanup', (data && data.current && data.current.container) || currentContainer())
-      // A soft navigation leaves the header standing, panel and all.
-      if (AK.closeMenu) AK.closeMenu()
-    })
-
-    barba.hooks.afterEnter(function (data) {
-      var container = (data && data.next && data.next.container) || currentContainer()
-      runPhase('init', container)
-      runPhase('reinit', container)
-
-      // Accessibility across a soft navigation — Barba ships none of this.
-      container.setAttribute('tabindex', '-1')
-      container.focus({ preventScroll: true })
-      var live = doc.getElementById('ak-route-announcer')
-      if (live) live.textContent = doc.title
-    })
-  }
-
-  if (doc.readyState === 'complete') bindBarba()
-  else window.addEventListener('load', bindBarba)
+  doc.addEventListener('ak:navigate:after-swap', function (e) {
+    var container = (e.detail && e.detail.container) || currentContainer()
+    runPhase('init', container)
+    runPhase('reinit', container)
+  })
 })()

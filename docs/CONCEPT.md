@@ -194,6 +194,14 @@ event.
 
 ## 6. Motion
 
+> **The WordPress build does not use Lenis.** The prototype does, and every
+> Lenis note in this section is a true account of the prototype. The shipped
+> theme removed it as a design decision when the parent theme's runtime was
+> replaced — the motion there is scroll-*triggered*, not scroll-*driven*, and
+> native `scroll-behavior: smooth` carries the anchor easing. See
+> `ZEYNA-EXIT-PLAN.md` §4 and `MOTION-SYSTEM.md`.
+
+
 Full spec in **[MOTION.md](./MOTION.md)**. The architecture in one line:
 
 > **Tier 1 is CSS, tier 2 is GSAP, and tier 2 is not allowed in the entry

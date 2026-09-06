@@ -1,5 +1,18 @@
 # Building this on WordPress + Zeyna
 
+> **HISTORICAL — this document describes the *parent theme*, not this site.**
+>
+> It is the reverse-engineering audit of Zeyna 1.5.0 that the build was
+> planned from, and it is accurate about Zeyna. It is no longer a description
+> of how the AK site works. Barba, Lenis, the parent's GSAP bundle, the
+> `data-barba` wrapper contract, the Redux-driven transition and the parent's
+> stylesheet have all been replaced — see `ZEYNA-EXIT-PLAN.md` for the final
+> inventory and what took over from each.
+>
+> Kept because the exit was written against the parent's source rather than
+> against how it behaves on a test install, and this is that source reading.
+
+
 > ## ✅ This document is now verified
 >
 > The theme package was supplied and audited directly. **Zeyna 1.5.0 by Pe

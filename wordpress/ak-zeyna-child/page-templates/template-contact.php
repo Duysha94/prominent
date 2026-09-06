@@ -40,7 +40,7 @@ function ak_find_brief_form() {
 $ak_form = ak_find_brief_form();
 ?>
 
-<main id="primary" class="site-main ak-scope" <?php echo function_exists( 'zeyna_barba' ) ? zeyna_barba( false ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<main id="primary" class="site-main ak-scope" data-ak-container>
 
 	<section class="ak-section">
 		<div class="ak-wrap">

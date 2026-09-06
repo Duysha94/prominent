@@ -6,8 +6,8 @@
  * physical. Straight and taut: the orange fill is scroll progress and the
  * knot riding it is where you are in the document.
  *
- * Printed from wp_footer, which Zeyna renders outside the Barba container, so
- * this markup survives every navigation and is initialised exactly once.
+ * Printed from wp_footer, which is outside `[data-ak-container]`, so this
+ * markup survives every soft navigation and is initialised exactly once.
  *
  * @package ak-zeyna-child
  */

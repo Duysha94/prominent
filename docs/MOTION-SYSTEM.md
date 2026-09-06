@@ -89,10 +89,27 @@ What deliberately does **not**:
 - The spec header on a case study. It is reference data; it stays put.
 - Anything in the footer.
 
-Lenis smooth scroll comes from the parent. It is retained **only** because
-scroll-driven animation and it must agree; if the exit plan drops Lenis, the
-scroll-driven work is unaffected because it is timeline-based, not
-listener-based.
+**There is no smooth-scroll library.** Lenis came from the parent and was not
+re-adopted on the way out — a decision taken on its own terms, not a
+consequence of the exit. This site is read, not flown through: its long routes
+are the case study and the Journal post, and interpolated scrolling on a
+reading surface fights the reader's pacing while taking ownership of scroll
+position away from the browser (anchors, back/forward restoration, assistive
+scrolling all then have to be rebuilt, and none of it survives the script
+failing).
+
+The motion here is scroll-**triggered**, not scroll-**driven**: it needs to
+know the scroll position, not to control it, so nothing above changes.
+`scroll-behavior: smooth` provides the eased anchor jumps natively, honours
+`prefers-reduced-motion`, and costs nothing with JavaScript off. The full
+reasoning is in `ZEYNA-EXIT-PLAN.md` §4 and in `ak.css` where the three Lenis
+rules used to be.
+
+**Libraries: GSAP, ScrollTrigger, SplitText — 123 KB, vendored from
+GreenSock's own npm package** (`assets/vendor/`), not carried over from the
+parent's bundle. Needing GSAP is a library dependency; the parent's 133 KB
+runtime and 192 KB plugin set was a parent-theme dependency, and those are
+different things. Every use is guarded with `if (!window.gsap) return`.
 
 ### 5. Micro-interaction
 

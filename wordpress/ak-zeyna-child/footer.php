@@ -2,11 +2,15 @@
 /**
  * The AK footer — a designed close, not a copyright line.
  *
- * Overrides Zeyna's footer.php. The closing structure is kept identical to
- * the parent (`</div><!-- #page -->`, wp_footer(), </body></html>) so
- * Barba, the Seam and everything hung on wp_footer keep working, and an
- * Elementor footer template — if one is ever set in Zeyna's options —
- * still takes precedence, exactly as in the parent.
+ * This replaced Zeyna's footer.php and is now simply the theme's footer.
+ * The closing structure — `</div><!-- #page -->`, wp_footer(), </body></html>
+ * — is the ordinary WordPress one, and everything hung on wp_footer (the
+ * Seam, the grain, the navigation announcer) renders outside
+ * `[data-ak-container]` so it persists across soft navigations.
+ *
+ * There is no Elementor branch. The parent's footer.php handed the whole
+ * footer to an Elementor template whenever a Redux key named one, which on a
+ * demo-imported site meant another agency's footer. See the note below.
  *
  * @package ak-zeyna-child
  */
@@ -37,14 +41,22 @@ $ak_services_base = $ak_services_page ? get_permalink( $ak_services_page ) : hom
 $ak_marquee_id    = 'ak-fmq-' . wp_unique_id();
 ?>
 
-<?php if ( function_exists( 'zeyna_footer_template' ) && zeyna_footer_template() ) : ?>
-
-	<footer id="colophon" class="site-footer footer--overlay">
-		<?php echo zeyna_footer_template(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- parent template output. ?>
-	</footer><!-- #colophon -->
-
-<?php else : ?>
-
+<?php
+/*
+ * There is one footer, and it is AK's.
+ *
+ * This used to branch: if zeyna_footer_template() returned anything, the
+ * child rendered THAT instead — an Elementor template chosen through a Redux
+ * key. On a site where the Zeyna demo had been imported, that key points at
+ * the demo's own footer, and the studio's footer would silently be replaced
+ * by "ZEYNA CREATIVE" with a demo address and a demo email. The child fought
+ * that by forcing the Redux value; the branch is now gone entirely, which is
+ * a stronger guarantee than a forced setting.
+ *
+ * Business data comes from the AK model (inc/studio.php) and the six
+ * movements from the factual capability layer — not from theme options.
+ */
+?>
 	<footer id="colophon" class="site-footer ak-footer ak-scope">
 
 		<div class="ak-band ak-band--type" role="marquee" aria-label="<?php esc_attr_e( 'Studio line', 'ak-zeyna-child' ); ?>">
@@ -131,8 +143,6 @@ $ak_marquee_id    = 'ak-fmq-' . wp_unique_id();
 		</div>
 
 	</footer><!-- #colophon -->
-
-<?php endif; ?>
 
 </div><!-- #page -->
 

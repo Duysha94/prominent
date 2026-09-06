@@ -257,17 +257,21 @@ function ak_purge_legacy( &$report ) {
 	// requirement, and hygiene is not a reason to overwrite something an owner
 	// may have typed. Only touched when the site actually shows demo residue.
 	//
-	// Read RAW: inc/setup.php filters `option_pe-redux` to force the chrome
-	// keys, so a filtered read reports values that are not in the database.
-	// Clearing those made every deployment rewrite the option forever.
-	remove_all_filters( 'option_pe-redux' );
-	$redux = get_option( 'pe-redux' );
+	// Read RAW, via ak_redux_raw(). `pe-redux` is plugin-owned and may be
+	// filtered by Redux itself; a filtered value is not what is stored, and
+	// this branch writes back what it reads.
+	$redux = ak_redux_raw();
 
 	if ( $found_evidence && is_array( $redux ) ) {
-		// Only fields a demo fills with its own agency's details. The keys the
-		// child forces at runtime are deliberately absent: the filter already
-		// governs them, and clearing them here would be a second system
-		// writing the same setting.
+		// Only fields a demo fills with its own agency's details — the ones
+		// that would show a visitor another studio's footer, address, phone,
+		// email or social profiles if anything ever rendered them.
+		//
+		// The structural keys (`header_type`, `footer_template`, the
+		// `transition_*` set, `page_loader`) are deliberately absent. Nothing
+		// in this theme reads them any more, so resetting them would be the
+		// deployment engine writing a plugin's settings for no reader — which
+		// is exactly the overreach this engine is built not to commit.
 		$demo_fields = array(
 			'404_page_template',
 			'loader_logo',
@@ -293,13 +297,6 @@ function ak_purge_legacy( &$report ) {
 			update_option( 'pe-redux', $redux );
 			$report['deleted'][] = 'demo branding cleared from pe-redux';
 		}
-	}
-
-	// Put the chrome filter back: the rest of this request still renders
-	// through it, and removing it permanently would hand the header and footer
-	// back to whatever a demo import last set.
-	if ( function_exists( 'ak_force_redux_chrome' ) ) {
-		add_filter( 'option_pe-redux', 'ak_force_redux_chrome' );
 	}
 
 	// ── Widget placements ─────────────────────────────────────────────────

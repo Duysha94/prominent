@@ -64,7 +64,7 @@ $ak_work_href     = get_post_type_archive_link( AK_PROJECT_CPT );
 $ak_work_href     = $ak_work_href ? $ak_work_href : home_url( '/work/' );
 ?>
 
-<main id="primary" class="site-main ak-scope" <?php echo function_exists( 'zeyna_barba' ) ? zeyna_barba( false ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<main id="primary" class="site-main ak-scope" data-ak-container>
 
 	<section class="ak-section">
 		<div class="ak-wrap">

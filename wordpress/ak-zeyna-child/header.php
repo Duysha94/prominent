@@ -7,7 +7,7 @@
  *
  *  1. THE LOADER. Zeyna's loader is printed by `zeyna_page_loader()` and
  *     configured entirely through Redux; its JavaScript is what removes
- *     `first--load` from <html>. Disable it in Redux and the class is never
+ *     `ak-booting` from <html>. Disable it in Redux and the class is never
  *     removed — which is why the header used to render invisible. The child
  *     now prints its own loader and clears the class itself, so the boot
  *     sequence belongs to this theme and cannot be changed by a demo import.
@@ -26,52 +26,84 @@
 
 ?>
 <!doctype html>
-<html class="first--load ajax--first" <?php language_attributes(); ?>>
+<html class="ak-booting" <?php language_attributes(); ?>>
 
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	<?php wp_head(); ?>
+	<noscript>
+		<style>
+		/*
+		 * With JavaScript off, the loader is a full-screen overlay that
+		 * nothing will ever dismiss, and `html.ak-booting body` locks
+		 * scrolling behind it. There is a 3-second CSS failsafe, but three
+		 * seconds of a frozen page that also swallows every click is not a
+		 * degraded experience — it is a broken one, and it is invisible to
+		 * anyone testing with JavaScript on.
+		 *
+		 * A first-paint loader is a JavaScript enhancement. Without
+		 * JavaScript there is nothing to wait for, so there is no loader.
+		 */
+		.ak-loader { display: none !important; }
+		html.ak-booting body { overflow: visible !important; animation: none !important; }
+		/* The reveal animations are driven by scroll timelines and JS; with
+		   neither, anything that starts at opacity 0 would never arrive. */
+		.ak-rise, .ak-vf, [data-ak-cut] { opacity: 1 !important; transform: none !important; animation: none !important; }
+		.ak-transition { display: none !important; }
+		</style>
+	</noscript>
 </head>
 
-<body <?php body_class(); ?> <?php echo function_exists( 'zeyna_barba' ) ? zeyna_barba( true ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<body <?php body_class(); ?>>
 	<?php wp_body_open(); ?>
-	<span hidden class="layout--colors"></span>
+	<?php
+	/*
+	 * A `<span hidden class="layout--colors">` sat here. It was a probe, not
+	 * content: Zeyna's scripts.js read its computed styles to discover the
+	 * palette Redux had printed. Nothing reads it now — the parent script is
+	 * dequeued, and the AK palette is declared in ak.css and switched by
+	 * data-theme on <html> — so an empty hidden element with a parent theme's
+	 * class name is exactly the "parent-generated hidden element" this exit
+	 * was meant to remove.
+	 */
+	?>
 
 	<div id="page" class="site">
 
 		<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'ak-zeyna-child' ); ?></a>
 
 		<?php
-		// Step 2 of docs/ZEYNA-EXIT-PLAN.md: the dead calls are gone.
-		// zeyna_mouse_cursor() drew a custom cursor the motion system bans,
-		// zeyna_grid_layout_bg() a decorative grid from a demo option, and
-		// zeyna_popups() renders nothing at all unless Redux popups are
-		// configured. None contributed anything to this build.
-		//
-		// zeyna_page_transitions() STAYS. The parent calls barba.init() only
-		// when `.page--transitions` is in the document, so removing it turns
-		// every soft navigation into a full page load. It goes at step 3,
-		// once the child prints its own transition element.
-		if ( function_exists( 'zeyna_page_transitions' ) ) {
-			zeyna_page_transitions();
-		}
-
-		ak_page_loader();
+		/*
+		 * The parent's transition element is gone.
+		 *
+		 * zeyna_page_transitions() printed `.page--transitions`, built
+		 * entirely from Redux keys, and the parent's scripts.js called
+		 * barba.init() only when it found that element. The child forced the
+		 * Redux keys to something survivable and left the element standing so
+		 * navigation stayed soft.
+		 *
+		 * AK owns the transition now (assets/js/ak-nav.js), so the element
+		 * below is ours: one sheet of the studio's own paper or ink, coloured
+		 * from data-theme, animated by CSS, and inert when JavaScript is
+		 * absent. Nothing about navigation depends on it.
+		 */
 		?>
+		<div class="ak-transition" aria-hidden="true"></div>
+		<?php ak_page_loader(); ?>
 
-		<div class="pe-section header--default">
+		<div class="ak-chrome">
 
-			<header id="masthead" class="site-header pe-wrapper pe-items-center">
+			<header id="masthead" class="site-header ak-chrome__bar">
 
-				<div class="pe-col-6">
+				<div class="ak-chrome__side">
 					<div class="site-branding">
 						<?php ak_logo(); ?>
 					</div><!-- .site-branding -->
 				</div>
 
-				<div class="pe-col-6 pe-items-right">
+				<div class="ak-chrome__side ak-chrome__side--end">
 
 					<?php
 					// The switch lives in the header bar itself, so it is one

@@ -2,14 +2,23 @@
 /**
  * ATELIER / RUNWAY — the two modes.
  *
- * Zeyna itself has no visitor-facing dark switch. What it DOES have is a
- * per-page "switched" layout: an ACF field (`page_layout`) that puts
- * `layout--switched` on <body> and flips the parent's palette variables for
- * that one page. The child bridges both worlds: that Zeyna field sets the
- * page's DEFAULT mode here, the AK toggle remains the visitor's control,
- * and an explicit visitor choice always wins. The parent's palette
- * variables are re-mapped onto the AK tokens in ak.css, so whichever way
- * the mode is set, every part of the chrome follows.
+ * The mode is the VISITOR'S, and it is decided in one place: an explicit
+ * stored choice if there is one, otherwise the operating system's own
+ * `prefers-color-scheme`.
+ *
+ * It used to be decided in two. Zeyna has a per-page "switched" layout — an
+ * ACF field (`page_layout`) that puts `layout--switched` on <body> and flips
+ * the parent's palette variables for that one page — and this file read it
+ * server-side to set the page's default. That read is gone with the rest of
+ * the parent's frontend:
+ *
+ *   · it made a page's opening appearance depend on Zeyna/Pe Core
+ *     configuration, which is precisely the dependency this exit removed;
+ *   · the field is registered by the parent's ACF group, so on a site where
+ *     that group is absent it silently resolved to false anyway, meaning the
+ *     "bridge" behaved differently depending on which plugins were active;
+ *   · none of the AK routes set it, and AK has no per-page mode design —
+ *     the two rooms are a visitor's choice, not an editorial one.
  *
  * @package ak-zeyna-child
  */
@@ -26,20 +35,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  * orange-on-ink design is glaring. It is deliberately inline and unminified so
  * it is auditable.
  *
- * The attribute goes on <html>, not <body>: Barba replaces body classes
- * wholesale on every soft navigation, and a mode kept there would reset each
- * time.
+ * The attribute goes on <html>, not <body>: assets/js/ak-nav.js adopts the
+ * incoming body class on every soft navigation, so a mode kept there would
+ * reset on each one. <html> is never swapped.
  */
 add_action(
 	'wp_head',
 	function () {
-		// Zeyna's per-page "switched" (dark) layout, read server-side. With
-		// ACF absent the child's get_field() shim returns null and this is
-		// simply false.
-		$ak_page_dark = function_exists( 'get_field' ) && 'layout--switched' === get_field( 'page_layout' );
 		?>
 <script>
-(function(){var d=<?php echo $ak_page_dark ? 'true' : 'false'; ?>;try{var t=localStorage.getItem('ak-theme');if(!t){t=d||window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme',d?'dark':'light');}})();
+(function(){try{var t=localStorage.getItem('ak-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
 </script>
 		<?php
 	},

@@ -15,7 +15,7 @@ get_header();
 
 $ak_total = (int) $GLOBALS['wp_query']->found_posts;
 ?>
-<main id="primary" class="site-main ak-scope" <?php echo function_exists( 'zeyna_barba' ) ? zeyna_barba( false ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<main id="primary" class="site-main ak-scope" data-ak-container>
 
 <div class="aks-wrap">
 	<div class="aks-rail"><span class="aks-rail__mark"><?php esc_html_e( 'Search', 'ak-zeyna-child' ); ?></span></div>

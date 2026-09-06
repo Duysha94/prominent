@@ -37,68 +37,45 @@ if ( ! defined( 'ABSPATH' ) ) {
  * `page_on_front` from different sources.
  */
 
-/**
- * The AK chrome is not optional.
+/*
+ * THE REDUX CHROME FILTER IS GONE.
  *
- * Zeyna's demo import sets `header_type` and `footer_template` to Elementor
- * templates, which silently replaces the studio's header and footer with
- * demo content (the ZEYNA CREATIVE footer, demo contact block, demo email).
- * Force both keys back to the default chrome the child styles.
+ * `ak_force_redux_chrome()` used to filter `option_pe-redux` on every read,
+ * pinning eight keys: `header_type` and `footer_template` back to `default`
+ * so a demo import could not replace the studio's header and footer with
+ * Elementor templates, and six transition keys so Zeyna's Redux-built overlay
+ * came out as one plain sheet instead of a demo logo and caption on the
+ * parent's dark background. `page_loader` was forced off for the same reason.
  *
- * The same filter settles the page transition, for the same reason. Zeyna's
- * transition overlay is built entirely from Redux: type, direction, curve,
- * and — the visible part — a logo and a caption pulled from `transition_logo`
- * and `transition_caption`. Left alone, a demo import fills those in, and
- * every navigation flashes the parent theme's own loader panel, on the
- * parent's dark `--secondaryBackground`, regardless of which mode the
- * visitor is in.
+ * Every one of those was a way of taming a parent that is now gone:
  *
- * The element itself must stay: Zeyna calls `barba.init()` only when
- * `.page--transitions` is in the document (js/scripts.js), so removing it
- * turns every soft navigation into a full page load. So it stays, and is
- * reduced to one plain overlay with no elements inside it — a sheet of the
- * studio's own paper or ink, coloured from `data-theme` in ak.css.
+ *   · header.php and footer.php are the child's own. Neither calls
+ *     `zeyna_footer_template()` any more, and neither reads a Redux key, so
+ *     `header_type` and `footer_template` have no reader on the frontend.
+ *   · the transition element is `.ak-transition`, printed by header.php and
+ *     animated by assets/js/ak-nav.js. `zeyna_page_transitions()` is never
+ *     called, so `transition_type`, `transition_direction`, `transitions_*`
+ *     and `transition_elements*` have no reader either. The old comment here
+ *     said the `.page--transitions` element "must stay" because Zeyna calls
+ *     `barba.init()` only when it finds one; Barba is gone, so that
+ *     requirement went with it.
+ *   · the loader is `ak_page_loader()`. `zeyna_page_loader()` is never
+ *     called, so `page_loader` has no reader.
  *
- * The loader is a separate matter: the child prints its own and never calls
- * `zeyna_page_loader()`, so `page_loader` is turned off here too rather than
- * left to run a second, invisible boot sequence.
+ * A filter that pins settings nothing reads is not neutral. It made every
+ * read of a plugin-owned option report values that are not in the database,
+ * which is why the deployment engine had to detach it for raw reads (see
+ * ak_redux_raw() in inc/deployment/scope.php). Removing it is the honest
+ * end state: the AK frontend does not read Zeyna's configuration at all, so
+ * it has nothing to force.
+ *
+ * WHAT DELIBERATELY REMAINS: the deployment engine still knows how to
+ * RECOGNISE Redux data — ak_capture_redux_templates() records which
+ * elementor_library posts the demo config pointed at, and ak_purge_unmanaged()
+ * clears demo branding out of `pe-redux` when it finds import evidence. That
+ * is legacy cleanup on a site that once ran the demo, not a rendering
+ * dependency. Nothing on the frontend consults it.
  */
-add_filter( 'option_pe-redux', 'ak_force_redux_chrome' );
-
-/**
- * Force the chrome and transition keys, whatever Redux has stored.
- *
- * A named function rather than a closure so the deployment engine can detach
- * it for one raw read and put it straight back — see ak_purge_unmanaged().
- *
- * @param mixed $option The stored pe-redux option.
- * @return mixed
- */
-function ak_force_redux_chrome( $option ) {
-		if ( ! is_array( $option ) ) {
-			return $option;
-		}
-
-		$option['header_type']     = 'default';
-		$option['footer_template'] = 'default';
-
-		// Keep transitions running, but as ours.
-		$option['page_transitions']        = true;
-		$option['transition_type']         = 'overlay';
-		// One of up/down/left/right — Zeyna's CSS has a rule per direction and
-		// any other value leaves the overlay parked at its 70vh resting size,
-		// a permanent dark band across the foot of every page.
-		$option['transition_direction']    = 'up';
-		$option['transitions_curved']      = false;
-		$option['transitions_fade_simple'] = false;
-		$option['transition_elements_type'] = 'default';
-		$option['transition_elements']     = array();
-		$option['page_transition_template'] = '';
-
-		$option['page_loader'] = false;
-
-		return $option;
-}
 
 /**
  * Customizer: the two things the founders swap themselves.

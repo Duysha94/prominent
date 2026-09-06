@@ -1,0 +1,275 @@
+/* ============================================================================
+   AK — WordPress content and form styling
+   ----------------------------------------------------------------------------
+   What the child theme was silently inheriting from the parent's 98 KB
+   stylesheet, reimplemented in the AK visual language.
+
+   This file exists because "the parent CSS is only Zeyna's visuals" was wrong.
+   Measured before removing it, the parent was the ONLY source on this site for:
+
+     .alignleft .alignright .aligncenter    editor alignment in Journal posts
+     .wp-caption / .wp-caption-text         image captions
+     .gallery / .gallery-item               core galleries
+     .sticky, .bypostauthor                 WordPress-generated post classes
+     input[type="text"], input[type="submit"], input[type="email"], …
+                                            form controls, including the
+                                            contact form
+     the box-sizing and margin reset every other stylesheet assumed
+
+   Remove the parent stylesheet without this and Journal posts lose their
+   captions and alignments, and every form control reverts to the browser
+   default in the middle of a designed page. None of that is visible on the
+   routes a designer looks at, which is exactly why it needed measuring.
+
+   Deliberately NOT carried over: Zeyna's visual language. No colours,
+   shadows, radii or type from the parent — every value below comes from the
+   AK tokens in ak.css.
+   ==========================================================================*/
+
+/* ── Reset ────────────────────────────────────────────────────────────────
+   The parent set these globally and everything downstream assumed them. */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img, video, svg, canvas { max-width: 100%; height: auto; }
+img { border: 0; }
+
+/* ── Accessibility helpers ────────────────────────────────────────────────
+   WordPress core markup and several plugins emit .screen-reader-text and
+   expect it to hide visually while staying in the accessibility tree. */
+.screen-reader-text {
+  border: 0;
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal !important;
+}
+.screen-reader-text:focus {
+  clip-path: none;
+  height: auto;
+  width: auto;
+  display: block;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100000;
+  padding: 0.75rem 1.25rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--accent-line);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+/* ── Editor alignment ─────────────────────────────────────────────────────
+   Emitted by the block and classic editors on images, quotes and embeds
+   inside Journal posts. */
+.alignleft {
+  float: left;
+  margin: 0.35rem 1.75rem 1.25rem 0;
+}
+.alignright {
+  float: right;
+  margin: 0.35rem 0 1.25rem 1.75rem;
+}
+.aligncenter {
+  display: block;
+  margin-inline: auto;
+  margin-block: 1.75rem;
+}
+.alignwide, .alignfull { margin-block: 2.5rem; }
+.alignfull { margin-inline: calc(50% - 50vw); max-width: 100vw; }
+@media (max-width: 640px) {
+  /* A float at phone width is a broken column, not a layout. */
+  .alignleft, .alignright { float: none; margin-inline: 0; display: block; }
+}
+
+/* ── Captions and galleries ───────────────────────────────────────────────
+   .wp-caption is classic-editor markup, figure/figcaption is block-editor
+   markup, and a site with any history has both. */
+.wp-caption { max-width: 100%; margin-bottom: 1.75rem; }
+.wp-caption img { display: block; }
+.wp-caption-text,
+.wp-block-image figcaption,
+figure > figcaption {
+  margin-top: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  line-height: 1.6;
+}
+.gallery {
+  display: grid;
+  gap: var(--gutter, 24px);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-block: 2rem;
+}
+.gallery-item { margin: 0; }
+.gallery-caption { font-size: 0.8125rem; color: var(--text-muted); }
+
+/* ── Post content rhythm ──────────────────────────────────────────────────
+   BOTH class names, because the theme uses both. single.php wraps post
+   content in `.ak-prose`; page.php uses WordPress's conventional
+   `.entry-content`. Written against `.entry-content` alone, every rule below
+   applied to nothing on the actual Journal posts — the exact failure this
+   file exists to prevent, reproduced inside the fix for it. */
+.entry-content > * + *, .ak-prose > * + * { margin-top: 1.25rem; }
+.entry-content blockquote, .ak-prose blockquote {
+  margin: 2rem 0;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--accent-line);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  line-height: 1.35;
+}
+.entry-content blockquote cite, .ak-prose blockquote cite {
+  display: block;
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.entry-content hr, .ak-prose hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin-block: 2.5rem;
+}
+.entry-content code, .entry-content kbd, .entry-content samp, .ak-prose code, .ak-prose kbd, .ak-prose samp {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--bg-sunk);
+  padding: 0.15em 0.4em;
+}
+.entry-content pre, .ak-prose pre {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  background: var(--bg-sunk);
+  padding: 1.25rem;
+  overflow-x: auto;
+}
+.entry-content table, .ak-prose table { width: 100%; border-collapse: collapse; }
+.entry-content th, .entry-content td, .ak-prose th, .ak-prose td {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* ── Form controls ────────────────────────────────────────────────────────
+   The contact form and the search form. The parent styled these; nothing in
+   ak.css did, so removing the parent left native controls sitting inside a
+   designed page. */
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="tel"],
+input[type="number"],
+input[type="search"],
+input[type="password"],
+input[type="date"],
+textarea,
+select {
+  width: 100%;
+  font: inherit;
+  font-size: 0.9375rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--rule-strong);
+  border-radius: 0;
+  padding: 0.85rem 1rem;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color 180ms var(--ease-cut, ease);
+}
+textarea { min-height: 9rem; resize: vertical; }
+select {
+  /* An appearance:none select with no indicator is an unusable control. */
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+                    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 1.15rem) 55%, calc(100% - 0.8rem) 55%;
+  background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+  background-repeat: no-repeat;
+  padding-right: 2.5rem;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--accent-line); }
+input::placeholder, textarea::placeholder { color: var(--text-faint); opacity: 1; }
+
+input[type="submit"],
+button[type="submit"] {
+  width: auto;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-on);
+  background: var(--accent-fill);
+  border: 1px solid var(--accent-fill);
+  padding: 0.9rem 1.75rem;
+  cursor: pointer;
+  transition: opacity 180ms ease;
+}
+input[type="submit"]:hover,
+button[type="submit"]:hover { opacity: 0.88; }
+
+input[type="checkbox"], input[type="radio"] {
+  width: auto;
+  accent-color: var(--accent-fill);
+}
+
+/* ── Post password form and search form ───────────────────────────────── */
+.post-password-form input[type="password"],
+.search-form .search-field { max-width: 22rem; display: inline-block; }
+.search-form { display: flex; gap: 0.5rem; align-items: stretch; }
+/* WordPress wraps the field in a <label>, so flexing the INPUT grows nothing:
+   the label is the flex item. The parent stylesheet had
+   `form.search-form > label { width: 100% }` for exactly this reason. */
+.search-form > label { flex: 1 1 auto; display: block; }
+.search-form .search-field { width: 100%; }
+
+/* ── Pagination ───────────────────────────────────────────────────────── */
+.pagination, .nav-links {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.pagination .page-numbers, .nav-links .page-numbers {
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--rule-strong);
+  text-decoration: none;
+  color: var(--text-muted);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.pagination .page-numbers.current, .nav-links .page-numbers.current {
+  color: var(--accent-on);
+  background: var(--accent-fill);
+  border-color: var(--accent-fill);
+}
+
+/* ── Programmatic focus on the page container ─────────────────────────────
+   ak-nav.js moves focus to <main> after a soft navigation so keyboard and
+   screen-reader users land on the new content. Some browsers draw a focus
+   ring around the entire page for that. The parent stylesheet had this rule
+   because the parent's Barba did the same thing; the child now creates the
+   condition and must handle it. `:focus-visible` is deliberately NOT
+   suppressed — a real keyboard tab to this element should still show. */
+[data-ak-container][tabindex="-1"]:focus { outline: none; }
+[data-ak-container][tabindex="-1"]:focus-visible { outline: 2px solid var(--accent-line); outline-offset: -4px; }

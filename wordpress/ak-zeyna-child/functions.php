@@ -1,9 +1,17 @@
 <?php
 /**
- * AK Brand Development Studio — child theme for Zeyna.
+ * AK Brand Development Studio — the studio's theme.
  *
- * Keeps Zeyna's header, footer, menu and Barba page transitions, and layers
- * the studio's design system and motion on top.
+ * Installed as a child of Zeyna, and no longer built on it. Zeyna's header,
+ * footer, menu, page transitions, stylesheet, JavaScript and Redux
+ * configuration have each been taken over by this theme; nothing in the
+ * parent renders, executes or is read at runtime. docs/ZEYNA-EXIT-PLAN.md
+ * records the full inventory, what replaced each item, and the one reason
+ * `Template: zeyna` is still in style.css.
+ *
+ * inc/zeyna-exit.php is the only file that still knows the parent exists,
+ * and its entire job is to detach what the parent registers on hooks that
+ * fire regardless of which templates this theme overrides.
  *
  * @package ak-zeyna-child
  */
@@ -57,6 +65,7 @@ if ( ! function_exists( 'get_field' ) ) {
 require_once get_stylesheet_directory() . '/inc/studio.php';
 require_once get_stylesheet_directory() . '/inc/chrome.php';
 require_once get_stylesheet_directory() . '/inc/enqueue.php';
+require_once get_stylesheet_directory() . '/inc/zeyna-exit.php';
 require_once get_stylesheet_directory() . '/inc/seo.php';
 require_once get_stylesheet_directory() . '/inc/updates.php';
 // The deployment system. Order matters: the registry defines the ownership
@@ -118,12 +127,14 @@ add_filter(
 );
 
 /**
- * A polite live region for announcing the new page title after a Barba
+ * A polite live region for announcing the new page title after a soft
  * navigation, plus the Seam.
  *
- * Both are printed in the footer, which Zeyna renders OUTSIDE the Barba
- * container (get_footer() is called after </main>), so they persist across
- * navigations instead of being torn down and rebuilt.
+ * Both are printed in the footer, which is OUTSIDE `[data-ak-container]`
+ * (get_footer() is called after </main>), so they persist across navigations
+ * instead of being torn down and rebuilt — and the announcer in particular
+ * must persist, since an element replaced in the same tick as the text it
+ * announces is not announced at all.
  */
 add_action(
 	'wp_footer',

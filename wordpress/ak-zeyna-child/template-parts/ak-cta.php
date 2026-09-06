@@ -2,8 +2,8 @@
 /**
  * Pre-footer CTA — every page closes on the same invitation.
  *
- * Lives INSIDE the Barba container (unlike the Seam), so it animates in with
- * each page rather than sitting static.
+ * Lives INSIDE `[data-ak-container]` (unlike the Seam), so it animates in
+ * with each page rather than sitting static.
  *
  * @package ak-zeyna-child
  */

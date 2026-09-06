@@ -6,12 +6,16 @@
  *
  * Two rules this template exists to demonstrate:
  *
- * 1. The Barba container MUST be emitted, with Zeyna's exact contract, or the
- *    page transition silently degrades to a full browser navigation and nobody
- *    notices until launch. Zeyna puts it on <main id="primary"> via
- *    zeyna_barba(false) — we call the same function rather than hard-coding
- *    the attribute, so the theme's own "page transitions" option still governs
- *    it.
+ * 1. The swap container MUST be marked, with `data-ak-container` on
+ *    <main id="primary">. assets/js/ak-nav.js reads that attribute to decide
+ *    what to replace; a template that omits it still WORKS — the link falls
+ *    through to an ordinary browser navigation, because navigation never
+ *    depends on the runtime — but it loses the transition silently, and
+ *    nobody notices until launch.
+ *
+ *    This used to be `zeyna_barba(false)`, calling the parent so its own
+ *    "page transitions" option governed the attribute. The parent no longer
+ *    renders here and the attribute is the child's own.
  *
  * 2. get_footer() is called AFTER </main>, so the footer sits outside the
  *    container and persists across navigations. Do not move it inside.
@@ -29,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 ?>
 
-<main id="primary" class="site-main ak-scope" <?php echo function_exists( 'zeyna_barba' ) ? zeyna_barba( false ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theme helper returns a fixed attribute. ?>>
+<main id="primary" class="site-main ak-scope" data-ak-container>
 
 	<?php while ( have_posts() ) : ?>
 		<?php the_post(); ?>

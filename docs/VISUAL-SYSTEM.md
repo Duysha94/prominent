@@ -95,11 +95,18 @@ only text permitted on an orange field — never white.
 
 ## Light / dark
 
-Still relevant, and now more so: a case study can declare its own mode
-(`ak_mode`), so a dark project presents dark. Resolution order: explicit
-visitor choice → the case's declared mode → OS preference. Resolved by an
-inline head script before first paint, on `<html data-theme>` so a Barba
-navigation cannot reset it.
+The mode is the **visitor's**, and it is decided in one place: an explicit
+stored choice, else the OS `prefers-color-scheme`. Resolved by an inline head
+script before first paint, on `<html data-theme>` — not on `<body>`, because
+the navigation runtime adopts the incoming body class on every soft
+navigation and a mode kept there would flash back each time.
+
+There is deliberately no per-page or per-case override. One existed: the theme
+read Zeyna's `page_layout` ACF field to set a page's default. It made a page's
+opening appearance depend on parent configuration, behaved differently
+depending on which plugins were active, and AK has no per-page mode design.
+(`ak_project_mode()` is a different thing entirely — it selects a project's
+*presentation* register, record or assembled, not light or dark.)
 
 ## Imagery
 
@@ -176,7 +183,7 @@ full section boundary and their own heading — never interleaved.
   hides on scroll. Hairline bottom rule.
 - **Desktop:** five items, Data type, current item underlined in accent.
 - **Phone (≤900 px):** a right-hand panel over a dimmed scrim, focus trapped,
-  Escape and outside-click close, body scroll locked including Lenis. The panel
+  Escape and outside-click close, body scroll locked. The panel
   sits above the header's stacking context.
 - **The panel is at most 88% of the viewport, never full-bleed.** A full-width
   panel covers its own scrim, and the strip of page left showing is the

@@ -4,7 +4,7 @@
  *
  * Two static feTurbulence fields; ak.css decides which one shows per mode
  * and holds the blend/opacity tokens. Printed from wp_footer beside the
- * Seam — outside the Barba container — so it renders once and persists.
+ * Seam — outside `[data-ak-container]` — so it renders once and persists.
  * The filters are generated once and composited; nothing here animates.
  *
  * @package ak-zeyna-child

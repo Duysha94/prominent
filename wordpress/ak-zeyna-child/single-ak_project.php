@@ -17,7 +17,7 @@
 get_header();
 
 ?>
-<main id="primary" class="site-main ak-scope" <?php echo function_exists( 'zeyna_barba' ) ? zeyna_barba( false ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<main id="primary" class="site-main ak-scope" data-ak-container>
 <?php
 
 while ( have_posts() ) :
