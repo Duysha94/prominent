@@ -252,3 +252,72 @@ add_filter(
 		return $taxonomies;
 	}
 );
+
+/* ── When Yoast SEO runs the site's search data ─────────────────────────
+   Yoast keeps control, and gets the studio's own text where a page has
+   nothing set in Yoast: the description (each page's excerpt), the home
+   page title, a share image, and the Service and Event data. */
+
+add_filter(
+	'wpseo_metadesc',
+	static fn( $desc ) => '' !== trim( (string) $desc ) || is_404() || is_search() ? $desc : wp_html_excerpt( ak_brand_seo_description(), 300, '…' )
+);
+
+/**
+ * The home page title, unless one is set for it in Yoast.
+ */
+function ak_brand_yoast_front_title( $title ) {
+	if ( ! is_front_page() ) {
+		return $title;
+	}
+	$front = (int) get_option( 'page_on_front' );
+	if ( $front && '' !== (string) get_post_meta( $front, '_yoast_wpseo_title', true ) ) {
+		return $title;
+	}
+	return ak_brand_studio( 'name' ) . ' — ' . __( 'Brands, websites, photo & film and shows in London', 'ak-brand-core' );
+}
+add_filter( 'wpseo_title', 'ak_brand_yoast_front_title' );
+add_filter( 'wpseo_opengraph_title', 'ak_brand_yoast_front_title' );
+
+add_action(
+	'wpseo_add_opengraph_images',
+	static function ( $images ) {
+		if ( ! is_object( $images ) || ! method_exists( $images, 'has_images' ) || $images->has_images() ) {
+			return;
+		}
+		$img = ak_brand_seo_image();
+		if ( $img && method_exists( $images, 'add_image_by_url' ) ) {
+			$images->add_image_by_url( $img['url'] );
+		}
+	}
+);
+
+add_filter(
+	'wpseo_schema_graph',
+	static function ( $graph ) {
+		if ( ! is_array( $graph ) || is_404() ) {
+			return $graph;
+		}
+		foreach ( ak_brand_schema_graph() as $piece ) {
+			if ( in_array( $piece['@type'] ?? '', array( 'Service', 'Event' ), true ) ) {
+				$graph[] = $piece;
+			}
+		}
+		return $graph;
+	}
+);
+
+/* Yoast's sitemap: no internal groupings without pages of their own, no authors. */
+add_filter( 'wpseo_sitemap_exclude_taxonomy', static fn( $exclude, $taxonomy ) => in_array( $taxonomy, array( 'ak_capability', 'ak_relationship' ), true ) ? true : $exclude, 10, 2 );
+add_filter( 'wpseo_sitemap_exclude_author', static fn() => array() );
+
+/* Author pages would publish the login name of whoever wrote an entry: send them home. */
+add_action(
+	'template_redirect',
+	static function () {
+		if ( is_author() ) {
+			wp_safe_redirect( home_url( '/' ), 301 );
+			exit;
+		}
+	}
+);
