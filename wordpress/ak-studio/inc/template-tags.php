@@ -125,20 +125,16 @@ function ak_studio_pattern( string $key ): string {
 }
 
 /**
- * The logo: the image set in Appearance → Customize → Site Identity, or the
- * studio's AK mark with its name.
+ * The logo: the studio's full lockup — the orange AK mark with the name in
+ * white, so it reads on the dark site. (A dark-text version for light
+ * backgrounds is in assets/img/ak-logo-dark.svg.)
  */
 function ak_studio_logo(): void {
-	$name = ak_studio_get( 'name' );
-	$logo = (int) get_theme_mod( 'custom_logo' );
-	echo '<a class="brand" href="' . esc_url( home_url( '/' ) ) . '" rel="home" aria-label="' . esc_attr( $name ) . '">';
-	if ( $logo ) {
-		echo wp_get_attachment_image( $logo, 'medium', false, array( 'class' => 'brand__logo', 'alt' => $name, 'loading' => 'eager' ) );
-	} else {
-		$mark = (string) file_get_contents( get_theme_file_path( 'assets/img/ak-mark.svg' ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local theme file.
-		echo '<span class="brand__mark">' . $mark . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput -- the theme's own SVG.
-		echo '<span class="brand__name" aria-hidden="true">' . esc_html__( 'Brand Development', 'ak-studio' ) . '<br>' . esc_html__( 'Studio', 'ak-studio' ) . '</span>';
-	}
+	$svg = (string) file_get_contents( get_theme_file_path( 'assets/img/ak-logo-light.svg' ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local theme file.
+	$svg = preg_replace( '#<title[^>]*>.*?</title>#', '', $svg );
+	$svg = str_replace( array( ' role="img"', ' aria-labelledby="t"' ), array( ' aria-hidden="true" focusable="false"', '' ), $svg );
+	echo '<a class="brand" href="' . esc_url( home_url( '/' ) ) . '" rel="home" aria-label="' . esc_attr( ak_studio_get( 'name' ) ) . '">';
+	echo '<span class="brand__logo">' . $svg . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput -- the theme's own SVG.
 	echo '</a>';
 }
 

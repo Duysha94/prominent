@@ -175,10 +175,16 @@ function ak_bk_render_page_header( array $a ): string {
 	$video = 'video' === ( $a['mediaType'] ?? '' ) && ! empty( $a['mediaUrl'] );
 	$image = ! $video && ( ! empty( $a['mediaId'] ) || ! empty( $a['mediaUrl'] ) );
 	$media = '';
+	$focus = ak_brand_focus_from_point( $a['focus'] ?? null ) ?: ak_brand_focus( (int) ( $a['mediaId'] ?? 0 ) );
+	$style = $focus ? ' style="object-position:' . esc_attr( $focus ) . '"' : '';
 	if ( $video ) {
-		$media = '<video muted loop playsinline preload="none" data-autoplay data-src="' . esc_url( $a['mediaUrl'] ) . '"' . ( ! empty( $a['posterUrl'] ) ? ' poster="' . esc_url( $a['posterUrl'] ) . '"' : '' ) . '></video>';
+		$media = '<video muted loop playsinline preload="none" data-autoplay data-src="' . esc_url( $a['mediaUrl'] ) . '"' . ( ! empty( $a['posterUrl'] ) ? ' poster="' . esc_url( $a['posterUrl'] ) . '"' : '' ) . $style . '></video>';
 	} elseif ( $image ) {
-		$media = ak_bk_image( (int) ( $a['mediaId'] ?? 0 ), (string) ( $a['mediaUrl'] ?? '' ), '100vw', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'alt' => '' ), 'full' );
+		$img_attrs = array( 'loading' => 'eager', 'fetchpriority' => 'high', 'alt' => '' );
+		if ( $focus ) {
+			$img_attrs['style'] = 'object-position:' . $focus;
+		}
+		$media = ak_bk_image( (int) ( $a['mediaId'] ?? 0 ), (string) ( $a['mediaUrl'] ?? '' ), '100vw', $img_attrs, 'full' );
 	}
 	$heading = (string) ( $a['heading'] ?? '' );
 	if ( '' === trim( wp_strip_all_tags( $heading ) ) && is_singular() ) {
@@ -233,7 +239,7 @@ function ak_bk_render_hero( array $a ): string {
 	<section class="hero ak-full" id="top" data-hero>
 		<div class="hero__media" aria-hidden="true">
 			<?php foreach ( $clips as $i => $clip ) : ?>
-				<video class="hero__clip<?php echo 0 === $i ? ' is-on' : ''; ?>" muted loop playsinline preload="<?php echo 0 === $i ? 'auto' : 'none'; ?>"
+				<video class="hero__clip<?php echo 0 === $i ? ' is-on' : ''; ?>"<?php echo ! empty( $clip['focus'] ) && preg_match( '/^[\d.]+% [\d.]+%$/', (string) $clip['focus'] ) ? ' style="object-position:' . esc_attr( (string) $clip['focus'] ) . '"' : ''; ?> muted loop playsinline preload="<?php echo 0 === $i ? 'auto' : 'none'; ?>"
 					poster="<?php echo esc_url( (string) ( $clip['poster'] ?? '' ) ); ?>" data-src="<?php echo esc_url( (string) ( $clip['video'] ?? '' ) ); ?>" data-src-sm="<?php echo esc_url( (string) ( $clip['videoSm'] ?? ( $clip['video'] ?? '' ) ) ); ?>"
 					data-label="<?php echo esc_attr( wp_strip_all_tags( (string) ( $clip['label'] ?? '' ) ) ); ?>" data-kind="<?php echo esc_attr( wp_strip_all_tags( (string) ( $clip['kind'] ?? '' ) ) ); ?>"></video>
 			<?php endforeach; ?>
@@ -429,7 +435,7 @@ function ak_bk_render_work( array $a ): string {
 			$facts = array_slice( (array) ( ak_bk_first_block_attrs( $p->ID, 'ak/facts' )['items'] ?? array() ), 0, 3 );
 			$c     = ak_brand_card_data( $p );
 			$media = 'video' === ( $h['mediaType'] ?? '' ) && ! empty( $h['mediaUrl'] )
-				? '<video muted loop playsinline preload="none" data-autoplay data-src="' . esc_url( (string) $h['mediaUrl'] ) . '" poster="' . esc_url( (string) ( $h['posterUrl'] ?? '' ) ) . '"></video>'
+				? '<video muted loop playsinline preload="none" data-autoplay data-src="' . esc_url( (string) $h['mediaUrl'] ) . '" poster="' . esc_url( (string) ( $h['posterUrl'] ?? '' ) ) . '"' . ( ak_brand_focus( (int) ( $h['mediaId'] ?? 0 ) ) ? ' style="object-position:' . esc_attr( ak_brand_focus( (int) $h['mediaId'] ) ) . '"' : '' ) . '></video>'
 				: ak_bk_image( $c['image'], '', '(max-width: 900px) 92vw, 46vw', array( 'alt' => '' ) );
 			$dl    = '';
 			foreach ( $facts as $f ) {
@@ -605,7 +611,7 @@ function ak_bk_definitions(): array {
 			'title'       => __( 'Page header', 'ak-brand-core' ),
 			'description' => __( 'Eyebrow, large heading, lead and an optional photo or silent film.', 'ak-brand-core' ),
 			'icon'        => 'heading',
-			'attributes'  => array( 'eyebrow' => $s, 'heading' => $s, 'lede' => $s, 'question' => $s, 'questionLabel' => array( 'type' => 'string', 'default' => 'The question' ), 'mediaId' => $n(), 'mediaUrl' => $s, 'mediaType' => array( 'type' => 'string', 'default' => 'image' ), 'posterUrl' => $s, 'size' => array( 'type' => 'string', 'default' => 'large' ) ),
+			'attributes'  => array( 'eyebrow' => $s, 'heading' => $s, 'lede' => $s, 'question' => $s, 'questionLabel' => array( 'type' => 'string', 'default' => 'The question' ), 'mediaId' => $n(), 'mediaUrl' => $s, 'mediaType' => array( 'type' => 'string', 'default' => 'image' ), 'posterUrl' => $s, 'size' => array( 'type' => 'string', 'default' => 'large' ), 'focus' => array( 'type' => 'object' ) ),
 			'render'      => 'ak_bk_render_page_header',
 		),
 		'hero'        => array(

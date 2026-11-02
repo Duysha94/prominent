@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AK_STUDIO_VERSION', '2.0.0' );
+define( 'AK_STUDIO_VERSION', '2.1.0' );
 
 require_once get_theme_file_path( 'inc/data.php' );
 require_once get_theme_file_path( 'inc/setup.php' );

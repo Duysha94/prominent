@@ -131,12 +131,14 @@
 							{ label: 'Photo', value: 'image' }, { label: 'Silent looping film', value: 'video' } ] } ),
 						media( { id: a.mediaId, url: a.mediaUrl }, function ( m ) { props.setAttributes( { mediaId: m ? m.id : 0, mediaUrl: m ? m.url : '' } ); }, 'video' === a.mediaType ? 'Film' : 'Photo', 'video' === a.mediaType ? 'video' : 'image' ),
 						'video' === a.mediaType ? media( { url: a.posterUrl }, function ( m ) { props.setAttributes( { posterUrl: m ? m.url : '' } ); }, 'Poster (shown while the film loads)', 'image' ) : null,
+						( a.mediaUrl && 'video' !== a.mediaType && c.FocalPointPicker ) ? el( c.FocalPointPicker, { label: 'What stays in frame', help: 'Click the face or the subject. Without a choice, the point set for the image in the Media Library is used.', url: a.mediaUrl, value: a.focus || { x: 0.5, y: 0.3 }, onChange: function ( v ) { props.setAttributes( { focus: v } ); }, __nextHasNoMarginBottom: true } ) : null,
+						a.focus ? el( c.Button, { variant: 'link', onClick: function () { props.setAttributes( { focus: undefined } ); } }, 'Use the image’s own focus point' ) : null,
 						text( props, 'questionLabel', 'Label above the question' )
 					)
 				),
 				el( 'header', blockProps,
 					a.mediaUrl ? el( 'div', { className: 'page-head__media' },
-						'video' === a.mediaType ? el( 'video', { src: a.mediaUrl, poster: a.posterUrl, muted: true } ) : el( 'img', { src: a.mediaUrl, alt: '' } ),
+						'video' === a.mediaType ? el( 'video', { src: a.mediaUrl, poster: a.posterUrl, muted: true } ) : el( 'img', { src: a.mediaUrl, alt: '', style: a.focus ? { objectPosition: ( a.focus.x * 100 ) + '% ' + ( a.focus.y * 100 ) + '%' } : undefined } ),
 						el( 'div', { className: 'page-head__scrim' } ) ) : null,
 					el( 'div', { className: 'ak-wrap page-head__inner' },
 						rich( props, 'eyebrow', 'p', 'eyebrow', 'Eyebrow (small line above)', [ 'core/link' ] ),
@@ -170,6 +172,7 @@
 							{ key: 'poster', label: 'Poster image', type: 'image' },
 							{ key: 'label', label: 'Caption — first line' },
 							{ key: 'kind', label: 'Caption — second line' },
+							{ key: 'focus', label: 'What stays in frame on phones', help: 'From the left and from the top, e.g. 40% 30%. Empty: the centre.' },
 						], 'Film', 'label' )
 					),
 					el( c.PanelBody, { title: 'Numbers', initialOpen: false },

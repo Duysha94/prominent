@@ -16,7 +16,6 @@ add_action(
 		add_theme_support( 'responsive-embeds' );
 		add_theme_support( 'align-wide' );
 		add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script', 'navigation-widgets' ) );
-		add_theme_support( 'custom-logo', array( 'height' => 120, 'width' => 260, 'flex-height' => true, 'flex-width' => true ) );
 
 		// The page editor shows pages with the site's own styles.
 		add_theme_support( 'editor-styles' );
@@ -64,6 +63,19 @@ add_action(
 	},
 	20
 );
+
+/* The sign-in screen is light: it carries the logo with dark text. */
+add_action(
+	'login_enqueue_scripts',
+	static function () {
+		printf(
+			'<style>#login h1 a{background:url(%s) center/contain no-repeat;width:220px;height:118px;}</style>',
+			esc_url( get_theme_file_uri( 'assets/img/ak-logo-dark.svg' ) )
+		);
+	}
+);
+add_filter( 'login_headerurl', static fn() => home_url( '/' ) );
+add_filter( 'login_headertext', static fn() => ak_studio_get( 'name' ) );
 
 /* Patterns from the theme's patterns/ folder appear under this category. */
 add_action(

@@ -45,13 +45,11 @@ function ak_brand_seed_patterns(): array {
 								$link( 'PR &amp; promotion', '/services/pr-and-promotion/' ),
 							)
 						),
-						ak_b_eyebrow( 'Our platforms' ) .
+						ak_b_eyebrow( 'Platforms we manage' ) .
 						ak_b_list(
 							array(
 								$link( 'London Fashion Day', 'https://londonfashionday.co.uk/' ),
 								$link( 'Odessa Fashion Day', 'https://ofd.org.ua/' ),
-								$link( 'KEKA', 'https://keka.design/' ),
-								$link( 'COOL’BABA', 'https://coolbaba.in.ua/' ),
 							)
 						),
 						ak_b_eyebrow( 'Site' ) .

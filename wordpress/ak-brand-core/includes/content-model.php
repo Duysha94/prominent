@@ -177,7 +177,7 @@ function ak_brand_seed_capabilities(): void {
 			wp_insert_term( $movement['name'], 'ak_capability', array( 'slug' => $movement['slug'] ) );
 		}
 	}
-	foreach ( array( 'ak-owned' => 'AK platform', 'client' => 'Client', 'collaboration' => 'Collaboration' ) as $slug => $name ) {
+	foreach ( array( 'ak-owned' => 'Managed by AK', 'client' => 'Client', 'collaboration' => 'Collaboration' ) as $slug => $name ) {
 		if ( ! term_exists( $slug, 'ak_relationship' ) ) {
 			wp_insert_term( $name, 'ak_relationship', array( 'slug' => $slug ) );
 		}

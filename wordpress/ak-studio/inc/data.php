@@ -37,11 +37,10 @@ function ak_studio_get( string $key ): string {
  */
 function ak_studio_reel(): array {
 	$clips = array(
-		array( 'file' => 'lfd-s7-campaign', 'label' => 'Photo & film', 'kind' => 'London Fashion Day · Season 7 campaign' ),
-		array( 'file' => 'web-wolax', 'label' => 'Websites', 'kind' => 'Wolax Interiors' ),
-		array( 'file' => 'lfd-s7-runway', 'label' => 'Shows & events', 'kind' => 'London Fashion Day · Season 7' ),
-		array( 'file' => 'web-lenieboya', 'label' => 'Websites', 'kind' => 'Lenie Boya' ),
-		array( 'file' => 'ofd-s31-campaign', 'label' => 'Photo & film', 'kind' => 'Odessa Fashion Day · Season 31 campaign' ),
+		array( 'file' => 'lfd-s7-campaign', 'label' => 'Photo & film', 'kind' => 'London Fashion Day · Season 7 campaign', 'focus' => '55% 35%' ),
+		array( 'file' => 'lfd-s7-runway', 'label' => 'Shows & events', 'kind' => 'London Fashion Day · Season 7', 'focus' => '50% 45%' ),
+		array( 'file' => 'ofd-s31-campaign', 'label' => 'Photo & film', 'kind' => 'Odessa Fashion Day · Season 31 campaign', 'focus' => '30% 30%' ),
+		array( 'file' => 'lfd-westminster', 'label' => 'Photo & film', 'kind' => 'Campaign film · Westminster Bridge', 'focus' => '55% 30%' ),
 	);
 	$reel  = array();
 	foreach ( $clips as $clip ) {
@@ -52,6 +51,7 @@ function ak_studio_reel(): array {
 			'poster'  => get_theme_file_uri( $base . '.jpg' ),
 			'label'   => $clip['label'],
 			'kind'    => $clip['kind'],
+			'focus'   => $clip['focus'],
 		);
 	}
 	return $reel;

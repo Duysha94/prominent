@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const AK_SEED_VERSION    = '2.0.0';
+const AK_SEED_VERSION    = '2.1.0';
 const AK_SEED_MEDIA_STEP = 5;
 
 /**
@@ -114,13 +114,34 @@ function ak_brand_install_media( int $chunk ): array {
 	$map   = is_array( $map ) ? $map : array();
 	$log   = array();
 
+	$focus = ak_brand_seed_media_focus();
 	foreach ( $files as $file ) {
-		if ( ak_brand_seed_attachment( $file ) ) {
-			continue;
-		}
 		$src = AK_BRAND_CORE_DIR . 'seed/media/' . $file;
 		if ( ! is_readable( $src ) ) {
 			$log[] = 'Missing file: ' . $file;
+			continue;
+		}
+		$hash     = md5_file( $src );
+		$existing = ak_brand_seed_attachment( $file );
+		if ( $existing ) {
+			// The launch file was improved since it was imported: swap the file, keep the attachment (and every page that uses it).
+			$known = (string) get_post_meta( $existing, '_ak_seed_file_hash', true );
+			if ( '' === $known ) {
+				// Imported before files were tracked: the same file needs no swap.
+				$current = wp_get_original_image_path( $existing ) ?: get_attached_file( $existing );
+				if ( $current && file_exists( $current ) && md5_file( $current ) === $hash ) {
+					update_post_meta( $existing, '_ak_seed_file_hash', $hash );
+					$known = $hash;
+				}
+			}
+			if ( $known !== $hash ) {
+				$done  = ak_brand_replace_attachment_file( $existing, $src );
+				$log[] = $done ? 'Updated to the original quality: ' . $file : 'Could not update ' . $file;
+				if ( $done ) {
+					update_post_meta( $existing, '_ak_seed_file_hash', $hash );
+				}
+			}
+			ak_brand_seed_focus( $existing, $focus[ $file ] ?? '' );
 			continue;
 		}
 		$tmp = wp_tempnam( $file );
@@ -144,6 +165,8 @@ function ak_brand_install_media( int $chunk ): array {
 			update_post_meta( $id, '_wp_attachment_image_alt', $all[ $file ]['alt'] );
 		}
 		update_post_meta( $id, '_ak_seed_key', $file );
+		update_post_meta( $id, '_ak_seed_file_hash', $hash );
+		ak_brand_seed_focus( $id, $focus[ $file ] ?? '' );
 		$map[ $file ] = $id;
 		update_option( 'akbrand_seed_media', $map, false );
 		$log[] = 'Imported ' . $file;
@@ -152,6 +175,49 @@ function ak_brand_install_media( int $chunk ): array {
 		$log[] = 'Media batch ' . ( $chunk + 1 ) . ' already in the library.';
 	}
 	return $log;
+}
+
+/**
+ * Swap an attachment's file for a new one, keeping its ID, title, caption and
+ * alt text. Old sizes are removed and new ones generated.
+ */
+function ak_brand_replace_attachment_file( int $id, string $src ): bool {
+	$old = get_attached_file( $id );
+	if ( ! $old ) {
+		return false;
+	}
+	$meta = wp_get_attachment_metadata( $id );
+	$dir  = dirname( $old );
+	$name = basename( $src );
+	if ( is_array( $meta ) ) {
+		$backup = get_post_meta( $id, '_wp_attachment_backup_sizes', true );
+		wp_delete_attachment_files( $id, $meta, is_array( $backup ) ? $backup : array(), $old );
+	} elseif ( file_exists( $old ) ) {
+		wp_delete_file( $old );
+	}
+	wp_mkdir_p( $dir );
+	$dest = $dir . '/' . wp_unique_filename( $dir, $name );
+	if ( ! copy( $src, $dest ) ) {
+		return false;
+	}
+	update_attached_file( $id, $dest );
+	wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $dest ) );
+	return true;
+}
+
+/**
+ * Set the launch focus point on an attachment, unless someone has chosen another one since.
+ */
+function ak_brand_seed_focus( int $id, string $focus ): void {
+	if ( '' === $focus ) {
+		return;
+	}
+	$current = (string) get_post_meta( $id, '_ak_focus', true );
+	$seeded  = (string) get_post_meta( $id, '_ak_focus_seed', true );
+	if ( '' === $current || $current === $seeded ) {
+		update_post_meta( $id, '_ak_focus', $focus );
+		update_post_meta( $id, '_ak_focus_seed', $focus );
+	}
 }
 
 /**

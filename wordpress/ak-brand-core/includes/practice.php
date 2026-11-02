@@ -118,11 +118,11 @@ function ak_brand_founders(): array {
 			'letter' => 'K',
 			'name'   => 'Kostiantyn Lieontiev',
 			'role'   => 'Co-founder — fashion production and brand strategy',
-			'short'  => 'Fashion producer and brand strategist. Founder of London Fashion Day, Odessa Fashion Day and KEKA.',
+			'short'  => 'Fashion producer and brand strategist. Heads London Fashion Day and Odessa Fashion Day.',
 			'bio'    => array(
 				'Kostiantyn Lieontiev is a fashion producer, brand strategist and media professional with extensive experience in brand development and creative industries.',
 				'Before focusing on international fashion projects, he spent nine years managing a regional branch of a major advertising holding, where he was responsible for business development, advertising campaigns and strategic client development.',
-				'He is the founder and producer of the international fashion platforms London Fashion Day and Odessa Fashion Day, created to support emerging designers and develop international creative communities. He is also the founder of the fashion brand KEKA, currently being developed for the international market.',
+				'He heads the international fashion platforms London Fashion Day and Odessa Fashion Day, which support emerging designers and build international creative communities, and is developing the fashion brand KEKA for the international market.',
 				'Through his work he has collaborated with designers, brands and creative teams across London, Paris and Dubai.',
 			),
 		),

@@ -110,16 +110,15 @@ function ak_brand_seed_projects(): array {
 			'title'        => 'Show Me Your Nails',
 			'kind'         => 'Salon website',
 			'location'     => 'London',
-			'status'       => 'In development',
 			'order'        => 1,
 			'relationship' => 'client',
 			'domain'       => 'showmeyournails.co.uk',
-			'excerpt'      => 'A new website for a nail and beauty salon in Marylebone — in development in the studio now.',
-			'facts'        => array( 'Client' => 'Show Me Your Nails, Marylebone', 'What' => 'Website for a nail and beauty salon', 'Status' => 'In development', 'Our part' => 'Design and development' ),
+			'excerpt'      => 'A new website for a nail and beauty salon in Marylebone, with booking a few taps away.',
+			'facts'        => array( 'Client' => 'Show Me Your Nails, Marylebone', 'What' => 'Website for a nail and beauty salon', 'Year' => '2026', 'Our part' => 'Design and development' ),
 			'lead'         => 'A new website for Show Me Your Nails, a nail and beauty salon at 20 Seymour Place in Marylebone — Russian manicure, brows, massage and facials.',
 			'body'         => array(
-				'The full website is being built in the studio now. Until it launches, the holding page keeps bookings coming in: booking on Fresha, a WhatsApp chat and a direct phone line, with the salon’s address and opening hours — all in the salon’s deep burgundy and soft serif type.',
-				'On a salon site the treatment, the time and the confirmation should never be more than a few taps apart on a phone — that is the brief we are building to.',
+				'The site is built around booking: Fresha, a WhatsApp chat and a direct phone line are one tap away on every screen, next to the salon’s address in Marylebone and its opening hours — all in the salon’s deep burgundy and soft serif type.',
+				'On a salon site the treatment, the time and the confirmation should never be more than a few taps apart on a phone — that was the brief.',
 			),
 		)
 	);
@@ -172,9 +171,9 @@ function ak_brand_seed_projects(): array {
 			'relationship' => 'ak-owned',
 			'disciplines'  => array( 'digital', 'identity' ),
 			'domain'       => 'keka.design',
-			'excerpt'      => 'A film-led brand site for the label founded by Kostiantyn Lieontiev, with lookbooks, news and a store on the way.',
+			'excerpt'      => 'A film-led brand site for the fashion label KEKA, with lookbooks, news and a store on the way.',
 			'facts'        => array( 'Brand' => 'KEKA', 'What' => 'Brand website with lookbooks and news', 'Store' => 'Online store coming soon', 'Our part' => 'Design and development' ),
-			'lead'         => 'The home of KEKA, the fashion label founded by Kostiantyn Lieontiev: clothing as a language of identity and self-expression.',
+			'lead'         => 'The home of KEKA, a fashion label that treats clothing as a language of identity and self-expression.',
 			'body'         => array(
 				'Film-led and editorial: a runway film opens the site, followed by the collections, lookbooks from each season and the label’s news from London and beyond.',
 				'The online store is being prepared in the same system, so shopping will sit alongside the stories.',
@@ -268,7 +267,7 @@ function ak_brand_seed_projects(): array {
 			'order'        => 17,
 			'relationship' => 'ak-owned',
 			'domain'       => 'londonfashionday.co.uk',
-			'excerpt'      => 'The online home of the platform we organise, with registration and tickets for every season.',
+			'excerpt'      => 'The online home of the runway platform our studio manages, with registration and tickets for every season.',
 			'facts'        => array( 'What' => 'Platform website with registrations and tickets', 'Our part' => 'Design, development and content' ),
 			'lead'         => 'The online home of London Fashion Day — and the system behind every season.',
 			'body'         => array(
@@ -314,7 +313,7 @@ function ak_brand_seed_projects(): array {
 		'cover'        => 'lfd-s8-campaign-portrait.jpg',
 		'eyebrow'      => '<a href="/work/?type=show">Work</a> / Shows & events',
 		'excerpt'      => 'Twelve fashion voices at the historic Porchester Hall — and a campaign built around a student designer and an emerging model.',
-		'facts'        => array( 'When' => '8 November 2026', 'Where' => 'Porchester Hall, Westminster', 'Our part' => 'Organiser and producer: concept, campaign, production and press' ),
+		'facts'        => array( 'When' => '8 November 2026', 'Where' => 'Porchester Hall, Westminster', 'Our part' => 'Season management; campaign direction; production and press' ),
 		'link'         => array( 'londonfashionday.co.uk', 'https://londonfashionday.co.uk/' ),
 		'lead'         => 'Fashion has always been a conversation between generations. Season 8 asks what we inherit, what we create today and what we choose to pass on.',
 		'body'         =>
@@ -323,7 +322,7 @@ function ak_brand_seed_projects(): array {
 			ak_b_p( 'Rather than turning to established names, the campaign puts emerging talent at the centre: a look by Gabrielle Nitu, a student at the London College of Contemporary Arts, worn by a young Nigerian model at the start of her career on the London scene. Dinara Ostr directed the film around movement, form and transformation; Mariana Zabramna shot the stills; Andrii Karakushan and Kostiantyn Lieontiev produced.' ) .
 			ak_b_h( 'The runway' ) .
 			ak_b_p( 'Six runway slots from 13:00 to 18:00 on Sunday 8 November 2026, opening with students of LCCA and followed by Tiarael Fashion, STUDIO CATA, Heymers Education, Erzindjan’s, Tasha Ivy, NILDET, SHICHO, SULITUDE, Yanou Santangelo, NIKA and LEV3L UP. Sterling Law is the season’s exclusive partner, with twenty official media partners.' ) .
-			ak_b_quote( 'We are not here to predict the future of fashion. We are here to make space for those who will create it.', 'Kostiantyn Lieontiev, founder of London Fashion Day' ),
+			ak_b_quote( 'We are not here to predict the future of fashion. We are here to make space for those who will create it.', 'Kostiantyn Lieontiev, London Fashion Day' ),
 		'credits'      => array( 'Campaign film' => 'Dinara Ostr', 'Photography' => 'Mariana Zabramna', 'Look' => 'Gabrielle Nitu, London College of Contemporary Arts', 'Make-up' => '@makeup.byandzelika', 'Production' => 'Andrii Karakushan, Kostiantyn Lieontiev' ),
 		'gallery'      => array( 'lfd-s8-campaign-profile.jpg', 'lfd-s8-campaign-close-up.jpg', 'lfd-s8-campaign-seated.jpg', 'lfd-s8-campaign-detail.jpg', 'lfd-s8-campaign-fringe.jpg', 'lfd-s8-campaign-movement.jpg', 'lfd-s8-campaign-standing.jpg' ),
 	);
@@ -344,12 +343,12 @@ function ak_brand_seed_projects(): array {
 		'cover'        => 'lfd-s7-campaign-regent-street.jpg',
 		'eyebrow'      => '<a href="/work/?type=show">Work</a> / Shows & events',
 		'excerpt'      => 'A campaign film shot at sunrise on Regent Street and a day of shows in Hyde Park, built on one idea: fashion as a language beyond borders.',
-		'facts'        => array( 'When' => '1 May 2026', 'Where' => 'St John’s Church, Hyde Park', 'Our part' => 'Organiser and producer: concept, campaign film, show day and press' ),
+		'facts'        => array( 'When' => '1 May 2026', 'Where' => 'St John’s Church, Hyde Park', 'Our part' => 'Season management; direction of the campaign film; show day and press' ),
 		'link'         => array( 'londonfashionday.co.uk', 'https://londonfashionday.co.uk/' ),
 		'lead'         => 'Season 7 treated clothing as a language that exists beyond borders, beyond spoken words and beyond fixed identity.',
 		'body'         =>
 			ak_b_p( 'The campaign was captured at sunrise on Regent Street: Iranian model Amirsam Mohammadzadeh, whose life and work connect him to Ukraine, in a look by the Ukrainian brand YADVIGA NETYKSHA — transparent fabrics that reveal the body while concealing the face.' ) .
-			ak_b_quote( 'No matter how much we search for perfection in style, trends, or fashion directions, at the centre of it all there is always a person: their individuality, their identity.', 'Kostiantyn Lieontiev, founder and producer of London Fashion Day' ) .
+			ak_b_quote( 'No matter how much we search for perfection in style, trends, or fashion directions, at the centre of it all there is always a person: their individuality, their identity.', 'Kostiantyn Lieontiev, London Fashion Day' ) .
 			ak_b_h( 'The day' ) .
 			ak_b_p( 'On 1 May 2026, St John’s Church, Hyde Park became a continuous sequence of presentations from 13:00: the London College of Contemporary Arts showcase, then Brera Milano, Anabelle Clothing, Amira, RICKY XTOPHA, Olimzoda Mahin, SOFI RICH and MALUSHA Bags, LEV3L UP, Atelier Pardis, Mur Mur, KEKA, Riri Couture and Gorsset. Attendance was free of charge, organised through selected show slots.' ),
 		'credits'      => array( 'Campaign concept' => 'Kostiantyn Lieontiev', 'Art direction' => 'Pardis', 'Film' => 'Dinara Ostr', 'Backstage photography' => 'Natalia Wise', 'Music' => 'Eduard Nester', 'Model' => 'Amirsam Mohammadzadeh', 'Look' => 'YADVIGA NETYKSHA' ),
@@ -373,7 +372,7 @@ function ak_brand_seed_projects(): array {
 		'header'       => 'still-lfd-westminster-9.jpg',
 		'eyebrow'      => '<a href="/work/?type=shoot">Work</a> / Photo & film',
 		'excerpt'      => 'A red tulle dress on Westminster Bridge at sunrise — the campaign film for London Fashion Day’s spring 2024 season.',
-		'facts'        => array( 'When' => 'Spring 2024', 'Where' => 'Westminster Bridge, London', 'Our part' => 'Concept, production and film' ),
+		'facts'        => array( 'When' => 'Spring 2024', 'Where' => 'Westminster Bridge, London', 'Our part' => 'Direction of the campaign film' ),
 		'link'         => array( 'londonfashionday.co.uk', 'https://londonfashionday.co.uk/' ),
 		'lead'         => 'Big Ben, the river and the first light of the day: a campaign film for London Fashion Day’s spring 2024 season, shot on Westminster Bridge.',
 		'body'         => ak_b_p( 'One look, one location, one morning. The camera tilts with the wind in the tulle and the city does the rest — the kind of film a brand can cut into a season’s worth of posts, a website header and a runway opener.' ),
@@ -397,7 +396,7 @@ function ak_brand_seed_projects(): array {
 		'cover'        => 'ofd-s32-runway-poppies.jpg',
 		'eyebrow'      => '<a href="/work/?type=show">Work</a> / Shows & events',
 		'excerpt'      => 'A season about the value of individuality, with a campaign starring Miss Ukraine Kateryna Zakharchenko.',
-		'facts'        => array( 'When' => '16–17 May 2026', 'Where' => 'Luxury Gallery, Sady Peremohy, Odesa', 'Our part' => 'Founder’s platform: concept, campaign and show production' ),
+		'facts'        => array( 'When' => '16–17 May 2026', 'Where' => 'Luxury Gallery, Sady Peremohy, Odesa', 'Our part' => 'Season management; campaign direction; show production' ),
 		'link'         => array( 'ofd.org.ua', 'https://ofd.org.ua/' ),
 		'lead'         => 'ONE OF A KIND: a conversation about the person and their uniqueness at a time when the world leans towards standardisation.',
 		'body'         =>
@@ -422,13 +421,13 @@ function ak_brand_seed_projects(): array {
 		'cover'        => 'sw26-botanical-garden.jpg',
 		'eyebrow'      => '<a href="/work/?type=show">Work</a> / Shows & events',
 		'excerpt'      => 'Two days of summer and cruise collections in Odesa. The second went ahead the morning after a night of missile and drone attacks.',
-		'facts'        => array( 'When' => '8–9 August 2026', 'Where' => 'MarAmax Academy · Botanical Garden of Odesa University', 'Our part' => 'Founder’s platform: summer season of shows' ),
+		'facts'        => array( 'When' => '8–9 August 2026', 'Where' => 'MarAmax Academy · Botanical Garden of Odesa University', 'Our part' => 'Management of the summer season of shows' ),
 		'link'         => array( 'ofd.org.ua', 'https://ofd.org.ua/' ),
-		'lead'         => 'The Odessa Fashion Day team’s annual summer project — and, this year, a decision made together to carry on.',
+		'lead'         => 'The summer edition of Odessa Fashion Day, first held in 2015 — and, this year, a decision made together to carry on.',
 		'body'         =>
 			ak_b_p( 'SUMMER WEEKEND by OFD opened on 8 August at MarAmax Academy with a presentation by DeClassic, the label of designer Anastasiia Mykytyn. During the night of 8 to 9 August, Odesa came under a large-scale combined missile and drone attack. The team seriously considered cancelling the second day; the decision to continue was made collectively — and designers, models, make-up artists, stylists, photographers and partners all came.' ) .
 			ak_b_p( 'On 9 August the shows went ahead in the Botanical Garden of Odesa I. I. Mechnikov National University, with summer and cruise collections from PANACEA, LUMÉA, Yankovska Helen &amp; Lady Forever, Soul Swim, PODOLSKA, Nimble Scissors and KEOSMY by yesundress.' ) .
-			ak_b_quote( 'We do not romanticise the conditions in which we work. But we do not want to allow those conditions to take away Ukrainian designers’ ability to create, develop and be seen.', 'Kostiantyn Lieontiev, founder of Odessa Fashion Day' ),
+			ak_b_quote( 'We do not romanticise the conditions in which we work. But we do not want to allow those conditions to take away Ukrainian designers’ ability to create, develop and be seen.', 'Kostiantyn Lieontiev, Odessa Fashion Day' ),
 		'gallery'      => array( 'sw26-denim.jpg', 'sw26-linen.jpg', 'sw26-outerwear.jpg', 'sw26-cruise.jpg', 'sw26-black.jpg', 'sw26-tailoring.jpg', 'sw26-maramax-academy.jpg' ),
 	);
 
@@ -450,12 +449,12 @@ function ak_brand_seed_projects(): array {
 		'header_poster' => 'lfd-s6-runway-loop.jpg',
 		'eyebrow'      => '<a href="/work/?type=show">Work</a> / Shows & events',
 		'excerpt'      => 'Authenticity as the new luxury: a record number of guests, a pop-up space and an expanded line-up in Hyde Park.',
-		'facts'        => array( 'When' => '1 November 2025', 'Where' => 'St John’s Church, Hyde Park', 'Our part' => 'Organiser and producer: concept, casting, show day and press' ),
+		'facts'        => array( 'When' => '1 November 2025', 'Where' => 'St John’s Church, Hyde Park', 'Our part' => 'Season management; casting, show day and press' ),
 		'link'         => array( 'londonfashionday.co.uk', 'https://londonfashionday.co.uk/' ),
 		'lead'         => 'Under the theme The Art of Being, Season 6 argued that authenticity is the new luxury — in the collections, and in the casting, production and storytelling around them.',
 		'body'         =>
 			ak_b_p( 'The sixth season took place on 1 November 2025 inside St John’s Church in central London, with a record number of guests, a Pop-Up Corner Space and an expanded designer line-up.' ) .
-			ak_b_quote( 'In 2025, being yourself is a creative statement.', 'Kostiantyn Lieontiev, founder and producer of London Fashion Day' ) .
+			ak_b_quote( 'In 2025, being yourself is a creative statement.', 'Kostiantyn Lieontiev, London Fashion Day' ) .
 			ak_b_p( 'The London College of Contemporary Arts opened the day with five emerging talents, followed by Relique London, VELGUD presented by Global Fashion Net, TIDE CHEN, Sara K Couture, LENIE BOYA × MALUSHA, Maison Sophy G, KochHouse, Mogardi, CHARS, FRENCHEYE and The Moodi Studio.' ),
 		'gallery'      => array( 'lfd-s6-lcca-showcase.jpg', 'lfd-s6-sara-k-couture.jpg', 'lfd-s6-mogardi.jpg', 'lfd-s6-relique-london.jpg', 'lfd-s6-maison-sophy-g.jpg', 'lfd-s6-kochhouse.jpg', 'lfd-s6-kostiantyn-lieontiev-backstage.jpg' ),
 	);
@@ -476,7 +475,7 @@ function ak_brand_seed_projects(): array {
 		'cover'        => 'ofd-s31-londonska-hotel.jpg',
 		'eyebrow'      => '<a href="/work/?type=show">Work</a> / Shows & events',
 		'excerpt'      => 'Two days, two landmark venues and one theme: resilience, strength and creative movement forward.',
-		'facts'        => array( 'When' => '14–15 November 2025', 'Where' => 'Sady Peremohy · Londonska Hotel, Odesa', 'Our part' => 'Founder’s platform: campaign film and two days of shows' ),
+		'facts'        => array( 'When' => '14–15 November 2025', 'Where' => 'Sady Peremohy · Londonska Hotel, Odesa', 'Our part' => 'Season management; direction of the campaign film; two days of shows' ),
 		'link'         => array( 'ofd.org.ua', 'https://ofd.org.ua/' ),
 		'lead'         => 'UNYIELDING: resilience, strength and creative movement forward despite the challenges of today.',
 		'body'         =>
@@ -502,12 +501,12 @@ function ak_brand_seed_projects(): array {
 		'cover'        => 'lfd-s5-elen-ost.jpg',
 		'eyebrow'      => '<a href="/work/?type=show">Work</a> / Shows & events',
 		'excerpt'      => 'A season that put the person, not the standard, at the front of fashion — with a campaign made with KEKA.',
-		'facts'        => array( 'When' => '26 April 2025', 'Where' => 'St John’s Church, Hyde Park', 'Our part' => 'Organiser and producer: theme, campaign with KEKA, show day' ),
+		'facts'        => array( 'When' => '26 April 2025', 'Where' => 'St John’s Church, Hyde Park', 'Our part' => 'Season management; campaign with KEKA; show day' ),
 		'link'         => array( 'londonfashionday.co.uk', 'https://londonfashionday.co.uk/' ),
 		'lead'         => 'HUMAN — a declaration of freedom, self-expression and authenticity that brings the person, not the standard, to the front of fashion.',
 		'body'         =>
 			ak_b_p( 'The official campaign was created with the Ukrainian label KEKA, whose philosophy goes beyond gender, age and traditional norms: Zain Shan as the face of the season, direction and video by Dinara Ostr, photography by Nicolo Urbani and production by Kostiantyn Lieontiev.' ) .
-			ak_b_quote( 'This season is not about the image — it’s about the person.', 'Kostiantyn Lieontiev, founder of London Fashion Day' ) .
+			ak_b_quote( 'This season is not about the image — it’s about the person.', 'Kostiantyn Lieontiev, London Fashion Day' ) .
 			ak_b_p( 'On the runway: Lenie Boya, HOME NEST &amp; MALUSHA Bag Design Studio, the London College of Contemporary Arts showcase, Panache by Elvira, Fashion Paris Academy, Gorsset, KEKA by Novikov and ELEN OST, among others.' ),
 		'gallery'      => array( 'lfd-s5-keka-by-novikov.jpg', 'lfd-s5-gorsset.jpg', 'lfd-s5-keka-by-novikov-2.jpg', 'lfd-s5-panache-by-elvira.jpg', 'lfd-s5-elen-ost-2.jpg' ),
 	);
@@ -529,7 +528,7 @@ function ak_brand_seed_projects(): array {
 		'header_video'  => 'lfd-s6-runway-loop.mp4',
 		'header_poster' => 'lfd-s6-runway-loop.jpg',
 		'eyebrow'       => '<a href="/work/?type=platform">Work</a> / Platforms',
-		'excerpt'       => 'An independent international runway for emerging and independent designers, organised by the studio since 2023.',
+		'excerpt'       => 'An independent international runway for emerging and independent designers — eight seasons since 2023, managed by the studio.',
 		'facts'         => array( 'Since' => '2023', 'Seasons' => '8', 'Home' => 'London' ),
 		'link'          => array( 'londonfashionday.co.uk', 'https://londonfashionday.co.uk/' ),
 		'lead'          => 'London Fashion Day began with a single show: in 2022 the team presented Ukrainian designers at the International Women’s Forum in London, and the response made the case for a permanent platform.',
@@ -545,7 +544,7 @@ function ak_brand_seed_projects(): array {
 					'Partnerships with the London College of Contemporary Arts, Show Empire and twenty official media partners',
 				)
 			) .
-			ak_b_quote( 'Sometimes, all a young designer needs is someone willing to open the door.', 'Kostiantyn Lieontiev, founder of London Fashion Day' ),
+			ak_b_quote( 'Sometimes, all a young designer needs is someone willing to open the door.', 'Kostiantyn Lieontiev, London Fashion Day' ),
 		'gallery'       => array( 'lfd-s7-kostiantyn-lieontiev-runway.jpg', 'lfd-s6-lcca-showcase.jpg', 'lfd-s5-elen-ost.jpg', 'still-lfd-westminster-17.jpg', 'lfd-s7-riri-couture.jpg', 'lfd-s6-kostiantyn-lieontiev-backstage.jpg' ),
 	);
 
@@ -565,15 +564,15 @@ function ak_brand_seed_projects(): array {
 		'header_video'  => 'ofd-s31-campaign-loop.mp4',
 		'header_poster' => 'ofd-s31-campaign-loop.jpg',
 		'eyebrow'       => '<a href="/work/?type=platform">Work</a> / Platforms',
-		'excerpt'       => 'A runway for Ukrainian designers since 2010 — thirty-two seasons in Odesa, and still opening twice a year.',
-		'facts'         => array( 'Since' => '2010', 'Seasons' => '32', 'Home' => 'Odesa' ),
+		'excerpt'       => 'A runway for Ukrainian designers since 2010 — 33 seasons in Odesa and a summer edition since 2015, managed by the studio.',
+		'facts'         => array( 'Since' => '2010', 'Seasons' => '33', 'Home' => 'Odesa' ),
 		'link'          => array( 'ofd.org.ua', 'https://ofd.org.ua/' ),
 		'lead'          => 'Odessa Fashion Day is a cultural initiative that supports and promotes Ukrainian fashion brands, in Odesa and across Ukraine.',
 		'body'          =>
 			ak_b_p( 'Each season brings together designers, bloggers, retail, journalists, buyers and the public. Around the shows sit Fashion Shopping Place — a shopping space for Ukrainian labels — master classes and talks. Admission is free, by designer invitation or registration. In 2016 OFD signed a memorandum of strategic partnership with Ukrainian Fashion Week; from 2020 it has been a partner of the national channel Fashion TV Ukraine.' ) .
 			ak_b_h( 'Through the war' ) .
-			ak_b_p( 'The platform has kept working through the full-scale war: Season 30 marked fifteen years, Season 31 took over two of the city’s landmark venues, Season 32 followed in May 2026, and SUMMER WEEKEND by OFD went ahead the day after a large-scale attack on Odesa.' ) .
-			ak_b_quote( 'OFD is a platform for ideas, meanings and people who are shaping the future of fashion right now.', 'Kostiantyn Lieontiev, founder of Odessa Fashion Day' ),
+			ak_b_p( 'The platform has kept working through the full-scale war: Season 30 marked fifteen years, Season 31 took over two of the city’s landmark venues, Season 32 followed in May 2026, Season 33 takes place on 6–8 November 2026, and SUMMER WEEKEND by OFD — held since 2015 — went ahead the day after a large-scale attack on Odesa.' ) .
+			ak_b_quote( 'OFD is a platform for ideas, meanings and people who are shaping the future of fashion right now.', 'Kostiantyn Lieontiev, Odessa Fashion Day' ),
 		'gallery'       => array( 'ofd-s32-runway-poppies.jpg', 'ofd-s31-londonska-hotel.jpg', 'sw26-botanical-garden.jpg', 'ofd-s32-runway-embroidery.jpg', 'ofd-s31-luxury-gallery.jpg', 'ofd-s32-fashion-talk.jpg' ),
 	);
 
@@ -592,9 +591,9 @@ function ak_brand_seed_projects(): array {
 		'cover'        => 'lfd-s7-keka.jpg',
 		'eyebrow'      => '<a href="/work/?type=brand">Work</a> / Brands',
 		'excerpt'      => 'A label that ignores gender, age and convention — on the runway in London and Milan, and being developed for the international market.',
-		'facts'        => array( 'Founder' => 'Kostiantyn Lieontiev', 'Shown at' => 'London Fashion Day; Fashion For Freedom, Milan Fashion Week 2025', 'Our part' => 'Positioning, campaigns, runway and website' ),
+		'facts'        => array( 'Shown at' => 'London Fashion Day; Fashion For Freedom, Milan Fashion Week 2025', 'Our part' => 'Direction of positioning, campaigns and runway; website design and development' ),
 		'link'         => array( 'keka.design', 'https://keka.design/' ),
-		'lead'         => 'KEKA is the fashion label founded by Kostiantyn Lieontiev, with a philosophy that goes beyond gender, age and traditional norms.',
+		'lead'         => 'KEKA is a fashion label with a philosophy that goes beyond gender, age and traditional norms.',
 		'body'         =>
 			ak_b_p( 'It has shown at London Fashion Day across several seasons and created the official campaign for Season 5, HUMAN. In September 2025 KEKA joined Fashion For Freedom during Milan Fashion Week, reimagining Tudor echoes as a contemporary cultural and political statement.' ) .
 			ak_b_p( 'The label is now being developed for the international market — with the same methods the studio brings to clients: positioning, campaigns, runway, press and a <a href="/work/keka-website/">website</a> built for it.' ),

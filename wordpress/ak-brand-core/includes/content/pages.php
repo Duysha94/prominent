@@ -73,12 +73,13 @@ function ak_brand_seed_pages(): array {
 		}
 		return ak_b_ak( 'page-header', $a );
 	};
-	$reel = static fn( string $file, string $label, string $kind ): array => array(
+	$reel = static fn( string $file, string $label, string $kind, string $focus = '' ): array => array(
 		'video'   => ak_b_theme_asset( "media/{$file}.mp4" ),
 		'videoSm' => ak_b_theme_asset( "media/{$file}-sm.mp4" ),
 		'poster'  => ak_b_theme_asset( "media/{$file}.jpg" ),
 		'label'   => $label,
 		'kind'    => $kind,
+		'focus'   => $focus,
 	);
 	$s8       = $img( 'lfd-s8-campaign-profile.jpg' );
 	$event_s8 = array(
@@ -88,7 +89,7 @@ function ak_brand_seed_pages(): array {
 		'title'           => 'PAST. PRESENT. NEXT.',
 		'date'            => '2026-11-08',
 		'venue'           => 'Porchester Hall, Westminster',
-		'note'            => 'The runway platform we organise returns to London with twelve fashion voices. Designers who want to show at a future season can start with us.',
+		'note'            => 'London Fashion Day, the runway platform our studio manages, returns with twelve fashion voices. Designers who want to show at a future season can start with us.',
 		'imageId'         => $s8['id'],
 		'imageUrl'        => $s8['url'],
 		'primaryLabel'    => 'Register as a guest',
@@ -121,16 +122,15 @@ function ak_brand_seed_pages(): array {
 					'secondaryLabel' => 'See our work',
 					'secondaryUrl'   => '/work/',
 					'clips'          => array(
-						$reel( 'lfd-s7-campaign', 'Photo & film', 'London Fashion Day · Season 7 campaign' ),
-						$reel( 'web-wolax', 'Websites', 'Wolax Interiors' ),
-						$reel( 'lfd-s7-runway', 'Shows & events', 'London Fashion Day · Season 7' ),
-						$reel( 'web-lenieboya', 'Websites', 'Lenie Boya' ),
-						$reel( 'ofd-s31-campaign', 'Photo & film', 'Odessa Fashion Day · Season 31 campaign' ),
+						$reel( 'lfd-s7-campaign', 'Photo & film', 'London Fashion Day · Season 7 campaign', '55% 35%' ),
+						$reel( 'lfd-s7-runway', 'Shows & events', 'London Fashion Day · Season 7', '50% 45%' ),
+						$reel( 'ofd-s31-campaign', 'Photo & film', 'Odessa Fashion Day · Season 31 campaign', '30% 30%' ),
+						$reel( 'lfd-westminster', 'Photo & film', 'Campaign film · Westminster Bridge', '55% 30%' ),
 					),
 					'stats'          => array(
 						array( 'value' => '15', 'suffix' => '+', 'label' => 'Years of experience' ),
 						array( 'value' => '10', 'suffix' => '', 'label' => 'Websites in our portfolio' ),
-						array( 'value' => '35', 'suffix' => '+', 'label' => 'Runway seasons produced' ),
+						array( 'value' => '40', 'suffix' => '+', 'label' => 'Runway seasons in London and Odesa' ),
 						array( 'value' => 'A+K', 'suffix' => '', 'label' => 'Founders, one letter each' ),
 					),
 				)
@@ -176,9 +176,9 @@ function ak_brand_seed_pages(): array {
 				)
 			) .
 			ak_b_section(
-				ak_b_eyebrow( 'Our own platforms' ) .
+				ak_b_eyebrow( 'Platforms we manage' ) .
 				ak_b_display( 'We practise <em>what we sell.</em>' ) .
-				ak_b_lead( 'Our founders built two runway platforms, a fashion label and two magazines. Every service we offer, we use on our own brands first.' ) .
+				ak_b_lead( 'The studio manages two runway platforms — London Fashion Day and Odessa Fashion Day: 8 seasons in London, 33 in Odesa and SUMMER WEEKEND by OFD since 2015. Every service we offer, we use there first.' ) .
 				ak_b_ak( 'work', array( 'layout' => 'feature', 'types' => 'platform', 'count' => 2 ) )
 			) .
 			ak_b_ak( 'event', $event_s8 ) .
@@ -188,7 +188,7 @@ function ak_brand_seed_pages(): array {
 				ak_b_columns(
 					array(
 						ak_seed_founder( 'A', 'Andrii Karakushan', 'Co-founder — digital, identity and media', array( 'Brand development, websites and visual communication. Founder of the online magazine Cool’baba.' ) ),
-						ak_seed_founder( 'K', 'Kostiantyn Lieontiev', 'Co-founder — fashion production and brand strategy', array( 'Fashion producer and brand strategist. Founder of London Fashion Day, Odessa Fashion Day and KEKA.' ) ),
+						ak_seed_founder( 'K', 'Kostiantyn Lieontiev', 'Co-founder — fashion production and brand strategy', array( 'Fashion producer and brand strategist. Heads London Fashion Day and Odessa Fashion Day.' ) ),
 					)
 				) .
 				ak_b_buttons( array( array( 'About the studio', '/about/', 'is-style-outline' ) ) )
@@ -231,7 +231,7 @@ function ak_brand_seed_pages(): array {
 			ak_b_section(
 				ak_b_h( 'One brief, one team' ) .
 				ak_b_p( 'Most growing businesses end up managing five suppliers: a strategist, a designer, a web developer, a photographer and an agency for ads. Each does good work; none of it adds up. We run every discipline in-house and in sequence, so the positioning decided in week one is the one that appears on the website, in the campaign and in the ad.' ) .
-				ak_b_p( 'It also means one person accountable for the result. Every project is led by one of the founders, with the same crews, venues and media partners we rely on for our own platforms.' ) .
+				ak_b_p( 'It also means one person accountable for the result. Every project is led by one of the founders, with the same crews, venues and media partners we rely on for the platforms we manage.' ) .
 				ak_b_h( 'Ways to work with us' ) .
 				ak_b_list(
 					array(
@@ -261,7 +261,7 @@ function ak_brand_seed_pages(): array {
 						array( 'Who do you work with?', 'Fashion labels and designers, beauty and lifestyle businesses, shops, salons, studios, magazines and founders building a personal brand. If your business needs to look right and be seen, we can help.' ),
 						array( 'What does it cost?', 'It depends on the scope, so prices are given on request. Send a brief and you will receive a written proposal with the fee before any work begins.' ),
 						array( 'Can you take over a website we already have?', 'Yes. We will look at what you have, tell you honestly what is worth keeping, and either improve it or rebuild it.' ),
-						array( 'Where do you work?', 'The studio is in London. We have produced shows and campaigns in London, Odesa, Paris, Dubai, Vienna and Milan, and we work with clients wherever they are.' ),
+						array( 'Where do you work?', 'The studio is in London. We have managed shows and directed campaigns in London, Odesa, Paris, Dubai, Vienna and Milan, and we work with clients wherever they are.' ),
 						array( 'How soon can you start?', 'It depends on the scope. If you are working towards a fixed date — a launch, an opening, a show — put it in the brief and we will tell you honestly whether it can be done well in the time.' ),
 					)
 				)
@@ -312,7 +312,7 @@ function ak_brand_seed_pages(): array {
 			'image'        => 'lfd-s7-campaign-on-set.jpg',
 			'what'         => array(
 				'Strategy is where most businesses save money and where most of them lose it. A brand without a position looks like everyone else on the shelf, the feed or the high street; a founder without a clear story says something different in every conversation. We start with the questions a customer, a buyer and a journalist will ask — and we don’t move to design until the answers hold.',
-				'Our strategy is written by people who have had to sell their own tickets, fill front rows and win over press for platforms and a label we built ourselves. It ends in decisions you can act on, not a presentation that sits in a folder.',
+				'Our strategy is written by people who have had to sell their own tickets, fill front rows and win over press for the runway platforms we manage. It ends in decisions you can act on, not a presentation that sits in a folder.',
 			),
 			'get'          => array(
 				'Brand concept and positioning',
@@ -425,11 +425,11 @@ function ak_brand_seed_pages(): array {
 			'order'        => 4,
 			'eyebrow'      => 'Service 04 — Photo & film',
 			'heading'      => 'Campaigns and films, <em>produced end to end.</em>',
-			'lede'         => 'Campaigns, lookbooks, product shoots and films — concept, casting, crew and post-production, from the team that produces London Fashion Day’s own campaigns.',
+			'lede'         => 'Campaigns, lookbooks, product shoots and films — concept, casting, crew and post-production, from the team that directs the campaigns of London Fashion Day and Odessa Fashion Day.',
 			'question'     => 'Who shoots this?',
 			'image'        => 'lfd-s7-campaign-regent-street.jpg',
 			'what'         => array(
-				'Every season of the platforms we run begins with a campaign: a concept, a location, a look, a model, a film. Season 7 of London Fashion Day was shot at sunrise on Regent Street; Season 8 in a studio washed in blue, around a student designer’s work. We produce those shoots ourselves, and we produce yours the same way — for a collection, a product, a space or a person.',
+				'Every season of the platforms we manage begins with a campaign: a concept, a location, a look, a model, a film. Season 7 of London Fashion Day was shot at sunrise on Regent Street; Season 8 in a studio washed in blue, around a student designer’s work. We direct those shoots, and we direct yours the same way — for a collection, a product, a space or a person.',
 				'That means one producer from moodboard to delivery, a crew we have worked with for years, and footage cut for where it will actually live — vertical for social, landscape for the website, stills for press.',
 			),
 			'get'          => array(
@@ -450,7 +450,7 @@ function ak_brand_seed_pages(): array {
 			'work'         => array( 'types' => 'shoot', 'count' => 6, 'columns' => 2, 'moreLabel' => 'All photo & film', 'moreUrl' => '/work/?type=shoot' ),
 			'faq'          => array(
 				array( 'Can you shoot outside London?', 'Yes. We have produced shoots and shows in London, Odesa and beyond, travelling with a core team or hiring locally.' ),
-				array( 'Can you work with our own photographer?', 'Of course. We can produce and art-direct a shoot with your photographer, or bring the whole crew.' ),
+				array( 'Can you work with our own photographer?', 'Of course. We can direct the shoot with your photographer, or bring the whole crew.' ),
 			),
 			'cta'          => 'Plan <em>your shoot.</em>',
 		)
@@ -464,11 +464,11 @@ function ak_brand_seed_pages(): array {
 			'order'        => 5,
 			'eyebrow'      => 'Service 05 — Shows & events',
 			'heading'      => 'Shows and launches by the people <em>who run the runway.</em>',
-			'lede'         => 'Runway shows, presentations, product launches and events — produced by the team behind London Fashion Day and Odessa Fashion Day.',
+			'lede'         => 'Runway shows, presentations, product launches and events — by the team that manages London Fashion Day and Odessa Fashion Day.',
 			'question'     => 'Who produces the show?',
 			'image'        => 'lfd-s7-gorsset.jpg',
 			'what'         => array(
-				'We produce runway seasons in London and Odesa: in St John’s Church, Hyde Park; in Westminster’s Porchester Hall; in a historic Odesa hotel; and in a university botanical garden. We know the running order measured in minutes, the fittings and rehearsals nobody budgets for, and which corners cannot be cut.',
+				'We manage runway seasons in London and Odesa: in St John’s Church, Hyde Park; in Westminster’s Porchester Hall; in a historic Odesa hotel; and in a university botanical garden. We know the running order measured in minutes, the fittings and rehearsals nobody budgets for, and which corners cannot be cut.',
 				'For your business that means a show, presentation, opening or launch built around what you are showing rather than the venue: concept and staging, casting and choreography, backstage and front-of-house, guest list and press — and content captured so the evening keeps working long after the lights go down.',
 			),
 			'get'          => array(
@@ -485,7 +485,7 @@ function ak_brand_seed_pages(): array {
 				array( 'Casting and rehearsal.', 'Models, fittings, hair and make-up tests, a full run-through.' ),
 				array( 'Show day and after.', 'Backstage, front-of-house, press — then the content, edited and delivered.' ),
 			),
-			'work_heading' => 'Seasons <em>we have produced.</em>',
+			'work_heading' => 'Seasons <em>we have managed.</em>',
 			'work'         => array( 'types' => 'show', 'count' => 6, 'columns' => 3, 'moreLabel' => 'All shows & events', 'moreUrl' => '/work/?type=show' ),
 			'faq'          => array(
 				array( 'Is this the same as showing at London Fashion Day?', 'No. A London Fashion Day place is by application and selection. This service is for businesses that want their own show, presentation or launch. If LFD is what you are after, see <a href="/show-in-london/">Show in London</a>.' ),
@@ -507,7 +507,7 @@ function ak_brand_seed_pages(): array {
 			'question'     => 'Who gets us seen?',
 			'image'        => 'ofd-s31-londonska-hotel.jpg',
 			'what'         => array(
-				'London Fashion Day’s eighth season is carried by twenty official media partners, alongside partners from law firms to colleges, and our own titles — PROMINENT, Fashion Frontier and COOL’BABA. We build the same kind of network around your business: a story worth telling, press materials that get opened, and relationships that last longer than one launch.',
+				'London Fashion Day’s eighth season is carried by twenty official media partners, alongside partners from law firms to colleges, and the magazines PROMINENT, Fashion Frontier and COOL’BABA, whose websites we built. We build the same kind of network around your business: a story worth telling, press materials that get opened, and relationships that last longer than one launch.',
 				'Paid promotion multiplies whatever it lands on, so we run it last and measure it honestly: Google and YouTube for people already searching, Instagram and Facebook for discovery, with budgets planned around your dates and reported in plain numbers.',
 			),
 			'get'          => array(
@@ -539,13 +539,13 @@ function ak_brand_seed_pages(): array {
 		'title'   => 'Work',
 		'slug'    => 'work',
 		'order'   => 2,
-		'excerpt' => 'Websites, shoots, shows and brands by AK Brand Development Studio — for clients and for our own platforms.',
+		'excerpt' => 'Websites we built, shoots we directed and runway platforms we manage — the work of AK Brand Development Studio.',
 		'content' =>
 			$header(
 				array(
 					'eyebrow' => 'Work',
 					'heading' => 'Websites, shoots, <em>shows and brands.</em>',
-					'lede'    => 'What we have made for clients and for our own platforms — and what we are building now.',
+					'lede'    => 'Websites we have designed and built, shoots and campaigns we have directed, and the runway platforms we manage.',
 					'size'    => 'compact',
 				),
 				'web-wall.jpg'
@@ -559,13 +559,13 @@ function ak_brand_seed_pages(): array {
 		'title'   => 'Show in London',
 		'slug'    => 'show-in-london',
 		'order'   => 3,
-		'excerpt' => 'Show your collection at London Fashion Day, the independent runway platform we organise — how selection works, and how we help designers arrive ready.',
+		'excerpt' => 'Show your collection at London Fashion Day, the independent runway platform our studio manages — how selection works, and how we help designers arrive ready.',
 		'content' =>
 			$header(
 				array(
 					'eyebrow' => 'For designers',
 					'heading' => 'Your collection, <em>on a London runway.</em>',
-					'lede'    => 'We organise London Fashion Day — the independent runway platform for emerging and independent designers. Here is how a place works, and how we can help you arrive ready.',
+					'lede'    => 'Our studio manages London Fashion Day — the independent runway platform for emerging and independent designers. Here is how a place works, and how we can help you arrive ready.',
 				),
 				'still-lfd-westminster-9.jpg'
 			) .
@@ -595,7 +595,7 @@ function ak_brand_seed_pages(): array {
 					)
 				) .
 				ak_b_h( 'Showing in Ukraine' ) .
-				ak_b_p( '<a href="https://ofd.org.ua/">Odessa Fashion Day</a>, founded by our co-founder Kostiantyn Lieontiev, has presented Ukrainian designers in Odesa since 2010 — thirty-two seasons so far, plus SUMMER WEEKEND by OFD every August. Designers can apply through the OFD website.' )
+				ak_b_p( '<a href="https://ofd.org.ua/">Odessa Fashion Day</a>, which our studio also manages, has presented Ukrainian designers in Odesa since 2010 — 33 seasons, the 33rd on 6–8 November 2026 — and its summer edition, SUMMER WEEKEND by OFD, since 2015. Designers can apply through the OFD website.' )
 			) .
 			ak_b_section( ak_b_gallery( array( 'lfd-s7-gorsset.jpg', 'lfd-s6-lcca-showcase.jpg', 'lfd-s5-elen-ost.jpg', 'lfd-s6-sara-k-couture.jpg', 'lfd-s7-riri-couture.jpg', 'lfd-s6-mogardi.jpg' ) ) ) .
 			ak_seed_cta(),
@@ -618,19 +618,19 @@ function ak_brand_seed_pages(): array {
 			) .
 			ak_b_section(
 				ak_b_h( 'Why AK' ) .
-				ak_b_p( 'A is for Andrii Karakushan. K is for Kostiantyn Lieontiev. The studio carries our initials because the work is ours: we lead every project personally, and we bring to it what we learned building runway platforms, a fashion label, magazines and websites of our own.' ) .
-				ak_b_p( 'AK Brand Development Studio brings strategy, identity, websites, photo and film, shows, PR and promotion under one roof — and organises London Fashion Day under our joint leadership.' ) .
+				ak_b_p( 'A is for Andrii Karakushan. K is for Kostiantyn Lieontiev. The studio carries our initials because the work is ours: we lead every project personally, and we bring to it what we have learned managing runway platforms, directing campaigns and building websites.' ) .
+				ak_b_p( 'AK Brand Development Studio brings strategy, identity, websites, photo and film, shows, PR and promotion under one roof — and manages the runway platforms London Fashion Day and Odessa Fashion Day.' ) .
 				ak_b_h( 'What we believe' ) .
 				ak_b_list(
 					array(
 						'<strong>Production over presentations.</strong> A strategy is only as good as the website, the shoot and the launch it produces.',
-						'<strong>Talent deserves a door.</strong> We built our own platforms so that people could be seen before they were famous.',
+						'<strong>Talent deserves a door.</strong> The platforms we manage exist so that people can be seen before they are famous.',
 						'<strong>Honest numbers.</strong> We tell clients what things really cost, what worked and what didn’t.',
 					),
 					false,
 					'is-style-cards'
 				) .
-				ak_b_quote( 'We cannot decide who will become the next important name in fashion. What we can do is make sure that talent has an opportunity to be seen. Sometimes, all a young designer needs is someone willing to open the door.', 'Kostiantyn Lieontiev, founder of London Fashion Day' )
+				ak_b_quote( 'We cannot decide who will become the next important name in fashion. What we can do is make sure that talent has an opportunity to be seen. Sometimes, all a young designer needs is someone willing to open the door.', 'Kostiantyn Lieontiev, London Fashion Day' )
 			) .
 			ak_b_section(
 				ak_b_eyebrow( 'The founders' ) .
@@ -655,7 +655,7 @@ function ak_brand_seed_pages(): array {
 							array(
 								'Kostiantyn Lieontiev is a fashion producer, brand strategist and media professional with extensive experience in brand development and creative industries.',
 								'Before focusing on international fashion projects, he spent nine years managing a regional branch of a major advertising holding, where he was responsible for business development, advertising campaigns and strategic client development.',
-								'He is the founder and producer of the international fashion platforms London Fashion Day and Odessa Fashion Day, created to support emerging designers and develop international creative communities. He is also the founder of the fashion brand KEKA, currently being developed for the international market.',
+								'He heads the international fashion platforms London Fashion Day and Odessa Fashion Day, which support emerging designers and build international creative communities, and is developing the fashion brand KEKA for the international market.',
 								'Through his work he has collaborated with designers, brands and creative teams across London, Paris and Dubai.',
 							)
 						),
@@ -668,12 +668,13 @@ function ak_brand_seed_pages(): array {
 				ak_b_list(
 					array(
 						'<strong>2010</strong> Odessa Fashion Day begins — a runway for Ukrainian designers that grows to include a shopping space for local labels, master classes and free admission for guests.',
+						'<strong>2015</strong> The first SUMMER WEEKEND by OFD: a summer edition of shows in Odesa.',
 						'<strong>2016</strong> OFD signs a memorandum of strategic partnership with Ukrainian Fashion Week; from 2020 it is also a partner of the national channel Fashion TV Ukraine.',
 						'<strong>2022</strong> The team presents Ukrainian designers at the International Women’s Forum in London — the show that inspired London Fashion Day.',
 						'<strong>2023</strong> London Fashion Day Season 1 on 22 April: six collections, four of them Ukrainian. Season 2 follows in October with eleven brands.',
 						'<strong>2024</strong> Seasons 3 and 4: designers from Europe, Asia, Africa and the UK, and more than 100 media outlets. A campaign film on Westminster Bridge.',
 						'<strong>2025</strong> Odessa Fashion Day marks its 30th season. KEKA and Gorsset show at Fashion For Freedom during Milan Fashion Week.',
-						'<strong>2026</strong> Season 7 on Regent Street and in Hyde Park, OFD Season 32, a new website for a Marylebone salon, and Season 8 at Porchester Hall.',
+						'<strong>2026</strong> LFD Season 7 on Regent Street and in Hyde Park, OFD Season 32, SUMMER WEEKEND in the botanical garden, a new website for a Marylebone salon — and in November, OFD Season 33 and LFD Season 8 at Porchester Hall.',
 					),
 					false,
 					'is-style-timeline'
@@ -742,7 +743,7 @@ function ak_brand_seed_pages(): array {
 				array(
 					'eyebrow' => 'Journal',
 					'heading' => 'Notes from the studio <em>and the runway.</em>',
-					'lede'    => 'What things really cost, what works, and what’s next — from our studio and our platforms.',
+					'lede'    => 'What things really cost, what works, and what’s next — from the studio and the runway platforms we manage.',
 					'size'    => 'compact',
 				)
 			),
