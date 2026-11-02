@@ -1,10 +1,45 @@
-/* Block editor: the site's type, so copy reads the same while editing. */
-@font-face { font-family: "Archivo"; src: url("../fonts/archivo-latin-wdth-normal.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
-@font-face { font-family: "Instrument Serif"; src: url("../fonts/instrument-serif-latin-400-italic.woff2") format("woff2"); font-style: italic; font-display: swap; }
-body { font-family: "Archivo", system-ui, sans-serif; font-size: 18px; line-height: 1.6; color: #1d1a17; }
-h1, h2, h3, h4 { font-family: "Archivo", system-ui, sans-serif; font-stretch: 75%; font-weight: 750; line-height: 1.05; letter-spacing: -.01em; }
-h2 { font-size: 2.2em; }
-blockquote p { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-size: 1.6em; line-height: 1.2; }
-a { color: #c4520f; }
-ol.is-style-steps li strong, ul.is-style-cards li strong { color: #c4520f; }
-details summary { font-weight: 650; cursor: pointer; }
+/* Page editor: the site's own styles are loaded too (main.css), so blocks
+   look as they will be published. These rules only adapt the editor canvas. */
+
+.editor-styles-wrapper { background: var(--bg); color: var(--ink); }
+.is-root-container { padding: 0 !important; }
+.is-root-container > .wp-block:not(.ak-full):not(.wp-block-group) { max-width: none; }
+.is-root-container > .wp-block { margin-top: 0; margin-bottom: 0; }
+.is-root-container > .wp-block + .wp-block:not(.ak-full):not(.wp-block-group) { margin-top: 1.1em; }
+
+/* Placeholders read as hints, not content. */
+.editor-styles-wrapper [data-rich-text-placeholder]::after { color: var(--ink-faint); opacity: 1; }
+.editor-styles-wrapper .block-editor-default-block-appender__content { color: var(--ink-faint); }
+
+/* Previews of server-rendered blocks: a click selects the block instead of following a link. */
+.ak-ssr > * { pointer-events: none; }
+.ak-ssr .card[hidden] { display: block; opacity: 0.35; }
+.ak-ssr .svc__float { display: none; }
+
+/* AK blocks with typed text. */
+.hero--editor { min-height: 0; padding-bottom: 24px; }
+.hero--editor .hero__inner { padding-top: 120px; }
+.hero--editor .kinetic__row { white-space: normal; }
+.hero--editor .kinetic__phrase { display: inline-block; min-width: 2ch; }
+.hero--editor .hero__ctas .btn { min-width: 8ch; }
+.band .band__track--static { animation: none; flex-wrap: wrap; white-space: normal; }
+.page-head .page-head__q > span:first-child { display: block; }
+.event .event__media:empty { min-height: 200px; border: 1px dashed var(--line-2); }
+
+/* Lists that move on the site are laid out flat here so every item can be edited. */
+.editor-styles-wrapper ul.wp-block-list.is-style-marquee { flex-wrap: wrap; white-space: normal; row-gap: 8px; }
+
+/* The film's own controls stay visible while editing. */
+.editor-styles-wrapper .wp-block-video.is-style-film video { pointer-events: auto; }
+
+/* The page's own name (menus, browser tab): shown as a quiet label above the blocks. */
+.editor-visual-editor__post-title-wrapper, .edit-post-visual-editor__post-title-wrapper { margin: 0 !important; padding: 28px var(--inset) 18px; border-bottom: 1px dashed var(--line-2); }
+.editor-post-title.wp-block-post-title, h1.editor-post-title { max-width: none; margin: 0; font: 500 13px/1.4 var(--mono) !important; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); }
+
+/* Editing the "Site footer" pattern: lists and labels as the footer shows them. */
+.post-type-wp_block .is-root-container > .wp-block-columns { padding-top: 32px; border-top: 1px solid var(--line); }
+.post-type-wp_block .is-root-container > .wp-block-columns .wp-block-list > li { padding: 0; font-size: 15px; }
+.post-type-wp_block .is-root-container > .wp-block-columns .wp-block-list > li::before { display: none; }
+.post-type-wp_block .is-root-container > .wp-block-columns .wp-block-list a { color: inherit; text-decoration: none; }
+.post-type-wp_block .is-root-container > .wp-block-columns p.is-style-eyebrow { color: var(--accent); font-size: 10.5px; }
+.post-type-wp_block .is-root-container > .wp-block-columns p.is-style-eyebrow::before { display: none; }

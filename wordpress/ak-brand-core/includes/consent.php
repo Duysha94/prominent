@@ -83,3 +83,14 @@ function ak_brand_consent_link(): string {
 	}
 	return '<a href="#" data-consent-open>' . esc_html__( 'Cookie settings', 'ak-brand-core' ) . '</a>';
 }
+
+/* Lets the theme hide "Cookie settings" links when there is no banner to reopen. */
+add_filter(
+	'body_class',
+	static function ( $classes ) {
+		if ( ak_brand_consent_active() ) {
+			$classes[] = 'has-consent';
+		}
+		return $classes;
+	}
+);

@@ -98,5 +98,44 @@ function ak_brand_seed_media(): array {
 		'ofd-s31-campaign-film.mp4'      => array( 'alt' => '', 'caption' => 'Odessa Fashion Day Season 31 campaign film.' ),
 		'ofd-s31-campaign-film.jpg'      => array( 'alt' => 'Model in a navy satin gown against a coral backdrop.', 'caption' => 'Odessa Fashion Day Season 31 campaign film.' ),
 		'lfd-s6-runway-loop.mp4'         => array( 'alt' => '', 'caption' => 'London Fashion Day Season 6 teaser.' ),
+		'ofd-s31-campaign-loop.mp4'      => array( 'alt' => '', 'caption' => 'Odessa Fashion Day Season 31 campaign.' ),
+		'ofd-s31-campaign-loop.jpg'      => array( 'alt' => 'Model in a sculptural navy satin gown against a coral backdrop.', 'caption' => 'Odessa Fashion Day Season 31 campaign.' ),
+		'lfd-westminster-film.mp4'       => array( 'alt' => '', 'caption' => 'London Fashion Day campaign film, Westminster Bridge, April 2024.' ),
+		'lfd-westminster-film.jpg'       => array( 'alt' => 'Model in a flowing red tulle dress on Westminster Bridge.', 'caption' => 'London Fashion Day campaign film, Westminster Bridge.' ),
+		'still-lfd-westminster-15.jpg'   => array( 'alt' => 'Pink tulle lifted by the wind with Big Ben behind.', 'caption' => 'London Fashion Day campaign film, Westminster.' ),
+		'ak-site-icon.png'               => array( 'alt' => 'AK', 'caption' => '' ),
+		'ak-share.jpg'                   => array( 'alt' => 'AK Brand Development Studio', 'caption' => '' ),
+	) + ak_brand_seed_media_websites();
+}
+
+/**
+ * Portfolio images for the websites the studio designed and built.
+ *
+ * @return array<string,array{alt:string,caption:string}>
+ */
+function ak_brand_seed_media_websites(): array {
+	$sites = array(
+		'smyn-salon' => array( 'Show Me Your Nails', 'showmeyournails.co.uk' ),
+		'lenieboya'  => array( 'Lenie Boya', 'lenieboya.com' ),
+		'wolax'      => array( 'Wolax Interiors', 'wolax.co.uk' ),
+		'keka'       => array( 'KEKA', 'keka.design' ),
+		'utrend'     => array( 'Ultimate Trend Store', 'utrendstore.co.uk' ),
+		'prominent'  => array( 'PROMINENT Magazine', 'prominentmagazine.co.uk' ),
+		'frontier'   => array( 'Fashion Frontier', 'fashionfrontier.uk' ),
+		'coolbaba'   => array( 'COOL’BABA', 'coolbaba.in.ua' ),
+		'lfd'        => array( 'London Fashion Day', 'londonfashionday.co.uk' ),
+		'ofd'        => array( 'Odessa Fashion Day', 'ofd.org.ua' ),
 	);
+	$out = array();
+	foreach ( $sites as $key => $site ) {
+		list( $name, $domain ) = $site;
+		$out[ "web-{$key}-cover.jpg" ]  = array( 'alt' => "The {$name} website on a laptop and a phone.", 'caption' => "{$domain}" );
+		$out[ "web-{$key}-hero.jpg" ]   = array( 'alt' => "The {$name} website, desktop and mobile.", 'caption' => "{$domain} — home page" );
+		$out[ "web-{$key}-page-1.jpg" ] = array( 'alt' => "A page of the {$name} website.", 'caption' => "{$domain}" );
+		$out[ "web-{$key}-page-2.jpg" ] = array( 'alt' => "Another page of the {$name} website.", 'caption' => "{$domain}" );
+		$out[ "web-{$key}-mobile.jpg" ] = array( 'alt' => "The {$name} website on three phone screens.", 'caption' => "{$domain} on a phone" );
+	}
+	$out['web-wall.jpg'] = array( 'alt' => 'Pages of websites designed and built by AK Brand Development Studio.', 'caption' => '' );
+	// Only files that exist (short sites have no page sections).
+	return array_filter( $out, static fn( $v, $file ) => is_readable( AK_BRAND_CORE_DIR . 'seed/media/' . $file ), ARRAY_FILTER_USE_BOTH );
 }

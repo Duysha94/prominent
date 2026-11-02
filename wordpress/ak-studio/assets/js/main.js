@@ -14,6 +14,13 @@
 	const small = () => matchMedia('(max-width: 900px)').matches;
 	const saveData = Boolean(navigator.connection && navigator.connection.saveData);
 
+	const i18n = window.akStudio || { close: 'Close', prev: 'Previous image', next: 'Next image', play: 'Play film' };
+
+	/* The page column is measured from the viewport minus the scrollbar. */
+	const setSbw = () => root.style.setProperty('--sbw', Math.max(0, innerWidth - root.clientWidth) + 'px');
+	setSbw();
+	addEventListener('resize', setSbw);
+
 	if (!gsap) {
 		root.classList.remove('js'); // nothing will animate the entrances in
 		return;
@@ -149,6 +156,17 @@
 	}
 
 	/* ── Entrances everywhere else ─────────────────────────────────── */
+	// Blocks typed in the editor join in, but only those not yet on screen (no flash).
+	const below = (el) => el.getBoundingClientRect().top > innerHeight * 0.9;
+	if (!reduced) {
+		d.querySelectorAll('.entry :is(.is-style-display, .is-style-display-xl), .site-foot__body .is-style-display-xl').forEach((el) => { if (below(el) && !el.closest('[data-split]')) el.setAttribute('data-split', ''); });
+		d.querySelectorAll('.entry :is(.is-style-eyebrow, .is-style-lead, .wp-block-buttons, .wp-block-details, .ak-faq > .wp-block-group__inner-container > h2, ol.is-style-steps-row > li, ul.is-style-cards > li, ul.is-style-timeline > li, .wp-block-quote, .is-style-founder, .facts)').forEach((el) => {
+			if (below(el) && !el.closest('[data-rise]') && !el.querySelector('[data-rise]')) { el.setAttribute('data-rise', ''); gsap.set(el, { opacity: 0, y: 26 }); }
+		});
+		d.querySelectorAll('.entry :is(.wp-block-gallery.is-style-masonry figure.wp-block-image, .wp-block-video.is-style-film, .wp-block-image:not(.wp-block-gallery .wp-block-image))').forEach((el) => {
+			if (below(el) && !el.closest('[data-reveal]')) el.setAttribute('data-reveal', '');
+		});
+	}
 	const rise = gsap.utils.toArray('[data-rise]').filter((el) => !heroRise.includes(el));
 	const reveals = gsap.utils.toArray('[data-reveal]');
 	const splits = gsap.utils.toArray('[data-split]');
@@ -318,7 +336,7 @@
 			const f = b.dataset.filter;
 			let shown = 0;
 			cards.forEach((c) => {
-				const ok = f === '*' || c.dataset.platform === f;
+				const ok = f === '*' || (' ' + (c.dataset.types || '') + ' ').includes(' ' + f + ' ');
 				c.hidden = !ok;
 				if (ok) {
 					c.classList.toggle('is-shifted', shown % 2 === 1);
@@ -328,16 +346,29 @@
 				}
 			});
 			if (empty) empty.hidden = shown > 0;
+			const url = new URL(location.href);
+			if (f === '*') url.searchParams.delete('type'); else url.searchParams.set('type', f);
+			history.replaceState(null, '', url);
 			if (ST) ST.refresh();
 		});
+		// Cards hidden on arrival (?type=…) still alternate correctly.
+		let shown = 0;
+		cards.forEach((c) => { if (!c.hidden) { c.classList.toggle('is-shifted', shown % 2 === 1); c.classList.toggle('is-flat', shown % 2 === 0); shown++; } });
 	}
 
-	/* ── Gallery lightbox ──────────────────────────────────────────── */
-	const dlg = d.querySelector('[data-lightbox-dialog]');
-	if (dlg && typeof dlg.showModal === 'function') {
-		const links = [...d.querySelectorAll('[data-lightbox]')];
-		const im = dlg.querySelector('[data-lightbox-img]');
-		const cap = dlg.querySelector('[data-lightbox-cap]');
+	/* ── Gallery lightbox: photographs open large, one gallery at a time ── */
+	const galleries = [...d.querySelectorAll('.wp-block-gallery.is-style-masonry')];
+	if (galleries.length && typeof HTMLDialogElement === 'function') {
+		const dlg = d.createElement('dialog');
+		dlg.className = 'lightbox';
+		dlg.innerHTML = '<img alt=""><p class="lightbox__cap"></p><button type="button" class="lightbox__close"></button><button type="button" class="lightbox__nav lightbox__nav--prev">←</button><button type="button" class="lightbox__nav lightbox__nav--next">→</button>';
+		d.body.appendChild(dlg);
+		const im = dlg.querySelector('img');
+		const cap = dlg.querySelector('.lightbox__cap');
+		dlg.querySelector('.lightbox__close').textContent = i18n.close;
+		dlg.querySelector('.lightbox__nav--prev').setAttribute('aria-label', i18n.prev);
+		dlg.querySelector('.lightbox__nav--next').setAttribute('aria-label', i18n.next);
+		let links = [];
 		let idx = 0;
 		const show = (i) => {
 			idx = (i + links.length) % links.length;
@@ -348,15 +379,19 @@
 			const fc = a.closest('figure') ? a.closest('figure').querySelector('figcaption') : null;
 			cap.textContent = fc ? fc.textContent : '';
 		};
-		links.forEach((a, i) => a.addEventListener('click', (e) => {
-			e.preventDefault();
-			show(i);
-			dlg.showModal();
-			if (lenis) lenis.stop();
-		}));
-		dlg.querySelector('[data-lightbox-close]').addEventListener('click', () => dlg.close());
-		dlg.querySelector('[data-lightbox-prev]').addEventListener('click', () => show(idx - 1));
-		dlg.querySelector('[data-lightbox-next]').addEventListener('click', () => show(idx + 1));
+		galleries.forEach((g) => {
+			const own = [...g.querySelectorAll('figure.wp-block-image > a[href]')].filter((a) => /\.(jpe?g|png|webp|gif|avif)(\?.*)?$/i.test(a.getAttribute('href')));
+			own.forEach((a, i) => a.addEventListener('click', (e) => {
+				e.preventDefault();
+				links = own;
+				show(i);
+				dlg.showModal();
+				if (lenis) lenis.stop();
+			}));
+		});
+		dlg.querySelector('.lightbox__close').addEventListener('click', () => dlg.close());
+		dlg.querySelector('.lightbox__nav--prev').addEventListener('click', () => show(idx - 1));
+		dlg.querySelector('.lightbox__nav--next').addEventListener('click', () => show(idx + 1));
 		dlg.addEventListener('close', () => { if (lenis) lenis.start(); });
 		dlg.addEventListener('keydown', (e) => {
 			if (e.key === 'ArrowLeft') show(idx - 1);
@@ -365,11 +400,18 @@
 		dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
 	}
 
-	/* ── Films: play on request, with sound and controls ───────────── */
-	d.querySelectorAll('[data-film]').forEach((frame) => {
+	/* ── Films: a play button over the frame, then sound and controls ── */
+	d.querySelectorAll('.wp-block-video.is-style-film').forEach((frame) => {
 		const v = frame.querySelector('video');
-		const b = frame.querySelector('[data-film-play]');
-		if (!v || !b) return;
+		if (!v) return;
+		v.controls = false;
+		const b = d.createElement('button');
+		b.type = 'button';
+		b.className = 'film__play';
+		b.setAttribute('data-cursor', i18n.play);
+		b.innerHTML = '<span class="film__icon" aria-hidden="true"></span><span class="film__label"></span>';
+		b.querySelector('.film__label').textContent = i18n.play;
+		frame.appendChild(b);
 		b.addEventListener('click', () => {
 			frame.classList.add('is-playing');
 			v.controls = true;
@@ -379,6 +421,32 @@
 		});
 		v.addEventListener('ended', () => { frame.classList.remove('is-playing'); v.controls = false; });
 	});
+
+	/* ── Lists styled as Marquee: names drift across the page ───────── */
+	if (!reduced) {
+		d.querySelectorAll('ul.wp-block-list.is-style-marquee').forEach((ul, n) => {
+			const items = [...ul.children];
+			if (!items.length) return;
+			const run = () => {
+				ul.classList.remove('is-moving');
+				ul.querySelectorAll('[data-clone]').forEach((c) => c.remove());
+				const w = items.reduce((sum, li) => sum + li.getBoundingClientRect().width, 0);
+				if (!w) return;
+				let total = w;
+				while (total < ul.clientWidth + w) {
+					items.forEach((li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.setAttribute('data-clone', ''); ul.appendChild(c); });
+					total += w;
+				}
+				ul.style.setProperty('--marquee-w', w + 'px');
+				ul.style.setProperty('--marquee-t', Math.max(20, w / 55) + 's');
+				ul.querySelectorAll('li').forEach((li) => { li.style.animationDirection = n % 2 ? 'reverse' : ''; });
+				ul.classList.add('is-moving');
+			};
+			if (d.fonts) d.fonts.ready.then(run); else run();
+			let t;
+			addEventListener('resize', () => { clearTimeout(t); t = setTimeout(run, 250); });
+		});
+	}
 
 	/* ── Magnetic buttons ──────────────────────────────────────────── */
 	if (fine && !reduced) {

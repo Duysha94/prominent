@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       AK Brand Core
  * Plugin URI:        https://akbrand.studio
- * Description:       Everything the AK Brand Development Studio site knows, independent of the theme: studio details, the six services, the platforms, the project model behind /work/, the project brief form and its inbox, search and sharing data, cookie consent, and the launch content installer.
- * Version:           1.0.0
+ * Description:       Everything the AK Brand Development Studio site knows and edits, independent of the theme: the page blocks (hero reel, page header, services, work, event, facts, brief form, journal, moving band), the project model, the project brief form and its inbox, search and sharing data, cookie consent, and the launch content installer.
+ * Version:           2.0.0
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Author:            AK Brand Development Studio
@@ -17,7 +17,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AK_BRAND_CORE_VERSION', '1.0.0' );
+define( 'AK_BRAND_CORE_VERSION', '2.0.0' );
 define( 'AK_BRAND_CORE_FILE', __FILE__ );
 define( 'AK_BRAND_CORE_DIR', plugin_dir_path( __FILE__ ) );
 
@@ -27,11 +27,13 @@ require_once AK_BRAND_CORE_DIR . 'includes/content-model.php';
 require_once AK_BRAND_CORE_DIR . 'includes/brief.php';
 require_once AK_BRAND_CORE_DIR . 'includes/seo.php';
 require_once AK_BRAND_CORE_DIR . 'includes/consent.php';
+require_once AK_BRAND_CORE_DIR . 'includes/blocks.php';
 require_once AK_BRAND_CORE_DIR . 'includes/content/blocks.php';
 require_once AK_BRAND_CORE_DIR . 'includes/content/media.php';
 require_once AK_BRAND_CORE_DIR . 'includes/content/pages.php';
 require_once AK_BRAND_CORE_DIR . 'includes/content/projects.php';
 require_once AK_BRAND_CORE_DIR . 'includes/content/posts.php';
+require_once AK_BRAND_CORE_DIR . 'includes/content/patterns.php';
 require_once AK_BRAND_CORE_DIR . 'includes/installer.php';
 
 /**

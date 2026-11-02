@@ -9,14 +9,13 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 ?>
-<main id="main">
+<main id="main" class="entry">
 	<?php
-	ak_studio_page_header(
+	ak_studio_title_header(
 		array(
-			'eyebrow' => __( 'Journal', 'ak-studio' ),
-			'heading' => wp_strip_all_tags( get_the_archive_title() ),
+			'eyebrow' => esc_html__( 'Journal', 'ak-studio' ),
+			'heading' => esc_html( wp_strip_all_tags( get_the_archive_title() ) ),
 			'lede'    => wp_strip_all_tags( get_the_archive_description() ),
-			'class'   => 'page-head--compact',
 		)
 	);
 	get_template_part( 'template-parts/post-list' );

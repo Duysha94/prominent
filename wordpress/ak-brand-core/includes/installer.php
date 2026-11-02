@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const AK_SEED_VERSION    = '1.0.0';
+const AK_SEED_VERSION    = '2.0.0';
 const AK_SEED_MEDIA_STEP = 5;
 
 /**
@@ -24,7 +24,7 @@ function ak_brand_install_steps(): array {
 	for ( $i = 0; $i < $chunks; $i++ ) {
 		$steps[] = 'media:' . $i;
 	}
-	return array_merge( $steps, array( 'pages', 'projects', 'posts', 'menus', 'settings' ) );
+	return array_merge( $steps, array( 'patterns', 'pages', 'projects', 'posts', 'menus', 'settings' ) );
 }
 
 /**
@@ -79,6 +79,8 @@ function ak_brand_install_run_step( string $step, array $opts = array() ): array
 			$log[] = 'Disciplines, project types and journal categories are ready.';
 		} elseif ( 0 === strpos( $step, 'media:' ) ) {
 			$log = array_merge( $log, ak_brand_install_media( (int) substr( $step, 6 ) ) );
+		} elseif ( 'patterns' === $step ) {
+			$log = ak_brand_install_patterns();
 		} elseif ( 'pages' === $step ) {
 			$log = ak_brand_install_pages( $replace );
 		} elseif ( 'projects' === $step ) {
@@ -212,6 +214,36 @@ function ak_brand_seed_upsert( array $data, string $key, ?WP_Post $existing, boo
 }
 
 /**
+ * Synced patterns (call to action, site footer), created once and then left to the editor.
+ *
+ * @return string[]
+ */
+function ak_brand_install_patterns(): array {
+	$ids = get_option( 'akbrand_patterns', array() );
+	$ids = is_array( $ids ) ? $ids : array();
+	$log = array();
+	foreach ( ak_brand_seed_patterns() as $key => $pattern ) {
+		$existing = ! empty( $ids[ $key ] ) ? get_post( (int) $ids[ $key ] ) : null;
+		$existing = $existing && 'wp_block' === $existing->post_type ? $existing : null;
+		list( $id, $verb ) = ak_brand_seed_upsert(
+			array(
+				'post_type'    => 'wp_block',
+				'post_status'  => 'publish',
+				'post_title'   => $pattern['title'],
+				'post_name'    => 'ak-' . $key,
+				'post_content' => $pattern['content'],
+			),
+			'pattern:' . $key,
+			$existing
+		);
+		$ids[ $key ] = $id;
+		$log[]       = 'Pattern “' . $pattern['title'] . '”: ' . $verb;
+	}
+	update_option( 'akbrand_patterns', $ids, false );
+	return $log;
+}
+
+/**
  * @return string[]
  */
 function ak_brand_install_pages( bool $replace ): array {
@@ -237,9 +269,10 @@ function ak_brand_install_pages( bool $replace ): array {
 			$replace
 		);
 		if ( in_array( $verb, array( 'created', 'updated', 'replaced' ), true ) ) {
-			update_post_meta( $id, '_ak_eyebrow', $p['eyebrow'] ?? '' );
-			update_post_meta( $id, '_ak_heading', $p['heading'] ?? '' );
-			update_post_meta( $id, '_ak_movement', $p['movement'] ?? '' );
+			update_post_meta( $id, 'ak_short_title', $p['short'] ?? '' );
+			foreach ( array( '_ak_eyebrow', '_ak_heading', '_ak_movement' ) as $old ) {
+				delete_post_meta( $id, $old );
+			}
 		}
 		$log[] = 'Page “' . $p['title'] . '”: ' . $verb;
 	}
@@ -251,6 +284,7 @@ function ak_brand_install_pages( bool $replace ): array {
  */
 function ak_brand_install_projects(): array {
 	ak_brand_register_content_model();
+	ak_brand_seed_capabilities();
 	$log = array();
 	foreach ( ak_brand_seed_projects() as $p ) {
 		$found    = get_posts( array( 'post_type' => 'ak_project', 'name' => $p['slug'], 'post_status' => 'any', 'numberposts' => 1 ) );
@@ -263,38 +297,39 @@ function ak_brand_install_projects(): array {
 				'post_name'    => $p['slug'],
 				'menu_order'   => (int) $p['order'],
 				'post_excerpt' => $p['excerpt'],
-				'post_content' => $p['content'],
+				'post_content' => ak_seed_project_content( $p ),
 			),
 			'project:' . $p['slug'],
 			$existing
 		);
 		if ( in_array( $verb, array( 'created', 'updated' ), true ) ) {
-			foreach ( $p['meta'] as $k => $v ) {
+			$card = array(
+				'ak_short_title' => $p['short'] ?? '',
+				'ak_kind'        => $p['kind'] ?? '',
+				'ak_location'    => $p['location'] ?? '',
+				'ak_year'        => $p['year'] ?? '',
+				'ak_status'      => $p['status'] ?? '',
+				'ak_date'        => $p['date'] ?? '',
+			);
+			foreach ( $card as $k => $v ) {
 				update_post_meta( $id, $k, $v );
 			}
 			update_post_meta( $id, 'ak_featured', ! empty( $p['featured'] ) );
-			update_post_meta( $id, 'ak_short_title', $p['short'] );
-			$gallery = array_filter( array_map( 'ak_brand_seed_attachment', $p['gallery'] ?? array() ) );
-			update_post_meta( $id, 'ak_gallery', implode( ',', $gallery ) );
-			update_post_meta( $id, 'ak_film', ! empty( $p['film'] ) ? ak_brand_seed_attachment( $p['film'] ) : 0 );
-			update_post_meta( $id, 'ak_loop', ! empty( $p['loop'] ) ? ak_brand_seed_attachment( $p['loop'] ) : 0 );
+			// Fields from the first version now live in the page's blocks.
+			foreach ( array( 'ak_gallery', 'ak_film', 'ak_loop', 'ak_credits', 'ak_venue', 'ak_role', 'ak_url' ) as $old ) {
+				delete_post_meta( $id, $old );
+			}
 			$cover = ak_brand_seed_attachment( $p['cover'] );
 			if ( $cover ) {
 				set_post_thumbnail( $id, $cover );
 			}
-			if ( ! empty( $p['film'] ) && ! empty( $p['film_poster'] ) ) {
-				$film   = ak_brand_seed_attachment( $p['film'] );
-				$poster = ak_brand_seed_attachment( $p['film_poster'] );
-				if ( $film && $poster ) {
-					set_post_thumbnail( $film, $poster ); // Core uses a video's featured image as its poster.
-				}
-			}
 			wp_set_object_terms( $id, $p['disciplines'], 'ak_capability' );
 			wp_set_object_terms( $id, array( $p['relationship'] ), 'ak_relationship' );
-			wp_set_object_terms( $id, array( $p['type'] ), 'ak_project_type' );
+			wp_set_object_terms( $id, $p['types'], 'ak_project_type' );
 		}
-		$log[] = 'Project “' . $p['short'] . '”: ' . $verb;
+		$log[] = 'Project “' . ( $p['short'] ?? $p['title'] ) . '”: ' . $verb;
 	}
+	ak_brand_seed_capabilities(); // Retires first-version types that are now empty.
 	return $log;
 }
 
@@ -338,18 +373,16 @@ function ak_brand_install_posts(): array {
 function ak_brand_install_menus(): array {
 	$page = static fn( string $path ) => get_page_by_path( $path );
 	$menus = array(
-		'AK Primary'  => array(
-			array( 'Work', home_url( '/work/' ) ),
+		'AK Primary'         => array(
+			array( 'Work', $page( 'work' ) ),
 			array( 'Services', $page( 'services' ) ),
 			array( 'Show in London', $page( 'show-in-london' ) ),
 			array( 'Studio', $page( 'about' ) ),
 			array( 'Journal', $page( 'journal' ) ),
 			array( 'Contact', $page( 'contact' ) ),
 		),
-		'AK Services' => array_map( static fn( $m ) => array( $m['name'], $page( 'services/' . $m['page'] ) ), ak_brand_movements() ),
-		'AK Footer'   => array(
-			array( 'Privacy Policy', $page( 'privacy-policy' ) ),
-			array( 'Cookie Policy', $page( 'cookie-policy' ) ),
+		'AK Call to action'  => array(
+			array( 'Start a project', $page( 'contact' ) ),
 		),
 	);
 	$log = array();
@@ -383,7 +416,7 @@ function ak_brand_install_menus(): array {
 	}
 	$locations = get_theme_mod( 'nav_menu_locations', array() );
 	$locations = is_array( $locations ) ? $locations : array();
-	foreach ( array( 'primary' => 'AK Primary', 'services' => 'AK Services', 'footer' => 'AK Footer' ) as $loc => $name ) {
+	foreach ( array( 'primary' => 'AK Primary', 'cta' => 'AK Call to action' ) as $loc => $name ) {
 		if ( empty( $locations[ $loc ] ) && ! empty( $ids[ $name ] ) ) {
 			$locations[ $loc ] = $ids[ $name ];
 		}
@@ -409,6 +442,13 @@ function ak_brand_install_settings(): array {
 	if ( $privacy ) {
 		update_option( 'wp_page_for_privacy_policy', $privacy->ID );
 		$log[] = 'Privacy policy page assigned.';
+	}
+	if ( ! get_option( 'site_icon' ) ) {
+		$icon = ak_brand_seed_attachment( 'ak-site-icon.png' );
+		if ( $icon ) {
+			update_option( 'site_icon', $icon );
+			$log[] = 'Site icon set to the AK mark.';
+		}
 	}
 	if ( '' === (string) get_option( 'permalink_structure' ) ) {
 		update_option( 'permalink_structure', '/%postname%/' );
@@ -494,7 +534,7 @@ function ak_brand_render_installer(): void {
 	?>
 	<div class="wrap">
 		<h1><?php esc_html_e( 'AK launch content', 'ak-brand-core' ); ?></h1>
-		<p style="max-width:720px"><?php esc_html_e( 'Installs the complete launch site: every page with its copy, the six service pages, ten projects from London Fashion Day and Odessa Fashion Day with their photographs and films, six journal entries, menus, the front page and the privacy settings.', 'ak-brand-core' ); ?></p>
+		<p style="max-width:720px"><?php esc_html_e( 'Installs the complete launch site as editable blocks: every page with its copy, the six service pages, 21 projects — ten websites, seasons, shoots and films, platforms and KEKA — with their photographs and films, six journal entries, the shared call to action and footer, menus, the front page, the site icon and the privacy settings.', 'ak-brand-core' ); ?></p>
 		<?php if ( ! $theme_ok ) : ?>
 			<div class="notice notice-warning inline"><p><?php esc_html_e( 'Activate the AK Studio theme first so the menus are assigned to it.', 'ak-brand-core' ); ?></p></div>
 		<?php endif; ?>

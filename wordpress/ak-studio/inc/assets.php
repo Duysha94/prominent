@@ -20,17 +20,25 @@ add_action(
 		wp_register_script( 'ak-gsap-st', get_theme_file_uri( 'assets/vendor/ScrollTrigger.min.js' ), array( 'ak-gsap' ), '3.15.0', $vend );
 		wp_register_script( 'ak-lenis', get_theme_file_uri( 'assets/vendor/lenis.min.js' ), array(), '1.3.27', $vend );
 		wp_enqueue_script( 'ak-studio', get_theme_file_uri( 'assets/js/main.js' ), array( 'ak-gsap', 'ak-gsap-st', 'ak-lenis' ), $v, $vend );
+		wp_localize_script(
+			'ak-studio',
+			'akStudio',
+			array(
+				'close' => __( 'Close', 'ak-studio' ),
+				'prev'  => __( 'Previous image', 'ak-studio' ),
+				'next'  => __( 'Next image', 'ak-studio' ),
+				'play'  => __( 'Play film', 'ak-studio' ),
+			)
+		);
 
-		// Block library styles are replaced by the theme's own prose styles.
-		wp_dequeue_style( 'wp-block-library-theme' );
 		wp_dequeue_style( 'classic-theme-styles' );
 	},
 	20
 );
 
 /**
- * The display faces are needed for the first paint; the hero poster is the
- * largest image on the front page.
+ * The display faces are needed for the first paint; the first film's poster
+ * is the largest image on a page that opens with the hero reel.
  */
 add_action(
 	'wp_head',
@@ -41,10 +49,14 @@ add_action(
 				esc_url( get_theme_file_uri( 'assets/fonts/' . $font ) )
 			);
 		}
-		if ( is_front_page() ) {
-			$reel = ak_studio_reel();
-			if ( $reel ) {
-				printf( '<link rel="preload" href="%s" as="image" fetchpriority="high">' . "\n", esc_url( $reel[0]['poster'] ) );
+		if ( is_singular() && function_exists( 'ak_bk_first_block_attrs' ) ) {
+			$hero = ak_bk_first_block_attrs( get_queried_object_id(), 'ak/hero' );
+			if ( $hero ) {
+				$clips  = ! empty( $hero['clips'] ) ? (array) $hero['clips'] : ak_studio_reel();
+				$poster = (string) ( $clips[0]['poster'] ?? '' );
+				if ( $poster ) {
+					printf( '<link rel="preload" href="%s" as="image" fetchpriority="high">' . "\n", esc_url( $poster ) );
+				}
 			}
 		}
 	},
@@ -62,5 +74,5 @@ add_action(
 	0
 );
 
-/* The theme's default share image when a page has none. */
-add_filter( 'ak_brand_default_share_image', static fn() => get_theme_file_uri( 'assets/media/lfd-westminster.jpg' ) );
+/* The theme's share image when a page has none of its own. */
+add_filter( 'ak_brand_default_share_image', static fn() => get_theme_file_uri( 'assets/media/lfd-s7-campaign.jpg' ) );

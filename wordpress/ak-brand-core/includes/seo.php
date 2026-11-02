@@ -24,7 +24,7 @@ function ak_brand_seo_description(): string {
 	} elseif ( is_home() ) {
 		$text = (string) get_post_field( 'post_excerpt', (int) get_option( 'page_for_posts' ) );
 	} elseif ( is_post_type_archive( 'ak_project' ) ) {
-		$text = __( 'Seasons, campaigns and brands produced by AK Brand Development Studio — including London Fashion Day and Odessa Fashion Day.', 'ak-brand-core' );
+		$text = __( 'Websites, shoots, shows and brands by AK Brand Development Studio.', 'ak-brand-core' );
 	} elseif ( is_singular() ) {
 		$post = get_queried_object();
 		$text = has_excerpt( $post ) ? get_the_excerpt( $post ) : wp_trim_words( wp_strip_all_tags( strip_shortcodes( (string) $post->post_content ) ), 30, '…' );
@@ -45,16 +45,12 @@ function ak_brand_seo_image(): ?array {
 	if ( is_singular() && has_post_thumbnail() ) {
 		$id = (int) get_post_thumbnail_id();
 	}
-	if ( ! $id && is_page() ) {
-		$movement = (string) get_post_meta( get_queried_object_id(), '_ak_movement', true );
-		foreach ( ak_brand_movements() as $m ) {
-			if ( $m['slug'] === $movement && ! empty( $m['image'] ) ) {
-				$id = ak_brand_seed_attachment( $m['image'] );
-			}
-		}
+	if ( ! $id && is_singular() ) {
+		$h  = ak_bk_first_block_attrs( get_queried_object_id(), 'ak/page-header' );
+		$id = 'video' === ( $h['mediaType'] ?? '' ) ? 0 : (int) ( $h['mediaId'] ?? 0 );
 	}
 	if ( ! $id ) {
-		$id = ak_brand_seed_attachment( 'still-lfd-westminster-9.jpg' );
+		$id = ak_brand_seed_attachment( 'ak-share.jpg' );
 	}
 	if ( $id ) {
 		$img = wp_get_attachment_image_src( $id, 'large' );
@@ -74,7 +70,7 @@ add_filter(
 		}
 		if ( is_front_page() ) {
 			$parts['title']   = ak_brand_studio( 'name' );
-			$parts['tagline'] = __( 'Brand & fashion development studio in London', 'ak-brand-core' );
+			$parts['tagline'] = __( 'Brands, websites, photo & film and shows in London', 'ak-brand-core' );
 		} elseif ( is_post_type_archive( 'ak_project' ) ) {
 			$parts['title'] = __( 'Work', 'ak-brand-core' );
 		}
@@ -159,19 +155,17 @@ function ak_brand_schema_graph(): array {
 		),
 	);
 
-	if ( is_page() ) {
-		$movement = (string) get_post_meta( get_queried_object_id(), '_ak_movement', true );
-		if ( $movement ) {
-			$graph[] = array(
-				'@type'       => 'Service',
-				'name'        => get_the_title(),
-				'serviceType' => get_the_title(),
-				'description' => ak_brand_seo_description(),
-				'url'         => get_permalink(),
-				'provider'    => array( '@id' => $orgid ),
-				'areaServed'  => 'Worldwide',
-			);
-		}
+	$services = get_page_by_path( 'services' );
+	if ( is_page() && $services && (int) wp_get_post_parent_id( get_queried_object_id() ) === (int) $services->ID ) {
+		$graph[] = array(
+			'@type'       => 'Service',
+			'name'        => get_the_title(),
+			'serviceType' => get_the_title(),
+			'description' => ak_brand_seo_description(),
+			'url'         => get_permalink(),
+			'provider'    => array( '@id' => $orgid ),
+			'areaServed'  => 'Worldwide',
+		);
 	}
 
 	if ( is_singular( 'ak_project' ) ) {
@@ -187,7 +181,7 @@ function ak_brand_schema_graph(): array {
 				'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
 				'location'            => array(
 					'@type'   => 'Place',
-					'name'    => $p['venue'] ?: $p['location'],
+					'name'    => $p['location'],
 					'address' => array( '@type' => 'PostalAddress', 'addressLocality' => $p['location'], 'addressCountry' => 'London' === $p['location'] ? 'GB' : 'UA' ),
 				),
 				'organizer'           => array( '@id' => $orgid ),

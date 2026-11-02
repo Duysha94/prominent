@@ -12,9 +12,16 @@ defined( 'ABSPATH' ) || exit;
  * @return array<int,array<string,mixed>>
  */
 function ak_brand_seed_posts(): array {
+	// The essays are kept as plain HTML and arrive in the editor as paragraph and heading blocks.
 	$file = static function ( string $slug ): string {
 		$path = AK_BRAND_CORE_DIR . 'seed/journal/' . $slug . '.html';
-		return is_readable( $path ) ? (string) file_get_contents( $path ) : ''; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local seed file.
+		$html = is_readable( $path ) ? (string) file_get_contents( $path ) : ''; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local seed file.
+		preg_match_all( '#<(p|h2|h3)>(.*?)</\1>#s', $html, $parts, PREG_SET_ORDER );
+		$out = '';
+		foreach ( $parts as $el ) {
+			$out .= 'p' === $el[1] ? ak_b_p( trim( $el[2] ) ) : ak_b_h( trim( $el[2] ), (int) substr( $el[1], 1 ) );
+		}
+		return $out;
 	};
 
 	$posts = array(

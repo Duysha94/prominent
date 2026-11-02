@@ -19,14 +19,12 @@ function ak_brand_studio_fields(): array {
 		'studio'  => array(
 			'name'        => array( 'Studio name', 'AK Brand Development Studio', 'text' ),
 			'short'       => array( 'Short name', 'AK', 'text' ),
-			'discipline'  => array( 'Discipline line', 'Brand & fashion development studio', 'text' ),
 			'promise'     => array( 'Promise', 'From the initial idea to international presence.', 'text' ),
-			'description' => array( 'Description', 'AK Brand Development Studio is an independent creative and strategic practice in London, working with fashion and lifestyle brands from the initial idea to international presence: strategy, identity, photo and film, fashion shows and events, websites, PR and promotion.', 'textarea', 'Used for search engines and social previews when a page has no excerpt.' ),
+			'description' => array( 'Description', 'AK Brand Development Studio is an independent London studio that helps people and businesses build brands that get noticed: strategy and identity, websites and online stores, photo and film, shows and events, PR and promotion.', 'textarea', 'Used for search engines and social previews when a page has no excerpt.' ),
 			'email'       => array( 'Studio email', 'ak@akbrand.studio', 'email' ),
 			'phone'       => array( 'Phone', '', 'text', 'Hidden on the site while empty.' ),
 			'city'        => array( 'City', 'London', 'text' ),
 			'country'     => array( 'Country', 'United Kingdom', 'text' ),
-			'booking'     => array( 'Availability line', 'Taking on projects for 2027', 'text', 'Shown in the hero when there is no upcoming event.' ),
 		),
 		'legal'   => array(
 			'legal_name'      => array( 'Legal entity name', '', 'text', 'Add “AK Brand Development Studio Ltd” here once the company is registered — not before. It then appears in the footer and as the data controller in the privacy policy. Hidden while empty.' ),
@@ -34,24 +32,14 @@ function ak_brand_studio_fields(): array {
 			'registered_addr' => array( 'Registered address', '', 'textarea', 'Hidden while empty.' ),
 		),
 		'social'  => array(
-			'instagram' => array( 'Studio Instagram URL', '', 'url', 'The footer always names Instagram; it becomes a link once this is filled.' ),
-			'facebook'  => array( 'Studio Facebook URL', '', 'url', 'The footer always names Facebook; it becomes a link once this is filled.' ),
-			'linkedin'  => array( 'Studio LinkedIn URL', '', 'url', 'The footer always names LinkedIn; it becomes a link once this is filled.' ),
-			'tiktok'    => array( 'Studio TikTok URL', '', 'url', 'Hidden while empty.' ),
+			'instagram' => array( 'Studio Instagram URL', '', 'url', 'The “Instagram” line in the Site footer pattern becomes a link once this is filled; search engines also get the address.' ),
+			'facebook'  => array( 'Studio Facebook URL', '', 'url', 'The “Facebook” line in the Site footer pattern becomes a link once this is filled; search engines also get the address.' ),
+			'linkedin'  => array( 'Studio LinkedIn URL', '', 'url', 'The “LinkedIn” line in the Site footer pattern becomes a link once this is filled; search engines also get the address.' ),
+			'tiktok'    => array( 'Studio TikTok URL', '', 'url', 'Add a “TikTok” line to the Site footer pattern and it links here.' ),
 		),
 		'brief'   => array(
 			'brief_to'     => array( 'Send briefs to', '', 'email', 'Leave empty to use the studio email. Every brief is also saved under Briefs in the dashboard.' ),
 			'brief_retain' => array( 'Delete unconverted briefs after (months)', '12', 'text', 'Matches the privacy policy. Briefs marked “Won” are kept.' ),
-		),
-		'event'   => array(
-			'event_label'      => array( 'Event label', 'London Fashion Day · Season 8', 'text' ),
-			'event_title'      => array( 'Event title', 'PAST. PRESENT. NEXT.', 'text' ),
-			'event_date'       => array( 'Event date', '2026-11-08', 'date', 'The site shows the event as upcoming until this date, then as the latest season.' ),
-			'event_venue'      => array( 'Venue', 'Porchester Hall, Westminster', 'text' ),
-			'event_note'       => array( 'Event note', 'Twelve fashion voices, one London runway: six runway slots from 13:00 to 18:00, opening with students of the London College of Contemporary Arts.', 'textarea' ),
-			'event_guest_url'  => array( 'Guest registration URL', 'https://londonfashionday.co.uk/guest-registration/', 'url' ),
-			'event_apply_url'  => array( 'Designer application URL', 'https://londonfashionday.co.uk/designers-reg/', 'url' ),
-			'event_project'    => array( 'Project slug for the event', 'london-fashion-day-season-8', 'text', 'The project page the event links to once it has happened.' ),
 		),
 		'privacy' => array(
 			'consent' => array( 'Cookie banner', 'auto', 'select', 'Auto shows the banner only when Google Site Kit or a tag ID is active.', array( 'auto' => 'Auto', 'on' => 'Always', 'off' => 'Never' ) ),
@@ -89,30 +77,6 @@ function ak_brand_studio( string $key ): string {
 	$defaults = ak_brand_studio_defaults();
 	$value    = isset( $saved[ $key ] ) && '' !== $saved[ $key ] ? $saved[ $key ] : ( $defaults[ $key ] ?? '' );
 	return (string) apply_filters( 'ak_brand_studio_' . $key, $value );
-}
-
-/**
- * The upcoming (or latest) event, with its state worked out from the date.
- *
- * @return array<string,mixed>
- */
-function ak_brand_event(): array {
-	$date = ak_brand_studio( 'event_date' );
-	$ts   = $date ? strtotime( $date . ' 23:59:59 ' . wp_timezone_string() ) : 0;
-	$ok   = $ts && ak_brand_studio( 'event_title' );
-	return array(
-		'enabled'   => (bool) $ok,
-		'upcoming'  => $ok && $ts >= time(),
-		'label'     => ak_brand_studio( 'event_label' ),
-		'title'     => ak_brand_studio( 'event_title' ),
-		'date'      => $date,
-		'date_h'    => $ts ? wp_date( 'j F Y', $ts ) : '',
-		'venue'     => ak_brand_studio( 'event_venue' ),
-		'note'      => ak_brand_studio( 'event_note' ),
-		'guest_url' => ak_brand_studio( 'event_guest_url' ),
-		'apply_url' => ak_brand_studio( 'event_apply_url' ),
-		'project'   => ak_brand_studio( 'event_project' ),
-	);
 }
 
 /**
@@ -190,13 +154,12 @@ function ak_brand_render_settings(): void {
 		'legal'   => __( 'Legal details', 'ak-brand-core' ),
 		'social'  => __( 'Studio profiles', 'ak-brand-core' ),
 		'brief'   => __( 'Project briefs', 'ak-brand-core' ),
-		'event'   => __( 'Next event', 'ak-brand-core' ),
 		'privacy' => __( 'Cookies & analytics', 'ak-brand-core' ),
 	);
 	?>
 	<div class="wrap">
 		<h1><?php esc_html_e( 'AK Studio', 'ak-brand-core' ); ?></h1>
-		<p><?php esc_html_e( 'The studio’s details, used by every page, the footer, the brief form and search results. Empty fields use the default shown in grey.', 'ak-brand-core' ); ?>
+		<p><?php esc_html_e( 'The few details used across the whole site: how the studio is reached, its legal details, where briefs go and the cookie banner. Everything you see on a page — texts, films, images, buttons — is edited in that page’s editor.', 'ak-brand-core' ); ?>
 			<a href="<?php echo esc_url( admin_url( 'tools.php?page=ak-install' ) ); ?>"><?php esc_html_e( 'Install or refresh the launch content →', 'ak-brand-core' ); ?></a></p>
 		<form method="post" action="options.php">
 			<?php settings_fields( 'ak_studio' ); ?>

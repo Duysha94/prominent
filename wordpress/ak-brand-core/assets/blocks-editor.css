@@ -1,0 +1,10 @@
+/* Sidebar controls for the AK blocks (the canvas itself uses the theme's styles). */
+.ak-field-media { margin: 0 0 16px; }
+.ak-field-media__label { margin: 0 0 6px; font-weight: 600; font-size: 11px; text-transform: uppercase; }
+.ak-field-media__preview { display: block; width: 100%; max-height: 140px; object-fit: cover; margin-bottom: 8px; border-radius: 2px; background: #111; }
+.ak-field-media__actions { display: flex; gap: 8px; align-items: center; }
+.ak-repeater .components-panel__body { border: 1px solid #e0e0e0; margin-bottom: 8px; }
+.ak-repeater__actions { display: flex; gap: 4px; align-items: center; margin-top: 8px; }
+.ak-repeater__add { margin-top: 4px; }
+.ak-help { color: #757575; font-size: 12px; margin: 0 0 12px; }
+.ak-empty { padding: 24px; border: 1px dashed currentColor; opacity: .7; text-align: center; }

@@ -8,6 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 get_header();
+$work = get_page_by_path( 'work' );
 ?>
 <main id="main" class="lost">
 	<div class="wrap lost__inner">
@@ -16,7 +17,7 @@ get_header();
 		<p class="lede"><?php esc_html_e( 'This page has moved or never existed. The show goes on here:', 'ak-studio' ); ?></p>
 		<div class="lost__links">
 			<a class="btn btn--accent" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'ak-studio' ); ?></a>
-			<a class="btn btn--ghost" href="<?php echo esc_url( get_post_type_archive_link( 'ak_project' ) ?: home_url( '/work/' ) ); ?>"><?php esc_html_e( 'Work', 'ak-studio' ); ?></a>
+			<?php if ( $work ) : ?><a class="btn btn--ghost" href="<?php echo esc_url( get_permalink( $work ) ); ?>"><?php esc_html_e( 'Work', 'ak-studio' ); ?></a><?php endif; ?>
 			<a class="btn btn--ghost" href="<?php echo esc_url( ak_studio_contact_url() ); ?>"><?php esc_html_e( 'Start a project', 'ak-studio' ); ?></a>
 		</div>
 		<?php get_search_form(); ?>

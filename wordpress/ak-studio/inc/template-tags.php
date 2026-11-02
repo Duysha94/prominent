@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Display heading: escaped, *word* becomes the italic serif accent, new lines become breaks.
+ * Display heading: escaped, *word* becomes the italic serif accent.
  */
 function ak_studio_heading( string $text ): string {
 	$html = esc_html( $text );
@@ -25,15 +25,13 @@ function ak_studio_arrow( string $class = 'btn__arrow' ): string {
  */
 function ak_studio_contact_url( string $need = '' ): string {
 	$page = get_page_by_path( 'contact' );
-	$url  = $page ? get_permalink( $page ) : home_url( '/#brief' );
+	$url  = $page ? get_permalink( $page ) : home_url( '/' );
 	return $need ? add_query_arg( 'need', $need, $url ) : $url;
 }
 
 /**
  * A responsive image.
  *
- * @param int                  $id    Attachment.
- * @param string               $sizes sizes attribute.
  * @param array<string,string> $attrs Extra attributes.
  */
 function ak_studio_img( int $id, string $sizes = '100vw', array $attrs = array(), string $size = 'large' ): string {
@@ -45,140 +43,164 @@ function ak_studio_img( int $id, string $sizes = '100vw', array $attrs = array()
 }
 
 /**
- * Lead paragraph of a page: its excerpt when set.
+ * Whether a post's content opens with its own header block (hero or page header),
+ * in which case the template adds no title of its own.
  */
-function ak_studio_lede( ?WP_Post $post = null ): string {
-	$post = $post ?: get_post();
-	return $post && has_excerpt( $post ) ? (string) $post->post_excerpt : '';
+function ak_studio_opens_with_header( int $post_id = 0 ): bool {
+	$post_id = $post_id ?: get_the_ID();
+	if ( ! $post_id ) {
+		return false;
+	}
+	foreach ( parse_blocks( (string) get_post_field( 'post_content', $post_id ) ) as $block ) {
+		if ( empty( $block['blockName'] ) ) {
+			continue;
+		}
+		return in_array( $block['blockName'], array( 'ak/hero', 'ak/page-header' ), true );
+	}
+	return false;
 }
 
 /**
- * Page header: eyebrow, display heading, lead paragraph and optional media.
+ * A plain page header for views without a header block of their own
+ * (journal entries, archives, search, pages started from scratch).
  *
- * @param array<string,mixed> $args eyebrow, heading, lede, image (id), extra (html), class, meta (html).
+ * @param array<string,string> $args eyebrow, heading (escaped HTML), lede, meta (HTML), extra (HTML), size.
  */
-function ak_studio_page_header( array $args = array() ): void {
-	$post = get_post();
+function ak_studio_title_header( array $args = array() ): void {
 	$args = wp_parse_args(
 		$args,
 		array(
-			'eyebrow' => $post ? (string) get_post_meta( $post->ID, '_ak_eyebrow', true ) : '',
-			'heading' => $post ? ( (string) get_post_meta( $post->ID, '_ak_heading', true ) ?: get_the_title( $post ) ) : '',
-			'lede'    => $post ? ak_studio_lede( $post ) : '',
-			'image'   => 0,
-			'extra'   => '',
+			'eyebrow' => '',
+			'heading' => esc_html( get_the_title() ),
+			'lede'    => '',
 			'meta'    => '',
-			'class'   => '',
+			'extra'   => '',
+			'size'    => 'compact',
 		)
 	);
 	?>
-	<header class="page-head <?php echo esc_attr( $args['class'] ); ?><?php echo $args['image'] ? ' page-head--media' : ''; ?>">
-		<?php if ( $args['image'] ) : ?>
-			<div class="page-head__media" aria-hidden="true" data-parallax="12">
-				<?php echo ak_studio_img( (int) $args['image'], '100vw', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'alt' => '' ), 'full' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-				<div class="page-head__scrim"></div>
-			</div>
-		<?php endif; ?>
+	<header class="page-head page-head--<?php echo esc_attr( $args['size'] ); ?> ak-full">
 		<div class="wrap page-head__inner">
 			<?php if ( $args['eyebrow'] ) : ?>
-				<p class="eyebrow" data-rise><?php echo esc_html( $args['eyebrow'] ); ?></p>
+				<p class="eyebrow" data-rise><?php echo wp_kses_post( $args['eyebrow'] ); ?></p>
 			<?php endif; ?>
-			<h1 class="display page-head__title" data-split><?php echo ak_studio_heading( (string) $args['heading'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in helper. ?></h1>
+			<h1 class="display page-head__title" data-split><?php echo wp_kses_post( $args['heading'] ); ?></h1>
 			<?php if ( $args['lede'] || $args['meta'] ) : ?>
 				<div class="page-head__foot" data-rise>
-					<?php if ( $args['lede'] ) : ?>
-						<p class="lede"><?php echo esc_html( $args['lede'] ); ?></p>
-					<?php endif; ?>
-					<?php echo $args['meta']; // phpcs:ignore WordPress.Security.EscapeOutput -- built by templates from escaped parts. ?>
+					<?php if ( $args['lede'] ) : ?><p class="lede"><?php echo esc_html( $args['lede'] ); ?></p><?php endif; ?>
+					<?php echo wp_kses_post( $args['meta'] ); ?>
 				</div>
 			<?php endif; ?>
-			<?php echo $args['extra']; // phpcs:ignore WordPress.Security.EscapeOutput ?>
+			<?php echo $args['extra']; // phpcs:ignore WordPress.Security.EscapeOutput -- built from escaped parts by the templates. ?>
 		</div>
 	</header>
 	<?php
 }
 
 /**
- * Section heading row.
- *
- * @param array<string,string> $link url, label.
+ * A project card (from AK Brand Core, with a plain fallback).
  */
-function ak_studio_section_head( string $eyebrow, string $title, array $link = array(), string $class = '' ): void {
-	?>
-	<div class="section-head <?php echo esc_attr( $class ); ?>">
-		<p class="eyebrow" data-rise><?php echo esc_html( $eyebrow ); ?></p>
-		<h2 class="display section-head__title" data-split><?php echo ak_studio_heading( $title ); // phpcs:ignore WordPress.Security.EscapeOutput ?></h2>
-		<?php if ( ! empty( $link['url'] ) ) : ?>
-			<a class="link-arrow" href="<?php echo esc_url( $link['url'] ); ?>" data-rise><?php echo esc_html( $link['label'] ); ?><?php echo ak_studio_arrow( 'link-arrow__icon' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
-		<?php endif; ?>
-	</div>
-	<?php
+function ak_studio_card( WP_Post $post, string $class = '' ): string {
+	if ( function_exists( 'ak_brand_card' ) ) {
+		return ak_brand_card( $post, $class );
+	}
+	return '<article class="card ' . esc_attr( $class ) . '"><a class="card__link" href="' . esc_url( get_permalink( $post ) ) . '"><div class="card__media">' . ak_studio_img( (int) get_post_thumbnail_id( $post ), '(max-width: 900px) 92vw, 46vw', array( 'alt' => '' ) ) . '</div><div class="card__body"><h3 class="card__title">' . esc_html( get_the_title( $post ) ) . '</h3><p class="card__text">' . esc_html( get_the_excerpt( $post ) ) . '</p></div></a></article>';
 }
 
 /**
- * A project card.
+ * A journal card (from AK Brand Core, with a plain fallback).
  */
-function ak_studio_project_card( WP_Post $post, string $class = '', string $sizes = '(max-width: 900px) 92vw, 46vw' ): void {
-	$p     = ak_studio_project( $post );
-	$short = (string) get_post_meta( $post->ID, 'ak_short_title', true );
-	$label = $p['upcoming'] ?? false ? __( 'Upcoming', 'ak-studio' ) : ( $p['year'] ?? '' );
-	?>
-	<article class="card <?php echo esc_attr( $class ); ?>" data-type="<?php echo esc_attr( $p['type_slug'] ?? '' ); ?>" data-platform="<?php echo esc_attr( false !== stripos( $post->post_name, 'odessa' ) || false !== stripos( $post->post_name, 'ofd' ) ? 'ofd' : ( false !== stripos( $post->post_name, 'london-fashion-day' ) ? 'lfd' : 'brand' ) ); ?>">
-		<a class="card__link" href="<?php echo esc_url( get_permalink( $post ) ); ?>" data-cursor="<?php esc_attr_e( 'View', 'ak-studio' ); ?>">
-			<div class="card__media" data-reveal>
-				<?php echo ak_studio_img( (int) get_post_thumbnail_id( $post ), $sizes, array( 'alt' => '' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-				<?php if ( $label ) : ?><span class="card__tag"><?php echo esc_html( $label ); ?></span><?php endif; ?>
-			</div>
-			<div class="card__body">
-				<p class="card__meta"><?php echo esc_html( implode( ' · ', array_filter( array( $p['type'] ?? '', $p['location'] ?? '' ) ) ) ); ?></p>
-				<h3 class="card__title"><?php echo esc_html( $short ?: get_the_title( $post ) ); ?></h3>
-				<p class="card__text"><?php echo esc_html( get_the_excerpt( $post ) ); ?></p>
-			</div>
-		</a>
-	</article>
-	<?php
+function ak_studio_post_card( WP_Post $post ): string {
+	if ( function_exists( 'ak_brand_post_card' ) ) {
+		return ak_brand_post_card( $post );
+	}
+	return '<article class="post-card"><a class="post-card__link" href="' . esc_url( get_permalink( $post ) ) . '"><div class="post-card__media">' . ak_studio_img( (int) get_post_thumbnail_id( $post ), '(max-width: 900px) 92vw, 30vw', array( 'alt' => '' ), 'medium_large' ) . '</div><p class="post-card__meta">' . esc_html( get_the_date( 'j M Y', $post ) ) . '</p><h3 class="post-card__title">' . esc_html( get_the_title( $post ) ) . '</h3><p class="post-card__text">' . esc_html( get_the_excerpt( $post ) ) . '</p></a></article>';
 }
 
 /**
- * A journal card.
+ * A synced pattern the studio edits once and uses everywhere ("cta", "footer").
  */
-function ak_studio_post_card( WP_Post $post, string $class = '' ): void {
-	$cats = get_the_category( $post->ID );
-	?>
-	<article class="post-card <?php echo esc_attr( $class ); ?>">
-		<a class="post-card__link" href="<?php echo esc_url( get_permalink( $post ) ); ?>" data-cursor="<?php esc_attr_e( 'Read', 'ak-studio' ); ?>">
-			<div class="post-card__media" data-reveal>
-				<?php echo ak_studio_img( (int) get_post_thumbnail_id( $post ), '(max-width: 900px) 92vw, 30vw', array( 'alt' => '' ), 'medium_large' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			</div>
-			<p class="post-card__meta"><time datetime="<?php echo esc_attr( get_the_date( 'c', $post ) ); ?>"><?php echo esc_html( get_the_date( 'j M Y', $post ) ); ?></time><?php echo $cats ? ' · ' . esc_html( $cats[0]->name ) : ''; ?></p>
-			<h3 class="post-card__title"><?php echo esc_html( get_the_title( $post ) ); ?></h3>
-			<p class="post-card__text"><?php echo esc_html( get_the_excerpt( $post ) ); ?></p>
-		</a>
-	</article>
-	<?php
+function ak_studio_pattern( string $key ): string {
+	return function_exists( 'ak_brand_render_pattern' ) ? ak_brand_render_pattern( $key ) : '';
 }
 
 /**
- * The closing call to action used at the foot of most pages.
+ * The logo: the image set in Appearance → Customize → Site Identity, or the
+ * studio's AK mark with its name.
  */
-function ak_studio_cta( string $need = '', string $title = '' ): void {
-	get_template_part( 'template-parts/cta', null, array( 'need' => $need, 'title' => $title ) );
+function ak_studio_logo(): void {
+	$name = ak_studio_get( 'name' );
+	$logo = (int) get_theme_mod( 'custom_logo' );
+	echo '<a class="brand" href="' . esc_url( home_url( '/' ) ) . '" rel="home" aria-label="' . esc_attr( $name ) . '">';
+	if ( $logo ) {
+		echo wp_get_attachment_image( $logo, 'medium', false, array( 'class' => 'brand__logo', 'alt' => $name, 'loading' => 'eager' ) );
+	} else {
+		$mark = (string) file_get_contents( get_theme_file_path( 'assets/img/ak-mark.svg' ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local theme file.
+		echo '<span class="brand__mark">' . $mark . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput -- the theme's own SVG.
+		echo '<span class="brand__name" aria-hidden="true">' . esc_html__( 'Brand Development', 'ak-studio' ) . '<br>' . esc_html__( 'Studio', 'ak-studio' ) . '</span>';
+	}
+	echo '</a>';
 }
 
 /**
- * The studio's profiles. Instagram, Facebook and LinkedIn are always named,
- * as plain text until their address is set in Settings → AK Studio; TikTok
- * appears only once it has an address.
- *
- * @return array<string,string> label => url ('' while not set)
+ * The header button: the first item of the "Header button" menu, or a link
+ * to the contact page until that menu exists.
  */
-function ak_studio_profiles(): array {
-	$out = array();
-	foreach ( array( 'instagram' => 'Instagram', 'facebook' => 'Facebook', 'linkedin' => 'LinkedIn', 'tiktok' => 'TikTok' ) as $key => $label ) {
-		$url = ak_studio_get( $key );
-		if ( $url || 'tiktok' !== $key ) {
-			$out[ $label ] = $url;
+function ak_studio_header_button(): void {
+	$label = __( 'Start a project', 'ak-studio' );
+	$url   = ak_studio_contact_url();
+	$locs  = get_nav_menu_locations();
+	if ( ! empty( $locs['cta'] ) ) {
+		$items = wp_get_nav_menu_items( (int) $locs['cta'] );
+		if ( $items ) {
+			$label = $items[0]->title;
+			$url   = $items[0]->url;
+		} else {
+			return;
 		}
 	}
-	return $out;
+	printf(
+		'<a class="btn btn--accent btn--sm site-head__cta" href="%s" data-magnetic>%s%s</a>',
+		esc_url( $url ),
+		esc_html( $label ),
+		ak_studio_arrow() // phpcs:ignore WordPress.Security.EscapeOutput
+	);
+}
+
+/**
+ * Reading time of the current entry, in minutes.
+ */
+function ak_studio_reading_time(): int {
+	return max( 1, (int) round( str_word_count( wp_strip_all_tags( (string) get_the_content() ) ) / 220 ) );
+}
+
+/**
+ * The next project in the studio's order, wrapping round.
+ */
+function ak_studio_next_project(): void {
+	$ordered = get_posts(
+		array(
+			'post_type'      => 'ak_project',
+			'posts_per_page' => 200,
+			'orderby'        => array( 'menu_order' => 'ASC', 'date' => 'DESC' ),
+			'fields'         => 'ids',
+		)
+	);
+	$pos = array_search( get_the_ID(), $ordered, true );
+	if ( false === $pos || count( $ordered ) < 2 ) {
+		return;
+	}
+	$next  = get_post( $ordered[ ( $pos + 1 ) % count( $ordered ) ] );
+	$short = (string) get_post_meta( $next->ID, 'ak_short_title', true );
+	?>
+	<nav class="next-project ak-full" aria-label="<?php esc_attr_e( 'Next project', 'ak-studio' ); ?>">
+		<a href="<?php echo esc_url( get_permalink( $next ) ); ?>" data-cursor="<?php esc_attr_e( 'Next', 'ak-studio' ); ?>">
+			<div class="next-project__media" aria-hidden="true"><?php echo ak_studio_img( (int) get_post_thumbnail_id( $next ), '100vw', array( 'alt' => '' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
+			<div class="wrap next-project__inner">
+				<p class="eyebrow"><?php esc_html_e( 'Next project', 'ak-studio' ); ?></p>
+				<p class="display next-project__title"><?php echo esc_html( $short ?: get_the_title( $next ) ); ?></p>
+			</div>
+		</a>
+	</nav>
+	<?php
 }
