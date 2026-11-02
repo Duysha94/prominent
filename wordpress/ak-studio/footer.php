@@ -9,7 +9,13 @@ defined( 'ABSPATH' ) || exit;
 
 $email    = ak_studio_get( 'email' );
 $profiles = ak_studio_profiles();
-$legal    = array_filter( array( ak_studio_get( 'legal_name' ), ak_studio_get( 'company_number' ) ? sprintf( /* translators: %s: company number */ __( 'Company no. %s', 'ak-studio' ), ak_studio_get( 'company_number' ) ) : '', ak_studio_get( 'registered_addr' ) ) );
+$holder   = ak_studio_get( 'legal_name' ) ?: ak_studio_get( 'name' );
+$legal    = array_filter(
+	array(
+		ak_studio_get( 'company_number' ) ? sprintf( /* translators: %s: company number */ __( 'Company no. %s', 'ak-studio' ), ak_studio_get( 'company_number' ) ) : '',
+		ak_studio_get( 'registered_addr' ) ? sprintf( /* translators: %s: registered office */ __( 'Registered office: %s', 'ak-studio' ), preg_replace( '/\s*\n\s*/', ', ', trim( ak_studio_get( 'registered_addr' ) ) ) ) : '',
+	)
+);
 ?>
 <footer class="site-foot">
 	<div class="wrap site-foot__cta">
@@ -29,9 +35,9 @@ $legal    = array_filter( array( ak_studio_get( 'legal_name' ), ak_studio_get( '
 			<?php endif; ?>
 			<p><?php echo esc_html( implode( ', ', array_filter( array( ak_studio_get( 'city' ), ak_studio_get( 'country' ) ) ) ) ); ?></p>
 			<?php if ( $profiles ) : ?>
-				<ul class="site-foot__list">
+				<ul class="site-foot__list site-foot__profiles">
 					<?php foreach ( $profiles as $label => $url ) : ?>
-						<li><a href="<?php echo esc_url( $url ); ?>" rel="me noopener" target="_blank"><?php echo esc_html( $label ); ?></a></li>
+						<li><?php if ( $url ) : ?><a href="<?php echo esc_url( $url ); ?>" rel="me noopener" target="_blank"><?php echo esc_html( $label ); ?></a><?php else : ?><span class="site-foot__profile"><?php echo esc_html( $label ); ?></span><?php endif; ?></li>
 					<?php endforeach; ?>
 				</ul>
 			<?php endif; ?>
@@ -78,7 +84,7 @@ $legal    = array_filter( array( ak_studio_get( 'legal_name' ), ak_studio_get( '
 	<div class="site-foot__word" aria-hidden="true"><span>A<i>K</i> <?php esc_html_e( 'Brand Development Studio', 'ak-studio' ); ?></span></div>
 
 	<div class="wrap site-foot__base">
-		<p>&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php echo esc_html( ak_studio_get( 'name' ) ); ?><?php echo $legal ? ' · ' . esc_html( implode( ' · ', $legal ) ) : ''; ?></p>
+		<p>&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php echo esc_html( $holder ); ?><?php echo $legal ? ' · ' . esc_html( implode( ' · ', $legal ) ) : ''; ?></p>
 		<p><?php echo esc_html( ak_studio_get( 'promise' ) ); ?></p>
 	</div>
 </footer>

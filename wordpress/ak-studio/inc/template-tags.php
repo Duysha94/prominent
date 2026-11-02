@@ -166,15 +166,17 @@ function ak_studio_cta( string $need = '', string $title = '' ): void {
 }
 
 /**
- * Social and platform links that exist (empty settings are skipped).
+ * The studio's profiles. Instagram, Facebook and LinkedIn are always named,
+ * as plain text until their address is set in Settings → AK Studio; TikTok
+ * appears only once it has an address.
  *
- * @return array<string,string> label => url
+ * @return array<string,string> label => url ('' while not set)
  */
 function ak_studio_profiles(): array {
 	$out = array();
-	foreach ( array( 'instagram' => 'Instagram', 'linkedin' => 'LinkedIn', 'facebook' => 'Facebook', 'tiktok' => 'TikTok' ) as $key => $label ) {
+	foreach ( array( 'instagram' => 'Instagram', 'facebook' => 'Facebook', 'linkedin' => 'LinkedIn', 'tiktok' => 'TikTok' ) as $key => $label ) {
 		$url = ak_studio_get( $key );
-		if ( $url ) {
+		if ( $url || 'tiktok' !== $key ) {
 			$out[ $label ] = $url;
 		}
 	}

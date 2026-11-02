@@ -29,14 +29,14 @@ function ak_brand_studio_fields(): array {
 			'booking'     => array( 'Availability line', 'Taking on projects for 2027', 'text', 'Shown in the hero when there is no upcoming event.' ),
 		),
 		'legal'   => array(
-			'legal_name'      => array( 'Legal entity name', '', 'text', 'For the footer and the privacy policy, e.g. “AK Brand Development Studio Ltd”. Hidden while empty.' ),
+			'legal_name'      => array( 'Legal entity name', '', 'text', 'Add “AK Brand Development Studio Ltd” here once the company is registered — not before. It then appears in the footer and as the data controller in the privacy policy. Hidden while empty.' ),
 			'company_number'  => array( 'Company number', '', 'text', 'Hidden while empty.' ),
 			'registered_addr' => array( 'Registered address', '', 'textarea', 'Hidden while empty.' ),
 		),
 		'social'  => array(
-			'instagram' => array( 'Studio Instagram URL', '', 'url', 'Hidden while empty.' ),
-			'linkedin'  => array( 'Studio LinkedIn URL', '', 'url', 'Hidden while empty.' ),
-			'facebook'  => array( 'Studio Facebook URL', '', 'url', 'Hidden while empty.' ),
+			'instagram' => array( 'Studio Instagram URL', '', 'url', 'The footer always names Instagram; it becomes a link once this is filled.' ),
+			'facebook'  => array( 'Studio Facebook URL', '', 'url', 'The footer always names Facebook; it becomes a link once this is filled.' ),
+			'linkedin'  => array( 'Studio LinkedIn URL', '', 'url', 'The footer always names LinkedIn; it becomes a link once this is filled.' ),
 			'tiktok'    => array( 'Studio TikTok URL', '', 'url', 'Hidden while empty.' ),
 		),
 		'brief'   => array(
@@ -237,3 +237,34 @@ function ak_brand_render_settings(): void {
 	</div>
 	<?php
 }
+
+/**
+ * [ak_studio_email] — the studio address as a protected mailto link.
+ */
+add_shortcode(
+	'ak_studio_email',
+	static function () {
+		$email = antispambot( ak_brand_studio( 'email' ) );
+		return '<a href="mailto:' . esc_attr( $email ) . '">' . esc_html( $email ) . '</a>';
+	}
+);
+
+/**
+ * [ak_controller] — who the data controller is: the trading name until the
+ * company is registered, then the legal name, number and registered office.
+ */
+add_shortcode(
+	'ak_controller',
+	static function () {
+		$parts = array( ak_brand_studio( 'legal_name' ) ?: ak_brand_studio( 'name' ) );
+		if ( ak_brand_studio( 'company_number' ) ) {
+			/* translators: %s: company number */
+			$parts[] = sprintf( __( 'company number %s', 'ak-brand-core' ), ak_brand_studio( 'company_number' ) );
+		}
+		if ( ak_brand_studio( 'registered_addr' ) ) {
+			/* translators: %s: registered office address */
+			$parts[] = sprintf( __( 'registered office: %s', 'ak-brand-core' ), preg_replace( '/\s*\n\s*/', ', ', ak_brand_studio( 'registered_addr' ) ) );
+		}
+		return esc_html( implode( ', ', $parts ) );
+	}
+);

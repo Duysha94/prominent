@@ -73,7 +73,6 @@ function ak_brand_brief_form( array $args = array() ): string {
 	$id       = sanitize_html_class( (string) $args['id'] );
 	$compact  = (bool) $args['compact'];
 	$services = ak_brand_brief_services();
-	$budgets  = ak_brand_brief_budgets();
 	$privacy  = get_privacy_policy_url();
 	$sent     = isset( $_GET['brief'] ) && 'sent' === $_GET['brief']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display flag only.
 	$f        = static fn( string $name ): string => $id . '-' . $name;
@@ -131,14 +130,6 @@ function ak_brand_brief_form( array $args = array() ): string {
 				<?php endforeach; ?>
 			</fieldset>
 
-			<?php if ( ! $compact ) : ?>
-				<fieldset class="brief__chips brief__chips--budget">
-					<legend><?php esc_html_e( 'Budget', 'ak-brand-core' ); ?> <span class="field__hint"><?php esc_html_e( '(optional — it helps us propose the right scope)', 'ak-brand-core' ); ?></span></legend>
-					<?php foreach ( $budgets as $value => $label ) : ?>
-						<label class="chip"><input type="radio" name="ak_budget" value="<?php echo esc_attr( $value ); ?>"><span><?php echo esc_html( $label ); ?></span></label>
-					<?php endforeach; ?>
-				</fieldset>
-			<?php endif; ?>
 
 			<p class="field field--wide">
 				<label for="<?php echo esc_attr( $f( 'message' ) ); ?>"><?php esc_html_e( 'Tell us about the brand and what you need', 'ak-brand-core' ); ?> <span aria-hidden="true">*</span></label>
@@ -254,9 +245,6 @@ function ak_brand_handle_brief(): void {
 	$message  = isset( $_POST['ak_message'] ) ? mb_substr( sanitize_textarea_field( wp_unslash( $_POST['ak_message'] ) ), 0, 5000 ) : '';
 	$allowed  = ak_brand_brief_services();
 	$services = isset( $_POST['ak_services'] ) && is_array( $_POST['ak_services'] ) ? array_values( array_intersect( array_map( 'sanitize_key', wp_unslash( $_POST['ak_services'] ) ), array_keys( $allowed ) ) ) : array();
-	$budgets  = ak_brand_brief_budgets();
-	$budget   = isset( $_POST['ak_budget'] ) ? sanitize_key( wp_unslash( $_POST['ak_budget'] ) ) : '';
-	$budget   = isset( $budgets[ $budget ] ) ? $budget : '';
 	$consent  = ! empty( $_POST['ak_consent'] );
 	// phpcs:enable
 
@@ -304,7 +292,6 @@ function ak_brand_handle_brief(): void {
 		'_ak_phone'    => $phone,
 		'_ak_timeline' => $timeline,
 		'_ak_services' => implode( ',', $services ),
-		'_ak_budget'   => $budget,
 		'_ak_source'   => $source,
 		'_ak_status'   => 'new',
 		'_ak_consent'  => gmdate( 'c' ),
@@ -323,7 +310,6 @@ function ak_brand_handle_brief(): void {
 		__( 'Link', 'ak-brand-core' )        => $link,
 		__( 'Phone', 'ak-brand-core' )       => $phone,
 		__( 'Needs', 'ak-brand-core' )       => implode( ', ', $labels ),
-		__( 'Budget', 'ak-brand-core' )      => $budget ? $budgets[ $budget ] : '',
 		__( 'Key date', 'ak-brand-core' )    => $timeline,
 		__( 'Sent from', 'ak-brand-core' )   => $source,
 	);
@@ -361,7 +347,6 @@ add_filter(
 		'title'     => __( 'Brief', 'ak-brand-core' ),
 		'ak_email'  => __( 'Email', 'ak-brand-core' ),
 		'ak_needs'  => __( 'Needs', 'ak-brand-core' ),
-		'ak_budget' => __( 'Budget', 'ak-brand-core' ),
 		'ak_status' => __( 'Status', 'ak-brand-core' ),
 		'date'      => __( 'Received', 'ak-brand-core' ),
 	)
@@ -382,10 +367,6 @@ add_action(
 				$all = ak_brand_brief_services();
 				$s   = array_filter( explode( ',', (string) get_post_meta( $post_id, '_ak_services', true ) ) );
 				echo esc_html( implode( ', ', array_map( static fn( $k ) => $all[ $k ] ?? $k, $s ) ) ?: '—' );
-				break;
-			case 'ak_budget':
-				$b = (string) get_post_meta( $post_id, '_ak_budget', true );
-				echo esc_html( ak_brand_brief_budgets()[ $b ] ?? '—' );
 				break;
 			case 'ak_status':
 				$st = (string) get_post_meta( $post_id, '_ak_status', true ) ?: 'new';
@@ -436,7 +417,6 @@ add_action(
 
 function ak_brand_render_brief_box( WP_Post $post ): void {
 	$all     = ak_brand_brief_services();
-	$budgets = ak_brand_brief_budgets();
 	$rows    = array(
 		__( 'Name', 'ak-brand-core' )      => get_post_meta( $post->ID, '_ak_name', true ),
 		__( 'Email', 'ak-brand-core' )     => get_post_meta( $post->ID, '_ak_email', true ),
@@ -444,7 +424,6 @@ function ak_brand_render_brief_box( WP_Post $post ): void {
 		__( 'Link', 'ak-brand-core' )      => get_post_meta( $post->ID, '_ak_link', true ),
 		__( 'Phone', 'ak-brand-core' )     => get_post_meta( $post->ID, '_ak_phone', true ),
 		__( 'Needs', 'ak-brand-core' )     => implode( ', ', array_map( static fn( $k ) => $all[ $k ] ?? $k, array_filter( explode( ',', (string) get_post_meta( $post->ID, '_ak_services', true ) ) ) ) ),
-		__( 'Budget', 'ak-brand-core' )    => $budgets[ (string) get_post_meta( $post->ID, '_ak_budget', true ) ] ?? '',
 		__( 'Key date', 'ak-brand-core' )  => get_post_meta( $post->ID, '_ak_timeline', true ),
 		__( 'Sent from', 'ak-brand-core' ) => get_post_meta( $post->ID, '_ak_source', true ),
 		__( 'Consent', 'ak-brand-core' )   => get_post_meta( $post->ID, '_ak_consent', true ),
@@ -583,7 +562,7 @@ add_filter(
 				$items = array();
 				foreach ( ak_brand_briefs_by_email( $email ) as $id ) {
 					$data = array( array( 'name' => __( 'Message', 'ak-brand-core' ), 'value' => get_post_field( 'post_content', $id ) ) );
-					foreach ( array( '_ak_name' => 'Name', '_ak_email' => 'Email', '_ak_brand' => 'Brand', '_ak_link' => 'Link', '_ak_phone' => 'Phone', '_ak_timeline' => 'Key date', '_ak_services' => 'Needs', '_ak_budget' => 'Budget' ) as $k => $label ) {
+					foreach ( array( '_ak_name' => 'Name', '_ak_email' => 'Email', '_ak_brand' => 'Brand', '_ak_link' => 'Link', '_ak_phone' => 'Phone', '_ak_timeline' => 'Key date', '_ak_services' => 'Needs' ) as $k => $label ) {
 						$data[] = array( 'name' => $label, 'value' => (string) get_post_meta( $id, $k, true ) );
 					}
 					$items[] = array( 'group_id' => 'ak-briefs', 'group_label' => __( 'Project briefs', 'ak-brand-core' ), 'item_id' => 'brief-' . $id, 'data' => $data );

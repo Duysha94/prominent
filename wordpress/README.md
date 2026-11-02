@@ -20,7 +20,7 @@ Build the two ZIPs with `./build-zips.sh` (they land in `dist/`, which is not co
    - On the live site, the pages **Home, About, Services, Journal and Contact already exist** (built with Elementor). The installer lists them and keeps them unless you tick **Replace them with the launch copy** — tick it for the launch. Old content stays in revisions.
    - Journal entries that already exist with the same address are kept as they are.
    - Running it again later only adds what is missing and refreshes items nobody has edited since.
-5. **Settings → AK Studio** — check the studio email (`ak@akbrand.studio`), add a phone number, the studio's own social profiles and the legal entity details when you have them. Empty fields stay hidden on the site.
+5. **Settings → AK Studio** — check the studio email (`ak@akbrand.studio`), add a phone number and the addresses of the studio's Instagram, Facebook and LinkedIn when you have them (until then the footer names them as plain text). Legal details wait for the company registration; empty fields stay hidden.
 6. **Email delivery.** Every brief is saved under **Briefs** in the dashboard first, so no lead is ever lost. To also receive them by email, install an SMTP plugin (for example *WP Mail SMTP*) and send yourself a test brief from `/contact/`. Until mail works, the dashboard shows a warning.
 7. **Analytics.** If Google Site Kit stays active, the cookie banner appears automatically and Google Analytics only stores cookies after a visitor accepts (Google Consent Mode). Nothing else to configure.
 8. When everything looks right, the Zeyna parent theme, the old child theme and Elementor can be deactivated.
@@ -32,15 +32,14 @@ Build the two ZIPs with `./build-zips.sh` (they land in `dist/`, which is not co
 - **Pages** have a *Page header* box: eyebrow, display heading (`*word*` sets it in the orange italic) and, for service pages, the discipline.
 - **Briefs** have a status (New, Replied, Won, Closed). Briefs that are not “Won” are deleted automatically after the retention period in **Settings → AK Studio** (12 months by default, as the privacy policy says). Data export and erasure requests under **Tools → Export/Erase Personal Data** include briefs.
 
-## Before launch, confirm
+## Agreed with the founders
 
-Everything on the site comes from the studio's own record (akbrand.studio, londonfashionday.co.uk, ofd.org.ua). A few things only the founders can confirm:
+- **One name everywhere: AK Brand Development Studio.** The company is being registered as *AK Brand Development Studio Ltd*. Add the legal name, company number and registered office in **Settings → AK Studio → Legal details** only once the company exists — using “Ltd” before incorporation is not allowed in the UK. When they are filled in, the footer shows them and the privacy policy names the company as data controller automatically (`[ak_controller]`).
+- **Instagram, Facebook and LinkedIn** are named in the footer as plain text; each becomes a link as soon as its address is added in **Settings → AK Studio → Studio profiles**.
+- **No prices or budget brackets on the site.** Budgets are discussed on request: the brief asks what the brand needs, and every enquiry gets a written proposal.
+- **Rights**: the studio holds the rights and model agreements for every photograph and film used.
 
-- **Legal details** for the footer and the privacy policy: company name, number and registered address (Settings → AK Studio → Legal details).
-- **The studio's own Instagram / LinkedIn** — the footer links to London Fashion Day, Odessa Fashion Day, KEKA and Cool'baba until they are added.
-- **Budget brackets** in the brief (Under £3,000 · £3,000–£10,000 · £10,000–£30,000 · Over £30,000) — change them if they do not match how you quote.
-- **Headline numbers**: 15+ years producing fashion events, 32 seasons of Odessa Fashion Day, 8 seasons of London Fashion Day (Season 8 is on 8 November 2026). OFD's own site says "since 2010" on the home page and "2009" on the About page; the studio site uses 2010.
-- **Photographs and films** are the platforms' own campaign and runway material, credited in their captions. If any designer, model or photographer agreement limits use on the studio's commercial site, swap those images in the media library.
+Still worth a look before launch: the headline numbers (15+ years producing fashion events, 32 seasons of Odessa Fashion Day, 8 seasons of London Fashion Day — Season 8 is on 8 November 2026) and Odessa Fashion Day's founding year, given as 2010 on the site (OFD's own pages say 2010 on the home page and 2009 on the About page).
 
 ## Legacy
 

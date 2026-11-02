@@ -583,7 +583,6 @@ a.chip-link:hover { border-color: var(--accent); color: var(--accent); }
 .brief__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 24px; }
 .field { display: grid; gap: 8px; position: relative; align-content: start; }
 .field label, .brief legend { font: 500 11px/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); }
-.field__hint { text-transform: none; letter-spacing: 0.02em; color: var(--ink-faint); }
 .field input, .field textarea, .search input {
 	width: 100%; padding: 12px 0; border: 0; border-bottom: 1px solid var(--line-2); border-radius: 0; background: transparent;
 	font: 400 17px/1.4 var(--sans); color: var(--ink); transition: border-color 0.25s;
@@ -639,6 +638,7 @@ a.chip-link:hover { border-color: var(--accent); color: var(--accent); }
 .site-foot__col a { transition: color 0.2s; }
 .site-foot__col a:hover { color: var(--ink); }
 .site-foot__email { color: var(--ink); font-weight: 600; }
+.site-foot__profiles { margin-top: 14px; }
 .site-foot__word { padding-inline: var(--pad); white-space: nowrap; overflow: hidden; }
 .site-foot__word span { display: block; font: 850 clamp(64px, 12.6vw, 230px)/0.82 var(--display); font-weight: 850; font-stretch: 62%; text-transform: uppercase; letter-spacing: -0.02em; color: transparent; -webkit-text-stroke: 1px rgba(241, 236, 226, 0.16); }
 .site-foot__word i { font-style: normal; -webkit-text-stroke-color: rgba(243, 112, 33, 0.45); }

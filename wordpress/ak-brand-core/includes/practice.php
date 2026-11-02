@@ -254,20 +254,3 @@ function ak_brand_brief_services(): array {
 	return (array) apply_filters( 'ak_brand_brief_services', $out );
 }
 
-/**
- * Budget brackets for the brief form.
- *
- * @return array<string,string>
- */
-function ak_brand_brief_budgets(): array {
-	return (array) apply_filters(
-		'ak_brand_brief_budgets',
-		array(
-			'unsure'  => 'Not sure yet',
-			'u3k'     => 'Under £3,000',
-			'3-10k'   => '£3,000 – £10,000',
-			'10-30k'  => '£10,000 – £30,000',
-			'30k'     => 'Over £30,000',
-		)
-	);
-}

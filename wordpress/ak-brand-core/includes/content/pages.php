@@ -16,8 +16,8 @@ defined( 'ABSPATH' ) || exit;
  * @return array<int,array<string,mixed>>
  */
 function ak_brand_seed_pages(): array {
-	$email   = ak_brand_studio( 'email' );
-	$mail    = '<a href="mailto:' . esc_attr( $email ) . '">' . esc_html( $email ) . '</a>';
+	// Shortcodes, so the address and the legal name follow Settings → AK Studio.
+	$mail    = '[ak_studio_email]';
 	$lfd     = '<a href="https://londonfashionday.co.uk/">London Fashion Day</a>';
 	$apply   = 'https://londonfashionday.co.uk/designers-reg/';
 	$updated = '2 November 2026';
@@ -382,7 +382,7 @@ function ak_brand_seed_pages(): array {
 		'content' =>
 			ak_b_h( 'Why AK' ) .
 			ak_b_p( 'A is for Andrii Karakushan. K is for Kostiantyn Lieontiev. The studio carries our initials because the work is ours: we lead every project personally, and we bring to it what we learned building runway platforms, a fashion label and a magazine of our own.' ) .
-			ak_b_p( 'London Fashion Day’s early seasons were credited to AK PR &amp; Consulting Agency. Today the same team works as AK Brand Development Studio — strategy, identity, photo and film, shows, websites, PR and promotion under one roof — and organises London Fashion Day under our joint leadership.' ) .
+			ak_b_p( 'AK Brand Development Studio brings strategy, identity, photo and film, shows, websites, PR and promotion under one roof — and organises London Fashion Day under our joint leadership.' ) .
 			ak_b_h( 'What we believe' ) .
 			ak_b_list(
 				array(
@@ -439,11 +439,11 @@ function ak_brand_seed_pages(): array {
 		'excerpt'  => 'What happens to the information you give us through this website. Last updated ' . $updated . '.',
 		'content'  =>
 			ak_b_h( 'Who we are' ) .
-			ak_b_p( 'AK Brand Development Studio (“we”, “us”) is an independent creative and strategic practice based in London, United Kingdom. We are the controller of the personal data described here. You can reach us at ' . $mail . '.' ) .
+			ak_b_p( '[ak_controller] (“we”, “us”) is an independent creative and strategic practice based in London, United Kingdom. We are the controller of the personal data described here. You can reach us at ' . $mail . '.' ) .
 			ak_b_h( 'What we collect' ) .
 			ak_b_list(
 				array(
-					'<strong>Your brief.</strong> When you use the project brief form we receive your name and email address, and anything else you choose to add: phone number, brand name, website or social link, the services you are interested in, a budget bracket, a key date and your message.',
+					'<strong>Your brief.</strong> When you use the project brief form we receive your name and email address, and anything else you choose to add: phone number, brand name, website or social link, the services you are interested in, a key date and your message.',
 					'<strong>Your emails.</strong> If you write to us directly, we receive what you send.',
 					'<strong>Analytics, only with your consent.</strong> If you accept analytics cookies, Google Analytics records how pages on this site are used (pages viewed, approximate location, device and browser). If you decline, no analytics cookies are set.',
 				)
