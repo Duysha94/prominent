@@ -2,39 +2,62 @@
 
 Status of Phase 0 of the production brief, recorded honestly.
 
-## The ten named repositories could not be installed
+## Installed project skills — `.claude/skills/`
 
-The brief asks for a skill stack assembled from ten GitHub repositories. **None
-of them could be cloned in this session.** Outbound HTTPS runs through an egress
-proxy that denies `github.com` and `api.github.com` at the organisation-policy
-level:
+Installed 2026-11-02 from the ten repositories the brief names. GitHub is now
+reachable over git from this environment, so the blocker recorded in the
+previous version of this file is gone.
 
-```
-$ curl -o /dev/null -w '%{http_code}' https://github.com/WordPress/agent-skills
-403
-$ curl -o /dev/null -w '%{http_code}' https://api.github.com/repos/WordPress/agent-skills
-403
-```
+**Selection, not a dump.** The ten repositories hold ~620 skills. Every
+installed skill's description is loaded into the agent's context, so
+installing all of them would dilute routing and crowd out project context.
+59 were kept: everything WordPress, GSAP and Playwright, plus the design,
+animation, accessibility, performance and SEO skills that apply to this
+project. Skipped: React Native / Expo / Swift, Vercel deploy tooling,
+blockchain, Python, LLM, Figma/Stitch-specific and duplicate skills.
 
-The proxy's own status endpoint confirms it: only `registry.npmjs.org`,
-`pypi.org`, `files.pythonhosted.org`, `index.crates.io`, `proxy.golang.org` and
-the Anthropic APIs bypass the gateway. Everything else needs an allow-list entry.
+| Repository | Commit | Count | Skills |
+|---|---|---|---|
+| `WordPress/agent-skills` | `eff3785` | 19 | `blueprint`, `wordpress-router`, `wp-abilities-api`, `wp-abilities-audit`, `wp-abilities-verify`, `wp-block-development`, `wp-block-themes`, `wp-env`, `wp-interactivity-api`, `wp-patterns`, `wp-performance`, `wp-phpstan`, `wp-playground`, `wp-plugin-development`, `wp-plugin-directory-guidelines`, `wp-project-triage`, `wp-rest-api`, `wp-wpcli-and-ops`, `wpds` |
+| `greensock/gsap-skills` | `aed9cfd` | 8 | `gsap-core`, `gsap-frameworks`, `gsap-performance`, `gsap-plugins`, `gsap-react`, `gsap-scrolltrigger`, `gsap-timeline`, `gsap-utils` |
+| `lackeyjb/playwright-skill` | `dd47a6a` | 1 | `playwright-skill` |
+| `vercel-labs/agent-skills` | `1a2c79d` | 4 | `composition-patterns`, `react-best-practices`, `react-view-transitions`, `web-design-guidelines` |
+| `emilkowalski/skills` | `a81dbca` | 12 | `animate`, `animation-performance`, `animation-vocabulary`, `apple-design`, `break-ui`, `emil-design-eng`, `find-animation-opportunities`, `improve-animations`, `pick-ui-library`, `prototype`, `remove-animations`, `review-animations` |
+| `Leonxlnx/taste-skill` | `12af471` | 1 | `taste-skill` |
+| `PracticalSwan/agent-skills` | `6cf6351` | 3 | `core-web-vitals`, `php-development`, `seo` |
+| `JPeetz/agent-skills` | `e711966` | 2 | `accessibility-compliance-audit`, `design-to-code` |
+| `mthines/agent-skills` | `ab1b41c` | 3 | `ui-verify`, `ux`, `visual-design` |
+| `wshobson/agents` | `7e2fb55` | 6 | `design-system-patterns`, `interaction-design`, `responsive-design`, `tailwind-design-system`, `visual-design-foundations`, `wcag-audit-patterns` |
 
-Not installed, and what each would have added over the stack below:
+Exact per-skill source paths: [`.claude/skills/SOURCES.tsv`](../.claude/skills/SOURCES.tsv).
+Licences: [`.claude/skills/_licenses/`](../.claude/skills/_licenses/) — all MIT
+or GPL-compatible except `vercel-labs/agent-skills` and `JPeetz/agent-skills`,
+which ship no licence file at the repository root.
 
-| Repository | Would have added |
-|---|---|
-| `WordPress/agent-skills` | Official WordPress rules — the brief's stated priority for architecture and security |
-| `greensock/gsap-skills` | GSAP-specific idioms and plugin guidance |
-| `lackeyjb/playwright-skill` | Playwright-specific test authoring patterns |
-| `vercel-labs/agent-skills` | Vercel web design guidelines, named in Phase 5 |
-| `PracticalSwan/agent-skills`, `JPeetz/agent-skills`, `mthines/agent-skills`, `wshobson/agents`, `emilkowalski/skills`, `Leonxlnx/taste-skill` | Unknown until readable — several are already mirrored in the suite below |
+**Review before install:** bundled scripts were read for network, `eval` and
+`child_process` use. Only local use was found (`wp-cli` inspection, the
+Playwright runner, the taste-skill page inspector). No prompt-injection text.
 
-**To unblock:** allow `github.com` and `api.github.com` (or
-`codeload.github.com` for tarballs) for this environment, and I will install the
-selected skills into `.claude/skills/` and update this file with commits and
-versions. Until then no `.claude/skills/` directory is created, because
-committing an empty or fabricated one would misrepresent the project's state.
+**To update:** re-clone the repository, diff the skill directory against
+`.claude/skills/<name>`, and bump the commit in `SOURCES.tsv`.
+
+### Coverage gaps closed
+
+- **GSAP** — was *Partial*; now `gsap-core`, `gsap-timeline`,
+  `gsap-scrolltrigger`, `gsap-plugins`, `gsap-react`, `gsap-performance`,
+  `gsap-utils`, `gsap-frameworks` (official GreenSock).
+- **Playwright** — was *Partial*; now `playwright-skill`.
+- **Visual regression** — was *Missing*; now `ui-verify` (screenshot-based UI
+  verification). Still no pixel-diff baseline in CI.
+- **WordPress official rules** — `WordPress/agent-skills` is installed in
+  full; it is the brief's stated priority for architecture and security.
+
+### Not installed: CLI tooling
+
+WP-CLI, PHPCS + WordPress Coding Standards and PHPStan + WordPress stubs (which
+`wp-wpcli-and-ops`, `wp-phpstan` and `wp-performance` call) were **not**
+installed: Composer cannot authenticate to GitHub through the proxy, and
+installing binaries from cloned repositories needs explicit approval.
 
 ## The stack actually in use
 
