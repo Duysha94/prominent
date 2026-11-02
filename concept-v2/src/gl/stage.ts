@@ -237,6 +237,7 @@ export class Stage {
     for (let r = 0; r < 5; r++) {
       for (let c = -1; c <= 1; c++) {
         if (r === 0 && c !== 1) continue
+        if (r >= 2 && c === 1) continue
         echoOffsets.push(new THREE.Vector3(c * 1.62, r * 0.52, -r * 2.1))
       }
     }
@@ -354,10 +355,10 @@ export class Stage {
       out.y = this.wy(this.vh * 0.27)
       out.ry = a ? 0.32 : -0.32
     } else {
-      const h = Math.min(this.vh * 0.72, this.vw * 0.44)
+      const h = Math.min(this.vh * 0.7, this.vw * 0.4)
       const fs = h / FONT.capHeight
       out.s = fs / 100
-      out.x = this.wx(a ? this.vw * 0.085 : this.vw * 0.915)
+      out.x = this.wx(a ? this.vw * 0.075 : this.vw * 0.925)
       out.y = this.wy(this.vh * 0.53)
       out.ry = a ? 0.42 : -0.42
     }
@@ -461,10 +462,11 @@ export class Stage {
       const theirs = a ? pickK : pickA
       const dir = a ? 1 : -1
       const live = split * (1 - stairs)
-      p.x += (dir * this.vw * 0.035 * mine - dir * this.vw * 0.05 * theirs) * live / 100
-      p.s *= 1 + (0.03 * mine - 0.1 * theirs) * live
-      p.ry += -dir * 0.32 * mine * live
-      p.z += 0.25 * mine * live
+      // It comes toward the visitor and turns to face them, but never into the text column.
+      p.x -= (dir * this.vw * 0.02 * mine + dir * this.vw * 0.05 * theirs) * live / 100
+      p.s *= 1 + (0.02 * mine - 0.1 * theirs) * live
+      p.ry += -dir * 0.3 * mine * live
+      p.z += 0.3 * mine * live
 
       // Strategy: turn to an axonometric so the drawing shows its depth.
       p.rx += -0.34 * wire

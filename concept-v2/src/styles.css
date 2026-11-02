@@ -166,7 +166,7 @@ main, .bar, .foot { position: relative; z-index: 1; }
 .letters { position: relative; min-height: 150svh; }
 .letters__inner {
   position: relative;
-  width: min(36rem, 46vw);
+  width: min(36rem, 40vw);
   margin-inline: auto;
   padding: var(--section) 0;
   display: grid; gap: 28px;
@@ -216,6 +216,14 @@ main, .bar, .foot { position: relative; z-index: 1; }
 .edge--a { left: 0; }
 .edge--k { right: 0; }
 .gl.letters-live .edge { display: block; }
+
+/* Short desktop screens: the pinned frame between the letters must fit whole. */
+@media (min-width: 900px) and (max-height: 880px) {
+  .letters__inner { gap: 18px; }
+  .letters__title { font-size: clamp(2rem, 1rem + 2.6vw, 3.25rem); }
+  .letters__statement { font-size: var(--step-body); }
+  .half p:not(.half__role) { font-size: var(--step-small); line-height: 1.55; }
+}
 
 /* ── Practice: lines that step across ──────────────────────────────────── */
 .practice { position: relative; }
@@ -393,7 +401,7 @@ main, .bar, .foot { position: relative; z-index: 1; }
 
 /* ── Tablet ────────────────────────────────────────────────────────────── */
 @media (max-width: 1023px) {
-  .letters__inner { width: min(36rem, 56vw); }
+  .letters__inner { width: min(36rem, 52vw); }
 }
 
 /* ── Phone: its own composition ────────────────────────────────────────── */
