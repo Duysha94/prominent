@@ -129,8 +129,10 @@ function ak_brand_card( WP_Post $post, string $class = '', string $sizes = '(max
 	?>
 	<article class="card <?php echo esc_attr( $class ); ?>" data-types="<?php echo esc_attr( $c['types'] ); ?>"<?php echo $hidden ? ' hidden' : ''; ?>>
 		<a class="card__link" href="<?php echo esc_url( get_permalink( $post ) ); ?>" data-cursor="<?php esc_attr_e( 'View', 'ak-brand-core' ); ?>">
-			<div class="card__media" data-reveal>
-				<?php echo ak_bk_image( $c['image'], '', $sizes, array( 'alt' => '' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+			<?php $screens = ak_bk_first_block_attrs( $post->ID, 'ak/screens' ); ?>
+			<?php $stage = $screens ? ak_bk_screens_stage( $screens, $sizes ) : ''; ?>
+			<div class="card__media<?php echo $stage ? ' card__media--screens' : ''; ?>" data-reveal<?php echo $stage && preg_match( '/^#[0-9a-f]{3,8}$/i', (string) ( $screens['accent'] ?? '' ) ) ? ' style="--glow:' . esc_attr( $screens['accent'] ) . '"' : ''; ?>>
+				<?php echo $stage ?: ak_bk_image( $c['image'], '', $sizes, array( 'alt' => '' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 				<?php if ( $c['tag'] ) : ?><span class="card__tag"><?php echo esc_html( $c['tag'] ); ?></span><?php endif; ?>
 			</div>
 			<div class="card__body">
@@ -489,6 +491,66 @@ function ak_bk_render_work( array $a ): string {
 }
 
 /**
+ * A website shown in a browser window and on a phone, from two plain
+ * screenshots. Used by the Website screens block and by website cards.
+ *
+ * @param array<string,mixed> $a     Block attributes.
+ * @param string              $sizes sizes attribute for the desktop screenshot.
+ */
+function ak_bk_screens_stage( array $a, string $sizes = '(max-width: 900px) 92vw, 1000px' ): string {
+	$desk  = ak_bk_image( (int) ( $a['desktopId'] ?? 0 ), (string) ( $a['desktopUrl'] ?? '' ), $sizes, array( 'alt' => '' ), 'full' );
+	$phone = ak_bk_image( (int) ( $a['mobileId'] ?? 0 ), (string) ( $a['mobileUrl'] ?? '' ), '(max-width: 900px) 30vw, 300px', array( 'alt' => '' ), 'large' );
+	if ( '' === $desk && '' === $phone ) {
+		return '';
+	}
+	$domain = wp_strip_all_tags( (string) ( $a['domain'] ?? '' ) );
+	$out    = '<div class="screens__stage' . ( $phone ? '' : ' screens__stage--desktop' ) . ( $desk ? '' : ' screens__stage--phone' ) . '">';
+	if ( $desk ) {
+		$out .= '<figure class="screens__browser"><div class="screens__bar" aria-hidden="true"><i></i><i></i><i></i><span>' . esc_html( $domain ) . '</span></div><div class="screens__view">' . $desk . '</div></figure>';
+	}
+	if ( $phone ) {
+		$out .= '<figure class="screens__phone"><div class="screens__screen">' . $phone . '</div></figure>';
+	}
+	return $out . '</div>';
+}
+
+/**
+ * Website screens block.
+ *
+ * @param array<string,mixed> $a Attributes.
+ */
+function ak_bk_render_screens( array $a ): string {
+	$stage = ak_bk_screens_stage( $a );
+	$pages = array_values( array_filter( (array) ( $a['pages'] ?? array() ), static fn( $p ) => ! empty( $p['url'] ) ) );
+	$more  = array_values( array_filter( (array) ( $a['phones'] ?? array() ), static fn( $p ) => ! empty( $p['url'] ) ) );
+	if ( '' === $stage && ! $pages && ! $more ) {
+		return '';
+	}
+	$domain = wp_strip_all_tags( (string) ( $a['domain'] ?? '' ) );
+	$glow   = preg_match( '/^#[0-9a-f]{3,8}$/i', (string) ( $a['accent'] ?? '' ) ) ? ' style="--glow:' . esc_attr( $a['accent'] ) . '"' : '';
+	$out    = '<div class="screens ak-wide"' . $glow . '>' . $stage;
+	$zoom   = static function ( array $p, string $sizes, string $size ): string {
+		$full = ! empty( $p['id'] ) ? (string) wp_get_attachment_url( (int) $p['id'] ) : (string) $p['url'];
+		return '<a class="screens__zoom" href="' . esc_url( $full ) . '">' . ak_bk_image( (int) ( $p['id'] ?? 0 ), (string) $p['url'], $sizes, array( 'alt' => '' ), $size ) . '</a>';
+	};
+	if ( $pages ) {
+		$out .= '<div class="screens__pages">';
+		foreach ( $pages as $p ) {
+			$out .= '<figure class="screens__browser"><div class="screens__bar" aria-hidden="true"><i></i><i></i><i></i><span>' . esc_html( $domain ) . '</span></div><div class="screens__view">' . $zoom( $p, '(max-width: 900px) 92vw, 640px', 'full' ) . '</div></figure>';
+		}
+		$out .= '</div>';
+	}
+	if ( $more ) {
+		$out .= '<div class="screens__phones">';
+		foreach ( $more as $p ) {
+			$out .= '<figure class="screens__phone"><div class="screens__screen">' . $zoom( $p, '(max-width: 900px) 45vw, 300px', 'large' ) . '</div></figure>';
+		}
+		$out .= '</div>';
+	}
+	return $out . '</div>';
+}
+
+/**
  * Facts: a row of label/value pairs, with an optional link.
  *
  * @param array<string,mixed> $a Attributes.
@@ -641,6 +703,13 @@ function ak_bk_definitions(): array {
 			'icon'        => 'portfolio',
 			'attributes'  => array( 'layout' => array( 'type' => 'string', 'default' => 'grid' ), 'types' => $s, 'disciplines' => $s, 'ids' => $arr, 'count' => $n( 6 ), 'columns' => $n( 2 ), 'featured' => $b(), 'showFilters' => $b(), 'moreLabel' => $s, 'moreUrl' => $s ),
 			'render'      => 'ak_bk_render_work',
+		),
+		'screens'     => array(
+			'title'       => __( 'Website screens', 'ak-brand-core' ),
+			'description' => __( 'A website in a browser window and on a phone, from two ordinary screenshots — plus more pages if you like. The frames are drawn by the site.', 'ak-brand-core' ),
+			'icon'        => 'desktop',
+			'attributes'  => array( 'domain' => $s, 'desktopId' => $n(), 'desktopUrl' => $s, 'mobileId' => $n(), 'mobileUrl' => $s, 'pages' => $arr, 'phones' => $arr, 'accent' => $s ),
+			'render'      => 'ak_bk_render_screens',
 		),
 		'facts'       => array(
 			'title'       => __( 'Facts', 'ak-brand-core' ),

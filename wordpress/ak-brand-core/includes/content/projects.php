@@ -22,7 +22,7 @@ function ak_seed_project_content( array $p ): string {
 		'heading' => $p['title'],
 		'size'    => 'cover',
 	);
-	if ( ! empty( $p['showcase'] ) ) {
+	if ( ! empty( $p['screens'] ) ) {
 		// Websites: the title on its own, then the site itself, large.
 		$h['size'] = 'large';
 		$h['lede'] = $p['excerpt'];
@@ -43,7 +43,28 @@ function ak_seed_project_content( array $p ): string {
 		$facts[] = array( 'label' => $label, 'value' => $value );
 	}
 	$out  = ak_b_ak( 'page-header', $h );
-	$out .= ! empty( $p['showcase'] ) ? ak_b_image( $p['showcase'] ) : '';
+	if ( ! empty( $p['screens'] ) ) {
+		$sc   = $p['screens'];
+		$shot = static function ( string $file ): array {
+			$m = ak_b_media( $file, 'full' );
+			return array( 'id' => $m['id'], 'url' => $m['full'] );
+		};
+		$desk  = $shot( $sc['desktop'] );
+		$phone = $shot( $sc['phone'] );
+		$out  .= ak_b_ak(
+			'screens',
+			array(
+				'domain'     => $sc['domain'],
+				'accent'     => $sc['accent'],
+				'desktopId'  => $desk['id'],
+				'desktopUrl' => $desk['url'],
+				'mobileId'   => $phone['id'],
+				'mobileUrl'  => $phone['url'],
+				'pages'      => array_values( array_filter( array_map( $shot, $sc['pages'] ), static fn( $x ) => $x['id'] ) ),
+				'phones'     => array_values( array_filter( array_map( $shot, $sc['phones'] ), static fn( $x ) => $x['id'] ) ),
+			)
+		);
+	}
 	$out .= ak_b_ak( 'facts', array( 'items' => $facts, 'linkLabel' => $p['link'][0] ?? '', 'linkUrl' => $p['link'][1] ?? '' ) );
 	$body = ak_b_lead( $p['lead'] ) . $p['body'];
 	if ( ! empty( $p['credits'] ) ) {
@@ -70,7 +91,8 @@ function ak_seed_project_content( array $p ): string {
  * @return array<string,mixed>
  */
 function ak_seed_website( array $w ): array {
-	$k = $w['key'];
+	$k      = $w['key'];
+	$exists = static fn( $f ) => is_readable( AK_BRAND_CORE_DIR . 'seed/media/' . $f );
 	return array(
 		'slug'         => $w['slug'],
 		'title'        => $w['title'],
@@ -85,14 +107,20 @@ function ak_seed_website( array $w ): array {
 		'types'        => array( 'website' ),
 		'disciplines'  => $w['disciplines'] ?? array( 'digital' ),
 		'cover'        => "web-{$k}-cover.jpg",
-		'showcase'     => "web-{$k}-hero.jpg",
+		'screens'      => array(
+			'domain'  => $w['domain'],
+			'accent'  => $w['accent'] ?? '#f37021',
+			'desktop' => "web-{$k}-desktop.jpg",
+			'phone'   => "web-{$k}-phone.jpg",
+			'pages'   => array_values( array_filter( array( "web-{$k}-desktop-2.jpg", "web-{$k}-desktop-3.jpg" ), $exists ) ),
+			'phones'  => array_values( array_filter( array( "web-{$k}-phone-2.jpg", "web-{$k}-phone-3.jpg" ), $exists ) ),
+		),
 		'eyebrow'      => '<a href="/work/?type=website">Work</a> / Websites',
 		'excerpt'      => $w['excerpt'],
 		'facts'        => $w['facts'],
 		'link'         => array( $w['domain'], 'https://' . $w['domain'] . '/' ),
 		'lead'         => $w['lead'],
 		'body'         => implode( '', array_map( 'ak_b_p', $w['body'] ) ),
-		'gallery'      => array_values( array_filter( array( "web-{$k}-page-1.jpg", "web-{$k}-page-2.jpg", "web-{$k}-mobile.jpg" ), static fn( $f ) => is_readable( AK_BRAND_CORE_DIR . 'seed/media/' . $f ) ) ),
 	);
 }
 
@@ -106,6 +134,7 @@ function ak_brand_seed_projects(): array {
 	$projects[] = ak_seed_website(
 		array(
 			'key'          => 'smyn-salon',
+			'accent'       => '#8c1c2b',
 			'slug'         => 'show-me-your-nails',
 			'title'        => 'Show Me Your Nails',
 			'kind'         => 'Salon website',
@@ -125,6 +154,7 @@ function ak_brand_seed_projects(): array {
 	$projects[] = ak_seed_website(
 		array(
 			'key'          => 'lenieboya',
+			'accent'       => '#b3261e',
 			'slug'         => 'lenie-boya',
 			'title'        => 'Lenie Boya',
 			'kind'         => 'Online store',
@@ -144,6 +174,7 @@ function ak_brand_seed_projects(): array {
 	$projects[] = ak_seed_website(
 		array(
 			'key'          => 'wolax',
+			'accent'       => '#b8892d',
 			'slug'         => 'wolax-interiors',
 			'title'        => 'Wolax Interiors',
 			'kind'         => 'Company website',
@@ -163,6 +194,7 @@ function ak_brand_seed_projects(): array {
 	$projects[] = ak_seed_website(
 		array(
 			'key'          => 'keka',
+			'accent'       => '#c4520f',
 			'slug'         => 'keka-website',
 			'title'        => 'KEKA — brand website',
 			'short'        => 'KEKA website',
@@ -183,6 +215,7 @@ function ak_brand_seed_projects(): array {
 	$projects[] = ak_seed_website(
 		array(
 			'key'          => 'utrend',
+			'accent'       => '#c2185b',
 			'slug'         => 'ultimate-trend-store',
 			'title'        => 'Ultimate Trend Store',
 			'short'        => 'Utrend Store',
@@ -202,6 +235,7 @@ function ak_brand_seed_projects(): array {
 	$projects[] = ak_seed_website(
 		array(
 			'key'          => 'prominent',
+			'accent'       => '#2f5bd3',
 			'slug'         => 'prominent-magazine',
 			'title'        => 'PROMINENT Magazine',
 			'short'        => 'PROMINENT',
@@ -222,6 +256,7 @@ function ak_brand_seed_projects(): array {
 	$projects[] = ak_seed_website(
 		array(
 			'key'          => 'frontier',
+			'accent'       => '#2f5bd3',
 			'slug'         => 'fashion-frontier',
 			'title'        => 'Fashion Frontier',
 			'kind'         => 'News site',
@@ -241,6 +276,7 @@ function ak_brand_seed_projects(): array {
 	$projects[] = ak_seed_website(
 		array(
 			'key'          => 'coolbaba',
+			'accent'       => '#3949ab',
 			'slug'         => 'coolbaba',
 			'title'        => 'COOL’BABA',
 			'kind'         => 'Magazine',
@@ -259,6 +295,7 @@ function ak_brand_seed_projects(): array {
 	$projects[] = ak_seed_website(
 		array(
 			'key'          => 'lfd',
+			'accent'       => '#2f5bd3',
 			'slug'         => 'london-fashion-day-website',
 			'title'        => 'London Fashion Day — website',
 			'short'        => 'LFD website',
@@ -279,6 +316,7 @@ function ak_brand_seed_projects(): array {
 	$projects[] = ak_seed_website(
 		array(
 			'key'          => 'ofd',
+			'accent'       => '#d6a419',
 			'slug'         => 'odessa-fashion-day-website',
 			'title'        => 'Odessa Fashion Day — website',
 			'short'        => 'OFD website',

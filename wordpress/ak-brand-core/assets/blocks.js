@@ -318,6 +318,71 @@
 		save: save,
 	} );
 
+	/* ── Website screens ───────────────────────────────────────────── */
+
+	function shotPicker( value, onPick, label, className ) {
+		return el( MediaUploadCheck, null, el( MediaUpload, {
+			allowedTypes: [ 'image' ],
+			value: value && value.id,
+			onSelect: function ( m ) { onPick( m ); },
+			render: function ( r ) {
+				return value && value.url
+					? el( Fragment, null, el( 'img', { src: value.url, alt: '' } ), el( c.Button, { variant: 'primary', className: 'screens__replace', onClick: r.open }, 'Replace' ) )
+					: el( c.Button, { variant: 'secondary', className: 'screens__add ' + ( className || '' ), onClick: r.open }, label );
+			},
+		} ) );
+	}
+
+	function shotList( props, key, label, help ) {
+		var list = props.attributes[ key ] || [];
+		return el( c.BaseControl, { label: label, help: help, __nextHasNoMarginBottom: true },
+			el( 'div', { className: 'ak-shots' }, list.map( function ( p, i ) { return el( 'img', { key: i, src: p.url, alt: '' } ); } ) ),
+			el( MediaUploadCheck, null, el( MediaUpload, {
+				allowedTypes: [ 'image' ], multiple: true, gallery: false,
+				value: list.map( function ( p ) { return p.id; } ),
+				onSelect: function ( items ) { setter( props, key )( ( items || [] ).map( function ( m ) { return { id: m.id, url: m.url }; } ) ); },
+				render: function ( r ) { return el( 'div', { className: 'ak-repeater__actions' }, el( c.Button, { variant: 'secondary', onClick: r.open }, list.length ? 'Change' : 'Choose' ), list.length ? el( c.Button, { variant: 'link', isDestructive: true, onClick: function () { setter( props, key )( [] ); } }, 'Remove all' ) : null ); },
+			} ) )
+		);
+	}
+
+	registerBlockType( 'ak/screens', {
+		edit: function ( props ) {
+			var a = props.attributes;
+			var blockProps = useBlockProps( { className: 'screens ak-wide', style: a.accent ? { '--glow': a.accent } : undefined } );
+			var pick = function ( key ) { return function ( m ) { var o = {}; o[ key + 'Id' ] = m ? m.id : 0; o[ key + 'Url' ] = m ? m.url : ''; props.setAttributes( o ); }; };
+			return el( Fragment, null,
+				el( InspectorControls, null,
+					el( c.PanelBody, { title: 'Website' },
+						el( 'p', { className: 'ak-help' }, 'Computer: a screenshot of the first screen in a wide browser window. Phone: an ordinary screenshot from the phone. The browser and phone frames are drawn by the site — upload plain screenshots.' ),
+						text( props, 'domain', 'Address shown in the browser bar', 'e.g. lenieboya.com' ),
+						el( c.BaseControl, { label: 'Glow behind the screens', __nextHasNoMarginBottom: true },
+							el( c.ColorPalette, { value: a.accent, onChange: setter( props, 'accent' ), colors: [ { name: 'AK orange', color: '#f37021' }, { name: 'Burgundy', color: '#8c1c2b' }, { name: 'Blue', color: '#2f5bd3' }, { name: 'Gold', color: '#b8892d' }, { name: 'Stone', color: '#6f665c' } ] } ) )
+					),
+					el( c.PanelBody, { title: 'More pages', initialOpen: false },
+						shotList( props, 'pages', 'More computer screenshots', 'Other pages of the site, shown in browser windows below.' ),
+						shotList( props, 'phones', 'More phone screenshots', 'Shown as a row of phones.' )
+					)
+				),
+				el( 'div', blockProps,
+					el( 'div', { className: 'screens__stage' },
+						el( 'figure', { className: 'screens__browser' },
+							el( 'div', { className: 'screens__bar' }, el( 'i' ), el( 'i' ), el( 'i' ), el( 'span', null, a.domain ) ),
+							el( 'div', { className: 'screens__view' }, shotPicker( { id: a.desktopId, url: a.desktopUrl }, pick( 'desktop' ), 'Add the computer screenshot' ) ) ),
+						el( 'figure', { className: 'screens__phone' }, el( 'div', { className: 'screens__screen' }, shotPicker( { id: a.mobileId, url: a.mobileUrl }, pick( 'mobile' ), 'Add the phone screenshot' ) ) )
+					),
+					( a.pages && a.pages.length ) ? el( 'div', { className: 'screens__pages' }, a.pages.map( function ( p, i ) {
+						return el( 'figure', { key: i, className: 'screens__browser' }, el( 'div', { className: 'screens__bar' }, el( 'i' ), el( 'i' ), el( 'i' ), el( 'span', null, a.domain ) ), el( 'div', { className: 'screens__view' }, el( 'img', { src: p.url, alt: '' } ) ) );
+					} ) ) : null,
+					( a.phones && a.phones.length ) ? el( 'div', { className: 'screens__phones' }, a.phones.map( function ( p, i ) {
+						return el( 'figure', { key: i, className: 'screens__phone' }, el( 'div', { className: 'screens__screen' }, el( 'img', { src: p.url, alt: '' } ) ) );
+					} ) ) : null
+				)
+			);
+		},
+		save: save,
+	} );
+
 	/* ── Facts ─────────────────────────────────────────────────────── */
 
 	registerBlockType( 'ak/facts', {

@@ -130,6 +130,12 @@ function ak_brand_seed_media_websites(): array {
 	foreach ( $sites as $key => $site ) {
 		list( $name, $domain ) = $site;
 		$out[ "web-{$key}-cover.jpg" ]  = array( 'alt' => "The {$name} website on a laptop and a phone.", 'caption' => "{$domain}" );
+		$out[ "web-{$key}-desktop.jpg" ]   = array( 'alt' => "The home page of the {$name} website.", 'caption' => "{$domain}" );
+		$out[ "web-{$key}-desktop-2.jpg" ] = array( 'alt' => "A page of the {$name} website.", 'caption' => "{$domain}" );
+		$out[ "web-{$key}-desktop-3.jpg" ] = array( 'alt' => "Another page of the {$name} website.", 'caption' => "{$domain}" );
+		$out[ "web-{$key}-phone.jpg" ]     = array( 'alt' => "The {$name} website on a phone.", 'caption' => "{$domain} on a phone" );
+		$out[ "web-{$key}-phone-2.jpg" ]   = array( 'alt' => "The {$name} website on a phone, further down.", 'caption' => "{$domain} on a phone" );
+		$out[ "web-{$key}-phone-3.jpg" ]   = array( 'alt' => "The {$name} website on a phone, further down.", 'caption' => "{$domain} on a phone" );
 		$out[ "web-{$key}-hero.jpg" ]   = array( 'alt' => "The {$name} website, desktop and mobile.", 'caption' => "{$domain} — home page" );
 		$out[ "web-{$key}-page-1.jpg" ] = array( 'alt' => "A page of the {$name} website.", 'caption' => "{$domain}" );
 		$out[ "web-{$key}-page-2.jpg" ] = array( 'alt' => "Another page of the {$name} website.", 'caption' => "{$domain}" );

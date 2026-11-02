@@ -43,3 +43,9 @@
 .post-type-wp_block .is-root-container > .wp-block-columns .wp-block-list a { color: inherit; text-decoration: none; }
 .post-type-wp_block .is-root-container > .wp-block-columns p.is-style-eyebrow { color: var(--accent); font-size: 10.5px; }
 .post-type-wp_block .is-root-container > .wp-block-columns p.is-style-eyebrow::before { display: none; }
+
+/* Website screens: add or replace a screenshot right in the frame. */
+.screens .screens__add { display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; white-space: normal; text-align: center; border-radius: 0; background: #f4f2ee; color: #1d1a17; }
+.screens .screens__replace { position: absolute; top: 8px; right: 8px; opacity: 0; transition: opacity 0.2s; }
+.screens .screens__view:hover .screens__replace, .screens .screens__screen:hover .screens__replace, .screens .screens__replace:focus { opacity: 1; }
+.screens .screens__screen .screens__replace { top: auto; bottom: 8px; right: 50%; transform: translateX(50%); }

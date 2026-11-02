@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const AK_SEED_VERSION    = '2.1.0';
+const AK_SEED_VERSION    = '2.2.0';
 const AK_SEED_MEDIA_STEP = 5;
 
 /**

@@ -550,6 +550,38 @@ a.pill:hover { border-color: var(--accent); }
 .facts__list dd { font-size: 15.5px; line-height: 1.5; color: var(--ink); }
 .facts__list dd a { border-bottom: 1px solid var(--accent); }
 
+/* ── Website screens (AK block): plain screenshots in drawn frames ─── */
+.screens { --glow: var(--accent); display: grid; gap: clamp(20px, 3vw, 44px); }
+.screens__stage {
+	position: relative; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; isolation: isolate;
+	background: radial-gradient(60% 75% at 80% 90%, color-mix(in srgb, var(--glow) 42%, transparent), transparent 72%), linear-gradient(180deg, #221e1a 0%, #0d0c0b 100%);
+}
+.screens__browser { position: relative; margin: 0; border-radius: 10px; overflow: hidden; background: #1f1c19; box-shadow: 0 30px 70px -24px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(241, 236, 226, 0.08); }
+.screens__bar { display: flex; align-items: center; gap: 6px; height: clamp(16px, 2.4vw, 34px); padding: 0 1.4%; background: #1f1c19; }
+.screens__bar i { flex: none; width: clamp(5px, 0.7vw, 10px); aspect-ratio: 1; border-radius: 50%; background: #ff5f57; }
+.screens__bar i:nth-child(2) { background: #febc2e; }
+.screens__bar i:nth-child(3) { background: #28c840; }
+.screens__bar span { margin-inline: auto; max-width: 52%; padding: 0.25em 1.2em; overflow: hidden; border-radius: 999px; background: #0d0c0b; font: 500 clamp(8px, 0.8vw, 11px)/1.4 var(--mono); color: var(--ink-dim); white-space: nowrap; text-overflow: ellipsis; }
+.screens__view { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; }
+.screens__phone { position: relative; margin: 0; padding: 3.4%; border-radius: 15% / 7%; background: #080808; box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(241, 236, 226, 0.14); }
+.screens__screen { position: relative; aspect-ratio: 390 / 844; overflow: hidden; border-radius: 12% / 5.6%; background: #fff; }
+.screens__view img, .screens__screen img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; border-radius: 0; }
+.screens__stage .screens__browser { position: absolute; left: 6%; top: 10%; width: 70%; }
+.screens__stage .screens__phone { position: absolute; right: 7%; top: 15%; width: 19%; }
+.screens__stage--desktop .screens__browser { left: 9%; top: 8%; width: 82%; }
+.screens__stage--phone .screens__phone { right: auto; left: 40.5%; top: 6%; width: 19%; }
+.screens__pages { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: clamp(16px, 2vw, 28px); }
+.screens__phones { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 220px)); justify-content: center; gap: clamp(16px, 2.4vw, 36px); }
+.screens__zoom { display: block; height: 100%; }
+.card__media--screens { container-type: size; }
+.card__media--screens .screens__stage { position: absolute; inset: 0; aspect-ratio: auto; border-radius: 0; }
+.card__media--screens .screens__browser { border-radius: 6px; }
+.card__media--screens .screens__bar span { display: none; }
+@container (aspect-ratio < 1) {
+	.screens__stage .screens__browser { left: 7%; top: 9%; width: 86%; }
+	.screens__stage .screens__phone { top: auto; right: 8%; bottom: 6%; width: 34%; }
+}
+
 /* ── Services list (AK block) ─────────────────────────────────────────── */
 .svc { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .svc__item { border-bottom: 1px solid var(--line); }

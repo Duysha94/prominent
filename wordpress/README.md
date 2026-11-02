@@ -54,6 +54,16 @@ Upload the new `ak-brand-core.zip` and `ak-studio.zip` (Plugins / Themes → Add
 
 The project then appears by itself on **Work** (with its filter, e.g. `/work/?type=website`), on the service pages whose Work block shows that type or service, and on the home page.
 
+### Website screenshots
+
+Each website project shows the site in a browser window and on a phone. The frames are drawn by the site — you only upload plain screenshots, in the **Website screens** block on the project page:
+
+- click the browser window to add or replace the **computer** screenshot — the first screen of the site in a wide browser window (about 1440 px wide, without the browser's own toolbar; on a Mac ⌘⇧4 then drag over the page, on Windows Win+Shift+S);
+- click the phone to add or replace the **phone** screenshot — an ordinary screenshot taken on the phone;
+- in the block's sidebar: the address shown in the browser bar, the colour of the glow behind, and **More pages** (more computer and phone screenshots shown below).
+
+The project's card on Work, on the home page and on the service pages uses the same two screenshots, so a new screenshot updates everywhere at once.
+
 ### Events
 
 The **Event** block (home page, Show in London) shows the event as upcoming until its date, then as the latest season. To announce the next season, edit the block on both pages: date, title, venue, image and buttons.
