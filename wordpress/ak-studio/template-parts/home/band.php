@@ -13,8 +13,8 @@ foreach ( $words as $word ) {
 	$items .= '<span class="band__item">' . esc_html( $word ) . '</span><span class="band__dot" aria-hidden="true">✦</span>';
 }
 ?>
-<section class="band" id="services" aria-label="<?php esc_attr_e( 'What we do', 'ak-studio' ); ?>">
+<div class="band" role="presentation">
 	<div class="band__strip">
-		<div class="band__track"><?php echo $items . $items; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?></div>
+		<div class="band__track" aria-hidden="true"><?php echo $items . $items; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?></div>
 	</div>
-</section>
+</div>

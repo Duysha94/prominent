@@ -21,9 +21,9 @@ defined( 'ABSPATH' ) || exit;
 <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"><span class="cursor__label"></span></span></div>
 
 <header class="site-head" data-head>
-	<a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-		<span class="brand__mark"><?php echo esc_html( ak_studio_get( 'short' ) ); ?></span>
-		<span class="brand__name"><?php esc_html_e( 'Brand Development', 'ak-studio' ); ?><br><?php esc_html_e( 'Studio', 'ak-studio' ); ?></span>
+	<a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( ak_studio_get( 'name' ) ); ?>">
+		<span class="brand__mark" aria-hidden="true">A<i>K</i></span>
+		<span class="brand__name" aria-hidden="true"><?php esc_html_e( 'Brand Development', 'ak-studio' ); ?><br><?php esc_html_e( 'Studio', 'ak-studio' ); ?></span>
 	</a>
 	<nav class="nav" id="menu" aria-label="<?php esc_attr_e( 'Primary', 'ak-studio' ); ?>">
 		<?php
@@ -37,12 +37,16 @@ defined( 'ABSPATH' ) || exit;
 			)
 		);
 		?>
+		<div class="nav__extra">
+			<a href="mailto:<?php echo esc_attr( antispambot( ak_studio_get( 'email' ) ) ); ?>"><?php echo esc_html( antispambot( ak_studio_get( 'email' ) ) ); ?></a>
+			<span><?php echo esc_html( ak_studio_get( 'city' ) ); ?></span>
+		</div>
 	</nav>
 	<div class="site-head__end">
-		<a class="btn btn--accent btn--sm" href="<?php echo esc_url( is_front_page() ? '#contact' : home_url( '/#contact' ) ); ?>" data-magnetic>
+		<a class="btn btn--accent btn--sm site-head__cta" href="<?php echo esc_url( ak_studio_contact_url() ); ?>" data-magnetic>
 			<?php esc_html_e( 'Start a project', 'ak-studio' ); ?>
-			<svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+			<?php echo ak_studio_arrow(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		</a>
-		<button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><?php esc_html_e( 'Menu', 'ak-studio' ); ?></button>
+		<button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-close="<?php esc_attr_e( 'Close', 'ak-studio' ); ?>"><?php esc_html_e( 'Menu', 'ak-studio' ); ?></button>
 	</div>
 </header>

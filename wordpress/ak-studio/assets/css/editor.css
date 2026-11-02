@@ -1,0 +1,10 @@
+/* Block editor: the site's type, so copy reads the same while editing. */
+@font-face { font-family: "Archivo"; src: url("../fonts/archivo-latin-wdth-normal.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("../fonts/instrument-serif-latin-400-italic.woff2") format("woff2"); font-style: italic; font-display: swap; }
+body { font-family: "Archivo", system-ui, sans-serif; font-size: 18px; line-height: 1.6; color: #1d1a17; }
+h1, h2, h3, h4 { font-family: "Archivo", system-ui, sans-serif; font-stretch: 75%; font-weight: 750; line-height: 1.05; letter-spacing: -.01em; }
+h2 { font-size: 2.2em; }
+blockquote p { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-size: 1.6em; line-height: 1.2; }
+a { color: #c4520f; }
+ol.is-style-steps li strong, ul.is-style-cards li strong { color: #c4520f; }
+details summary { font-weight: 650; cursor: pointer; }

@@ -1,7 +1,7 @@
 <?php
 /**
- * Hero: a full-bleed reel of the platforms behind a three-line kinetic
- * headline — the founders' own sentence, then what sets the studio apart.
+ * Hero: a full-bleed reel of the studio's own runways behind a three-line
+ * kinetic headline — the founders' sentence, then what sets the studio apart.
  *
  * @package AK_Studio
  */
@@ -10,12 +10,17 @@ defined( 'ABSPATH' ) || exit;
 
 $reel  = ak_studio_reel();
 $total = count( $reel );
+$event = ak_studio_event();
+$front = (int) get_option( 'page_on_front' );
+$lede  = $front ? (string) get_post_field( 'post_excerpt', $front ) : '';
+$lede  = $lede ?: __( 'An independent London studio for fashion and lifestyle brands. We build the brand, shoot the campaign, produce the show and get it seen.', 'ak-studio' );
+$work  = get_post_type_archive_link( 'ak_project' ) ?: home_url( '/work/' );
 
 /**
  * One kinetic line: the phrase repeated so the track can loop seamlessly.
  *
- * @param string $phrase  Escaped HTML for one repetition.
- * @param int    $times   Repetitions per half of the track.
+ * @param string $phrase Escaped HTML for one repetition.
+ * @param int    $times  Repetitions per half of the track.
  */
 $line = static function ( string $phrase, int $times = 4 ): string {
 	$one  = '<span class="kinetic__phrase">' . $phrase . '</span><i class="kinetic__slash">/</i>';
@@ -27,7 +32,7 @@ $line = static function ( string $phrase, int $times = 4 ): string {
 	<div class="hero__media" aria-hidden="true">
 		<?php foreach ( $reel as $i => $clip ) : ?>
 			<video class="hero__clip<?php echo 0 === $i ? ' is-on' : ''; ?>" muted loop playsinline preload="<?php echo 0 === $i ? 'auto' : 'none'; ?>"
-				poster="<?php echo esc_url( $clip['poster'] ); ?>" data-src="<?php echo esc_url( $clip['video'] ); ?>"
+				poster="<?php echo esc_url( $clip['poster'] ); ?>" data-src="<?php echo esc_url( $clip['video'] ); ?>" data-src-sm="<?php echo esc_url( $clip['video_sm'] ); ?>"
 				data-label="<?php echo esc_attr( $clip['label'] ); ?>" data-kind="<?php echo esc_attr( $clip['kind'] ); ?>"></video>
 		<?php endforeach; ?>
 		<div class="hero__scrim"></div>
@@ -50,7 +55,7 @@ $line = static function ( string $phrase, int $times = 4 ): string {
 
 	<div class="hero__inner">
 		<div class="hero__meta wrap" data-rise>
-			<p class="slate"><span class="rec" aria-hidden="true"></span>REC <span class="slate__sep">/</span> <?php echo esc_html( ak_studio_get( 'city' ) ); ?> — <?php esc_html_e( 'Brand & fashion development studio', 'ak-studio' ); ?></p>
+			<p class="slate"><span class="rec" aria-hidden="true"></span>REC <span class="slate__sep">/</span> <?php echo esc_html( ak_studio_get( 'city' ) ); ?> — <?php echo esc_html( ak_studio_get( 'discipline' ) ?: __( 'Brand & fashion development studio', 'ak-studio' ) ); ?></p>
 			<?php if ( $total ) : ?>
 				<div class="hero__reel" aria-hidden="true">
 					<span class="hero__num" data-reel-num>01</span>
@@ -71,24 +76,31 @@ $line = static function ( string $phrase, int $times = 4 ): string {
 
 		<div class="hero__intro wrap">
 			<div class="hero__lede" data-rise>
-				<?php if ( ak_studio_get( 'booking' ) ) : ?>
+				<?php if ( ! empty( $event['upcoming'] ) ) : ?>
+					<a class="pill" href="#event"><span class="pill__dot" aria-hidden="true"></span><?php echo esc_html( sprintf( '%s · %s · %s', $event['label'], wp_date( 'j M', strtotime( $event['date'] ) ), strtok( $event['venue'], ',' ) ) ); ?></a>
+				<?php elseif ( ak_studio_get( 'booking' ) ) : ?>
 					<p class="pill"><span class="pill__dot" aria-hidden="true"></span><?php echo esc_html( ak_studio_get( 'booking' ) ); ?></p>
 				<?php endif; ?>
-				<p class="hero__text"><?php esc_html_e( 'An independent London studio for fashion and lifestyle brands. Most advisories hand you a deck. We produce the campaign, the show and the room, and we founded the runways our clients walk on.', 'ak-studio' ); ?></p>
+				<p class="hero__text"><?php echo esc_html( $lede ); ?></p>
 				<div class="hero__ctas">
-					<a class="btn btn--accent" href="#work" data-magnetic><?php esc_html_e( 'See our platforms', 'ak-studio' ); ?><svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
-					<a class="btn btn--ghost" href="#contact" data-magnetic><?php esc_html_e( 'Start a project', 'ak-studio' ); ?></a>
+					<a class="btn btn--accent" href="<?php echo esc_url( $work ); ?>" data-magnetic><?php esc_html_e( 'See the work', 'ak-studio' ); ?><?php echo ak_studio_arrow(); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
+					<a class="btn btn--ghost" href="#brief" data-magnetic><?php esc_html_e( 'Start a project', 'ak-studio' ); ?></a>
 				</div>
 			</div>
 			<dl class="stats" data-rise>
-				<div class="stat"><dt><?php esc_html_e( 'Fashion platforms founded', 'ak-studio' ); ?></dt><dd data-count="2">2</dd></div>
-				<div class="stat"><dt><?php esc_html_e( 'Disciplines, one studio', 'ak-studio' ); ?></dt><dd data-count="6">6</dd></div>
-				<div class="stat"><dt><?php esc_html_e( 'Years leading in advertising', 'ak-studio' ); ?></dt><dd data-count="9">9</dd></div>
-				<div class="stat"><dt><?php esc_html_e( 'Founders, one letter each', 'ak-studio' ); ?></dt><dd>A<em>+</em>K</dd></div>
+				<?php foreach ( ak_studio_stats() as $stat ) : ?>
+					<div class="stat">
+						<dt><?php echo esc_html( $stat['label'] ); ?></dt>
+						<?php if ( is_numeric( $stat['value'] ) ) : ?>
+							<dd><span data-count="<?php echo esc_attr( $stat['value'] ); ?>"><?php echo esc_html( $stat['value'] ); ?></span><?php echo esc_html( $stat['suffix'] ); ?></dd>
+						<?php else : ?>
+							<dd><?php echo str_replace( '+', '<em>+</em>', esc_html( $stat['value'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></dd>
+						<?php endif; ?>
+					</div>
+				<?php endforeach; ?>
 			</dl>
 		</div>
 	</div>
-
 
 	<a class="hero__scroll" href="#services" data-rise><span><?php esc_html_e( 'Scroll', 'ak-studio' ); ?></span><i aria-hidden="true"></i></a>
 </section>

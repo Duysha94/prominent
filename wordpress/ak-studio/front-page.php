@@ -1,7 +1,7 @@
 <?php
 /**
- * Front page: built from template parts so each section can move into its own
- * block pattern later.
+ * Front page: built from template parts so each section can move or be
+ * reordered without touching the others.
  *
  * @package AK_Studio
  */
@@ -12,8 +12,9 @@ get_header();
 ?>
 <main id="main">
 	<?php
-	get_template_part( 'template-parts/home/hero' );
-	get_template_part( 'template-parts/home/band' );
+	foreach ( array( 'hero', 'band', 'statement', 'services', 'platforms', 'work', 'event', 'process', 'founders', 'journal', 'brief' ) as $part ) {
+		get_template_part( 'template-parts/home/' . $part );
+	}
 	?>
 </main>
 <?php

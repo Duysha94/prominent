@@ -14,7 +14,7 @@ add_action(
 			'ak_reel',
 			array(
 				'title'       => __( 'Hero reel', 'ak-studio' ),
-				'description' => __( 'One clip per platform, in the order of AK Brand Core’s platforms. Leave empty to use the bundled placeholders.', 'ak-studio' ),
+				'description' => __( 'Four clips play in turn behind the headline. Leave a slot empty to keep the bundled footage from London Fashion Day and Odessa Fashion Day.', 'ak-studio' ),
 				'priority'    => 30,
 			)
 		);
