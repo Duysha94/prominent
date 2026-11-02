@@ -1,5 +1,10 @@
 # AK Brand Development Studio — website concept
 
+> **New: concept v2 — “One letter each”** lives in [`concept-v2/`](concept-v2/).
+> A is Andrii, K is Kostiantyn: an immersive 3D site built between the two
+> letters of the name. Start with [`concept-v2/CONCEPT.md`](concept-v2/CONCEPT.md).
+> The tech-pack concept below is the previous direction, kept for reference.
+
 A design concept and working prototype for **AK Brand Development Studio** —
 an independent creative and strategic practice in London specialising in brand
 development, fashion consulting and creative production.
