@@ -744,6 +744,9 @@ a.page-numbers:hover { border-color: var(--ink); }
 .chip:hover span { border-color: var(--ink); color: var(--ink); }
 .chip input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 3px; }
+.brief__human { min-height: 65px; }
+.brief__human:empty { display: none; }
+.brief__human .cf-turnstile { max-width: 100%; }
 .brief__submit { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 22px; }
 .brief__note { font: 500 11px/1.4 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
 .brief__trap { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }

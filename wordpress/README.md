@@ -18,9 +18,10 @@ Build the two ZIPs with `./build-zips.sh` (they land in `dist/`, which is not co
    - Pages that already exist at the same address (on the live site: Home, About, Services, Journal, Contact) are kept unless you tick **Replace them with the launch copy** — tick it for the launch. Old content stays in revisions.
    - Running it again later only adds what is missing and refreshes items nobody has edited since.
 5. **Settings → AK Studio** — check the studio email (`ak@akbrand.studio`); add a phone number and the Instagram, Facebook and LinkedIn addresses when you have them (until then the footer names them as plain text; each becomes a link once its address is saved). Legal details wait for the company registration; empty fields stay hidden.
-6. **Email delivery.** Every brief is saved under **Briefs** in the dashboard first, so no lead is lost. To also receive briefs by email, install an SMTP plugin (for example *WP Mail SMTP*) and send a test brief from `/contact/`. Until mail works, the dashboard shows a warning.
-7. **Analytics.** If Google Site Kit stays active, the cookie banner appears automatically and Google Analytics only stores cookies after a visitor accepts (Google Consent Mode).
-8. When everything looks right, the old theme and Elementor can be deactivated.
+6. **Email delivery.** Every brief is saved under **Briefs** in the dashboard first, so no lead is lost. Then two emails go out: the brief to the studio (*Send briefs to*, or the studio email) and an automatic reply to the client with a copy of what they sent. Send a test brief from `/contact/` with your own address in it and check that both arrive (and not in spam). If they do not, install an SMTP plugin (for example *WP Mail SMTP*) with the studio mailbox. Until mail works, the dashboard shows a warning.
+7. **Spam protection (Cloudflare Turnstile).** The brief form only accepts a brief after Cloudflare's check. If the *Simple Cloudflare Turnstile* plugin is set up (site key and secret key in its settings), the form uses it automatically — nothing to paste: the `[cf7_simple_turnstile]` code is only for Contact Form 7 forms, which this site does not use. Set its **Theme** to *Dark* to match the site. Without that plugin, put the two keys from Cloudflare (Turnstile → your site) in **Settings → AK Studio → Project briefs**.
+8. **Analytics.** If Google Site Kit stays active, the cookie banner appears automatically and Google Analytics only stores cookies after a visitor accepts (Google Consent Mode).
+9. When everything looks right, the old theme and Elementor can be deactivated.
 
 ## Updating a site that already runs an earlier version
 
@@ -70,7 +71,7 @@ The **Event** block (home page, Show in London) shows the event as upcoming unti
 
 ### Briefs
 
-Briefs arrive under **Briefs** with a status (New, Replied, Won, Closed). Briefs not marked “Won” are deleted automatically after the retention period in **Settings → AK Studio** (12 months by default, as the privacy policy says). Data export and erasure requests under **Tools → Export/Erase Personal Data** include briefs.
+Briefs arrive under **Briefs** with a status (New, Replied, Won, Closed). The client gets an automatic reply at once: its subject and text are in **Settings → AK Studio → Project briefs** (with placeholders such as `{name}` and `{summary}`), and it can be switched off there. It comes from the studio email, and the client's answer to it goes to the studio. Briefs not marked “Won” are deleted automatically after the retention period in **Settings → AK Studio** (12 months by default, as the privacy policy says). Data export and erasure requests under **Tools → Export/Erase Personal Data** include briefs.
 
 ## Agreed with the founders
 

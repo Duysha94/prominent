@@ -765,6 +765,7 @@ function ak_brand_seed_pages(): array {
 					array(
 						'<strong>Your brief.</strong> When you use the project brief form we receive your name and email address, and anything else you choose to add: phone number, brand or company name, website or social link, the services you are interested in, a key date and your message.',
 						'<strong>Your emails.</strong> If you write to us directly, we receive what you send.',
+						'<strong>Spam protection.</strong> The brief form is protected by Cloudflare Turnstile, which checks that a person, not a program, is sending it. For this check Cloudflare processes technical data such as your IP address and browser details; it does not set advertising cookies.',
 						'<strong>Analytics, only with your consent.</strong> If you accept analytics cookies, Google Analytics records how pages on this site are used (pages viewed, approximate location, device and browser). If you decline, no analytics cookies are set.',
 					)
 				) .
@@ -775,9 +776,9 @@ function ak_brand_seed_pages(): array {
 						'To understand how the site is used and improve it — on the basis of your consent, which you can withdraw at any time through “Cookie settings” at the foot of every page.',
 					)
 				) .
-				ak_b_p( 'We do not sell your data, use it for automated decision-making or add you to a mailing list you did not ask to join.' ) .
+				ak_b_p( 'When you send a brief, we email you an automatic confirmation with a copy of what you sent, so you have it for reference. We do not sell your data, use it for automated decision-making or add you to a mailing list you did not ask to join.' ) .
 				ak_b_h( 'Who else sees it' ) .
-				ak_b_p( 'Only the studio’s founders and the people working on your enquiry. Our website host and email provider process data on our behalf to run the site and deliver messages. If you accept analytics, Google processes usage data as our processor; this may involve transfer to the United States under the safeguards Google provides, such as the UK International Data Transfer Addendum.' ) .
+				ak_b_p( 'Only the studio’s founders and the people working on your enquiry. Our website host and email provider process data on our behalf to run the site and deliver messages. Cloudflare checks the brief form for spam. If you accept analytics, Google processes usage data as our processor; this may involve transfer to the United States under the safeguards Google provides, such as the UK International Data Transfer Addendum.' ) .
 				ak_b_h( 'How long we keep it' ) .
 				ak_b_p( 'Briefs that do not become projects are deleted automatically within twelve months. Where an enquiry becomes a project, we keep the correspondence for as long as the working relationship needs it and for the period required by our accounting and legal obligations afterwards.' ) .
 				ak_b_h( 'Your rights' ) .

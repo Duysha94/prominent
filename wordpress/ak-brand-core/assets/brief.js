@@ -72,6 +72,8 @@
 					form.dispatchEvent(new CustomEvent('ak:brief-sent', { bubbles: true }));
 					return;
 				}
+				// A Turnstile token works once: get a fresh one for the next try.
+				if (window.turnstile) form.querySelectorAll('.cf-turnstile').forEach((w) => { try { window.turnstile.reset(w); } catch (x) {} });
 				let first = null;
 				Object.entries(json.fields || {}).forEach(([k, m]) => { const el = mark(k, m); first = first || el; });
 				showError(json.message || t.failed);

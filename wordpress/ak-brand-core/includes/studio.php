@@ -40,6 +40,11 @@ function ak_brand_studio_fields(): array {
 		'brief'   => array(
 			'brief_to'     => array( 'Send briefs to', '', 'email', 'Leave empty to use the studio email. Every brief is also saved under Briefs in the dashboard.' ),
 			'brief_retain' => array( 'Delete unconverted briefs after (months)', '12', 'text', 'Matches the privacy policy. Briefs marked “Won” are kept.' ),
+			'reply_on'      => array( 'Automatic reply to the client', 'on', 'select', 'Sent by email right after a brief arrives, from the studio email. Replies to it come to the address above.', array( 'on' => 'Send', 'off' => 'Do not send' ) ),
+			'reply_subject' => array( 'Automatic reply — subject', 'We have your brief — AK Brand Development Studio', 'text' ),
+			'reply_body'    => array( 'Automatic reply — text', "Hello {name},\n\nThank you for your brief — it has reached AK Brand Development Studio. We read every brief ourselves and will come back to you personally with questions, a time to talk, or a proposal.\n\nFor reference, this is what you sent us:\n\n{summary}\n\nIf you would like to add anything, simply reply to this email.\n\nAK Brand Development Studio\nLondon · {email}", 'textarea', 'You can use {name}, {brand}, {needs}, {date}, {message}, {summary} (everything the client sent), {studio} and {email} (the studio email).' ),
+			'turnstile_site'   => array( 'Cloudflare Turnstile site key', '', 'text', 'Spam protection for the brief form. Not needed when the Simple Cloudflare Turnstile plugin is set up: the form uses its keys and settings automatically.' ),
+			'turnstile_secret' => array( 'Cloudflare Turnstile secret key', '', 'text', 'Only together with the site key above.' ),
 		),
 		'privacy' => array(
 			'consent' => array( 'Cookie banner', 'auto', 'select', 'Auto shows the banner only when Google Site Kit or a tag ID is active.', array( 'auto' => 'Auto', 'on' => 'Always', 'off' => 'Never' ) ),
@@ -176,7 +181,7 @@ function ak_brand_render_settings(): void {
 							<th scope="row"><label for="<?php echo esc_attr( $id ); ?>"><?php echo esc_html( $field[0] ); ?></label></th>
 							<td>
 								<?php if ( 'textarea' === $field[2] ) : ?>
-									<textarea class="large-text" rows="3" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" placeholder="<?php echo esc_attr( $field[1] ); ?>"><?php echo esc_textarea( $value ); ?></textarea>
+									<textarea class="large-text" rows="<?php echo 'reply_body' === $key ? 14 : 3; ?>" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" placeholder="<?php echo esc_attr( $field[1] ); ?>"><?php echo esc_textarea( $value ); ?></textarea>
 								<?php elseif ( 'select' === $field[2] ) : ?>
 									<select id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>">
 										<option value=""><?php echo esc_html( sprintf( /* translators: %s: default option */ __( 'Default (%s)', 'ak-brand-core' ), $field[4][ $field[1] ] ?? $field[1] ) ); ?></option>

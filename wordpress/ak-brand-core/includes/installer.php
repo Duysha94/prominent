@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const AK_SEED_VERSION    = '2.2.0';
+const AK_SEED_VERSION    = '2.3.0';
 const AK_SEED_MEDIA_STEP = 5;
 
 /**
@@ -191,7 +191,8 @@ function ak_brand_replace_attachment_file( int $id, string $src ): bool {
 	$name = basename( $src );
 	if ( is_array( $meta ) ) {
 		$backup = get_post_meta( $id, '_wp_attachment_backup_sizes', true );
-		wp_delete_attachment_files( $id, $meta, is_array( $backup ) ? $backup : array(), $old );
+		// Films have no image sizes: pass null, or core reads a missing 'file' key.
+		wp_delete_attachment_files( $id, $meta, is_array( $backup ) && $backup ? $backup : null, $old );
 	} elseif ( file_exists( $old ) ) {
 		wp_delete_file( $old );
 	}

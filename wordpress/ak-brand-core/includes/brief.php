@@ -63,6 +63,70 @@ function ak_brand_brief_token(): string {
 	return $t . '.' . substr( hash_hmac( 'sha256', $t, wp_salt( 'nonce' ) ), 0, 20 );
 }
 
+/* ── Spam protection: Cloudflare Turnstile ─────────────────────────────
+   Uses the Simple Cloudflare Turnstile plugin when it is set up (the same
+   keys and settings as its [cf7_simple_turnstile] tag for Contact Form 7),
+   otherwise the keys in Settings → AK Studio. Without keys the form relies
+   on its honeypot, signed timestamp and rate limit. */
+
+/**
+ * 'plugin', 'own' or '' when Turnstile is not configured.
+ */
+function ak_brand_turnstile_mode(): string {
+	if ( function_exists( 'cfturnstile_field_show' ) && function_exists( 'cfturnstile_check' ) && get_option( 'cfturnstile_key' ) && get_option( 'cfturnstile_secret' ) ) {
+		return 'plugin';
+	}
+	return ak_brand_studio( 'turnstile_site' ) && ak_brand_studio( 'turnstile_secret' ) ? 'own' : '';
+}
+
+/**
+ * The Turnstile widget for one form.
+ */
+function ak_brand_turnstile_field( string $form_id ): string {
+	$mode = ak_brand_turnstile_mode();
+	if ( 'plugin' === $mode ) {
+		ob_start();
+		cfturnstile_field_show( '', '', 'ak-brief', '-' . sanitize_html_class( $form_id ) );
+		return '<div class="brief__human">' . ob_get_clean() . '</div>';
+	}
+	if ( 'own' === $mode ) {
+		wp_enqueue_script( 'ak-turnstile', 'https://challenges.cloudflare.com/turnstile/v0/api.js', array(), null, array( 'in_footer' => true, 'strategy' => 'defer' ) ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Cloudflare serves the current version.
+		return '<div class="brief__human"><div class="cf-turnstile" data-sitekey="' . esc_attr( ak_brand_studio( 'turnstile_site' ) ) . '" data-theme="dark" data-action="ak-brief" data-refresh-expired="auto"></div></div>';
+	}
+	return '';
+}
+
+/**
+ * Whether the submitted Turnstile token is good (true when Turnstile is off).
+ */
+function ak_brand_turnstile_passed(): bool {
+	$mode = ak_brand_turnstile_mode();
+	if ( 'plugin' === $mode ) {
+		$check = cfturnstile_check();
+		return ! empty( $check['success'] );
+	}
+	if ( 'own' === $mode ) {
+		$token = isset( $_POST['cf-turnstile-response'] ) && is_string( $_POST['cf-turnstile-response'] ) ? sanitize_text_field( wp_unslash( $_POST['cf-turnstile-response'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified with Cloudflare below.
+		if ( '' === $token || strlen( $token ) > 2048 ) {
+			return false;
+		}
+		$res = wp_remote_post(
+			'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+			array(
+				'timeout' => 10,
+				'body'    => array(
+					'secret'   => ak_brand_studio( 'turnstile_secret' ),
+					'response' => $token,
+					'remoteip' => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '',
+				),
+			)
+		);
+		$data = is_wp_error( $res ) ? null : json_decode( (string) wp_remote_retrieve_body( $res ), true );
+		return is_array( $data ) && ! empty( $data['success'] );
+	}
+	return true;
+}
+
 /**
  * The brief form.
  *
@@ -152,6 +216,8 @@ function ak_brand_brief_form( array $args = array() ): string {
 					?>
 					</span></label>
 			</p>
+
+			<?php echo ak_brand_turnstile_field( (string) $args['id'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- widget markup from the Turnstile plugin or escaped above. ?>
 
 			<div class="brief__submit">
 				<button type="submit" class="btn btn--accent" data-magnetic><span data-brief-label><?php esc_html_e( 'Send the brief', 'ak-brand-core' ); ?></span><svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
@@ -267,6 +333,9 @@ function ak_brand_handle_brief(): void {
 	if ( $errors ) {
 		$fail( __( 'Please check the highlighted fields.', 'ak-brand-core' ), $errors, 422 );
 	}
+	if ( ! ak_brand_turnstile_passed() ) {
+		$fail( __( 'The spam check did not go through. Please wait a moment for it to finish and send again.', 'ak-brand-core' ), array(), 403 );
+	}
 
 	set_transient( $rkey, $count + 1, HOUR_IN_SECONDS );
 
@@ -322,6 +391,37 @@ function ak_brand_handle_brief(): void {
 	$body .= "\n" . $message . "\n\n— " . admin_url( 'post.php?post=' . $id . '&action=edit' ) . "\n";
 	$sent  = wp_mail( $to, $subject, $body, array( 'Reply-To: ' . str_replace( array( "\r", "\n", '"' ), '', $name ) . ' <' . $email . '>' ) );
 	update_post_meta( $id, '_ak_mailed', $sent ? 1 : 0 );
+
+	// Automatic reply to the client, from the studio.
+	if ( 'off' !== ak_brand_studio( 'reply_on' ) ) {
+		$studio  = ak_brand_studio( 'name' );
+		$from    = ak_brand_studio( 'email' );
+		$facts   = array_filter(
+			array(
+				$brand ? __( 'Brand', 'ak-brand-core' ) . ': ' . $brand : '',
+				$labels ? __( 'Needs', 'ak-brand-core' ) . ': ' . implode( ', ', $labels ) : '',
+				$timeline ? __( 'Key date', 'ak-brand-core' ) . ': ' . $timeline : '',
+			)
+		);
+		$summary = trim( implode( "\n", $facts ) . "\n\n" . $message );
+		$vars    = array(
+			'{name}'    => $name,
+			'{brand}'   => $brand,
+			'{needs}'   => implode( ', ', $labels ),
+			'{date}'    => $timeline,
+			'{message}' => $message,
+			'{summary}' => $summary,
+			'{studio}'  => $studio,
+			'{email}'   => $from,
+		);
+		$headers = array( 'Reply-To: ' . $studio . ' <' . $to . '>' );
+		$host    = (string) wp_parse_url( home_url(), PHP_URL_HOST );
+		if ( $from && $host && str_ends_with( strtolower( $from ), '@' . preg_replace( '/^www\./', '', strtolower( $host ) ) ) ) {
+			$headers[] = 'From: ' . $studio . ' <' . $from . '>';
+		}
+		$replied = wp_mail( $email, strtr( ak_brand_studio( 'reply_subject' ), $vars ), strtr( ak_brand_studio( 'reply_body' ), $vars ), $headers );
+		update_post_meta( $id, '_ak_replied', $replied ? 1 : 0 );
+	}
 
 	/**
 	 * Fires after a brief is saved (e.g. to push it to a CRM).
