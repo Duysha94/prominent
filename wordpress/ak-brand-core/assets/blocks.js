@@ -519,5 +519,26 @@
 				);
 			},
 		} );
+
+		// The searches a page is written for (the SEO core); Yoast holds the focus keyphrase.
+		plugins.registerPlugin( 'ak-seo-keywords', {
+			render: function () {
+				var postType = useSelect( function ( select ) { return select( 'core/editor' ).getCurrentPostType(); }, [] );
+				var entity = wp.coreData.useEntityProp( 'postType', postType || 'post', 'meta' );
+				var meta = entity[ 0 ];
+				var setMeta = entity[ 1 ];
+				if ( [ 'page', 'post', 'ak_project' ].indexOf( postType ) < 0 || ! meta || undefined === meta.ak_seo_keywords ) { return null; }
+				return el( Panel, { name: 'ak-seo-keywords', title: 'SEO keywords' },
+					el( c.TextareaControl, {
+						label: 'Extended keywords',
+						help: 'The searches this page is written for, separated by commas. Use them in headings and text where they read naturally. The focus keyphrase, synonyms, SEO title and meta description are in the Yoast SEO panel.',
+						rows: 8,
+						value: meta.ak_seo_keywords || '',
+						__nextHasNoMarginBottom: true,
+						onChange: function ( v ) { setMeta( Object.assign( {}, meta, { ak_seo_keywords: v } ) ); },
+					} )
+				);
+			},
+		} );
 	}
 }( window.wp ) );

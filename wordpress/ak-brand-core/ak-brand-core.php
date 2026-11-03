@@ -3,7 +3,7 @@
  * Plugin Name:       AK Brand Core
  * Plugin URI:        https://akbrand.studio
  * Description:       Everything the AK Brand Development Studio site knows and edits, independent of the theme: the page blocks (hero reel, page header, services, work, event, facts, brief form, journal, moving band), the project model, the project brief form and its inbox, search and sharing data, cookie consent, and the launch content installer.
- * Version:           2.3.0
+ * Version:           2.4.0
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Author:            AK Brand Development Studio
@@ -17,7 +17,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AK_BRAND_CORE_VERSION', '2.3.0' );
+define( 'AK_BRAND_CORE_VERSION', '2.4.0' );
 define( 'AK_BRAND_CORE_FILE', __FILE__ );
 define( 'AK_BRAND_CORE_DIR', plugin_dir_path( __FILE__ ) );
 
@@ -36,6 +36,7 @@ require_once AK_BRAND_CORE_DIR . 'includes/content/pages.php';
 require_once AK_BRAND_CORE_DIR . 'includes/content/projects.php';
 require_once AK_BRAND_CORE_DIR . 'includes/content/posts.php';
 require_once AK_BRAND_CORE_DIR . 'includes/content/patterns.php';
+require_once AK_BRAND_CORE_DIR . 'includes/content/seo-core.php';
 require_once AK_BRAND_CORE_DIR . 'includes/installer.php';
 
 /**

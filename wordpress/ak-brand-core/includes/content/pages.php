@@ -140,7 +140,7 @@ function ak_brand_seed_pages(): array {
 				ak_b_eyebrow( 'What we do' ) .
 				ak_b_display( 'You bring the idea. <em>We make it seen.</em>', 2, 'display-xl' ) .
 				ak_b_p( 'A fashion label, a beauty salon, an interiors company, an online shop, a magazine, a personal brand — whatever you are building, it needs the same things to succeed: a clear position, an identity people remember, a website that sells, pictures worth sharing, a launch, and a reason for the press to care.' ) .
-				ak_b_p( 'We do all of it under one roof. Two founders, one letter each — Andrii Karakushan and Kostiantyn Lieontiev — with the crews, venues and media partners we have built over fifteen years of producing fashion events and campaigns.' ) .
+				ak_b_p( 'We do all of it under one roof, as a branding agency in London. Two founders, one letter each — Andrii Karakushan and Kostiantyn Lieontiev — with the crews, venues and media partners we have built over fifteen years of producing fashion events and campaigns.' ) .
 				ak_b_p( '<a href="/about/">Meet the studio</a>' ),
 				'statement'
 			) .
@@ -230,7 +230,7 @@ function ak_brand_seed_pages(): array {
 			ak_b_section( ak_b_ak( 'services', array( 'excludeCurrent' => false ) ) ) .
 			ak_b_section(
 				ak_b_h( 'One brief, one team' ) .
-				ak_b_p( 'Most growing businesses end up managing five suppliers: a strategist, a designer, a web developer, a photographer and an agency for ads. Each does good work; none of it adds up. We run every discipline in-house and in sequence, so the positioning decided in week one is the one that appears on the website, in the campaign and in the ad.' ) .
+				ak_b_p( 'Our brand development services run in one studio in London. Most growing businesses end up managing five suppliers: a strategist, a designer, a web developer, a photographer and an agency for ads. Each does good work; none of it adds up. We run every discipline in-house and in sequence, so the positioning decided in week one is the one that appears on the website, in the campaign and in the ad.' ) .
 				ak_b_p( 'It also means one person accountable for the result. Every project is led by one of the founders, with the same crews, venues and media partners we rely on for the platforms we manage.' ) .
 				ak_b_h( 'Ways to work with us' ) .
 				ak_b_list(
@@ -289,7 +289,7 @@ function ak_brand_seed_pages(): array {
 					$s['image']
 				) .
 				ak_b_section(
-					ak_b_h( 'What we do' ) . implode( '', array_map( 'ak_b_p', $s['what'] ) ) .
+					ak_b_h( $s['h2'] ?? 'What we do' ) . implode( '', array_map( 'ak_b_p', array_merge( isset( $s['intro'] ) ? array( $s['intro'] ) : array(), $s['what'] ) ) ) .
 					ak_b_h( 'What you get' ) . ak_b_list( $s['get'] ) .
 					ak_b_h( 'How it runs' ) . ak_b_steps( $s['steps'] )
 				) .
@@ -304,6 +304,8 @@ function ak_brand_seed_pages(): array {
 			'title'        => 'Brand strategy',
 			'short'        => 'Brand strategy',
 			'slug'         => 'brand-strategy',
+			'h2'           => 'A brand strategy agency in London',
+			'intro'        => 'AK Brand Development Studio is a brand strategy agency in London for new businesses, relaunches and founders who want a clear position before they spend money on design, a website or advertising.',
 			'order'        => 1,
 			'eyebrow'      => 'Service 01 — Strategy',
 			'heading'      => 'Know who you are <em>before you design anything.</em>',
@@ -343,6 +345,8 @@ function ak_brand_seed_pages(): array {
 			'title'        => 'Brand identity & creative direction',
 			'short'        => 'Identity & creative direction',
 			'slug'         => 'brand-identity',
+			'h2'           => 'Brand identity design in London',
+			'intro'        => 'We do brand identity design in London for fashion labels, beauty and lifestyle businesses, shops, salons and founders: logo, type, colour, packaging and the creative direction that keeps them consistent.',
 			'order'        => 2,
 			'eyebrow'      => 'Service 02 — Identity',
 			'heading'      => 'An identity that works <em>at every size.</em>',
@@ -381,6 +385,8 @@ function ak_brand_seed_pages(): array {
 			'title'        => 'Website development & digital',
 			'short'        => 'Websites & digital',
 			'slug'         => 'website-development',
+			'h2'           => 'Website design in London',
+			'intro'        => 'We do website design in London for brands, shops, salons and studios: brand websites, online stores and booking sites, designed and built by one team and handed over ready for you to update.',
 			'order'        => 3,
 			'eyebrow'      => 'Service 03 — Websites',
 			'heading'      => 'Websites that turn attention <em>into orders.</em>',
@@ -422,6 +428,8 @@ function ak_brand_seed_pages(): array {
 			'title'        => 'Photo & film production',
 			'short'        => 'Photo & film',
 			'slug'         => 'photo-video-production',
+			'h2'           => 'Photo and film production in London',
+			'intro'        => 'Our photo and film production in London covers fashion campaigns, lookbooks, product shoots and brand films, with concept, casting, crew, locations and post-production run by one producer.',
 			'order'        => 4,
 			'eyebrow'      => 'Service 04 — Photo & film',
 			'heading'      => 'Campaigns and films, <em>produced end to end.</em>',
@@ -461,6 +469,8 @@ function ak_brand_seed_pages(): array {
 			'title'        => 'Fashion show & event production',
 			'short'        => 'Shows & events',
 			'slug'         => 'fashion-show-production',
+			'h2'           => 'Fashion show production in London',
+			'intro'        => 'Our fashion show production in London is run by the team that manages London Fashion Day: runway shows, presentations, product launches and brand events, from the concept to the last look on stage.',
 			'order'        => 5,
 			'eyebrow'      => 'Service 05 — Shows & events',
 			'heading'      => 'Shows and launches by the people <em>who run the runway.</em>',
@@ -500,6 +510,8 @@ function ak_brand_seed_pages(): array {
 			'title'        => 'PR & promotion',
 			'short'        => 'PR & promotion',
 			'slug'         => 'pr-and-promotion',
+			'h2'           => 'A fashion PR agency in London',
+			'intro'        => 'We work as a fashion PR agency in London for labels, designers, beauty and lifestyle brands: press coverage, media partnerships and paid campaigns, planned together so attention turns into customers.',
 			'order'        => 6,
 			'eyebrow'      => 'Service 06 — PR & promotion',
 			'heading'      => 'Be written about. <em>Be seen.</em>',
@@ -545,7 +557,7 @@ function ak_brand_seed_pages(): array {
 				array(
 					'eyebrow' => 'Work',
 					'heading' => 'Websites, shoots, <em>shows and brands.</em>',
-					'lede'    => 'Websites we have designed and built, shoots and campaigns we have directed, and the runway platforms we manage.',
+					'lede'    => 'Our portfolio: websites we have designed and built, shoots and campaigns we have directed, and the runway platforms we manage.',
 					'size'    => 'compact',
 				),
 				'web-wall.jpg'
@@ -572,7 +584,7 @@ function ak_brand_seed_pages(): array {
 			ak_b_ak( 'event', array_merge( $event_s8, array( 'eyebrowUpcoming' => 'Next on stage', 'secondaryLabel' => '', 'secondaryUrl' => '', 'anchor' => 'season' ) ) ) .
 			ak_b_section(
 				ak_b_h( 'London Fashion Day in short' ) .
-				ak_b_p( 'Since 2023, <a href="https://londonfashionday.co.uk/">London Fashion Day</a> has given designers from the UK, Europe, Asia, Africa and beyond a professionally produced runway in London, in front of guests, press and industry. Recent seasons took place at St John’s Church, Hyde Park. Season 8 — <em>PAST. PRESENT. NEXT.</em> — takes place on 8 November 2026 at the historic Porchester Hall in Westminster: twelve fashion voices, six runway slots, opening with students of the London College of Contemporary Arts.' ) .
+				ak_b_p( 'Looking for a runway show in London? Since 2023, <a href="https://londonfashionday.co.uk/">London Fashion Day</a> has given designers from the UK, Europe, Asia, Africa and beyond a professionally produced runway in London, in front of guests, press and industry. Recent seasons took place at St John’s Church, Hyde Park. Season 8 — <em>PAST. PRESENT. NEXT.</em> — takes place on 8 November 2026 at the historic Porchester Hall in Westminster: twelve fashion voices, six runway slots, opening with students of the London College of Contemporary Arts.' ) .
 				ak_b_h( 'Who it is for' ) .
 				ak_b_list( array( 'Emerging clothing designers', 'Independent fashion labels', 'Established brands entering the UK market', 'Recent fashion graduates', 'Designers developing a new collection or creative direction' ) ) .
 				ak_b_h( 'How selection works' ) .
@@ -743,7 +755,7 @@ function ak_brand_seed_pages(): array {
 				array(
 					'eyebrow' => 'Journal',
 					'heading' => 'Notes from the studio <em>and the runway.</em>',
-					'lede'    => 'What things really cost, what works, and what’s next — from the studio and the runway platforms we manage.',
+					'lede'    => 'Our branding and fashion journal: what things really cost, what works, and what’s next — from the studio and the runway platforms we manage.',
 					'size'    => 'compact',
 				)
 			),

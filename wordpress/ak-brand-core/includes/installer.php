@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const AK_SEED_VERSION    = '2.3.0';
+const AK_SEED_VERSION    = '2.4.0';
 const AK_SEED_MEDIA_STEP = 5;
 
 /**
@@ -24,7 +24,7 @@ function ak_brand_install_steps(): array {
 	for ( $i = 0; $i < $chunks; $i++ ) {
 		$steps[] = 'media:' . $i;
 	}
-	return array_merge( $steps, array( 'patterns', 'pages', 'projects', 'posts', 'menus', 'settings' ) );
+	return array_merge( $steps, array( 'patterns', 'pages', 'projects', 'posts', 'menus', 'seo', 'settings' ) );
 }
 
 /**
@@ -89,6 +89,8 @@ function ak_brand_install_run_step( string $step, array $opts = array() ): array
 			$log = ak_brand_install_posts();
 		} elseif ( 'menus' === $step ) {
 			$log = ak_brand_install_menus();
+		} elseif ( 'seo' === $step ) {
+			$log = ak_brand_install_seo();
 		} elseif ( 'settings' === $step ) {
 			$log = ak_brand_install_settings();
 		} else {
@@ -489,6 +491,123 @@ function ak_brand_install_menus(): array {
 		}
 	}
 	set_theme_mod( 'nav_menu_locations', $locations );
+	return $log;
+}
+
+/**
+ * The page, project or entry an SEO core key points to.
+ *
+ * @param string $key "page:<path>", "project:<slug>" or "post:<slug>".
+ */
+function ak_brand_seo_target( string $key ): ?WP_Post {
+	list( $type, $slug ) = array_pad( explode( ':', $key, 2 ), 2, '' );
+	if ( 'page' === $type ) {
+		$page = get_page_by_path( $slug );
+		return $page instanceof WP_Post ? $page : null;
+	}
+	$found = get_posts(
+		array(
+			'name'        => $slug,
+			'post_type'   => 'project' === $type ? 'ak_project' : 'post',
+			'post_status' => array( 'publish', 'future', 'draft', 'pending', 'private' ),
+			'numberposts' => 1,
+		)
+	);
+	return $found ? $found[0] : null;
+}
+
+/**
+ * Yoast SEO fields for every page, project and entry from the SEO core, plus
+ * the extended keywords. A field someone has filled in by hand is kept.
+ *
+ * @return string[]
+ */
+function ak_brand_install_seo(): array {
+	$log         = array();
+	$filled      = 0;
+	$kept        = array();
+	$cornerstone = array( 'page:services', 'page:services/brand-strategy', 'page:services/brand-identity', 'page:services/website-development', 'page:services/photo-video-production', 'page:services/fashion-show-production', 'page:services/pr-and-promotion', 'page:show-in-london' );
+
+	foreach ( ak_brand_seed_seo() as $key => $e ) {
+		$post = ak_brand_seo_target( $key );
+		if ( ! $post ) {
+			continue;
+		}
+		$related = array_values( (array) ( $e['r'] ?? array() ) );
+		$fields  = array(
+			'title'           => (string) ( $e['t'] ?? '' ),
+			'metadesc'        => (string) ( $e['d'] ?? '' ),
+			'focuskw'         => (string) ( $e['k'] ?? '' ),
+			// Yoast Premium: synonyms per keyphrase (focus first), then the related keyphrases.
+			'keywordsynonyms' => empty( $e['s'] ) ? '' : (string) wp_json_encode( array_merge( array( implode( ', ', $e['s'] ) ), array_fill( 0, count( $related ), '' ) ) ),
+			'focuskeywords'   => $related ? (string) wp_json_encode( array_map( static fn( $r ) => array( 'keyword' => $r, 'score' => 0 ), $related ) ) : '',
+			'is_cornerstone'  => in_array( $key, $cornerstone, true ) ? '1' : '',
+		);
+		$seeded = get_post_meta( $post->ID, '_ak_seo_seed', true );
+		$seeded = is_array( $seeded ) ? $seeded : array();
+		$wrote  = $seeded;
+		$own    = false;
+		foreach ( $fields as $field => $value ) {
+			if ( '' === $value ) {
+				continue;
+			}
+			$current = (string) get_post_meta( $post->ID, '_yoast_wpseo_' . $field, true );
+			if ( '' === $current || ( isset( $seeded[ $field ] ) && $current === $seeded[ $field ] ) ) {
+				if ( $current !== $value ) {
+					update_post_meta( $post->ID, '_yoast_wpseo_' . $field, wp_slash( $value ) );
+				}
+				$wrote[ $field ] = $value;
+			} elseif ( $current !== $value ) {
+				$own = true;
+			}
+		}
+		update_post_meta( $post->ID, '_ak_seo_seed', $wrote );
+
+		$keywords = implode( ', ', (array) ( $e['x'] ?? array() ) );
+		$current  = (string) get_post_meta( $post->ID, 'ak_seo_keywords', true );
+		if ( '' !== $keywords && ( '' === $current || ( isset( $seeded['keywords'] ) && $current === $seeded['keywords'] ) ) ) {
+			update_post_meta( $post->ID, 'ak_seo_keywords', wp_slash( $keywords ) );
+			$wrote['keywords'] = $keywords;
+			update_post_meta( $post->ID, '_ak_seo_seed', $wrote );
+		}
+		if ( $own ) {
+			$kept[] = $post->post_title;
+		}
+		++$filled;
+	}
+	$log[] = sprintf( 'Search engines (Yoast SEO): title, description, focus keyphrase, synonyms and related keyphrases set for %d pages, projects and entries.', $filled );
+	if ( $kept ) {
+		$log[] = 'Kept the Yoast fields you had filled in by hand on: ' . implode( ', ', $kept ) . '.';
+	}
+
+	// Yoast's site representation, where it is still empty.
+	$titles = get_option( 'wpseo_titles' );
+	if ( is_array( $titles ) ) {
+		$name = ak_brand_studio( 'name' );
+		$set  = array(
+			'website_name'           => $name,
+			'alternate_website_name' => 'AK Studio',
+			'company_name'           => ak_brand_studio( 'legal_name' ) ?: $name,
+			'company_alternate_name' => 'AK Studio',
+		);
+		$logo = ak_brand_seed_attachment( 'ak-site-icon.png' );
+		if ( $logo && empty( $titles['company_logo_id'] ) && empty( $titles['company_logo'] ) ) {
+			$titles['company_logo']    = (string) wp_get_attachment_url( $logo );
+			$titles['company_logo_id'] = $logo;
+		}
+		foreach ( $set as $k => $v ) {
+			if ( empty( $titles[ $k ] ) ) {
+				$titles[ $k ] = $v;
+			}
+		}
+		if ( empty( $titles['company_or_person'] ) ) {
+			$titles['company_or_person'] = 'company';
+		}
+		update_option( 'wpseo_titles', $titles );
+		$log[] = 'Yoast SEO: the site is presented as the organisation “' . $titles['company_name'] . '” with the AK logo.';
+	} else {
+		$log[] = 'Yoast SEO is not active: the fields are saved and appear as soon as it is.';
+	}
 	return $log;
 }
 

@@ -102,6 +102,19 @@ function ak_brand_register_content_model(): void {
 			'auth_callback'     => static fn() => current_user_can( 'edit_pages' ),
 		)
 	);
+	foreach ( array( 'page', 'post', 'ak_project' ) as $type ) {
+		register_post_meta(
+			$type,
+			'ak_seo_keywords',
+			array(
+				'type'              => 'string',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'sanitize_callback' => 'sanitize_textarea_field',
+				'auth_callback'     => static fn() => current_user_can( 'edit_posts' ),
+			)
+		);
+	}
 }
 
 /**
